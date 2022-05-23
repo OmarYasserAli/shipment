@@ -116,7 +116,7 @@ class frou3Controller extends Controller
         ->select('serial_','name_')->first();
       
         $user = $user = auth()->user();
-        
+        //993
      
          DB::table('add_shipment_tb_')
          ->whereIn('add_shipment_tb_.code_', $request->code)
