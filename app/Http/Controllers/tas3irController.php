@@ -30,6 +30,11 @@ class tas3irController extends Controller
                $tas3ir->save();
                 
         }
+        public function tas3ir_3amil_5as()
+        {
+        	$cities=Mohfza::groupBy('name')->get();
+        	return view('tas3ir.5as',compact('cities'));
+        }
 
        
 }

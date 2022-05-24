@@ -11,45 +11,17 @@
         <!-- BEGIN: Item List -->
         <div class="intro-y col-span-12 lg:col-span-12">
             
-            <div class="grid grid-cols-12 gap-5 mt-5 text-center " >
-                <div class="col-span-12 sm:col-span-4 2xl:col-span-4 box p-5 cursor-pointer zoom-in " >
-                    <div class="font-medium text-base">Soup</div>
-                    <div class="text-slate-500">5 Items</div>
+                <div class="grid grid-cols-12 gap-5 mt-5 text-center " >
+                    @foreach($statuses  as $state)
+                    <a href="{{route('shiments',['type' =>$state['code_'] ])}}" class="col-span-12 sm:col-span-4 2xl:col-span-4 box p-5 cursor-pointer zoom-in " >
+                       
+                        <div class="font-medium text-base">{{$state['name_']}}</div>
+                        <div class="text-slate-500">{{$state['cnt']}} شحنه</div>
+                    
+                    </a>
+                    @endforeach
                 </div>
-                
-                <div class="col-span-12 sm:col-span-4 2xl:col-span-4 box p-5 cursor-pointer zoom-in">
-                    <div class="font-medium text-base">Pasta</div>
-                    <div class="text-slate-500">4 Items</div>
-                </div>
-                <div class="col-span-12 sm:col-span-4 2xl:col-span-4 box p-5 cursor-pointer zoom-in">
-                    <div class="font-medium text-base">Waffle</div>
-                    <div class="text-slate-500">3 Items</div>
-                </div>
-                <div class="col-span-12 sm:col-span-4 2xl:col-span-4 box p-5 cursor-pointer zoom-in">
-                    <div class="font-medium text-base">Snacks</div>
-                    <div class="text-slate-500">8 Items</div>
-                </div>
-                <div class="col-span-12 sm:col-span-4 2xl:col-span-4 box p-5 cursor-pointer zoom-in" style="background: transparent">
-                    <div class="font-medium text-base"></div>
-                    <div class="text-slate-500"></div>
-                </div>
-                <div class="col-span-12 sm:col-span-4 2xl:col-span-4 box p-5 cursor-pointer zoom-in">
-                    <div class="font-medium text-base">Beverage</div>
-                    <div class="text-slate-500">9 Items</div>
-                </div>
-                <div class="col-span-12 sm:col-span-4 2xl:col-span-4 box p-5 cursor-pointer zoom-in">
-                    <div class="font-medium text-base">Snacks</div>
-                    <div class="text-slate-500">8 Items</div>
-                </div>
-                <div class="col-span-12 sm:col-span-4 2xl:col-span-4 box p-5 cursor-pointer zoom-in">
-                    <div class="font-medium text-base">Deserts</div>
-                    <div class="text-slate-500">8 Items</div>
-                </div>
-                <div class="col-span-12 sm:col-span-4 2xl:col-span-4 box p-5 cursor-pointer zoom-in">
-                    <div class="font-medium text-base">Beverage</div>
-                    <div class="text-slate-500">9 Items</div>
-                </div>
-            </div>
+           
            
         </div>
         <!-- END: Item List -->

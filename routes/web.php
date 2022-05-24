@@ -26,6 +26,7 @@ Route::post('/tas3ir/save-ta7wel', 'tas3irController@save_ta7wel')->name('save_t
 //shipments
 
 Route::get('shiments', 'shipmentsController@HomePage')->name('home-page');
+Route::get('shiments/{type}', 'shipmentsController@shipments')->name('shiments');
 Route::get('getShipmentsByCode', 'shipmentsController@getShipmentsByCode')->name('getShipmentsByCode');
 Route::get('shipment/t7wel_qr', 'shipmentsController@t7wel_qr')->name('shipment.t7wel_qr');
 Route::post('shipment/t7wel_qr', 'shipmentsController@t7wel_qr_save')->name('shipment.t7wel_qr_save');

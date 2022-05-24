@@ -33,10 +33,8 @@ class shipmentsController extends Controller
     public function HomePage(Request $request)
     {
        
-       return view('shipments.total');
-        if (!$user = DB::table("all_users")->where('code_' ,request()->user_id)->first()) {
-            return response::falid('user_not_found', 404);
-        }
+       
+        $user=auth()->user();
         $statuses= Shipment_status::orderBy('sort_no')->where('code_' ,'!=',10)
         ->UserTypeFilter($user->type_,$user->code_)
         ->select('code_','name_')->get()->toArray();
@@ -49,7 +47,7 @@ class shipmentsController extends Controller
                 $shipments=$shipments->where('commercial_name_',request()->commercial_name);
             }
             $shipments=$shipments->select(DB::raw('count(*) as cnt'))
-            ->groupBy( 'Status_')
+            //->groupBy( 'Status_')
             ->first();
             $statuses[$key]['cnt'] = $shipments ? $shipments->cnt : 0;
             
@@ -87,74 +85,52 @@ class shipmentsController extends Controller
             $cummercial_names =  request()->commercial_name;
             $cummercial_names_count  =1;
         }
-        return response()->json([
-            'status' => 200,
-            'message' => 'success',
-            "type"=> $user->type_,
-            'commercial_name_count'=>$cummercial_names_count,
-            'commercial_name'=>$cummercial_names,
-            'all' => $statuses,
-            
-            
-        ], 200);
+        // dd($statuses);
+        return view('shipments.total',compact('statuses','cummercial_names'));
+      
        
     }
-
-    public function shipments(Request $request)
+    
+    public function shipments(int $type)
     { 
-
-        if (!$user = DB::table("all_users")->where('code_' ,request()->user_id)->first()) {
-            return response::falid('user_not_found', 404);
-        }
+           $status=$type;
+            $user=auth()->user();
             $offset=0; $limit=10;
             if(isset(request()->offset ))   $offset =request()->offset;
             if(isset(request()->limit ))   $limit =request()->limit;
             
             $shipments_null_date = Shipment::with(['Branch_user' => function ($query) {
                 $query->select('code_','phone_');
-            }])
-            ->where('status_',request()->code)
+            },
+            'Shipment_status'=> function ($query) {
+                $query->select('code_','name_');
+            },])
+            ->where('status_',$status)
             ->UserType($user->type_,$user->code_)
             ->where('tarikh_tasdid_el3amil' ,'')
             ->where('tarikh_el7ala' ,'');
-            if(isset($request->commercial_name)){
-                $shipments_null_date = $shipments_null_date->where('add_shipment_tb_.commercial_name_', $request->commercial_name);
+            if(isset(request()->commercial_name)){
+                $shipments_null_date = $shipments_null_date->where('add_shipment_tb_.commercial_name_', request()->commercial_name);
             }
 
             $shipments = Shipment::with(['Branch_user' => function ($query) {
                 $query->select('code_','phone_');
             }])
-            ->where('status_',request()->code);
+            ->where('status_',$status);
             
            
             
-            if($user->type_== 'مندوب استلام' && request()->code ==3){
+            if($user->type_== 'مندوب استلام' && $status ==3){
                 $shipments = $shipments->where('branch_',$user->branch);
                 
             }else{
                 $shipments = $shipments->UserType($user->type_,$user->code_);
             }
-            if(isset($request->commercial_name)){
-                $shipments = $shipments->where('add_shipment_tb_.commercial_name_', $request->commercial_name);
+            if(isset(request()->commercial_name)){
+                $shipments = $shipments->where('add_shipment_tb_.commercial_name_', request()->commercial_name);
             }
-           
 
-            // $shipments_not_mosadad = Shipment::with(['Branch_user' => function ($query) {
-            //     $query->select('code_','phone_');
-            // }])
-            // ->where('status_',request()->code)
-            // ->UserType($user->type_,$user->code_)
-            // ->where('el3amil_elmosadad', '!=' ,'مسدد' );
-            // if($user->type_== 'مندوب استلام'){
-            //     $shipments = $shipments->where('Status_',3)->where('branch_',$user->branch);
-            // }
-            // if(isset($request->commercial_name)){
-            //     $shipments_not_mosadad = $shipments_not_mosadad->where('add_shipment_tb_.commercial_name_', $request->commercial_name);
-            // }
-            
-      
            
-             
             $all_shipments = $shipments;
 
             if($user->type_ =='عميل'){
@@ -186,10 +162,11 @@ class shipmentsController extends Controller
             $netCost =  $totalCost-$tawsilCost;
 
             $count_all = $counter->count();
-            if($request->page == -100)
-                $request->limit=$count_all;
-            $all = $all_shipments->paginate($request->limit ?? 10);
-       
+            if(request()->page == -100)
+                request()->limit=$count_all;
+            $all = $all_shipments->paginate(request()->limit ?? 10);
+           // $data=$all->items();
+            return view('shipments.index',compact('all'));
         return response()->json([
             'status' => 200,
             'message' => 'success',
@@ -1088,7 +1065,11 @@ class shipmentsController extends Controller
              
               ->where('mandoub_taslim_tas3irtb.mandoub_ID', $mandob->code_)
               //->get();
-              ->update(['tas3ir_mandoub_taslim'=>'mandoub_taslim_tas3irtb.price_'  ]);
+              ->update(['tas3ir_mandoub_taslim'=>'mandoub_taslim_tas3irtb.price_'  ,
+              'tarikh_el7ala'=>Carbon::now()->format('Y-m-d') ,
+              'Delivery_Delivered_Shipment_ID'=> $mandob->code_ ,
+              'mandoub_taslim' =>$mandob->name_
+            ]);
            
 
         // foreach($shipments as $shipment){
@@ -1098,7 +1079,7 @@ class shipmentsController extends Controller
         //     ->where('city_name_',$shipment->mo7afza_)  
         //     ->first();
         //     $shipment->status_ = 4;
-        //     $shipment->tarikh_el7ala= Carbon::now()->format('Y-m-d')  ;
+        //     $shipment->tarikh_el7ala=   ;
         //     $shipment->mandoub_taslim =$mandob->name_ ;
         //     $shipment->Delivery_Delivered_Shipment_ID = $mandob->code_;
         //     $price=0;
