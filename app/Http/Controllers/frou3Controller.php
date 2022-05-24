@@ -59,7 +59,7 @@ class frou3Controller extends Controller
          })
 
             ->update(['add_shipment_tb_.transfere_1'=>$branch->name_,
-            'add_shipment_tb_.transfer_coast_1' =>'transfer_prices_main_tb.price_' ,
+            'add_shipment_tb_.transfer_coast_1' =>DB::raw("`transfer_prices_main_tb`.`price_`") ,
             'TRANSFERE_ACCEPT_REFUSE'=>2,
             'tarikh_el7ala'=>Carbon::now()->format('Y-m-d'),
             'Ship_area_'=>$branch->name_]);
@@ -76,7 +76,7 @@ class frou3Controller extends Controller
             })
    
                ->update(['add_shipment_tb_.transfere_2'=>$branch->name_,
-               'add_shipment_tb_.transfer_coast_2' =>'transfer_prices_main_tb.price_' ,
+               'add_shipment_tb_.transfer_coast_2' =>DB::raw("`transfer_prices_main_tb`.`price_`"),
             'TRANSFERE_ACCEPT_REFUSE'=>2,
             'tarikh_el7ala'=>Carbon::now()->format('Y-m-d'),
             'Ship_area_'=>$branch->name_

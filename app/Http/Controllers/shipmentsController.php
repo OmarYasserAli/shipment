@@ -1058,36 +1058,20 @@ class shipmentsController extends Controller
          ->whereIn('add_shipment_tb_.code_', $request->code)
       
           ->where('add_shipment_tb_.status_', 1)
-        ->join('mandoub_taslim_tas3irtb', function($join){
+        ->leftjoin('mandoub_taslim_tas3irtb', function($join){
             $join->on('mandoub_taslim_tas3irtb.mantika_id', '=', 'add_shipment_tb_.mantika_id');
             $join->on('mandoub_taslim_tas3irtb.mo7afaza_id','=','add_shipment_tb_.mo7afaza_id'); 
         })
              
               ->where('mandoub_taslim_tas3irtb.mandoub_ID', $mandob->code_)
               //->get();
-              ->update(['tas3ir_mandoub_taslim'=>'mandoub_taslim_tas3irtb.price_'  ,
+              ->update(['add_shipment_tb_.tas3ir_mandoub_taslim'=> DB::raw("`mandoub_taslim_tas3irtb`.`price_`") ,
               'tarikh_el7ala'=>Carbon::now()->format('Y-m-d') ,
               'Delivery_Delivered_Shipment_ID'=> $mandob->code_ ,
-              'mandoub_taslim' =>$mandob->name_
+              'mandoub_taslim' =>$mandob->name_,
+              'add_shipment_tb_.status_' => 1
             ]);
            
-
-        // foreach($shipments as $shipment){
-        //     $tas3ir=DB::table('mandoub_taslim_tas3irtb') ->select('price_')
-        //     ->where('mandoub_ID',$mandob->code_)
-        //     ->where('area_name_',$shipment->mantqa_)
-        //     ->where('city_name_',$shipment->mo7afza_)  
-        //     ->first();
-        //     $shipment->status_ = 4;
-        //     $shipment->tarikh_el7ala=   ;
-        //     $shipment->mandoub_taslim =$mandob->name_ ;
-        //     $shipment->Delivery_Delivered_Shipment_ID = $mandob->code_;
-        //     $price=0;
-        //     if(isset($tas3ir)) $price=$tas3ir->price_;
-        //     $shipment->tas3ir_mandoub_taslim = $price;
-        //     $shipment->save();
-            
-        // }
 
               return response()->json([
                 'status' => 200,
