@@ -1069,7 +1069,7 @@ class shipmentsController extends Controller
               'tarikh_el7ala'=>Carbon::now()->format('Y-m-d') ,
               'Delivery_Delivered_Shipment_ID'=> $mandob->code_ ,
               'mandoub_taslim' =>$mandob->name_,
-              'add_shipment_tb_.status_' => 1
+              'add_shipment_tb_.status_' => 4
             ]);
            
 
