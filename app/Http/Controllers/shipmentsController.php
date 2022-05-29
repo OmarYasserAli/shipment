@@ -13,7 +13,7 @@ use App\Models\Shipment_status;
 use App\Models\Commercial_name;
 use App\Models\Archive;
 use App\User;
-
+use App\Models\Branch_user;
 
 use Carbon\Carbon;
 
@@ -166,7 +166,8 @@ class shipmentsController extends Controller
                 request()->limit=$count_all;
             $all = $all_shipments->paginate(request()->limit ?? 10);
            // $data=$all->items();
-            return view('shipments.index',compact('all'));
+           $superUserBranch  =BranchInfo::all();
+            return view('shipments.index',compact('all','superUserBranch'));
         return response()->json([
             'status' => 200,
             'message' => 'success',
@@ -985,7 +986,24 @@ class shipmentsController extends Controller
 
 
 
-    
+    public function create(){
+        return view('shipments.create');
+    }
+    public function edit(){
+
+    }
+    public function status(){
+
+    }
+    public function print(){
+
+    }
+    public function estlamGet(){
+
+    }
+    public function changeToArchive(){
+
+    }
     public function t7wel_qr()
     {
         
@@ -1017,28 +1035,7 @@ class shipmentsController extends Controller
                 'status' => 200,
                 'message' => 'تم التحويل',
             ], 200);      
-        /*
-            fel m5zn
-            status =1
-            tarikh_el7ala = current_date
-            */
 
-            /* rag3 lada el 3amed
-            status =8
-            tarikh_el7ala = current_date
-            shipment->cost =0
-            shipment->tawsil =0
-            shipment->total =0
-            */
-
-            /*
-            rag3 lada el m5zn
-            status =9
-            tarikh_el7ala = current_date
-            delevely_delevred_shipment_id = null
-            mndoub_taslim = ""
-            tas3ir_mndoub_taslim = 0
-            */
     }
     
     public function taslim_qr()
@@ -1080,6 +1077,7 @@ class shipmentsController extends Controller
         }
 
 
+    
     public function getShipmentsByCode(Request $request)
     {
         //brach   ship area   //status
@@ -1142,9 +1140,6 @@ class shipmentsController extends Controller
             'status' => $status,
             'data' => $data,
         ], $status);
-
-        
-
     }
 }
 //

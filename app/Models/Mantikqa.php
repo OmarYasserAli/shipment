@@ -19,4 +19,8 @@ class Mantikqa extends Model
     {
         return $this->hasOne(Tas3ir_ta7wel::class,  ['area_name_' ,'city_name_'],['name', 'mo7afza']);
     }
+    public function Tas3ir_3amil_5as()
+    {
+        return $this->hasOne(Tas3ir_3amil_5as::class,  ['area_name_' ,'city_name_'],['name', 'mo7afza']);
+    }
 }

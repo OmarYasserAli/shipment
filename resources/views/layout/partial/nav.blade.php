@@ -27,7 +27,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="index.html" class="side-menu side-menu--active">
+                                <a href="{{route('shiments.create')}}" class="side-menu side-menu--active">
                                     <div class="side-menu__icon"> <i data-lucide="activity"></i> </div>
                                     <div class="side-menu__title"> اﺿﺎﻓﺔ ﺷﺣﻧﺔ </div>
                                 </a>
@@ -86,13 +86,13 @@
                         </a>
                         <ul class="">
                             <li>
-                                <a href="side-menu-light-tab.html" class="side-menu">
+                                <a href="{{route('frou3.export')}}" class="side-menu">
                                     <div class="side-menu__icon"> <i data-lucide="activity"></i> </div>
                                     <div class="side-menu__title"> اﻟﺷﺣﻧﺎت اﻟﺻﺎدرة اﻟﻰ اﻟﻔرع </div>
                                 </a>
                             </li>
                             <li>
-                                <a href="side-menu-light-tab.html" class="side-menu">
+                                <a href="{{route('frou3.import')}}" class="side-menu">
                                     <div class="side-menu__icon"> <i data-lucide="activity"></i> </div>
                                     <div class="side-menu__title"> ﻟﺷﺣﻧﺎت اﻟواردة ﻣن اﻟﻔرع</div>
                                 </a>
@@ -120,7 +120,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="side-menu-light-tabulator.html" class="side-menu">
+                                        <a href="{{route('accept_frou3_t7wel')}} " class="side-menu">
                                             <div class="side-menu__icon"> <i data-lucide="zap"></i> </div>
                                             <div class="side-menu__title">اﻟﻣواﻓﻘﺔ ﻋﻠﻰ اﻟﺷﺣﻧﺎت اﻟواردة ﻣن اﻟﻔرع</div>
                                         </a>
@@ -150,7 +150,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="side-menu-light-notification.html" class="side-menu">
+                                        <a href="{{route('accept_frou3_rag3')}}" class="side-menu">
                                             <div class="side-menu__icon"> <i data-lucide="zap"></i> </div>
                                             <div class="side-menu__title">اﻟﻣواﻓﻘﺔ ﻋﻠﻰ اﻟرواﺟﻊ اﻟواردة ﻣن اﻟﻔرع</div>
                                         </a>
@@ -167,14 +167,14 @@
                                 </a>
                                 <ul class="">
                                     <li>
-                                        <a href="side-menu-light-modal.html" class="side-menu">
+                                        <a href="{{route('accounting.notmosadad')}}" class="side-menu">
                                             <div class="side-menu__icon"> <i data-lucide="zap"></i> </div>
                                             <div class="side-menu__title">اﻟﺷﺣﻧﺎت اﻟﻐﯾر ﻣﺳددة ﻟﻠﻔرع
                                             </div>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="side-menu-light-slide-over.html" class="side-menu">
+                                        <a href="{{route('accounting.mosadad')}}" class="side-menu">
                                             <div class="side-menu__icon"> <i data-lucide="zap"></i> </div>
                                             <div class="side-menu__title">اﻟﺷﺣﻧﺎت اﻟﻣﺳددة ﻟﻠﻔرع</div>
                                         </a>
@@ -350,7 +350,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="{{route('addCity')}}" class="side-menu">
+                                <a href="{{route('tas3ir.3amil_5as')}}" class="side-menu">
                                     <div class="side-menu__icon"> <i data-lucide="activity"></i> </div>
                                     <div class="side-menu__title"> ﺗﺳﻌﯾر اﻟﻌﻣﯾل اﻟﺧﺎص </div>
                                 </a>
@@ -368,31 +368,31 @@
                         </a>
                         <ul class="">
                             <li>
-                                <a href="{{route('company')}}" class="side-menu side-menu--active">
+                                <a href="{{route('addClient')}}" class="side-menu side-menu--active">
                                     <div class="side-menu__icon"> <i data-lucide="activity"></i> </div>
                                     <div class="side-menu__title"> اﺿﺎﻓﺔ اﻟﻌﻣﻼء                                    </div>
                                 </a>
                             </li>
                             <li>
-                                <a href="{{route('addCity')}}" class="side-menu">
+                                <a href="{{route('addMandoub')}}" class="side-menu">
                                     <div class="side-menu__icon"> <i data-lucide="activity"></i> </div>
                                     <div class="side-menu__title"> اﺿﺎﻓﺔ اﻟﻣﻧدوﺑﯾن                                    </div>
                                 </a>
                             </li>
                             <li>
-                                <a href="{{route('addCity')}}" class="side-menu">
+                                <a href="{{route('adduser')}}" class="side-menu">
                                     <div class="side-menu__icon"> <i data-lucide="activity"></i> </div>
                                     <div class="side-menu__title"> اﺿﺎﻓﺔ اﻟﻣﺳﺗﺧدﻣﯾن </div>
                                 </a>
                             </li>
                             <li>
-                                <a href="{{route('addCity')}}" class="side-menu">
+                                <a href="{{route('registrationRequest')}}" class="side-menu">
                                     <div class="side-menu__icon"> <i data-lucide="activity"></i> </div>
                                     <div class="side-menu__title">طﻠﺑﺎت اﻟﺗﺳﺟﯾل </div>
                                 </a>
                             </li>
                             <li>
-                                <a href="{{route('addCity')}}" class="side-menu">
+                                <a href="{{route('commercialNames')}}" class="side-menu">
                                     <div class="side-menu__icon"> <i data-lucide="activity"></i> </div>
                                     <div class="side-menu__title"> ﺗﻌدﯾل اﻻﺳﻣﺎء اﻟﺗﺟﺎرﯾة </div>
                                 </a>

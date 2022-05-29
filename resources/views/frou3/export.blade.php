@@ -20,20 +20,14 @@
                                 <input type="text"  class="form-control form-select-sm "  aria-label="default input inline 1" style="width: 150px;"> 
                             </div>
                             <div class="form-inline">
-                                <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:15px; margin-top:8px; width:100px; ">العميل</label>
-                                <select class="form-select form-select-sm " aria-label=".form-select-sm example" style=" width:150px">
-                                    <option>Chris Evans</option>
-                                    <option>Liam Neeson</option>
-                                    <option>Daniel Craig</option>
-                                </select>
+                                <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:15px; margin-top:8px; width:100px; ">تاريخ الشحنه</label>
+                                <input type="date"  class="form-control form-select-sm "  aria-label="default input inline 1" style="width: 150px;"> 
+                               
                             </div>
                             <div class="form-inline">
-                                <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:10px; margin-top:8px;  width:150px; ">الاسم التجاري</label>
-                                <select class="form-select form-select-sm " aria-label=".form-select-sm example" style=" width:150px">
-                                    <option>Chris Evans</option>
-                                    <option>Liam Neeson</option>
-                                    <option>Daniel Craig</option>
-                                </select>
+                                <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:10px; margin-top:8px;  width:30px; ">الي</label>
+                                <input type="date"  class="form-control form-select-sm "  aria-label="default input inline 1" style="width: 100px;"> 
+                                
                             </div>
                         </div > 
                     </div>
@@ -43,20 +37,18 @@
                     <div class="col-span-2">
                         <div class="grid grid-cols-3 "> 
                             <div class="form-inline ">
-                                <label for="horizontal-form-1" class="form-label " style=" text-align:left; margin-left:15px; margin-top:8px;  width:150px; ">رقم التوصيل</label>
+                                <label for="horizontal-form-1" class="form-label " style=" text-align:left; margin-left:15px; margin-top:8px;  width:150px; ">رقم الوصل</label>
                                 <input type="text"  class="form-control form-select-sm "  aria-label="default input inline 1" style="width: 150px;"> 
                             </div>
                             <div class="form-inline">
-                                <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:15px; margin-top:8px; width:100px; ">هاتف المستلم</label>
-                                <input type="text"  class="form-control form-select-sm "  aria-label="default input inline 1" style="width: 150px;"> 
+                                <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:15px; margin-top:8px; width:100px; ">تاريخ الحالة</label>
+                                <input type="date"  class="form-control form-select-sm "  aria-label="default input inline 1" style="width: 150px;"> 
+                               
                             </div>
                             <div class="form-inline">
-                                <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:10px; margin-top:8px;  width:150px; ">مندوب التسليم</label>
-                                <select class="form-select form-select-sm " aria-label=".form-select-sm example" style=" width:150px">
-                                    <option>Chris Evans</option>
-                                    <option>Liam Neeson</option>
-                                    <option>Daniel Craig</option>
-                                </select>
+                                <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:10px; margin-top:8px;  width:30px; ">الي</label>
+                                <input type="date"  class="form-control form-select-sm "  aria-label="default input inline 1" style="width: 100px;"> 
+                                
                             </div>
                         </div > 
                     </div>
@@ -66,40 +58,23 @@
                     <div class="col-span-2">
                         <div class="grid grid-cols-3 "> 
                             <div class="form-inline">
-                                <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:10px; margin-top:8px;  width:150px; ">مندوب التسليم</label>
+                                <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:10px; margin-top:8px;  width:150px; ">المحافظة</label>
                                 <select class="form-select form-select-sm " aria-label=".form-select-sm example" style=" width:210px">
                                     <option>Chris Evans</option>
                                     <option>Liam Neeson</option>
                                     <option>Daniel Craig</option>
                                 </select>
                             </div>
-                            <div class="form-inline">
-                                <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:10px; margin-top:8px;  width:150px; ">مندوب التسليم</label>
-                                <select class="form-select form-select-sm " aria-label=".form-select-sm example" style=" width:200px">
-                                    <option>Chris Evans</option>
-                                    <option>Liam Neeson</option>
-                                    <option>Daniel Craig</option>
-                                </select>
-                            </div>
+                            
                             <div class="form-inline mr-3">
-                                <ul>
-                                    <li><label for="horizontal-form-1" class="" style=" text-align:left; margin-left:10px; margin-top:8px;  width:100px; ">
-                                        <input type="radio" id="javascript" name="fav_language" value="JavaScript">  تاريخ الشحنة </label>
-                                    </li>
-                                    <li>
-                                        <label for="horizontal-form-1" class="" style=" text-align:left; margin-left:10px; margin-top:8px;  width:100px; ">
-                                            <input type="radio" id="javascript" name="fav_language" value="JavaScript">  تاريخ الحالة </label>
-                                    </li>
-                                </ul>
- 
-                                <input type="date"  class="form-control form-select-sm "  style="width: 150px;">
-                               
+                                <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:10px; margin-top:8px; margin-right:3px ; ">هاتف المستلم</label>
+                                <input type="text"  class="form-control form-select-sm "  style="width: 150px;">
+                                
                             </div>
                         </div > 
                     </div>
                     <div>
-                        <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:10px; margin-top:8px; margin-right:3px ; ">الي</label>
-                        <input type="date"  class="form-control form-select-sm "  style="width: 150px;">
+                        
                     </div>
                 </div>
             </div>

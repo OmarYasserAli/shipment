@@ -193,7 +193,7 @@
                 $( "#tanfez" ).click(function() {
                  
                     $.ajax({
-                        url: "{{route('frou3_t7wel_sho7nat_qr_save')}}" ,
+                        url: "{{route('frou3_t7wel_rag3_qr_save')}}" ,
                         type: 'post',
                         data:{ code:shipments, status:current_status, _token: "{{ csrf_token() }}"},
                         error: function(e){
