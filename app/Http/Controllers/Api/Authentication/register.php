@@ -38,24 +38,24 @@ class register extends Controller
         DB::beginTransaction();
 
         try {
-             AllUser::create([
+            $reg = AllUser::create([
                 'name_'=>$request->name_,
                 'type_'=>$request->type,
                 'status_'=>'1',
                 'serial_'=>'0',
                 'branch'=>$request->branch,
                 'username'=>$request->username,
-                'PASSWORD'=>md5($request->get('password')),
+                'PASSWORD'=>($request->get('password')),
                 'mo7fza'=>$request->mohfza,
                 'mantqa'=>$request->mantqa,
                 
             ]);
-            $client = AllUser::latest()->first();
+            $client = AllUser::where('code_',$reg->code_)->first();
             $branch_id = DB::table('branch_info_tb')->where('name_',$request->branch)->first();
             DB::table('add_clients_main_comp_tb')->insert([
                 'name_'=>$client->name_,
                 'username'=>$request->username,
-                'PASSWORD'=>md5($request->get('password')),
+                'PASSWORD'=>($request->get('password')),
                 'code_'=>$client->code_,
                 'commercial_name'=>$request->commercial_name,
                 'Branch_ID'=> $branch_id->code_,
@@ -65,11 +65,13 @@ class register extends Controller
                 'mantqa'=>$request->mantqa,
                 'phone_'=>$request->phone_,
                 'ID_'=>$request->ID,
-                'address_'=>""
+                'address_'=>"",
+                'notes'=>"" 
             ]);
             DB::commit();
             $token = JWTAuth::fromUser($client);
-
+            $client->TOEKN_=$token;
+            $client->save();
             return response()->json([
                 "status" => true,
                 'message'=> 'register success',
@@ -102,23 +104,23 @@ class register extends Controller
         DB::beginTransaction();
 
         try {
-             AllUser::create([
+            $reg = AllUser::create([
                 'name_'=>$request->name_,
                 'type_'=>$request->type,
                 'status_'=>'1',
                 'serial_'=>'0',
                 'branch'=>$request->branch,
                 'USERNAME'=>$request->username,
-                'PASSWORD'=>md5($request->get('password')),
+                'PASSWORD'=>($request->get('password')),
                 'mo7fza'=>$request->mohfza,
                 'mantqa'=>$request->mantqa,
                 
             ]);
-            $client = AllUser::latest()->first();
+            $client = AllUser::where('code_',$reg->code_)->first();
             DB::table('add_branch_users_tb')->insert([
                 'name_'=>$client->name_,
                 'USERNAME'=>$request->username,
-                'PASSWORD'=>md5($request->get('password')),
+                'PASSWORD'=>($request->get('password')),
                 'code_'=>$client->code_,
                 'branch_name'=> $request->branch,
                 'Job'=>$request->type,
@@ -130,6 +132,8 @@ class register extends Controller
                 'address_'=>""
             ]);
             $token = JWTAuth::fromUser($client);
+            $client->TOEKN_=$token;
+            $client->save();
             DB::commit();
             return response()->json([
                 "status" => true,

@@ -34,8 +34,8 @@
                         </div>
                         <div>
                             <div class="form-inline">
-                                <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:10px; margin-top:8px;  width:150px; ">الفرع</label>
-                                <select name="branch" class="form-select form-select-sm " aria-label=".form-select-sm example" style=" width:150px">
+                                <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:10px; margin-top:8px;  width:150px; " >الفرع</label>
+                                <select name="branch" class="form-select form-select-sm " aria-label=".form-select-sm example" style=" width:150px" @if(auth()->user()->branch !='الفرع الرئيسى') disabled @endif>
                                     <option value="">...</option>
                                     @foreach($branches as $branch)
                                     <option value="{{$branch->name_}}" @if($brach_filter ==$branch->name_) selected @endif>{{$branch->name_}}</option>
@@ -67,7 +67,7 @@
                         <div>
                             <div class="flex justify-center">
                                 <div class="form-check form-switch">
-                                    <label class="form-check-label inline-block text-gray-800" for="flexSwitchCheckChecked">كل الشحنات</label>
+                                    <label class="form-check-label inline-block text-gray-800" for="flexSwitchCheckChecked">@if($waselOnly) شحنات الواصل @else كل الشحنات @endif </label>
                                   <input class="form-check-input appearance-none w-9 -ml-10 rounded-full float-left h-5 align-top bg-white bg-no-repeat bg-contain bg-gray-300 focus:outline-none cursor-pointer shadow-sm" 
                                   type="checkbox" role="switch" id="flexSwitchCheckChecked" name="waselOnly" @if($waselOnly) checked @endif onchange="this.form.submit()">
                                 </div>
@@ -101,7 +101,11 @@
                             </div > 
                         </div>
                         <div>
-                            
+                            <div class="form-inline">
+                                <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:10px; margin-top:8px;  width:150px; "> </label>
+                                <input type="button"  class="btn btn-success  "  value="تسديد المحدد" id='tasdid'>
+                               
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -111,12 +115,14 @@
                     <thead class="table-light">
                         <tr>
                                     
-                                    <th class="whitespace-nowrap">مبلغ الشحنه</th>
-                                    <th class="whitespace-nowrap">المحافظة</th>
-                                    <th class="whitespace-nowrap">هاتف المستلم</th>
-                                    <th class="whitespace-nowrap">الاسم التجارى</th>
-                                    <th class="whitespace-nowrap">تاريخ الشحنه</th>
-                                    <th class="whitespace-nowrap">الفرع</th>
+                            <th class="whitespace-nowrap">المحافظة</th>
+                            <th class="whitespace-nowrap">هاتف المستلم</th>
+                            <th class="whitespace-nowrap">الاسم التجارى</th>
+                            <th class="whitespace-nowrap">تاريخ الشحنه</th>
+                            <th class="whitespace-nowrap">الفرع</th>
+                            <th class="whitespace-nowrap">الصافى</th>
+                            <th class="whitespace-nowrap">اجره التحويل</th>
+                            <th class="whitespace-nowrap">مبلغ الشحنه</th>
                                     <th class="whitespace-nowrap">الكود</th>
                                     <th class="whitespace-nowrap"></th>
                         </tr>
@@ -124,15 +130,17 @@
                     <tbody>
                         @foreach($all->items() as $shipment)
                         <tr>
-                                    <td class="whitespace-nowrap">{{$shipment->shipment_coast_}}</td>
-                                    <td class="whitespace-nowrap">{{$shipment->mo7afza_}}</td>
-                                    <td class="whitespace-nowrap">{{$shipment->reciver_phone_}}</td>
-                                    <td class="whitespace-nowrap">{{$shipment->commercial_name_}}</td>
-                                    <td class="whitespace-nowrap">{{$shipment->tarikh_el7ala}}</td>
-                                    <td class="whitespace-nowrap">{{$shipment->branch_}}</td>
-                                    <td class="whitespace-nowrap">{{$shipment->code_}}</td>
+                            <td class="whitespace-nowrap">{{$shipment->mo7afza_}}</td>
+                            <td class="whitespace-nowrap">{{$shipment->reciver_phone_}}</td>
+                            <td class="whitespace-nowrap">{{$shipment->commercial_name_}}</td>
+                            <td class="whitespace-nowrap">{{$shipment->tarikh_el7ala}}</td>
+                            <td class="whitespace-nowrap">{{$shipment->branch_}}</td>
+                            <td class="whitespace-nowrap">{{$shipment->shipment_coast_- $shipment->t7weel_cost}}</td>
+                            <td class="whitespace-nowrap">{{$shipment->t7weel_cost}}</td>
+                            <td class="whitespace-nowrap">{{$shipment->shipment_coast_}}</td>
+                            <td class="whitespace-nowrap">{{$shipment->code_}}</td>
                                     <td class="whitespace-nowrap"><input type="checkbox" class="check_count" data-cost='{{$shipment->shipment_coast_}}'
-                                        data-t7wel='{{$shipment->shipment_coast_}}' data-net='{{$shipment->shipment_coast_}}'></td>
+                                        data-t7wel='{{$shipment->t7weel_cost}}' data-net='{{$shipment->shipment_coast_}}' data-code='{{$shipment->code_}}'></td>
                         </tr>
                         @endforeach
                         
@@ -151,7 +159,11 @@
     <!-- BEGIN: New Order Modal -->
     
     <!-- END: Add Item Modal -->
-    <div style="background-color:#fff;  opacity: 0.85;position: fixed; bottom:100px; z-index:999; width:75%;" class="flex h-12 pt-3 rounded ">
+    
+    <div class="mt-10">
+        {!! $all->render() !!}
+    </div>
+    <div style="background-color:#fff;  opacity: 1;position: fixed; bottom:0px; z-index:999; width:79%;" class="flex h-12 pt-3 rounded ">
         <div class="mr-6" style="margin-left: 10px;">اجمالى مبالخ الشحنات</div>
         <div class="total_cost" style="margin-left: 40px;"><input type="text" disabled class="h-6 w-40" id="total_cost"></div>
         <div class="f" style="margin-left: 10px;">اجمالى مبالغ التحويل</div>
@@ -160,9 +172,6 @@
         <div class="total_net" style="margin-left: 40px;"><input type="text" disabled class="h-6 w-40" id='total_net'></div>
         <div class=" " style="margin-left: 10px;">مجموع عدد الشحنات</div>
         <div class=""> <input type="text" disabled class="h-6 w-16" id="total_cnt"></div>
-    </div>
-    <div class="mt-10">
-        {!! $all->render() !!}
     </div>
 </div>
 
@@ -269,6 +278,37 @@
                         });
                     }
                 });
+
+                
+                $( "#tasdid" ).click(function() {
+                    
+                 var codes =[]
+                 console.log($('.check_count'));
+                 $('.check_count').each(function() {
+                    if($(this).is(':checked')){
+                        codes.push($(this).data('code'));
+                    }
+                });
+                 $.ajax({
+                     url: "{{route('frou3.accounting.tasdid')}}" ,
+                     type: 'post',
+                     data:{ code:codes,  brach_filter:'{{$brach_filter}}',  _token: "{{ csrf_token() }}"},
+                     error: function(e){
+                         console.log(e);
+                     },
+                     success: function(res) {
+                         alert('تم التسديد');
+                         $('.check_count').each(function() {
+                            if($(this).is(':checked')){
+                                $(this).parent().parent().remove();
+                            }
+                      });
+                     }
+                 });
+                  
+             });
+
+
                 let total_cost=0;
                 let total_cnt=0;
                 let total_t7wel=0;
@@ -278,19 +318,19 @@
                     {
                         total_cnt++;
                         total_cost+= $(this).data('cost');
-                        total_t7wel+= $(this).data('t7wel');
+                        total_t7wel+= parseInt($(this).data('t7wel'));
                         total_net+= $(this).data('net');
                     }
                     else 
                     {
                         total_cnt--;
                         total_cost-= $(this).data('cost');
-                        total_t7wel-= $(this).data('t7wel');
+                        total_t7wel-= parseInt($(this).data('t7wel'));
                         total_net-= $(this).data('net');
                     }
                     $('#total_cost').val(total_cost);
                     $('#total_t7wel').val(total_t7wel);
-                    $('#total_net').val(total_net);
+                    $('#total_net').val($('#total_cost').val()-$('#total_t7wel').val());
                     $('#total_cnt').val(total_cnt);
                 });
                 

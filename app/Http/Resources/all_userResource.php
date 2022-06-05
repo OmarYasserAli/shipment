@@ -20,9 +20,11 @@ class all_userResource extends JsonResource
            'status_'=>$this->status_,
            'serial_'=>$this->serial_,
            'branch'=>$this->branch,
-           'USERNAME'=>$this->USERNAME,
+           'USERNAME'=>$this->username,
            'mo7fza'=>$this->mo7fza,
            'mantqa'=>$this->mantqa,
+           'whatAppMsg'=>$this->whats_msg,
+           'phone'=>$this->userPhone(),
         ];
     }
 }

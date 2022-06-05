@@ -257,6 +257,8 @@ return [
 
         'Cart' => Darryldecode\Cart\Facades\CartFacade::class,
         'DataTables'=>Yajra\DataTables\DataTablesServiceProvider::class,
+        'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
+    'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
         // 'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
         // 'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
 

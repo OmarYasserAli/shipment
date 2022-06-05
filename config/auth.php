@@ -39,10 +39,11 @@ return [
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
+            'hash' => false,
         ],
 
         'api' => [
-            'driver' => 'token',
+            'driver' => 'jwt',
             'provider' => 'users',
             'hash' => false,
         ],
@@ -68,6 +69,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
+            // 'model' => App\Models\AllUser::class,
             'model' => App\User::class,
         ],
 

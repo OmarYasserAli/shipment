@@ -1,6 +1,6 @@
 <div class="top-bar">
     <!-- BEGIN: Breadcrumb -->
-    <nav aria-label="breadcrumb" class="-intro-x  hidden sm:flex">
+    <nav aria-label="breadcrumb" class="-intro-x  hidden sm:flex" style="width: 100%; align-items:center;">
         
         <div class="search  sm:block " style="float: right;">
          @if(isset($superUserBranch))
@@ -14,7 +14,11 @@
         </div>
          @endif
         </div>
-        {{-- <ol class="breadcrumb">
+        @if(isset($page_title))
+            <div class="" style="">
+                <h1 style="font-size: 20px; " class="pr-5" >{{$page_title}}</h1></div>
+        @endif
+            {{-- <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="#"></a></li>
             <li class="breadcrumb-item active" aria-current="page"></li>
         </ol> --}}

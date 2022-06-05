@@ -12,10 +12,10 @@ class HomeController
 {
     public function myShip(Request $request)
     {
-       
+        dd($request->header());
         try {
-            if (!$user = auth('all_user')->user()) {
-                return response::falid('user_not_found', 404);
+            if (!$user = auth('api')->user()) {
+                return response::falid('user_not_found', 500);
             }
 
         } catch (TokenExpiredException $e) {

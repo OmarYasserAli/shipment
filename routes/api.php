@@ -32,6 +32,7 @@ Route::prefix('client')->group(function () {
     Route::get('allreport','Client\ReportController@allreport');
    
 });
+
 Route::prefix('Receiving')->group(function () {
     Route::post('addreport','Receiving\ReportController@Addreport');
     Route::get('allreport','Receiving\ReportController@allreport');

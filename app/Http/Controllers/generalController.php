@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Mohfza;
 use App\Models\Mantikqa;
+use App\User;
+use App\Models\Commercial_name;
 class generalController extends Controller
 {
     /**
@@ -36,5 +38,23 @@ class generalController extends Controller
         ], 200); 
         
     }
+    public function getCommertialnameBy3amil( )
+    {
+        $client_id=request()->client_id;
+        
+        $filtered_clients = User::where('type_','عميل')->where('name_',$client_id)->pluck('code_')->toArray();
+        
+        $Commercial_names =Commercial_name::whereIn('code_',$filtered_clients)->groupBy('name_')->get();
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'success',
+            'all' => $Commercial_names,
+            'sum' => count($Commercial_names),
+        ], 200); 
+        
+    }
+
+    
   
 }

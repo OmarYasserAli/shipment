@@ -7,23 +7,36 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laratrust\Traits\LaratrustUserTrait;
 use Laravel\Passport\HasApiTokens;
+use App\Models\AddClientsMainComp;
+use App\Models\AddBranchUser;
+
 
 class AllUser extends Authenticatable implements JWTSubject
 {
     use Notifiable, LaratrustUserTrait, HasApiTokens;
-    protected $primaryKey = 'code_';
+    protected $primaryKey = 'code_'; 
     protected $guarded = [];
+    public $timestamps = false;
     public function getJWTIdentifier()
     {
         return $this->getKey();
     }
     public function getJWTCustomClaims()
     {
-        return [
-            'type'  =>'all_user',
-        ];
+        return [];
     }
     public function getAuthPassword() {
         return $this->PASSWORD;
     }
+    public function userPhone() {
+        if($this->type_=='عميل'){
+            return AddClientsMainComp::where('USERNAME', $this->username)->first()->phone_;
+        }
+        else{
+            return AddBranchUser::where('USERNAME', $this->username)->first()->phone_;
+        }
+       
+    }
+
+
 }

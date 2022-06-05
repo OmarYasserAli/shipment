@@ -93,6 +93,8 @@
       'Alert' => 'RealRashid\\SweetAlert\\Facades\\Alert',
       'Cart' => 'Darryldecode\\Cart\\Facades\\CartFacade',
       'DataTables' => 'Yajra\\DataTables\\DataTablesServiceProvider',
+      'JWTAuth' => 'Tymon\\JWTAuth\\Facades\\JWTAuth',
+      'JWTFactory' => 'Tymon\\JWTAuth\\Facades\\JWTFactory',
     ),
   ),
   'auth' => 
@@ -108,10 +110,11 @@
       array (
         'driver' => 'session',
         'provider' => 'users',
+        'hash' => false,
       ),
       'api' => 
       array (
-        'driver' => 'token',
+        'driver' => 'jwt',
         'provider' => 'users',
         'hash' => false,
       ),
@@ -1060,6 +1063,47 @@
     'secure' => NULL,
     'http_only' => true,
     'same_site' => 'lax',
+  ),
+  'setting_fields' => 
+  array (
+    'app' => 
+    array (
+      'title' => 'General',
+      'desc' => 'All the general settings for application.',
+      'icon' => 'glyphicon glyphicon-sunglasses',
+      'elements' => 
+      array (
+        0 => 
+        array (
+          'type' => 'text',
+          'data' => 'string',
+          'name' => 'app_name',
+          'label' => 'App Name',
+          'rules' => 'required|min:2|max:50',
+          'class' => 'w-auto px-2',
+          'value' => 'CoolApp',
+        ),
+      ),
+    ),
+    'email' => 
+    array (
+      'title' => 'Email',
+      'desc' => 'Email settings for app',
+      'icon' => 'glyphicon glyphicon-envelope',
+      'elements' => 
+      array (
+        0 => 
+        array (
+          'type' => 'email',
+        ),
+        1 => 
+        array (
+        ),
+        2 => 
+        array (
+        ),
+      ),
+    ),
   ),
   'shopping_cart' => 
   array (

@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Shipment extends Model
@@ -20,6 +20,10 @@ class Shipment extends Model
     public function Shipment_status()
     {
         return $this->belongsTo(Shipment_status::class,'Status_');
+    }
+    public function client()
+    {
+        return $this->belongsTo(User::class,'client_ID_');
     }
     
     public function Commercial_name()

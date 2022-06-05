@@ -24,7 +24,10 @@ class authentication extends Controller
         $credentials = ['USERNAME' => $request->username, 'password' => $request->password]; 
           
         try {
-            if (! $token = auth('all_user')->attempt($credentials)) {
+               
+            $user = AllUser::where('username', $request->username)->where('password',$request->password)->first();  
+            
+            if(!isset($user)){
                 return response()->json([
                     'status'  => false,
                     'message' =>'passwored or username is wrong' ,
@@ -37,12 +40,17 @@ class authentication extends Controller
             ], 404); 
         }
         $user = AllUser::where('USERNAME',$request->username)->first();
-
+        if($user->TOEKN_ ==''  || $user->TOEKN_ == null){
+            $token = JWTAuth::fromUser($user);
+            $user->TOEKN_=$token;
+            $user->save();
+        }
+        
         return response()->json([
             'status'  => true,
             'message' => 'succeess',
             'user'=> new all_userResource($user),
-            'token'   => $token,
+            'token'   => $user->TOEKN_,
         ], 200);
 
 

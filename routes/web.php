@@ -10,7 +10,10 @@ use App\Http\Controllers\Dashboard\ProfileController;
 use Illuminate\Support\Facades\Artisan;
 
 Auth::routes();
-
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/settings', 'SettingController@index')->name('settings');
+    Route::post('/settings', 'SettingController@store')->name('settings.store');
+});
 
 
 Route::get('/', 'HomeController@index')->name('home');
@@ -19,7 +22,9 @@ Route::get('/definations/city', 'setting\definationsController@addCity')->name('
 Route::get('/definations/branch', 'setting\definationsController@addBranch')->name('addBranch');
 Route::get('/getManateqByMa7afza', 'generalController@getManateqByMa7afza')
     ->name('getManateqByMa7afza');
-
+Route::get('/getCommertialnameBy3amil', 'generalController@getCommertialnameBy3amil')
+    ->name('getCommertialnameBy3amil');
+    
 
     Route::get('/tas3ir/3amil-5as', 'tas3irController@tas3ir_3amil_5as')->name('tas3ir.3amil_5as');
 Route::post('/tas3ir/save-3amel', 'tas3irController@save_3amel')->name('save_tas3ir_3amel');
@@ -83,11 +88,43 @@ Route::post('/accept_frou3_rag3_qr_save', 'frou3Controller@accept_frou3_rag3_sav
 //accounting
 
 Route::get('/frou3/accounting/mosadad', 'frou3Controller@AccountingMosadad')->name('accounting.mosadad');
-
-
+Route::post('/frou3/accounting/cancelTasdid', 'frou3Controller@cancelTasdid')->name('frou3.accounting.cancelTasdid');
 
 Route::get('/frou3/accounting/notmosadad', 'frou3Controller@AccountingNotMosadad')->name('accounting.notmosadad');
+Route::post('/frou3/accounting/tasdid', 'frou3Controller@tasdid')->name('frou3.accounting.tasdid');
+//end accounting
+
+
+
+///
 //end frou3
+
+
+
+
+// accounting
+    //3amil
+Route::get('/accounting/3amil/mosadad', 'accountingController@amilMosadad')->name('accounting.3amil.mosadad');
+Route::post('/accounting/3amil/canselTasdid', 'accountingController@amilcanselTasdid')->name('accounting.3amil.canceltasdid');
+
+Route::get('/accounting/3amil/notmosadad', 'accountingController@amilNotMosadad')->name('accounting.3amil.notmosadad');
+Route::post('/accounting/3amil/tasdid', 'accountingController@amilTasdid')->name('accounting.3amil.tasdid');
+    //end 3amil
+    //mandoub
+Route::get('/accounting/mandoubtaslim/mosadad', 'accountingController@mandoubtaslimMosadad')->name('accounting.mandoubtaslim.mosadad');
+Route::post('/accounting/mandoubtaslim/canselTasdid', 'accountingController@mandoubtaslimCanselTasdid')->name('accounting.mandoubtaslim.canceltasdid');
+
+Route::get('/accounting/mandoubtaslim/notmosadad', 'accountingController@mandoubTaslimNotMosadad')->name('accounting.mandoubtaslim.notmosadad');
+Route::post('/accounting/mandoubtaslim/tasdid', 'accountingController@mandoubTaslimTasdid')->name('accounting.mandoubtaslim.tasdid');
+            ///
+Route::get('/accounting/mandoubestlam/mosadad', 'accountingController@mandoubestlamMosadad')->name('accounting.mandoubestlam.mosadad');
+Route::post('/accounting/mandoubestlam/canselTasdid', 'accountingController@mandoubestlamcanselTasdid')->name('accounting.mandoubestlam.canceltasdid');
+
+Route::get('/accounting/mandoubestlam/notmosadad', 'accountingController@mandoubestlamNotMosadad')->name('accounting.mandoubestlam.notmosadad');
+Route::post('/accounting/mandoubestlam/tasdid', 'accountingController@mandoubestlamTasdid')->name('accounting.mandoubestlam.tasdid');
+    //mandoub
+//end Accounting
+
 
 
 
