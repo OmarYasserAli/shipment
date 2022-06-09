@@ -24,6 +24,8 @@ Route::get('/getManateqByMa7afza', 'generalController@getManateqByMa7afza')
     ->name('getManateqByMa7afza');
 Route::get('/getCommertialnameBy3amil', 'generalController@getCommertialnameBy3amil')
     ->name('getCommertialnameBy3amil');
+Route::get('/getTawsilByManteka', 'generalController@getTawsilByManteka')
+    ->name('getTawsilByManteka');   
     
 
     Route::get('/tas3ir/3amil-5as', 'tas3irController@tas3ir_3amil_5as')->name('tas3ir.3amil_5as');
@@ -38,6 +40,7 @@ Route::get('/getManateqAndTas3ir5asByMa7afza', 'tas3irController@getManateqAndTa
 Route::get('shiments', 'shipmentsController@HomePage')->name('home-page');
 Route::get('shiments/{type}', 'shipmentsController@shipments')->name('shiments');
 Route::get('shiment/create', 'shipmentsController@create')->name('shiments.create');
+Route::post('shiment/store', 'shipmentsController@store')->name('shiments.store');
 Route::get('shiment/edit', 'shipmentsController@edit')->name('shiments.edit');
 Route::get('shiment/status', 'shipmentsController@status')->name('shiments.status');
 Route::get('shiment/print', 'shipmentsController@print')->name('shiments.print');
@@ -123,6 +126,11 @@ Route::post('/accounting/mandoubestlam/canselTasdid', 'accountingController@mand
 Route::get('/accounting/mandoubestlam/notmosadad', 'accountingController@mandoubestlamNotMosadad')->name('accounting.mandoubestlam.notmosadad');
 Route::post('/accounting/mandoubestlam/tasdid', 'accountingController@mandoubestlamTasdid')->name('accounting.mandoubestlam.tasdid');
     //mandoub
+
+    //loadmore
+Route::get('/accounting/loadMore', 'accountingController@loadMore')->name('accounting.loadMore');
+
+    
 //end Accounting
 
 

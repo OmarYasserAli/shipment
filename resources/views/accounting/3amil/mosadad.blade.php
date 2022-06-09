@@ -74,10 +74,10 @@
                                 <input type="text" name="code" class="form-control form-select-sm filterByEnter"  aria-label="default input inline 1" style="width: 150px;" > 
                             </div>
                             <div class="form-inline">
-                                <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:2px; margin-top:8px; width:30px; ;">تاريخ الحالة</label>
-                                <input name="hala_date_from" type="date"  class="form-control form-select-sm "  aria-label="default input inline 1" style=""> 
+                                <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:2px; margin-top:8px; width:30px; ;">تاريخ التسديد</label>
+                                <input name="tasdid_date_from" type="date"  class="form-control form-select-sm "  aria-label="default input inline 1" style=""> 
                                 <label for="horizontal-form-1" class="form-label" style=" text-align:right!important; margin-right:3px; margin-left:5px; margin-top:8px;  ">الي</label>
-                                <input name='hala_date_to' type="date"  class="form-control form-select-sm "  aria-label="default input inline 1" style=""> 
+                                <input name='tasdid_date_to' type="date"  class="form-control form-select-sm "  aria-label="default input inline 1" style=""> 
                             </div>
                             <div class="form-inline 3amil">
                                 <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:15px; margin-top:1px; width:30px; ">العميل</label>
@@ -179,6 +179,7 @@
                             <th class="whitespace-nowrap">الاسم التجارى</th>
                             <th class="whitespace-nowrap">اسم العميل</th>
                             <th class="whitespace-nowrap">تاريخ الشحنه</th>
+                            <th class="whitespace-nowrap">تاريخ التسديد</th>
                             <th class="whitespace-nowrap">الفرع</th>
                             <th class="whitespace-nowrap">الصافى</th>
                             <th class="whitespace-nowrap">اجره الشركه</th>
@@ -197,7 +198,8 @@
                             <td class="whitespace-nowrap " >{{$shipment->reciver_phone_}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->commercial_name_}}</td>
                             <td class="whitespace-nowrap " >@if(isset($shipment->client)){{$shipment->client->name_}} @else {{$shipment->client_name_}}@endif</td>
-                            <td class="whitespace-nowrap " >{{$shipment->tarikh_el7ala}}</td>
+                            <td class="whitespace-nowrap " >{{$shipment->date_}}</td>
+                            <td class="whitespace-nowrap " >{{$shipment->tarikh_tasdid_el3amil}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->branch_}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->total_}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->tawsil_coast_}}</td>

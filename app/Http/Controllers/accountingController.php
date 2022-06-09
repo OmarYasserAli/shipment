@@ -31,11 +31,17 @@ class accountingController extends Controller
     {
         $this->middleware('auth');
     }
+    public function getAllMo7afazat(){
+
+        return Mohfza::where('branch',auth()->user()->branch)->get();
+    }   
     public function amilNotMosadad(Request $request)
     { 
         
         $user=auth()->user();
         $limit=Setting::get('items_per_page');
+        $page =0;
+        if(isset(request()->page)) $page= request()->page;
         $waselOnly=0;
         if(isset($request->waselOnly))
             $waselOnly= 1;
@@ -62,7 +68,7 @@ class accountingController extends Controller
         if(isset($request->mo7afza)){
             $shipments = $shipments->where('mo7afaza_id', '=', $request->mo7afza);       
          }
-       if(isset($request->client_id)){
+       if(isset($request->client_id) && $request->client_id!='الكل'){
         $shipments = $shipments->where('client_name_', '=', $request->client_id);       
         }
         if(isset($request->Commercial_name)){
@@ -85,12 +91,21 @@ class accountingController extends Controller
             $count_all = $counter->count();
             request()->limit=$count_all;
         }
-        $all = $all_shipments->paginate($limit ?? 10);
+        //  dd($all_shipments->skip(0)->limit(40)->get()[20]);
+        $all = $all_shipments->skip($limit*$page)->limit($limit)->get();
+        if(isset(request()->lodaMore)){
+            
+            return response()->json([
+                'status' => 200,
+                'data' => $all,
+                'message' => 'sucecss',
+            ], 200);
+        }
         
-        $all->withPath("?mo7afza={$request->mo7afza}&showAll={$request->showAll}
-        &client_id={$request->client_id}");
+        // $all->withPath("?mo7afza={$request->mo7afza}&showAll={$request->showAll}
+        // &client_id={$request->client_id}");
         
-        $mo7afazat =Mohfza::all();
+        $mo7afazat =$this->getAllMo7afazat();
         $filtered_clients = User::where('type_','عميل')->where('name_',$request->client_id)->pluck('code_')->toArray();
         $Commercial_names =Commercial_name::whereIn('code_',$filtered_clients)->groupBy('name_')->get();
             
@@ -177,10 +192,10 @@ class accountingController extends Controller
         if(isset( request()->date_to))
             $shipments= $shipments->where('date_' ,'<=' ,DATE($request->date_to) );
     
-        if(isset( request()->hala_date_from))
-            $shipments= $shipments->where('tarikh_el7ala' ,'>=',DATE( request()->hala_date_from) );
-        if(isset( request()->hala_date_to))
-            $shipments= $shipments->where('tarikh_el7ala' ,'<=',DATE( request()->hala_date_to) );
+        if(isset( request()->tasdid_date_from))
+            $shipments= $shipments->where('tarikh_tasdid_el3amil' ,'>=',DATE( request()->tasdid_date_from) );
+        if(isset( request()->tasdid_date_to))
+            $shipments= $shipments->where('tarikh_tasdid_el3amil' ,'<=',DATE( request()->tasdid_date_to) );
             
             
         if(request()->showAll == 'on'){
@@ -192,7 +207,7 @@ class accountingController extends Controller
         $all = $all_shipments->paginate(request()->limit ?? Setting::get('items_per_page'));
         
         $all->withPath("?limit={$request->limit}&branch={$brach_filter}&mo7afza={$request->mo7afza}&showAll={$request->showAll}");
-        $mo7afazat =Mohfza::all();
+        $mo7afazat =$this->getAllMo7afazat();
         $clients =User::where('type_','عميل')->get();
         $filtered_clients = User::where('type_','عميل')->where('name_',$request->client_id)->pluck('code_')->toArray();
         $Commercial_names =Commercial_name::whereIn('code_',$filtered_clients)->groupBy('name_')->get();
@@ -270,9 +285,9 @@ class accountingController extends Controller
             $u = User::where('name_',$request->client_id)->first();
             $shipments = $shipments->where('Delivery_Delivered_Shipment_ID', '=', $u->code_);       
         }
-        if(isset($request->Commercial_name)){
-            $shipments = $shipments->where('commercial_name_', '=', $request->Commercial_name);       
-            }
+        // if(isset($request->Commercial_name)){
+        //     $shipments = $shipments->where('commercial_name_', '=', $request->Commercial_name);       
+        //     }
         $all_shipments = $shipments;
         
         if(isset( request()->date_from))
@@ -295,7 +310,7 @@ class accountingController extends Controller
         $all = $all_shipments->paginate(request()->limit ?? Setting::get('items_per_page'));
         
         $all->withPath("?mo7afza={$request->mo7afza}&showAll={$request->showAll}");
-        $mo7afazat =Mohfza::all();
+        $mo7afazat =$this->getAllMo7afazat();
         $clients =User::where('type_','مندوب تسليم')->get();
         $filtered_clients = User::where('type_','عميل')->where('name_',$request->client_id)->pluck('code_')->toArray();
         $Commercial_names =Commercial_name::whereIn('code_',$filtered_clients)->groupBy('name_')->get();
@@ -371,9 +386,9 @@ class accountingController extends Controller
             $u = User::where('name_',$request->client_id)->first();
             $shipments = $shipments->where('Delivery_Delivered_Shipment_ID', '=', $u->code_);       
         }
-        if(isset($request->Commercial_name)){
-            $shipments = $shipments->where('commercial_name_', '=', $request->Commercial_name);       
-            }
+        // if(isset($request->Commercial_name)){
+        //     $shipments = $shipments->where('commercial_name_', '=', $request->Commercial_name);       
+        //     }
         $all_shipments = $shipments;
         
         if(isset( request()->date_from))
@@ -381,10 +396,10 @@ class accountingController extends Controller
         if(isset( request()->date_to))
             $shipments= $shipments->where('date_' ,'<=' ,DATE($request->date_to) );
     
-        if(isset( request()->hala_date_from))
-            $shipments= $shipments->where('tarikh_el7ala' ,'>=',DATE( request()->hala_date_from) );
-        if(isset( request()->hala_date_to))
-            $shipments= $shipments->where('tarikh_el7ala' ,'<=',DATE( request()->hala_date_to) );
+        if(isset( request()->tasdid_date_from))
+            $shipments= $shipments->where('tarikh_tasdid_mandoub_eltaslim' ,'>=',DATE( request()->tasdid_date_from) );
+        if(isset( request()->tasdid_date_to))
+            $shipments= $shipments->where('tarikh_tasdid_mandoub_eltaslim' ,'<=',DATE( request()->tasdid_date_to) );
             
             if(request()->showAll == 'on'){
                 
@@ -395,7 +410,7 @@ class accountingController extends Controller
         $all = $all_shipments->paginate(request()->limit ?? Setting::get('items_per_page'));
         
         $all->withPath("?limit={$request->limit}&branch={$brach_filter}&mo7afza={$request->mo7afza}&showAll={$request->showAll}");
-        $mo7afazat =Mohfza::all();
+        $mo7afazat =$this->getAllMo7afazat();
         $clients =User::where('type_','مندوب تسليم')->get();
         $filtered_clients = User::where('type_','مندوب تسليم')->where('name_',$request->client_id)->pluck('code_')->toArray();
         $Commercial_names =Commercial_name::whereIn('code_',$filtered_clients)->groupBy('name_')->get();
@@ -476,9 +491,9 @@ class accountingController extends Controller
                 $u = User::where('name_',$request->client_id)->first();
                 $shipments = $shipments->where('Delivery_take_shipment_ID', '=', $u->code_);       
             }
-            if(isset($request->Commercial_name)){
-                $shipments = $shipments->where('commercial_name_', '=', $request->Commercial_name);       
-                }
+            // if(isset($request->Commercial_name)){
+            //     $shipments = $shipments->where('commercial_name_', '=', $request->Commercial_name);       
+            //     }
             $all_shipments = $shipments;
             
             if(isset( request()->date_from))
@@ -500,7 +515,7 @@ class accountingController extends Controller
         $all = $all_shipments->paginate(request()->limit ?? Setting::get('items_per_page'));
         
         $all->withPath("?limit={$request->limit}&branch={$brach_filter}&mo7afza={$request->mo7afza}&showAll={$request->showAll}");
-        $mo7afazat =Mohfza::all();
+        $mo7afazat =$this->getAllMo7afazat();
         $clients =User::where('type_','مندوب استلام')->get();
         $filtered_clients = User::where('type_','مندوب استلام')->where('name_',$request->client_id)->pluck('code_')->toArray();
         $Commercial_names =Commercial_name::whereIn('code_',$filtered_clients)->groupBy('name_')->get();
@@ -579,9 +594,9 @@ class accountingController extends Controller
             $u = User::where('name_',$request->client_id)->first();
             $shipments = $shipments->where('Delivery_take_shipment_ID', '=', $u->code_);       
         }
-        if(isset($request->Commercial_name)){
-            $shipments = $shipments->where('commercial_name_', '=', $request->Commercial_name);       
-            }
+        // if(isset($request->Commercial_name)){
+        //     $shipments = $shipments->where('commercial_name_', '=', $request->Commercial_name);       
+        //     }
         $all_shipments = $shipments;
         
         if(isset( request()->date_from))
@@ -589,10 +604,10 @@ class accountingController extends Controller
         if(isset( request()->date_to))
             $shipments= $shipments->where('date_' ,'<=' ,DATE($request->date_to) );
     
-        if(isset( request()->hala_date_from))
-            $shipments= $shipments->where('tarikh_el7ala' ,'>=',DATE( request()->hala_date_from) );
-        if(isset( request()->hala_date_to))
-                $shipments= $shipments->where('tarikh_el7ala' ,'<=',DATE( request()->hala_date_to) );
+        if(isset( request()->tasdid_date_from))
+            $shipments= $shipments->where('tarikh_tasdid_mandoub_elestlam' ,'>=',DATE( request()->tasdid_date_from) );
+        if(isset( request()->tasdid_date_to))
+                $shipments= $shipments->where('tarikh_tasdid_mandoub_elestlam' ,'<=',DATE( request()->tasdid_date_to) );
                 
                 
         if(request()->showAll == 'on'){
@@ -604,7 +619,7 @@ class accountingController extends Controller
         $all = $all_shipments->paginate(request()->limit ?? Setting::get('items_per_page'));
         
         $all->withPath("?limit={$request->limit}&branch={$brach_filter}&mo7afza={$request->mo7afza}&showAll={$request->showAll}");
-        $mo7afazat =Mohfza::all();
+        $mo7afazat =$this->getAllMo7afazat();
         $clients =User::where('type_','مندوب استلام')->get();
         $filtered_clients = User::where('type_','مندوب استلام')->where('name_',$request->client_id)->pluck('code_')->toArray();
         $Commercial_names =Commercial_name::whereIn('code_',$filtered_clients)->groupBy('name_')->get();
@@ -648,4 +663,97 @@ class accountingController extends Controller
             ], 200); 
     }
      //end acc
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     public function loadMore(Request $request)
+    { 
+        
+        $user=auth()->user();
+        $limit=Setting::get('items_per_page');
+        $waselOnly=0;
+        if(isset($request->waselOnly))
+            $waselOnly= 1;
+            
+        if(isset(request()->limit ))   $limit =request()->limit;
+        $shipments = Shipment::select('*')
+                                    ->where('status_','!=',8)
+                                    
+                                    ->where('el3amil_elmosadad','')    // مسدد
+                                    ->where('branch_', '=', $user->branch)->with(['client']);
+
+        if($waselOnly)
+            $shipments = $shipments->where('status_' ,'=',7) ;
+        else
+            $shipments = $shipments->where('status_' ,'!=',8) ;
+ 
+        if(isset($request->code)){
+           $shipments = $shipments->where('code_', '=', $request->code);       
+        }
+        if(isset($request->reciver_phone)){
+            $shipments = $shipments->where('reciver_phone_', '=', $request->reciver_phone);       
+         }
+        
+        if(isset($request->mo7afza)){
+            $shipments = $shipments->where('mo7afaza_id', '=', $request->mo7afza);       
+         }
+       if(isset($request->client_id)){
+        $shipments = $shipments->where('client_name_', '=', $request->client_id);       
+        }
+        if(isset($request->Commercial_name)){
+            $shipments = $shipments->where('commercial_name_', '=', $request->Commercial_name);       
+            }
+        $all_shipments = $shipments;
+        
+        if(isset( request()->date_from))
+            $shipments= $shipments->where('date_' ,'>=',DATE($request->date_from) );
+        if(isset( request()->date_to))
+            $shipments= $shipments->where('date_' ,'<=' ,DATE($request->date_to) );
+       
+        if(isset( request()->hala_date_from))
+            $shipments= $shipments->where('tarikh_el7ala' ,'>=',DATE( request()->hala_date_from) );
+        if(isset( request()->hala_date_to))
+            $shipments= $shipments->where('tarikh_el7ala' ,'<=',DATE( request()->hala_date_to) );
+    
+        if(request()->showAll == 'on'){
+            $counter= $all_shipments->get();
+            $count_all = $counter->count();
+            request()->limit=$count_all;
+        }
+        $all = $all_shipments->skip($limit*request()->page)->limit($limit)->get();
+        return response()->json([
+            'status' => 200,
+            'data' => $all,
+            'message' => 'sucecss',
+        ], 200);
+        
+        // $all = $all_shipments->paginate($limit ?? 10);
+        
+        // $all->withPath("?mo7afza={$request->mo7afza}&showAll={$request->showAll}
+        // &client_id={$request->client_id}");
+        
+        // $mo7afazat =$this->getAllMo7afazat();
+        // $filtered_clients = User::where('type_','عميل')->where('name_',$request->client_id)->pluck('code_')->toArray();
+        // $Commercial_names =Commercial_name::whereIn('code_',$filtered_clients)->groupBy('name_')->get();
+            
+        
+        // $clients =User::where('type_','عميل')->get();
+        // $status_color=Setting::whereIN('name',['status_6_color','status_1_color','status_2_color','status_3_color'
+        // ,'status_4_color','status_7_color','status_8_color','status_9_color'])->get()->keyBy('name')->pluck('val','name');
+        // $css_prop = Setting::get('status_css_prop');
+        //  dd($status_color);
+        // $page_title='الشحنات الغير مسددة للعميل';
+        //return view('accounting.3amil.notmosadad',compact('all','mo7afazat','waselOnly','page_title','Commercial_names','clients','status_color','css_prop'));
+    }
 }

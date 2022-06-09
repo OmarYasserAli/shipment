@@ -66,13 +66,13 @@
                                     <form method="post" action="{{ route('settings.store') }}" role="form">
                                {!! csrf_field() !!}
                                 @foreach($settings as $setting)
-                                    @if($setting->name=='status_css_prop') @continue @endif
+                                    @if($setting->name=='status_css_prop' ||  $setting->name=='shipment_code_ai') @continue @endif
                                         <div class=" mt-3">
                                             <label for="regular-form-1" class="form-label" style="width: 150px;">{{$setting->read_name}}</label>
                                             <input type="{{$setting->type}}" name="{{$setting->name}}" value="{{$setting->val}}" class="form-control form-select-sm filterByEnter"  aria-label="default input inline 1" style="width: 150px; height:45px;" > 
                                         </div>
                                 @endforeach
-                               
+                               <?php $setting = $settings['status_css_prop']?>
                                 <div class=" mt-3">
                                     <label for="regular-form-1" class="form-label" style="width: 150px;">{{$setting->read_name}}</label>
                                     <select name="{{$setting->name}}" id="" class="form-control form-select-sm filterByEnter"  aria-label="default input inline 1" style="width: 150px; height:45px;">
@@ -80,6 +80,12 @@
                                         <option value="color" @if($settings['status_css_prop']->val=='color') selected @endif>font color </option>
                                     </select>
                                 </div>
+                                <?php $setting = $settings['shipment_code_ai']?>
+                                <div class=" mt-3">
+                                    <label for="regular-form-1" class="form-label" style="width: 150px;">{{$setting->read_name}}</label>
+                                    <input type="{{$setting->type}}" name="{{$setting->name}}"  class="form-control form-select-sm filterByEnter"  aria-label="default input inline 1" style="width: 150px; height:45px;" @if($setting->val == 1) checked @endif> 
+                                </div>
+                                
                                 <button class="btn btn-primary mt-5">Save</button>  
                             </form>
                                 </div>

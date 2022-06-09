@@ -449,6 +449,12 @@
                                    
                                 </ul>
                             </li>
+                            <li>
+                                <a href="{{route('settings')}}" class="side-menu">
+                                    <div class="side-menu__icon"> <i data-lucide="activity"></i> </div>
+                                    <div class="side-menu__title"> اعدادات الموقع</div>
+                                </a>
+                            </li>
                             
                             
                         </ul>

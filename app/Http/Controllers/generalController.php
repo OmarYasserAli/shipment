@@ -7,6 +7,9 @@ use App\Models\Mohfza;
 use App\Models\Mantikqa;
 use App\User;
 use App\Models\Commercial_name;
+use App\Models\AddClientsMainComp;
+use Illuminate\Support\Facades\DB;
+
 class generalController extends Controller
 {
     /**
@@ -26,9 +29,15 @@ class generalController extends Controller
      */
     public function getManateqByMa7afza( )
     {
+        $user= auth()->user();
         $mo7afza=request()->mo7afza;
-        
-        $manatek =Mantikqa::with('Tas3ir_3amil' ,'Tas3ir_ta7wel')->where('mo7afza',$mo7afza)->where('branch','الفرع الرئيسى')->get();
+        if(request()->bycode=="1"){
+            $chosen_Mohfza=Mohfza::where('code',$mo7afza)->first();
+           
+            $manatek =Mantikqa::with('Tas3ir_3amil' ,'Tas3ir_ta7wel')->where('mo7afza',$chosen_Mohfza->name)->where('branch',$user->branch)->get();
+        }
+        else
+            $manatek =Mantikqa::with('Tas3ir_3amil' ,'Tas3ir_ta7wel')->where('mo7afza',$mo7afza)->where('branch',$user->branch)->get();
 
         return response()->json([
             'status' => 200,
@@ -41,8 +50,12 @@ class generalController extends Controller
     public function getCommertialnameBy3amil( )
     {
         $client_id=request()->client_id;
+    
+        if(request()->bycode=="1"){
         
-        $filtered_clients = User::where('type_','عميل')->where('name_',$client_id)->pluck('code_')->toArray();
+            $filtered_clients = User::where('type_','عميل')->where('code_',$client_id)->pluck('code_')->toArray();
+        }else
+            $filtered_clients = User::where('type_','عميل')->where('name_',$client_id)->pluck('code_')->toArray();
         
         $Commercial_names =Commercial_name::whereIn('code_',$filtered_clients)->groupBy('name_')->get();
 
@@ -53,6 +66,38 @@ class generalController extends Controller
             'sum' => count($Commercial_names),
         ], 200); 
         
+    }
+    public function getTawsilByManteka(){
+        $user= auth()->user();
+        $mo7afza=request()->mo7afza_id;
+        $manatek=request()->manteka_id;
+        if(request()->bycode=="1"){
+            
+            $mo7afza=Mohfza::where('code',$mo7afza)->first()->name;
+            $manatek=Mantikqa::where('code',$manatek)->first()->name;
+           
+           
+        }
+        $isSprecial = AddClientsMainComp::where('mantqa',$manatek)->where('mo7fza',$mo7afza)->where('Branch_name', $user->branch)->first()->Special_prices;
+        if($isSprecial == 'لا'){
+            $price = DB::table('prices_tb')
+            ->where('area_name_', $manatek)
+            ->where('city_name_',$mo7afza)
+            ->where('branch', $user->branch)
+            ->select('price_')->first()->price_;
+        }else{
+            $price = DB::table('prices_tb')
+            ->where('area_name_', $manatek)
+            ->where('city_name_',$mo7afza)
+            ->where('mandoub_ID', $user->code_)
+            ->select('price_')->first()->price_;
+        }
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'success',
+            'all' => $price,
+        ], 200); 
     }
 
     

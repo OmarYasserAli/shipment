@@ -16,7 +16,7 @@ use App\User;
 use App\Models\Branch_user;
 
 use Carbon\Carbon;
-
+use App\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -186,6 +186,8 @@ class shipmentsController extends Controller
             
         
     }
+
+    
 
     public function accounting(Request $request)
     {
@@ -987,10 +989,59 @@ class shipmentsController extends Controller
 
 
     public function create(){
-        return view('shipments.create');
+        $user = auth()->user();
+        $clients = User::where('type_','عميل')->where('branch', $user->branch)->get();
+        $mo7afazat =Mohfza::where('branch',$user->branch)->get();
+        $now = Carbon::now();
+        $code_ai=Setting::get('shipment_code_ai');
+        return view('shipments.create',compact('clients','mo7afazat','now','code_ai'));
+    }
+    public function store(Request $request){
+
+        $validated = $request->validate([
+            'reciver_name_' => 'required',
+            'client_id' => 'required',
+            'mo7afza' => 'required',
+            'manteka' => 'required',
+            'date' => 'required',
+        ]);
+        $user= auth()->user();
+        $shipment = new Shipment();
+        $shipment->date_   = $request->date;
+        $shipment->tarikh_el7ala   = $request->date;
+        $shipment->reciver_name_   = $request->reciver_name_;
+        $shipment->client_ID_   = $request->client_id;
+        
+        $client = USer::where('code_',$request->client_id)->first();
+        $shipment->client_ID_   = $client->code_;
+        $shipment->clinet_phone_   = $client->name_;
+        $shipment->reciver_name_   = $request->reciver_name;
+        
+        $shipment->mo7afaza_id   = $request->mo7afza;
+        $shipment->mantika_id   = $request->manteka;
+        $mo7afzaName=Mohfza::where('code',$mo7afza)->first()->name;
+        $manatekName=Mantikqa::where('code',$manatek)->first()->name;
+        $shipment->mo7afza_   = $mo7afzaName;
+        $shipment->mantqa_   = $manatekName;
+        $shipment->Ship_area_   = $user->branch;
+        $shipment->branch_   = $user->branch;
+        $shipment->status_   = 1;
+        $shipment->el3nwan=$request->el3nwan;
+        $shipment->elmantqa_el3nwan=$manatekName."/".$request->el3nwan;
+        
+        
+        $shipment->save();
+        return redirect()->back()->with('status', 'Settings has been saved.');
+        
     }
     public function edit(){
 
+
+        // تحويل اول  => transfere 1
+        // استقطاع اول  => transfere_cost_1
+
+        // تحويل تانى  => transfere 2
+        // استقطاع تانى  => transfere_cost_2
     }
     public function status(){
 
