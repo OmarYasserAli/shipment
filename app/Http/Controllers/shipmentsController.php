@@ -30,6 +30,10 @@ class shipmentsController extends Controller
     {
         $this->middleware('auth');
     }
+    public function getAllMo7afazat(){
+
+        return Mohfza::where('branch',auth()->user()->branch)->get();
+    } 
     public function HomePage(Request $request)
     {
        
@@ -997,7 +1001,7 @@ class shipmentsController extends Controller
         return view('shipments.create',compact('clients','mo7afazat','now','code_ai'));
     }
     public function store(Request $request){
-
+       
         $validated = $request->validate([
             'reciver_name_' => 'required',
             'client_id' => 'required',
@@ -1005,22 +1009,27 @@ class shipmentsController extends Controller
             'manteka' => 'required',
             'date' => 'required',
         ]);
+        // dd($request->all());
         $user= auth()->user();
         $shipment = new Shipment();
         $shipment->date_   = $request->date;
         $shipment->tarikh_el7ala   = $request->date;
-        $shipment->reciver_name_   = $request->reciver_name_;
+        // $shipment->date_   = $request->date;
+        $shipment->reciver_phone_   = $request->reciver_phone_;
         $shipment->client_ID_   = $request->client_id;
+        if(!Setting::get('shipment_code_ai'))
+            $shipment->code_   = $request->code;
         
+            $shipment->serial_ 	 = $request->code;
         $client = USer::where('code_',$request->client_id)->first();
         $shipment->client_ID_   = $client->code_;
         $shipment->clinet_phone_   = $client->name_;
-        $shipment->reciver_name_   = $request->reciver_name;
-        
+        $shipment->reciver_name_   = $request->reciver_name_;
+        $shipment->Commercial_name = $request->Commercial_name;
         $shipment->mo7afaza_id   = $request->mo7afza;
         $shipment->mantika_id   = $request->manteka;
-        $mo7afzaName=Mohfza::where('code',$mo7afza)->first()->name;
-        $manatekName=Mantikqa::where('code',$manatek)->first()->name;
+        $mo7afzaName=Mohfza::where('code',$shipment->mo7afaza_id)->first()->name;
+        $manatekName=Mantikqa::where('code',$shipment->mantika_id )->first()->name;
         $shipment->mo7afza_   = $mo7afzaName;
         $shipment->mantqa_   = $manatekName;
         $shipment->Ship_area_   = $user->branch;
@@ -1028,20 +1037,195 @@ class shipmentsController extends Controller
         $shipment->status_   = 1;
         $shipment->el3nwan=$request->el3nwan;
         $shipment->elmantqa_el3nwan=$manatekName."/".$request->el3nwan;
-        
-        
+        $shipment->shipment_coast_=$request->shipment_coast_;
+        $shipment->tawsil_coast_=$request->tawsil_coast_;
+        $shipment->total_=$request->total_;
+        $shipment->notes_  =    $request->notes_;
         $shipment->save();
+        return response()->json([
+            'status' => 200,
+            'message' => '',
+        ],200);
         return redirect()->back()->with('status', 'Settings has been saved.');
         
     }
-    public function edit(){
 
+    public function isCodeUsed(Request $request){
+       
+        if(Shipment::where('code_',$request->code)->get()->count() >0 ){
+            return response()->json([
+                'status' => 200,
+                'data' => true,
+            ], 200);
+        }
+        return response()->json([
+            'status' => 200,
+            'data' => false,
+        ], 200);
+    }
+    public function editView(Request $request){
+        $user=auth()->user();
+        $limit=Setting::get('items_per_page');
+        $page =0;
+        if(isset(request()->page)) $page= request()->page;
+        $waselOnly=0;
+        if(isset($request->waselOnly))
+            $waselOnly= 1;
+            
+        if(isset(request()->limit ))   $limit =request()->limit;
+        $shipments = Shipment::select('*')
 
+                                    ->where('branch_', '=', $user->branch)->with(['client']);
+
+        if($waselOnly)
+            $shipments = $shipments->where('status_' ,'=',7) ;
+        
+ 
+        if(isset($request->code)){
+           $shipments = $shipments->where('code_', '=', $request->code);       
+        }
+        if(isset($request->reciver_phone)){
+            $shipments = $shipments->where('reciver_phone_', '=', $request->reciver_phone);       
+         }
+        
+        if(isset($request->mo7afza)){
+            $shipments = $shipments->where('mo7afaza_id', '=', $request->mo7afza);       
+         }
+       if(isset($request->branch_) ){
+        $shipments = $shipments->where('branch_', '=', $request->branch_);       
+        }
+        if(isset($request->Commercial_name)){
+            $shipments = $shipments->where('commercial_name_', '=', $request->Commercial_name);       
+            }
+        $all_shipments = $shipments;
+        
+        if(isset( request()->date_from))
+            $shipments= $shipments->where('date_' ,'>=',DATE($request->date_from) );
+        if(isset( request()->date_to))
+            $shipments= $shipments->where('date_' ,'<=' ,DATE($request->date_to) );
+       
+        if(isset( request()->hala_date_from))
+            $shipments= $shipments->where('tarikh_el7ala' ,'>=',DATE( request()->hala_date_from) );
+        if(isset( request()->hala_date_to))
+            $shipments= $shipments->where('tarikh_el7ala' ,'<=',DATE( request()->hala_date_to) );
+    
+        if(request()->showAll == 'on'){
+            $counter= $all_shipments->get();
+            $count_all = $counter->count();
+            request()->limit=$count_all;
+        }
+        //  dd($all_shipments->skip(0)->limit(40)->get()[20]);
+        $totalCost = $all_shipments->sum('shipment_coast_');
+        $tawsilCost = $all_shipments->sum('tawsil_coast_');
+        $allCount = $all_shipments->count();
+        $netCost =  $totalCost-$tawsilCost;
+        $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];
+        $all = $all_shipments->skip($limit*$page)->limit($limit)->get();
+        if(isset(request()->lodaMore)){
+            
+            return response()->json([
+                'status' => 200,
+                'data' => $all,
+                'message' => 'sucecss',
+                'sums'=>$sums
+            ], 200);
+        }
+        
+        // $all->withPath("?mo7afza={$request->mo7afza}&showAll={$request->showAll}
+        // &client_id={$request->client_id}");
+        
+        $mo7afazat =$this->getAllMo7afazat();
+        $filtered_clients = User::where('type_','عميل')->where('name_',$request->client_id)->pluck('code_')->toArray();
+        $Commercial_names =Commercial_name::whereIn('code_',$filtered_clients)->groupBy('name_')->get();
+            
+        
+        $clients =User::where('type_','عميل')->get();
+        $status_color=Setting::whereIN('name',['status_6_color','status_1_color','status_2_color','status_3_color'
+        ,'status_4_color','status_7_color','status_8_color','status_9_color'])->get()->keyBy('name')->pluck('val','name');
+        $css_prop = Setting::get('status_css_prop');
+        //  dd($status_color);
+        $page_title='الشحنات الغير مسددة للعميل';
+        return view('shipments.editview',compact('all','mo7afazat','waselOnly','page_title','Commercial_names',
+        'clients','status_color','css_prop','sums'));
+    }
+    public function edit(int $code){
+
+        $shipment = Shipment::where('code_',$code)->first();
+        $user = auth()->user();
+        $clients = User::where('type_','عميل')->where('branch', $user->branch)->get();
+        $mo7afazat =Mohfza::where('branch',$user->branch)->get();
+        $now = Carbon::now();
+        $code_ai=Setting::get('shipment_code_ai');
+        
+        return view('shipments.edit',compact('shipment' ,'clients','mo7afazat','now','code_ai'));
         // تحويل اول  => transfere 1
         // استقطاع اول  => transfere_cost_1
 
         // تحويل تانى  => transfere 2
         // استقطاع تانى  => transfere_cost_2
+    }
+    public function update(Request $request){
+               
+        $validated = $request->validate([
+            'reciver_name_' => 'required',
+            'client_id' => 'required',
+            'mo7afza' => 'required',
+            //'manteka' => 'required',
+            'date' => 'required',
+        ]);
+        // dd($request->all());
+        $user= auth()->user();
+        $shipment = Shipment::where('code_',$request->code)->first();
+        $shipment->date_   = $request->date;
+        $shipment->tarikh_el7ala   = $request->date;
+        // $shipment->date_   = $request->date;
+        
+        $shipment->client_ID_   = $request->client_id;
+        // if(!Setting::get('shipment_code_ai'))
+        //     $shipment->code_   = $request->code;
+        
+            // $shipment->serial_ 	 = $request->code;
+        $client = USer::where('code_',$request->client_id)->first();
+        $shipment->client_ID_   = $client->code_;
+        $shipment->clinet_phone_   = $client->name_;
+        $shipment->reciver_name_   = $request->reciver_name_;
+        $shipment->reciver_phone_   = $request->reciver_phone_;
+        if(isset($request->Commercial_name)){
+           $shipment->Commercial_name = $request->Commercial_name;
+        }
+        $shipment->mo7afaza_id   = $request->mo7afza;
+        
+        $mo7afzaName=Mohfza::where('code',$shipment->mo7afaza_id)->first()->name;
+
+        if(isset($request->manteka)){
+            $shipment->mantika_id   = $request->manteka;
+            $manatekName=Mantikqa::where('code',$shipment->mantika_id )->first()->name;
+            $shipment->mantqa_   = $manatekName;
+        }else{
+            $manatekName= $shipment->mantqa_;
+        }
+        $shipment->mo7afza_   = $mo7afzaName;
+        
+        $shipment->Ship_area_   = $user->branch;
+        $shipment->branch_   = $user->branch;
+        //$shipment->status_   = 1;
+        $shipment->el3nwan=$request->el3nwan;
+        $shipment->elmantqa_el3nwan=$manatekName."/".$request->el3nwan;
+        
+        $shipment->shipment_coast_=$request->shipment_coast_;
+        $shipment->tawsil_coast_=$request->tawsil_coast_;
+        $shipment->total_=$request->total_;
+        $shipment->notes_  =    $request->notes_;
+        
+        $shipment->transfere_1  =    $request->transfere_1;
+        $shipment->transfere_2  =    $request->transfere_2;
+        $shipment->transfer_coast_1  =    $request->transfer_coast_1;
+        $shipment->transfer_coast_2  =    $request->transfer_coast_2;
+
+        
+        $shipment->save();
+        
+        return redirect()->back()->with('status', 'تم حفظ التعديلات');
     }
     public function status(){
 

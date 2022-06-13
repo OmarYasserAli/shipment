@@ -115,9 +115,9 @@
                                 </div>
                                 <div class="form-inline">
                                     <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:2px; margin-top:1px; width:30px; ">تاريخ الشحنه </label>
-                                    <input name="hala_date_from" type="date"  class="form-control form-select-sm "  aria-label="default input inline 1" style=""> 
+                                    <input name="date_from" type="date"  class="form-control form-select-sm "  aria-label="default input inline 1" style=""> 
                                     <label for="horizontal-form-1" class="form-label" style=" text-align:right!important; margin-right:3px; margin-left:5px; margin-top:1px;  ">الي</label>
-                                    <input name="hala_date_to" type="date"  class="form-control form-select-sm "  aria-label="default input inline 1" style=""> 
+                                    <input name="date_to" type="date"  class="form-control form-select-sm "  aria-label="default input inline 1" style=""> 
                                 </div>
                                 <div class="form-inline">
                                     <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:10px; margin-top:8px;  width:64px; ">الاسم التجاري</label>
@@ -231,17 +231,30 @@
         {{-- {!! $all->render() !!} --}}
     </div>
     <div style="background-color:#fff;  opacity: 1;position: fixed; bottom:0px; z-index:999; width:79%;" class="flex h-12 pt-3 rounded ">
-        <div class="mr-6" style="margin-left: 10px;">اجمالى مبالخ الشحنات</div>
+        <div class="mr-6" style="margin-left: 10px;">اجمالى مبالy الشحنات</div>
         <div class="total_cost" style="margin-left: 40px;"><input type="text" disabled class="h-6 w-40" id="total_cost" value="0"></div>
-        <div class="f" style="margin-left: 10px;">اجمالى مبالغ التحويل</div>
+        <div class="f" style="margin-left: 10px;">اجمالى أجرة الشركة</div>
         <div class="total_tawsil" style="margin-left: 40px;"><input type="text" disabled class="h-6 w-40" id="total_tawsil" value="0"></div>
         <div class=" " style="margin-left: 10px;">اجمالى الصافى</div>
         <div class="total_net" style="margin-left: 40px;"><input type="text" disabled class="h-6 w-40" id='total_net' value="0"></div>
         <div class=" " style="margin-left: 10px; margin-right: auto;">مجموع عدد الشحنات</div>
         <div class=""> <input type="text" disabled class="h-6 w-16" id="total_cnt" value="0"></div>
 
-        <div class=" " style="margin-left: 10px; margin-right: auto;">مجموع عدد الشحنات</div>
-        <div class=""> <input type="text" disabled class="h-6 w-16" id="rows_counter" value="0" style="margin-left: 10px;"></div>
+        
+            <div style="margin-right:auto; margin-left:10px; margin-bottom:5px;"  class="dropdown inline-block" data-tw-placement="top"> <button class="dropdown-toggle btn btn-primary w-26 mr-1  h-6" aria-expanded="false" data-tw-toggle="dropdown"> اجماليات</button>
+                <div class="dropdown-menu w-60">
+                    <ul class="dropdown-content">
+                        <li> <a  class="dropdown-item"><span>{{$sums['totalCost']}}</span> <span style="margin-left:auto;">مبلغ الشحنات </span></a> </li>
+                        <li> <a  class="dropdown-item"><span>{{$sums['tawsilCost']}}</span>   <span style="margin-left:auto;">أجرة الشركة</span> </a> </li>
+                        <li> <a  class="dropdown-item"><span>{{$sums['netCost']}}</span>   <span style="margin-left:auto;">الصافى</span>   </a> </li>
+                        <li> <a  class="dropdown-item"><span>{{$sums['allCount']}}</span>   <span style="margin-left:auto;">عدد الشحنات</span> </a> </li>
+
+                        
+                        
+                    </ul>
+                </div>
+            </div>
+        
     </div>
 </div>
 
@@ -258,7 +271,7 @@
                 @if(!isset(request()->client_id ) || isset(request()->client_id) !='الكل' )
                      myModal.show();
                 @endif
-                rows_counter()
+                // rows_counter()
             });
             
             $( "#modal_close" ).click(function() {
@@ -289,7 +302,7 @@
                     }else{
                         window.location.href = "{{route('accounting.3amil.notmosadad')}}?client_id="+client_id;
                     }
-                    rows_counter()
+                    // rows_counter()
             });
             $( "#msg_modal_close" ).click(function() {
                 const msg_Modal = tailwind.Modal.getOrCreateInstance(document.querySelector("#msg_modal"));
@@ -431,7 +444,7 @@
                             i++;
 
                         }
-                        rows_counter()
+                        // rows_counter()
                     });
                     }
                 });
@@ -587,16 +600,16 @@
                                             );
 
                             
-                            rows_counter()
+                            //rows_counter()
                     });
                 })
                 .fail(function (jqXHR, ajaxOptions, thrownError) {
                     console.log('Server error occured');
                 });
             }
-            function rows_counter(){
-                $('#rows_counter').val($('#dataTable tr').length-1)
-            }
+            // function rows_counter(){
+            //     $('#rows_counter').val($('#dataTable tr').length-1)
+            // }
 
                
             </script>

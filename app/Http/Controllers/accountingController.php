@@ -68,8 +68,8 @@ class accountingController extends Controller
         if(isset($request->mo7afza)){
             $shipments = $shipments->where('mo7afaza_id', '=', $request->mo7afza);       
          }
-       if(isset($request->client_id) && $request->client_id!='الكل'){
-        $shipments = $shipments->where('client_name_', '=', $request->client_id);       
+       if(isset($request->branch_) && $request->branch_!='الكل'){
+        $shipments = $shipments->where('branch_', '=', $request->branch_);       
         }
         if(isset($request->Commercial_name)){
             $shipments = $shipments->where('commercial_name_', '=', $request->Commercial_name);       
@@ -92,6 +92,11 @@ class accountingController extends Controller
             request()->limit=$count_all;
         }
         //  dd($all_shipments->skip(0)->limit(40)->get()[20]);
+        $totalCost = $all_shipments->sum('shipment_coast_');
+        $tawsilCost = $all_shipments->sum('tawsil_coast_');
+        $allCount = $all_shipments->count();
+        $netCost =  $totalCost-$tawsilCost;
+        $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];
         $all = $all_shipments->skip($limit*$page)->limit($limit)->get();
         if(isset(request()->lodaMore)){
             
@@ -99,6 +104,7 @@ class accountingController extends Controller
                 'status' => 200,
                 'data' => $all,
                 'message' => 'sucecss',
+                'sums'=>$sums
             ], 200);
         }
         
@@ -116,7 +122,8 @@ class accountingController extends Controller
         $css_prop = Setting::get('status_css_prop');
         //  dd($status_color);
         $page_title='الشحنات الغير مسددة للعميل';
-        return view('accounting.3amil.notmosadad',compact('all','mo7afazat','waselOnly','page_title','Commercial_names','clients','status_color','css_prop'));
+        return view('accounting.3amil.notmosadad',compact('all','mo7afazat','waselOnly','page_title','Commercial_names',
+        'clients','status_color','css_prop','sums'));
     }
     public function amilTasdid(Request $request){
         
@@ -149,10 +156,12 @@ class accountingController extends Controller
     { 
         
         $user=auth()->user();
-        $limit=10;
+        $limit=Setting::get('items_per_page');
+        $page =0;
+        if(isset(request()->page)) $page= request()->page;
         $brach_filter = 'الفرع الرئيسى';
-        if(isset($request->branch))
-            $brach_filter= $request->branch;
+        // if(isset($request->branch))
+        //     $brach_filter= $request->branch;
         $waselOnly=0;
         if(isset($request->waselOnly))
             $waselOnly= 1;
@@ -179,7 +188,7 @@ class accountingController extends Controller
         if(isset($request->mo7afza)){
             $shipments = $shipments->where('mo7afaza_id', '=', $request->mo7afza);       
         }
-        if(isset($request->client_id)){
+        if(isset($request->client_id) && $request->client_id!='الكل'){
             $shipments = $shipments->where('client_name_', '=', $request->client_id);       
         }
         if(isset($request->Commercial_name)){
@@ -204,9 +213,21 @@ class accountingController extends Controller
             $count_all = $counter->count();
             request()->limit=$count_all;
         }
-        $all = $all_shipments->paginate(request()->limit ?? Setting::get('items_per_page'));
-        
-        $all->withPath("?limit={$request->limit}&branch={$brach_filter}&mo7afza={$request->mo7afza}&showAll={$request->showAll}");
+        $totalCost = $all_shipments->sum('shipment_coast_');
+        $tawsilCost = $all_shipments->sum('tawsil_coast_');
+        $allCount = $all_shipments->count();
+        $netCost =  $totalCost-$tawsilCost;
+        $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];
+        $all = $all_shipments->skip($limit*$page)->limit($limit)->get();
+        if(isset(request()->lodaMore)){
+            
+            return response()->json([
+                'status' => 200,
+                'data' => $all,
+                'message' => 'sucecss',
+                'sums'=>$sums
+            ], 200);
+        }
         $mo7afazat =$this->getAllMo7afazat();
         $clients =User::where('type_','عميل')->get();
         $filtered_clients = User::where('type_','عميل')->where('name_',$request->client_id)->pluck('code_')->toArray();
@@ -216,7 +237,7 @@ class accountingController extends Controller
         ,'status_4_color','status_7_color','status_8_color','status_9_color'])->get()->keyBy('name')->pluck('val','name');
         $css_prop = Setting::get('status_css_prop');
         $page_title='الشحنات  المسددة للعميل';
-        return view('accounting.3amil.mosadad',compact('all','mo7afazat','brach_filter','waselOnly',
+        return view('accounting.3amil.mosadad',compact('sums','all','mo7afazat','brach_filter','waselOnly',
         'page_title','clients' ,'user','css_prop','status_color','Commercial_names'));
     }
     public function amilcanselTasdid(Request $request){
@@ -251,7 +272,9 @@ class accountingController extends Controller
     { 
         
         $user=auth()->user();
-        $limit=10;
+        $limit=Setting::get('items_per_page');
+        $page =0;
+        if(isset(request()->page)) $page= request()->page;
         $waselOnly=0;
         if(isset($request->waselOnly))
             $waselOnly= 1;
@@ -281,7 +304,7 @@ class accountingController extends Controller
         if(isset($request->mo7afza)){
             $shipments = $shipments->where('mo7afaza_id', '=', $request->mo7afza);       
         }
-        if(isset($request->client_id)){
+        if(isset($request->client_id) && $request->client_id!='الكل'){
             $u = User::where('name_',$request->client_id)->first();
             $shipments = $shipments->where('Delivery_Delivered_Shipment_ID', '=', $u->code_);       
         }
@@ -307,9 +330,21 @@ class accountingController extends Controller
             $count_all = $counter->count();
             request()->limit=$count_all;
         }
-        $all = $all_shipments->paginate(request()->limit ?? Setting::get('items_per_page'));
-        
-        $all->withPath("?mo7afza={$request->mo7afza}&showAll={$request->showAll}");
+        $totalCost = $all_shipments->sum('shipment_coast_');
+        $tawsilCost = $all_shipments->sum('tawsil_coast_');
+        $allCount = $all_shipments->count();
+        $netCost =  $totalCost-$tawsilCost;
+        $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];
+        $all = $all_shipments->skip($limit*$page)->limit($limit)->get();
+        if(isset(request()->lodaMore)){
+            
+            return response()->json([
+                'status' => 200,
+                'data' => $all,
+                'message' => 'sucecss',
+                'sums'=>$sums
+            ], 200);
+        }
         $mo7afazat =$this->getAllMo7afazat();
         $clients =User::where('type_','مندوب تسليم')->get();
         $filtered_clients = User::where('type_','عميل')->where('name_',$request->client_id)->pluck('code_')->toArray();
@@ -320,7 +355,7 @@ class accountingController extends Controller
         $css_prop = Setting::get('status_css_prop');
         // dd($counter);
         $page_title='الشحنات الغير مسددة لمندوب التسليم';
-        return view('accounting.mandoubtaslim.notmosadad',compact('all','mo7afazat','waselOnly','page_title',
+        return view('accounting.mandoubtaslim.notmosadad',compact('sums','all','mo7afazat','waselOnly','page_title',
         'clients','status_color','css_prop','Commercial_names'));
     }
     public function mandoubTaslimTasdid(Request $request){
@@ -353,7 +388,9 @@ class accountingController extends Controller
     { 
         
         $user=auth()->user();
-        $limit=10;
+        $limit=Setting::get('items_per_page');
+        $page =0;
+        if(isset(request()->page)) $page= request()->page;
         $brach_filter = 'الفرع الرئيسى';
         if(isset($request->branch))
             $brach_filter= $request->branch;
@@ -382,7 +419,7 @@ class accountingController extends Controller
         if(isset($request->mo7afza)){
             $shipments = $shipments->where('mo7afaza_id', '=', $request->mo7afza);       
         }
-        if(isset($request->client_id)){
+        if(isset($request->client_id) && $request->client_id!='الكل'){
             $u = User::where('name_',$request->client_id)->first();
             $shipments = $shipments->where('Delivery_Delivered_Shipment_ID', '=', $u->code_);       
         }
@@ -407,9 +444,21 @@ class accountingController extends Controller
             $count_all = $counter->count();
             request()->limit=$count_all;
         }
-        $all = $all_shipments->paginate(request()->limit ?? Setting::get('items_per_page'));
-        
-        $all->withPath("?limit={$request->limit}&branch={$brach_filter}&mo7afza={$request->mo7afza}&showAll={$request->showAll}");
+        $totalCost = $all_shipments->sum('shipment_coast_');
+        $tawsilCost = $all_shipments->sum('tawsil_coast_');
+        $allCount = $all_shipments->count();
+        $netCost =  $totalCost-$tawsilCost;
+        $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];
+        $all = $all_shipments->skip($limit*$page)->limit($limit)->get();
+        if(isset(request()->lodaMore)){
+            
+            return response()->json([
+                'status' => 200,
+                'data' => $all,
+                'message' => 'sucecss',
+                'sums'=>$sums
+            ], 200);
+        }
         $mo7afazat =$this->getAllMo7afazat();
         $clients =User::where('type_','مندوب تسليم')->get();
         $filtered_clients = User::where('type_','مندوب تسليم')->where('name_',$request->client_id)->pluck('code_')->toArray();
@@ -420,7 +469,7 @@ class accountingController extends Controller
         $css_prop = Setting::get('status_css_prop');
         // dd($counter);
         $page_title='الشحنات  المسددة لمندوب التسليم';
-        return view('accounting.mandoubtaslim.mosadad',compact('all','mo7afazat','waselOnly','page_title',
+        return view('accounting.mandoubtaslim.mosadad',compact('sums','all','mo7afazat','waselOnly','page_title',
         'clients','status_color', 'css_prop','Commercial_names'));
     }
     public function mandoubtaslimCanselTasdid(Request $request){
@@ -455,7 +504,9 @@ class accountingController extends Controller
     { 
         
         $user=auth()->user();
-        $limit=10;
+        $limit=Setting::get('items_per_page');
+        $page =0;
+        if(isset(request()->page)) $page= request()->page;
         $brach_filter = 'الفرع الرئيسى';
         if(isset($request->branch))
             $brach_filter= $request->branch;
@@ -487,7 +538,7 @@ class accountingController extends Controller
             if(isset($request->mo7afza)){
                 $shipments = $shipments->where('mo7afaza_id', '=', $request->mo7afza);       
             }
-            if(isset($request->client_id)){
+            if(isset($request->client_id) && $request->client_id!='الكل'){
                 $u = User::where('name_',$request->client_id)->first();
                 $shipments = $shipments->where('Delivery_take_shipment_ID', '=', $u->code_);       
             }
@@ -512,9 +563,21 @@ class accountingController extends Controller
             request()->limit=$count_all;
         }
             
-        $all = $all_shipments->paginate(request()->limit ?? Setting::get('items_per_page'));
-        
-        $all->withPath("?limit={$request->limit}&branch={$brach_filter}&mo7afza={$request->mo7afza}&showAll={$request->showAll}");
+        $totalCost = $all_shipments->sum('shipment_coast_');
+        $tawsilCost = $all_shipments->sum('tawsil_coast_');
+        $allCount = $all_shipments->count();
+        $netCost =  $totalCost-$tawsilCost;
+        $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];
+        $all = $all_shipments->skip($limit*$page)->limit($limit)->get();
+        if(isset(request()->lodaMore)){
+            
+            return response()->json([
+                'status' => 200,
+                'data' => $all,
+                'message' => 'sucecss',
+                'sums'=>$sums
+            ], 200);
+        }
         $mo7afazat =$this->getAllMo7afazat();
         $clients =User::where('type_','مندوب استلام')->get();
         $filtered_clients = User::where('type_','مندوب استلام')->where('name_',$request->client_id)->pluck('code_')->toArray();
@@ -525,7 +588,7 @@ class accountingController extends Controller
         $css_prop = Setting::get('status_css_prop');
         // dd($counter);
         $page_title='الشحنات الغير مسددة لمندوب الاستلام';
-        return view('accounting.mandoubestlam.notmosadad',compact('all','mo7afazat','waselOnly','page_title',
+        return view('accounting.mandoubestlam.notmosadad',compact('sums','all','mo7afazat','waselOnly','page_title',
         'clients','status_color' ,'css_prop','Commercial_names'));
     }
     public function mandoubestlamTasdid(Request $request){
@@ -558,7 +621,9 @@ class accountingController extends Controller
     { 
         
         $user=auth()->user();
-        $limit=10;
+        $limit=Setting::get('items_per_page');
+        $page =0;
+        if(isset(request()->page)) $page= request()->page;
         $brach_filter = 'الفرع الرئيسى';
         if(isset($request->branch))
             $brach_filter= $request->branch;
@@ -590,14 +655,14 @@ class accountingController extends Controller
         if(isset($request->mo7afza)){
             $shipments = $shipments->where('mo7afaza_id', '=', $request->mo7afza);       
         }
-        if(isset($request->client_id)){
+        if(isset($request->client_id) && $request->client_id!='الكل'){
             $u = User::where('name_',$request->client_id)->first();
             $shipments = $shipments->where('Delivery_take_shipment_ID', '=', $u->code_);       
         }
         // if(isset($request->Commercial_name)){
         //     $shipments = $shipments->where('commercial_name_', '=', $request->Commercial_name);       
         //     }
-        $all_shipments = $shipments;
+        
         
         if(isset( request()->date_from))
             $shipments= $shipments->where('date_' ,'>=',DATE($request->date_from) );
@@ -609,16 +674,29 @@ class accountingController extends Controller
         if(isset( request()->tasdid_date_to))
                 $shipments= $shipments->where('tarikh_tasdid_mandoub_elestlam' ,'<=',DATE( request()->tasdid_date_to) );
                 
-                
+            $all_shipments = $shipments;        
         if(request()->showAll == 'on'){
                     
             $counter= $all_shipments->get();
             $count_all = $counter->count();
             request()->limit=$count_all;
         }
-        $all = $all_shipments->paginate(request()->limit ?? Setting::get('items_per_page'));
+        $totalCost = $all_shipments->sum('shipment_coast_');
+        $tawsilCost = $all_shipments->sum('tawsil_coast_');
+        $allCount = $all_shipments->count();
+        $netCost =  $totalCost-$tawsilCost;
+        $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];
+        $all = $all_shipments->skip($limit*$page)->limit($limit)->get();
         
-        $all->withPath("?limit={$request->limit}&branch={$brach_filter}&mo7afza={$request->mo7afza}&showAll={$request->showAll}");
+        if(isset(request()->lodaMore)){
+            
+            return response()->json([
+                'status' => 200,
+                'data' => $all,
+                'message' => 'sucecss',
+                'sums'=>$sums
+            ], 200);
+        }
         $mo7afazat =$this->getAllMo7afazat();
         $clients =User::where('type_','مندوب استلام')->get();
         $filtered_clients = User::where('type_','مندوب استلام')->where('name_',$request->client_id)->pluck('code_')->toArray();
@@ -632,7 +710,7 @@ class accountingController extends Controller
         $css_prop = $setting['status_css_prop'];
          //dd();
         $page_title='الشحنات  المسددة لمندوب الاستلام';
-        return view('accounting.mandoubestlam.mosadad',compact('all','mo7afazat','waselOnly','page_title',
+        return view('accounting.mandoubestlam.mosadad',compact('sums','all','mo7afazat','waselOnly','page_title',
         'clients','css_prop' ,'status_color' ,'Commercial_names'));
     }
     public function mandoubestlamcanselTasdid(Request $request){

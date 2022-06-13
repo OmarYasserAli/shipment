@@ -69,30 +69,45 @@ class generalController extends Controller
     }
     public function getTawsilByManteka(){
         $user= auth()->user();
+       
+        $client_id=request()->client_id;
         $mo7afza=request()->mo7afza_id;
         $manatek=request()->manteka_id;
         if(request()->bycode=="1"){
             
             $mo7afza=Mohfza::where('code',$mo7afza)->first()->name;
             $manatek=Mantikqa::where('code',$manatek)->first()->name;
-           
-           
         }
-        $isSprecial = AddClientsMainComp::where('mantqa',$manatek)->where('mo7fza',$mo7afza)->where('Branch_name', $user->branch)->first()->Special_prices;
-        if($isSprecial == 'لا'){
-            $price = DB::table('prices_tb')
+        $isSprecial = AddClientsMainComp::where('code_',$client_id)->first();
+         
+        if(isset($isSprecial))
+            if($isSprecial->Special_prices == 'لا'){
+               {
+                $price = DB::table('prices_tb')
+                ->where('area_name_', $manatek)
+                ->where('city_name_',$mo7afza)
+                ->where('branch', $user->branch)
+                ->select('price_')->first();
+                
+               }
+            }else{
+                $price = DB::table('special_prices_tb')
+                ->where('area_name_', $manatek)
+                ->where('city_name_',$mo7afza)
+                ->where('mandoub_ID', $client_id)
+                ->select('price_')->first();
+            }
+        else
+            $price = DB::table('special_prices_tb')
             ->where('area_name_', $manatek)
             ->where('city_name_',$mo7afza)
-            ->where('branch', $user->branch)
-            ->select('price_')->first()->price_;
-        }else{
-            $price = DB::table('prices_tb')
-            ->where('area_name_', $manatek)
-            ->where('city_name_',$mo7afza)
-            ->where('mandoub_ID', $user->code_)
-            ->select('price_')->first()->price_;
-        }
-
+            ->where('mandoub_ID', $client_id)
+            ->select('price_')->first();
+            
+        if(isset($price))
+            $price=$price->price_;
+        else    
+            $price=0;
         return response()->json([
             'status' => 200,
             'message' => 'success',

@@ -15,50 +15,10 @@
     <!-- BEGIN: Top Bar -->
     @include('layout.partial.topbar')
     <!-- END: Top Bar -->
-    <div id="msg_modal" class="modal" data-tw-backdrop="static" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-body px-5 py-10">
-                    <div class="text-center">
-                        
-                        
-                          <div class="form-inline" style="font-size: 24px; align-items:center;">
-                            <p id='msg_modal_text' style="margin: auto;"></p>
-                          </div>
-                         <button type="button" data-tw-dismiss="" id='msg_modal_close' class="btn btn-primary w-24 mt-5">استمرار</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    
     <!-- END: Modal Toggle --> <!-- BEGIN: Modal Content --> 
-    <div id="type_modal" class="modal" data-tw-backdrop="static" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-body px-5 py-10">
-                    <div class="text-center">
-                        <div class="mb-5" style="font-size: 25px">اسم مندوب التسليم</div>
-                        <div class="form-inline">
-                            
-                            <select class=" form-select-lg sm:mt-2 sm:mr-2 mb-5 tom-select  w-full" id='select_type' aria-label=".form-select-lg example">
-                                @foreach ($clients as $client)
-                                <option value="{{$client->name_}}">{{$client->name_}}</option>
-                                @endforeach
-                            </select>
 
-                        </div>
-                        <div class="form-inline" style="font-size: 24px;">
-                            <label for="horizontal-form-1" class="form-label" style=" text-align:right; margin-left:15px; margin-top:1px; width:320px; ">اظهار الكل</label>
-                            <input type="checkbox" class="" id='noClientFilter'>
-
-                        </div>
-                        <button type="button" data-tw-dismiss="" id='modal_close' class="btn btn-primary w-24 mt-5">استمرار</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- END: Modal Content -->
+<!-- END: Modal Content -->
     
     <div class="intro-y  grid-cols-12 gap-5 mt-5">
         <!-- BEGIN: Item List -->
@@ -74,37 +34,16 @@
                                 <input type="text" name="code" class="form-control form-select-sm filterByEnter"  aria-label="default input inline 1" style="width: 150px;" > 
                             </div>
                             <div class="form-inline">
-                                <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:2px; margin-top:8px; width:30px; ;">تاريخ الحالة</label>
-                                <input name="hala_date_from" type="date"  class="form-control form-select-sm "  aria-label="default input inline 1" style=""> 
+                                <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:2px; margin-top:8px; width:30px; ;">تاريخ التسديد</label>
+                                <input name="tasdid_date_from" type="date"  class="form-control form-select-sm "  aria-label="default input inline 1" style=""> 
                                 <label for="horizontal-form-1" class="form-label" style=" text-align:right!important; margin-right:3px; margin-left:5px; margin-top:8px;  ">الي</label>
-                                <input name='hala_date_to' type="date"  class="form-control form-select-sm "  aria-label="default input inline 1" style=""> 
+                                <input name='tasdid_date_to' type="date"  class="form-control form-select-sm "  aria-label="default input inline 1" style=""> 
                             </div>
-                            <div class="form-inline 3amil">
-                                <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:15px; margin-top:1px; width:30px; ">العميل</label>
-                                
-                                <input type="hidden" value="@if(request()->get('client_id')!= null){{request()->get('client_id')}}@else الكل @endif" name='client_id'>
-                                    <div class="mr-6 alert alert-outline-secondary alert-dismissible show flex items-center mb-2" role="alert">
-                                        @if(request()->get('client_id')!= null)
-                                            {{request()->get('client_id')}}
-                                       
-                                       @endif
-                                       @if(request()->get('client_id') == null)الكل@endif
-                                        <button type="button" class="btn-close" data-tw-dismiss="alert" aria-label="Close" onclick="window.location.replace('{{route('accounting.3amil.notmosadad')}}')">
-                                            <i data-lucide="x" class="w-4 h-4"></i> </button> 
-                                    </div>
-                            </div>
+                            
                             
                         </div > 
                     </div>
-                    <div class="col-span-1">
-                        <div class="flex justify-center">
-                            <div class="form-check form-switch">
-                                <label class="form-check-label inline-block text-gray-800" for="flexSwitchCheckChecked" style="width:400px; text-align:left; ">@if($waselOnly) شحنات الواصل @else كل الشحنات @endif </label>
-                              <input class="form-check-input appearance-none w-9 -ml-10 rounded-full float-left h-5 align-top bg-white bg-no-repeat bg-contain bg-gray-300 focus:outline-none cursor-pointer shadow-sm" 
-                              type="checkbox" role="switch" id="flexSwitchCheckChecked" name="waselOnly" @if($waselOnly) checked @endif onchange="this.form.submit()">
-                            </div>
-                          </div>
-                    </div>
+                    
                 </div>
                     <div class="mt-1 grid  grid-cols-3">
                         <div class="col-span-2">
@@ -115,13 +54,11 @@
                                 </div>
                                 <div class="form-inline">
                                     <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:2px; margin-top:1px; width:30px; ">تاريخ الشحنه </label>
-                                    <input name="date_from" type="date"  class="form-control form-select-sm "  aria-label="default input inline 1" style=""> 
+                                    <input name="hala_date_from" type="date"  class="form-control form-select-sm "  aria-label="default input inline 1" style=""> 
                                     <label for="horizontal-form-1" class="form-label" style=" text-align:right!important; margin-right:3px; margin-left:5px; margin-top:1px;  ">الي</label>
-                                    <input name="date_to" type="date"  class="form-control form-select-sm "  aria-label="default input inline 1" style=""> 
+                                    <input name="hala_date_to" type="date"  class="form-control form-select-sm "  aria-label="default input inline 1" style=""> 
                                 </div>
-                                <div class="form-inline">
-                                    
-                                </div>
+                                
                                 
                             </div > 
                         </div>
@@ -133,15 +70,7 @@
                     <div class="mt-1 grid  grid-cols-3">
                         <div class="col-span-2">
                             <div class="grid grid-cols-3 "> 
-                                <div class="form-inline">
-                                    <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:10px; margin-top:8px;  width:60px; ">المحافظة</label>
-                                    <select name="mo7afza" class="form-select form-select-sm mr-1" aria-label=".form-select-sm example" style=" width:250px">
-                                        <option value="">...</option>
-                                        @foreach($mo7afazat as $mo7afaza)
-                                        <option value="{{$mo7afaza->code}}"  @if(request()->get('mo7afza') ==$mo7afaza->code) selected @endif>{{$mo7afaza->name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                                
                                 
                                 
                                 <div class="form-inline">
@@ -156,7 +85,7 @@
                             @if(request()->get('client_id') != null)
                                 <div class="form-inline align-left">
                                     <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:10px; margin-top:8px;  width:400px; "> </label>
-                                    <input type="button"  class="btn btn-success  align-left" style="direction: ltr"  value="تسديد المحدد" id='tasdid' >
+                                    <input type="button"  class="btn btn-success  align-left" style="direction: ltr"  value="الغاء تسديد المحدد" id='tasdid' >
                                 
                                 </div>
                             @endif
@@ -165,7 +94,7 @@
                 </div>
             </form>
             <div class="overflow-x-auto mt-5">
-                <table class="table table-striped " id='dataTable'>
+                <table class="table table-striped" id="dataTable">
                     <thead class="table-light">
                         <tr>
                                     
@@ -175,12 +104,13 @@
                             <th class="whitespace-nowrap">الاسم التجارى</th>
                             <th class="whitespace-nowrap">اسم العميل</th>
                             <th class="whitespace-nowrap">تاريخ الشحنه</th>
+                            <th class="whitespace-nowrap">تاريخ التسديد</th>
                             <th class="whitespace-nowrap">الفرع</th>
                             <th class="whitespace-nowrap">الصافى</th>
-                            <th class="whitespace-nowrap">اجره المندوب</th>
+                            <th class="whitespace-nowrap">اجره الشركه</th>
                             <th class="whitespace-nowrap">مبلغ الشحنه</th>
                                     <th class="whitespace-nowrap">الكود</th>
-                                    <th class="whitespace-nowrap"><input type="checkbox" id="checkAll"></th>
+                                    <th class="whitespace-nowrap"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -194,13 +124,16 @@
                             <td class="whitespace-nowrap " >{{$shipment->commercial_name_}}</td>
                             <td class="whitespace-nowrap " >@if(isset($shipment->client)){{$shipment->client->name_}} @else {{$shipment->client_name_}}@endif</td>
                             <td class="whitespace-nowrap " >{{$shipment->date_}}</td>
+                            <td class="whitespace-nowrap " >{{$shipment->tarikh_tasdid_el3amil}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->branch_}}</td>
-                            <td class="whitespace-nowrap " >{{$shipment->shipment_coast_ -$shipment->tas3ir_mandoub_taslim}}</td>
-                            <td class="whitespace-nowrap " >{{$shipment->tas3ir_mandoub_taslim}}</td>
+                            <td class="whitespace-nowrap " >{{$shipment->total_}}</td>
+                            <td class="whitespace-nowrap " >{{$shipment->tawsil_coast_}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->shipment_coast_}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->code_}}</td>
-                                    <td class="whitespace-nowrap " ><input type="checkbox" class="check_count" data-cost='{{$shipment->shipment_coast_}}'
-                                        data-t7wel='{{$shipment->tas3ir_mandoub_taslim}}' data-net='{{$shipment->shipment_coast_}}' data-code='{{$shipment->code_}}' data-status='{{$shipment->Status_}}'></td>
+                            <td class="whitespace-nowrap " ><a href="{{route('shiments.edit',['code'=>$shipment->code_])}}"><i data-lucide="edit" class="check_count"
+                                data-cost='{{$shipment->shipment_coast_}}'
+                                data-t7wel='{{$shipment->tawsil_coast_}}' data-net='{{$shipment->shipment_coast_}}' data-code='{{$shipment->code_}}' data-status='{{$shipment->Status_}}'></i></a>
+                                </td>
                         </tr>
                         @endforeach
                         
@@ -221,7 +154,7 @@
     <!-- END: Add Item Modal -->
     
     <div class="mt-10">
-        
+       
     </div>
     <div style="background-color:#fff;  opacity: 1;position: fixed; bottom:0px; z-index:999; width:79%;" class="flex h-12 pt-3 rounded ">
         <div class="mr-6" style="margin-left: 10px;">اجمالى مبالخ الشحنات</div>
@@ -232,7 +165,7 @@
         <div class="total_net" style="margin-left: 40px;"><input type="text" disabled class="h-6 w-40" id='total_net' value="0"></div>
         <div class=" " style="margin-left: 10px;">مجموع عدد الشحنات</div>
         <div class=""> <input type="text" disabled class="h-6 w-16" id="total_cnt" value="0"></div>
-    
+
         <div style="margin-right:auto; margin-left:10px; margin-bottom:5px;"  class="dropdown inline-block" data-tw-placement="top"> <button class="dropdown-toggle btn btn-primary w-26 mr-1  h-6" aria-expanded="false" data-tw-toggle="dropdown"> اجماليات</button>
             <div class="dropdown-menu w-60">
                 <ul class="dropdown-content">
@@ -257,74 +190,32 @@
             let current_status=0;
             $( document ).ready(function() {
                 $("body").fadeIn(50);
-                const myModal = tailwind.Modal.getOrCreateInstance(document.querySelector("#type_modal"));
+                
 
-                @if(!isset(request()->client_id ))
-                     myModal.show();
-                @endif
+                
             });
             
             $( "#modal_close" ).click(function() {
                 
+                
                 current_status=$( "#select_type" ).val();
-                const myModal = tailwind.Modal.getOrCreateInstance(document.querySelector("#type_modal"));
-                var noClientFilter = $('#noClientFilter').is(':checked');
+                
+                
                 let client_id = current_status;
-                if(noClientFilter ){
-                    myModal.hide();
-
-               
-                        $("#Commercial_name").html('');
-                        $.ajax({
-                            url:"{{url('getCommertialnameBy3amil')}}?client_id="+client_id,
-                            type: "get",
-                            data: {
-                                'from':'modal'
-                            },
-                            dataType : 'json',
-                            success: function(result){
-                                $('#Commercial_name').prop('disabled', false);
-                                $('#Commercial_name').html('<option value="">...</option>');
-                                console.log(result); 
-                                $.each(result.all,function(key,value){
-                                    $("#Commercial_name").append('<option value="'+value.name_+'">'+value.name_+'</option>');
-                                });
-                            }
-                        });
-                    }else{
-                        window.location.href = "{{route('accounting.mandoubtaslim.notmosadad')}}?client_id="+client_id;
-                    }
+                
             });
-            $( "#msg_modal_close" ).click(function() {
-                const msg_Modal = tailwind.Modal.getOrCreateInstance(document.querySelector("#msg_modal"));
-                msg_Modal.hide();
-            });
+           
             $( "#qr_new" ).click(function() {
                 $('#manteka-table tr').not(function(){ return !!$(this).has('th').length; }).remove();
                     cnt=1;
                     shipments=[];
                 $('#shipment_form').find("input[type=text], textarea").val("");
-                const myModal = tailwind.Modal.getOrCreateInstance(document.querySelector("#type_modal"));
-                myModal.show();
+                
             });
              
 
             
-                $( "#tanfez" ).click(function() {
-                 
-                    $.ajax({
-                        url: "{{route('shipment.t7wel_qr_save')}}" ,
-                        type: 'post',
-                        data:{ code:shipments, status:current_status, _token: "{{ csrf_token() }}"},
-                        error: function(e){
-                            console.log(e);
-                        },
-                        success: function(res) {
-                            alert('تم التحويل بناح');
-                        }
-                    });
-                     
-                });
+               
                 $( "#cancel" ).click(function() {
                     $('#manteka-table tr').not(function(){ return !!$(this).has('th').length; }).remove();
                     cnt=1;
@@ -387,61 +278,7 @@
                 });
 
                 
-                $( "#tasdid" ).click(function() {
-                    
-                 var codes =[]
-                 
-                 $('.check_count').each(function() {
-                    if($(this).is(':checked')){
-                        codes.push($(this).data('code'));
-                    }
-                });
-                console.log(codes)
-                 $.ajax({
-                     url: "{{route('accounting.mandoubtaslim.tasdid')}}" ,
-                     type: 'post',
-                     data:{ code:codes,  _token: "{{ csrf_token() }}"},
-                     error: function(e){
-                         console.log(e);
-                     },
-                     success: function(res) {
-                         console.log(res)
-                         rowsAffected =  codes.length - res['count']
-                         msg =" تم تسديد " +res['count']+   " شحنة  "  +" تم رفض " + rowsAffected + " شحنة ";
-                         let msg_modal = tailwind.Modal.getOrCreateInstance(document.querySelector("#msg_modal"));
-                        $('#msg_modal_text').text(msg)
-                         msg_modal.show();
-                        let total_cost=parseInt($('#total_cost').val());
-                        let total_cnt=parseInt($('#total_cnt').val());
-                        let total_tawsil=parseInt($('#total_tawsil').val());
-                        let total_net= parseInt($('#total_net').val($('#total_cost').val()-$('#total_tawsil').val()));
-                        var i=1; 
-                        $('.check_count').each(function() {
-                            
-                            if($(this).is(':checked') && $(this).data('status')==7){
-                                console.log($(this).data('status'));
-                                total_cnt--;
-                                total_cost-= $(this).data('cost');
-                                total_tawsil-= parseInt($(this).data('t7wel'));
-                                total_net-= $(this).data('net');
-                                $('#total_cost').val(total_cost);
-                                $('#total_tawsil').val(total_tawsil);
-                                $('#total_net').val($('#total_cost').val()-$('#total_tawsil').val());
-                                $('#total_cnt').val(total_cnt);
-                                
-                                $(this).parent().parent().remove();
-                                
-                                
-                            }else{
-                                $(this).parent().parent().children('td:first').text(i)
-                                i++;
-
-                            }
-                      });
-                     }
-                 });
-                  
-             });
+              
 
 
                     
@@ -516,9 +353,6 @@
                     if(e.keyCode == 13)
                     {
                         $('#filter_form').submit();
-                        // var name = $(this).attr("name");
-                        // var val = $(this).val();
-                        // window.location.replace("{{Request::url()}}?"+name+"="+val);
                     }
                 });
 
@@ -544,7 +378,7 @@
                             }
                         });
                 });    
-                  
+
             var page = 0;
             let cont=0;
        
@@ -557,7 +391,7 @@
             });
             function infinteLoadMore(page) {
                 $.ajax({
-                    url: "{{route('accounting.mandoubtaslim.notmosadad')}}"+ "?lodaMore=1&page=" + page+'&'+window.location.search.substr(1),
+                    url: "{{route('shiments.editview')}}"+ "?lodaMore=1&page=" + page+'&'+window.location.search.substr(1),
                 
                     type: "get",
                     beforeSend: function () {
@@ -570,7 +404,7 @@
                         return;
                     }
                     $.each(response.data,function(key,value){
-                       // console.log(value.client);
+                        console.log(value.client);
                         cont++;
                         var client = '';
                         if (typeof value.client != 'undefined' &&  value.client != null){client = (value.client)['name_'];}else{client =value.client_name_}
@@ -580,16 +414,17 @@
                             <td  class="whitespace-nowrap " >`+value.reciver_phone_+`</td>
                             <td  class="whitespace-nowrap " >`+value.commercial_name_+`</td>
                             <td  class="whitespace-nowrap " >`+ client+`</td>
-                            <td  class="whitespace-nowrap " >`+value.date_+`</td>
+                            <td  class="whitespace-nowrap " >`+value.date_+`</td> 
+                            <td  class="whitespace-nowrap " >`+value.tarikh_tasdid_el3amil+`</td> 
                             <td  class="whitespace-nowrap " >`+value.branch_+`</td>
-                            <td  class="whitespace-nowrap " >`+(value.shipment_coast_ -value.tas3ir_mandoub_taslim)  +`</td>
-                            <td  class="whitespace-nowrap " >`+value.tas3ir_mandoub_taslim+`</td>
+                            <td  class="whitespace-nowrap " >`+value.total_+`</td>
+                            <td  class="whitespace-nowrap " >`+value.tawsil_coast_+`</td>
                             <td  class="whitespace-nowrap " >`+value.shipment_coast_+`</td>
                             <td  class="whitespace-nowrap " >`+value.code_+`</td>
                             <td class="whitespace-nowrap " ><input type="checkbox" class="check_count" data-cost='`+value.shipment_coast_+`'
-                                        data-t7wel='`+value.tas3ir_mandoub_taslim+`' data-net='`+value.shipment_coast_+`' data-code='`+value.code_+`' data-status='`+value.Status_+`'></td>                
+                                        data-t7wel='`+value.tawsil_coast_+`' data-net='`+value.shipment_coast_+`' data-code='`+value.code_+`' data-status='`+value.Status_+`'></td>                
                                             </tr>`
-                                            );
+                            );
 
                             
                             //rows_counter()
@@ -599,6 +434,7 @@
                     console.log('Server error occured');
                 });
             }
+
                
             </script>
 @endsection

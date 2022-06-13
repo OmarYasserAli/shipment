@@ -80,15 +80,18 @@
                                 <input name='tasdid_date_to' type="date"  class="form-control form-select-sm "  aria-label="default input inline 1" style=""> 
                             </div>
                             <div class="form-inline 3amil">
-                                <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:15px; margin-top:1px; width:30px; ">مندوب الاستلام</label>
-                                @if((request()->get('client_id')) != null)
-                                <input type="hidden" value="{{request()->get('client_id')}}" name='client_id'>
+                                <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:15px; margin-top:1px; width:30px; ">العميل</label>
+                                
+                                <input type="hidden" value="@if(request()->get('client_id')!= null){{request()->get('client_id')}}@else الكل @endif" name='client_id'>
                                     <div class="mr-6 alert alert-outline-secondary alert-dismissible show flex items-center mb-2" role="alert">
-                                        {{request()->get('client_id')}}
-                                        <button type="button" class="btn-close" data-tw-dismiss="alert" aria-label="Close" onclick="window.location.replace('{{route('accounting.mandoubestlam.mosadad')}}')">
+                                        @if(request()->get('client_id')!= null)
+                                            {{request()->get('client_id')}}
+                                       
+                                       @endif
+                                       @if(request()->get('client_id') == null)الكل@endif
+                                        <button type="button" class="btn-close" data-tw-dismiss="alert" aria-label="Close" onclick="window.location.replace('{{route('accounting.3amil.notmosadad')}}')">
                                             <i data-lucide="x" class="w-4 h-4"></i> </button> 
                                     </div>
-                                @endif
                             </div>
                             
                         </div > 
@@ -163,7 +166,7 @@
             </form>
             <div class="overflow-x-auto mt-5">
                 <table class="table table-striped">
-                    <thead class="table-light">
+                    <thead class="table-light" id='dataTable'>
                         <tr>
                                     
                             <th class="whitespace-nowrap">#</th>
@@ -183,7 +186,7 @@
                     </thead>
                     <tbody>
                         @php $i=1; @endphp
-                        @foreach($all->items() as $shipment)
+                        @foreach($all as $shipment)
                         
                         <tr  class="status_{!!$shipment->Status_!!}_color"   >
                             <td  class="whitespace-nowrap " ><?php echo $i; $i++?></td>
@@ -220,7 +223,7 @@
     <!-- END: Add Item Modal -->
     
     <div class="mt-10">
-        {!! $all->render() !!}
+        
     </div>
     <div style="background-color:#fff;  opacity: 1;position: fixed; bottom:0px; z-index:999; width:79%;" class="flex h-12 pt-3 rounded ">
         <div class="mr-6" style="margin-left: 10px;">اجمالى مبالخ الشحنات</div>
@@ -231,6 +234,20 @@
         <div class="total_net" style="margin-left: 40px;"><input type="text" disabled class="h-6 w-40" id='total_net' value="0"></div>
         <div class=" " style="margin-left: 10px;">مجموع عدد الشحنات</div>
         <div class=""> <input type="text" disabled class="h-6 w-16" id="total_cnt" value="0"></div>
+
+        <div style="margin-right:auto; margin-left:10px; margin-bottom:5px;"  class="dropdown inline-block" data-tw-placement="top"> <button class="dropdown-toggle btn btn-primary w-26 mr-1  h-6" aria-expanded="false" data-tw-toggle="dropdown"> اجماليات</button>
+            <div class="dropdown-menu w-60">
+                <ul class="dropdown-content">
+                    <li> <a  class="dropdown-item"><span>{{$sums['totalCost']}}</span> <span style="margin-left:auto;">مبلغ الشحنات </span></a> </li>
+                    <li> <a  class="dropdown-item"><span>{{$sums['tawsilCost']}}</span>   <span style="margin-left:auto;">أجرة الشركة</span> </a> </li>
+                    <li> <a  class="dropdown-item"><span>{{$sums['netCost']}}</span>   <span style="margin-left:auto;">الصافى</span>   </a> </li>
+                    <li> <a  class="dropdown-item"><span>{{$sums['allCount']}}</span>   <span style="margin-left:auto;">عدد الشحنات</span> </a> </li>
+
+                    
+                    
+                </ul>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -430,30 +447,31 @@
 
 
                     
-                $( ".check_count" ).change(function(e){  
-                    let total_cost=parseInt($('#total_cost').val());
-                    let total_cnt=parseInt($('#total_cnt').val());
-                    let total_tawsil=parseInt($('#total_tawsil').val());
-                    let total_net= parseInt($('#total_net').val($('#total_cost').val()-$('#total_tawsil').val()));
-                    if($(this).is(':checked'))
-                    {
-                        total_cnt++;
-                        total_cost+= $(this).data('cost');
-                        total_tawsil+= parseInt($(this).data('t7wel'));
-                        total_net+= $(this).data('net');
-                    }
-                    else 
-                    {
-                        total_cnt--;
-                        total_cost-= $(this).data('cost');
-                        total_tawsil-= parseInt($(this).data('t7wel'));
-                        total_net-= $(this).data('net');
-                    }
-                    $('#total_cost').val(total_cost);
-                    $('#total_tawsil').val(total_tawsil);
-                    $('#total_net').val($('#total_cost').val()-$('#total_tawsil').val());
-                    $('#total_cnt').val(total_cnt);
-                });
+             $(document).on('change', '.check_count', function(){ 
+                
+                let total_cost=parseInt($('#total_cost').val());
+                let total_cnt=parseInt($('#total_cnt').val());
+                let total_tawsil=parseInt($('#total_tawsil').val());
+                let total_net= parseInt($('#total_net').val($('#total_cost').val()-$('#total_tawsil').val()));
+                if($(this).is(':checked'))
+                {
+                    total_cnt++;
+                    total_cost+= $(this).data('cost');
+                    total_tawsil+= parseInt($(this).data('t7wel'));
+                    total_net+= $(this).data('net');
+                }
+                else 
+                {
+                    total_cnt--;
+                    total_cost-= $(this).data('cost');
+                    total_tawsil-= parseInt($(this).data('t7wel'));
+                    total_net-= $(this).data('net');
+                }
+                $('#total_cost').val(total_cost);
+                $('#total_tawsil').val(total_tawsil);
+                $('#total_net').val($('#total_cost').val()-$('#total_tawsil').val());
+                $('#total_cnt').val(total_cnt);
+        });
                 
 
                     $("#checkAll").click(function(){
@@ -499,9 +517,7 @@
                 $( ".filterByEnter" ).keyup(function(e){
                     if(e.keyCode == 13)
                     {
-                        var name = $(this).attr("name");
-                        var val = $(this).val();
-                        window.location.replace("{{Request::url()}}?"+name+"="+val);
+                        $('#filter_form').submit();
                     }
                 });
 
@@ -528,6 +544,60 @@
                         });
                 });    
 
-               
+                var page = 0;
+            let cont=0;
+       
+            $(window).scroll(function () {
+                if ($(window).scrollTop() + $(window).height() +1    >= $(document).height()) {
+                    page++;
+                    cont=$('#dataTable   tr:last td:first-child').text();
+                    infinteLoadMore(page);
+                }
+            });
+            function infinteLoadMore(page) {
+                $.ajax({
+                    url: "{{route('accounting.mandoubestlam.mosadad')}}"+ "?lodaMore=1&page=" + page+'&'+window.location.search.substr(1),
+                
+                    type: "get",
+                    beforeSend: function () {
+                        
+                    }
+                })
+                .done(function (response) {
+                    if (response.length == 0) {
+                    
+                        return;
+                    }
+                    $.each(response.data,function(key,value){
+                        console.log(value.client);
+                        cont++;
+                        var client = '';
+                        if (typeof value.client != 'undefined' &&  value.client != null){client = (value.client)['name_'];}else{client =value.client_name_}
+                        $('#dataTable   tr:last').after(`<tr  class='status_`+value.Status_+`_color'>
+                            <td  class="whitespace-nowrap " >`+cont+`</td>
+                            <td  class="whitespace-nowrap " >`+value.mo7afza_+`</td>
+                            <td  class="whitespace-nowrap " >`+value.reciver_phone_+`</td>
+                            <td  class="whitespace-nowrap " >`+value.commercial_name_+`</td>
+                            <td  class="whitespace-nowrap " >`+ client+`</td>
+                            <td  class="whitespace-nowrap " >`+value.date_+`</td> 
+                            <td  class="whitespace-nowrap " >`+value.tarikh_tasdid_mandoub_elestlam+`</td> 
+                            <td  class="whitespace-nowrap " >`+value.branch_+`</td>
+                            <td  class="whitespace-nowrap " >`+(value.shipment_coast_ - alue.tas3ir_mandoub_estlam)+`</td>
+                            <td  class="whitespace-nowrap " >`+value.tas3ir_mandoub_estlam+`</td>
+                            <td  class="whitespace-nowrap " >`+value.shipment_coast_+`</td>
+                            <td  class="whitespace-nowrap " >`+value.code_+`</td>
+                            <td class="whitespace-nowrap " ><input type="checkbox" class="check_count" data-cost='`+value.shipment_coast_+`'
+                                        data-t7wel='`+value.tas3ir_mandoub_estlam+`' data-net='`+value.shipment_coast_+`' data-code='`+value.code_+`' data-status='`+value.Status_+`'></td>                
+                                            </tr>`
+                            );
+
+                            
+                            //rows_counter()
+                    });
+                })
+                .fail(function (jqXHR, ajaxOptions, thrownError) {
+                    console.log('Server error occured');
+                });
+            }
             </script>
 @endsection

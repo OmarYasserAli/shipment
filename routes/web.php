@@ -41,11 +41,16 @@ Route::get('shiments', 'shipmentsController@HomePage')->name('home-page');
 Route::get('shiments/{type}', 'shipmentsController@shipments')->name('shiments');
 Route::get('shiment/create', 'shipmentsController@create')->name('shiments.create');
 Route::post('shiment/store', 'shipmentsController@store')->name('shiments.store');
-Route::get('shiment/edit', 'shipmentsController@edit')->name('shiments.edit');
+Route::get('shiment/edit/{code}', 'shipmentsController@edit')->name('shiments.edit');
+Route::post('shiment/update', 'shipmentsController@update')->name('shiments.update');
+
+
+Route::get('shiment/editview', 'shipmentsController@editview')->name('shiments.editview');
 Route::get('shiment/status', 'shipmentsController@status')->name('shiments.status');
 Route::get('shiment/print', 'shipmentsController@print')->name('shiments.print');
 Route::get('shiment/estlamGet', 'shipmentsController@estlamGet')->name('shiments.estlamGet');
 Route::get('shiment/changeToArchive', 'shipmentsController@changeToArchive')->name('shiments.changeToArchive');
+Route::get('shiment/isCodeUsed', 'shipmentsController@isCodeUsed')->name('shiments.isCodeUsed');
 
 
 Route::get('getShipmentsByCode', 'shipmentsController@getShipmentsByCode')->name('getShipmentsByCode');

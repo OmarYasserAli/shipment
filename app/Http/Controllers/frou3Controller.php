@@ -13,7 +13,8 @@ use App\Models\AllUser;
 use App\Models\Shipment_status;
 use App\Models\Commercial_name;
 use App\Models\Archive;
-
+use App\Setting;
+use App\User;
 use Carbon\Carbon;
 
 use Illuminate\Http\Request;
@@ -29,6 +30,10 @@ class frou3Controller extends Controller
     {
         $this->middleware('auth');
     }
+    public function getAllMo7afazat(){
+
+        return Mohfza::where('branch',auth()->user()->branch)->get();
+    } 
     public function export(){
         
             $user=auth()->user();
@@ -551,10 +556,11 @@ class frou3Controller extends Controller
     { 
         
         $user=auth()->user();
-        $limit=10;
+        $limit=Setting::get('items_per_page');
+        $page =0;
         $brach_filter = 'الفرع الرئيسى';
-        if(isset($request->branch))
-            $brach_filter= $request->branch;
+        if(isset($request->branch_))
+            $brach_filter= $request->branch_;
         $waselOnly=0;
         if(isset($request->waselOnly))
             $waselOnly= 1;
@@ -587,48 +593,67 @@ class frou3Controller extends Controller
         });        
             //saif = shipmnt_cost  - t7weel
         
-        if($waselOnly)
+            if($waselOnly)
             $shipments = $shipments->where('status_' ,'=',7) ;
         else
             $shipments = $shipments->where('status_' ,'!=',8) ;
  
-        if(isset($request->mo7afza)){
-           $shipments = $shipments->where('mo7afaza_id', '=', $request->mo7afza);       
-       }
-        $all_shipments = $shipments;
-        if($user->type_ =='عميل'){
-            if(isset( request()->date_from))
-                $all_shipments= $all_shipments->where('date_' ,'>=',DATE($request->date_from) );
-            if(isset( request()->date_to))
-                $all_shipments= $all_shipments->where('date_' ,'<=' ,DATE($request->date_to) );
-        }else{
-            if(isset( request()->date_from))
-                $all_shipments= $all_shipments->where('tarikh_el7ala' ,'>=',DATE( request()->date_from) );
-            if(isset( request()->date_to))
-                $all_shipments= $all_shipments->where('tarikh_el7ala' ,'<=',DATE( request()->date_to) );
+        if(isset($request->code)){
+           $shipments = $shipments->where('code_', '=', $request->code);       
         }
-        $counter= $all_shipments->get();
-        // $totalCost = $counter->sum('shipment_coast_');
-        // if($user->type_=='عميل')
-        //     $tawsilCost = $counter->sum('tawsil_coast_');
-        // if($user->type_=='مندوب استلام')
-        //     $tawsilCost = $counter->sum('tas3ir_mandoub_estlam');
-        // if($user->type_=='مندوب تسليم')
-        //     $tawsilCost = $counter->sum('tas3ir_mandoub_taslim');
+        if(isset($request->reciver_phone)){
+            $shipments = $shipments->where('reciver_phone_', '=', $request->reciver_phone);       
+         }
         
-        // $netCost =  $totalCost-$tawsilCost;
+        if(isset($request->mo7afza)){
+            $shipments = $shipments->where('mo7afaza_id', '=', $request->mo7afza);       
+         }
+       if(isset($request->client_id) && $request->client_id!='الكل'){
+        $shipments = $shipments->where('client_name_', '=', $request->client_id);       
+        }
+        if(isset($request->Commercial_name)){
+            $shipments = $shipments->where('commercial_name_', '=', $request->Commercial_name);       
+            }
+        $all_shipments = $shipments;
+        
+        if(isset( request()->date_from))
+            $shipments= $shipments->where('date_' ,'>=',DATE($request->date_from) );
+        if(isset( request()->date_to))
+            $shipments= $shipments->where('date_' ,'<=' ,DATE($request->date_to) );
+        
 
-        $count_all = $counter->count();
-        if(request()->showAll == 'on')
+        if(request()->showAll == 'on'){
+            $counter= $all_shipments->get();
+            $count_all = $counter->count();
             request()->limit=$count_all;
-        $all = $all_shipments->paginate(request()->limit ?? 10);
-        
-        $all->withPath("?limit={$request->limit}&branch={$brach_filter}&mo7afza={$request->mo7afza}&showAll={$request->showAll}");
+        }
+       
+        $totalCost = $all_shipments->sum('shipment_coast_');
+        $tawsilCost = $all_shipments->sum('tawsil_coast_');
+        $allCount = $all_shipments->count();
+        $netCost =  $totalCost-$tawsilCost;
+        $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];
+        $all = $all_shipments->skip($limit*$page)->limit($limit)->get();
+        if(isset(request()->lodaMore)){
+            
+            return response()->json([
+                'status' => 200,
+                'data' => $all,
+                'message' => 'sucecss',
+                'sums'=>$sums
+            ], 200);
+        }
+        $mo7afazat =$this->getAllMo7afazat();
+        $filtered_clients = User::where('type_','عميل')->where('name_',$request->client_id)->pluck('code_')->toArray();
+        $Commercial_names =Commercial_name::whereIn('code_',$filtered_clients)->groupBy('name_')->get();
         $branches =BranchInfo::all();
-        $mo7afazat =Mohfza::all();
+        $status_color=Setting::whereIN('name',['status_6_color','status_1_color','status_2_color','status_3_color'
+        ,'status_4_color','status_7_color','status_8_color','status_9_color'])->get()->keyBy('name')->pluck('val','name');
+        $css_prop = Setting::get('status_css_prop');
         // dd($counter);
         $page_title='الشحنات الغير مسددة للفرع';
-        return view('frou3.accounting.notmosadad',compact('all','branches','mo7afazat','brach_filter','waselOnly','page_title'));
+        return view('frou3.accounting.notmosadad',compact('all','branches','mo7afazat','brach_filter','waselOnly','page_title',
+    'css_prop','status_color' ,'sums'));
     }
 
     public function tasdid(Request $request){
@@ -670,7 +695,8 @@ class frou3Controller extends Controller
     { 
         
         $user=auth()->user();
-        $limit=10;
+        $limit=Setting::get('items_per_page');
+        $page =0;
         $brach_filter = 'الفرع الرئيسى';
         if(isset($request->branch))
             $brach_filter= $request->branch;
@@ -706,48 +732,67 @@ class frou3Controller extends Controller
         });        
             //saif = shipmnt_cost  - t7weel
         
-        if($waselOnly)
+            if($waselOnly)
             $shipments = $shipments->where('status_' ,'=',7) ;
         else
             $shipments = $shipments->where('status_' ,'!=',8) ;
  
-        if(isset($request->mo7afza)){
-           $shipments = $shipments->where('mo7afaza_id', '=', $request->mo7afza);       
-       }
-        $all_shipments = $shipments;
-        if($user->type_ =='عميل'){
-            if(isset( request()->date_from))
-                $all_shipments= $all_shipments->where('date_' ,'>=',DATE($request->date_from) );
-            if(isset( request()->date_to))
-                $all_shipments= $all_shipments->where('date_' ,'<=' ,DATE($request->date_to) );
-        }else{
-            if(isset( request()->date_from))
-                $all_shipments= $all_shipments->where('tarikh_el7ala' ,'>=',DATE( request()->date_from) );
-            if(isset( request()->date_to))
-                $all_shipments= $all_shipments->where('tarikh_el7ala' ,'<=',DATE( request()->date_to) );
+        if(isset($request->code)){
+           $shipments = $shipments->where('code_', '=', $request->code);       
         }
-        $counter= $all_shipments->get();
-        // $totalCost = $counter->sum('shipment_coast_');
-        // if($user->type_=='عميل')
-        //     $tawsilCost = $counter->sum('tawsil_coast_');
-        // if($user->type_=='مندوب استلام')
-        //     $tawsilCost = $counter->sum('tas3ir_mandoub_estlam');
-        // if($user->type_=='مندوب تسليم')
-        //     $tawsilCost = $counter->sum('tas3ir_mandoub_taslim');
+        if(isset($request->reciver_phone)){
+            $shipments = $shipments->where('reciver_phone_', '=', $request->reciver_phone);       
+         }
         
-        // $netCost =  $totalCost-$tawsilCost;
+        if(isset($request->mo7afza)){
+            $shipments = $shipments->where('mo7afaza_id', '=', $request->mo7afza);       
+         }
+       if(isset($request->client_id) && $request->client_id!='الكل'){
+        $shipments = $shipments->where('client_name_', '=', $request->client_id);       
+        }
+        if(isset($request->Commercial_name)){
+            $shipments = $shipments->where('commercial_name_', '=', $request->Commercial_name);       
+            }
+        $all_shipments = $shipments;
+        
+        if(isset( request()->date_from))
+            $shipments= $shipments->where('date_' ,'>=',DATE($request->date_from) );
+        if(isset( request()->date_to))
+            $shipments= $shipments->where('date_' ,'<=' ,DATE($request->date_to) );
+        
 
-        $count_all = $counter->count();
-        if(request()->showAll == 'on')
+        if(request()->showAll == 'on'){
+            $counter= $all_shipments->get();
+            $count_all = $counter->count();
             request()->limit=$count_all;
-        $all = $all_shipments->paginate(request()->limit ?? 10);
-        
-        $all->withPath("?limit={$request->limit}&branch={$brach_filter}&mo7afza={$request->mo7afza}&showAll={$request->showAll}");
+        }
+       
+        $totalCost = $all_shipments->sum('shipment_coast_');
+        $tawsilCost = $all_shipments->sum('tawsil_coast_');
+        $allCount = $all_shipments->count();
+        $netCost =  $totalCost-$tawsilCost;
+        $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];
+        $all = $all_shipments->skip($limit*$page)->limit($limit)->get();
+        if(isset(request()->lodaMore)){
+            
+            return response()->json([
+                'status' => 200,
+                'data' => $all,
+                'message' => 'sucecss',
+                'sums'=>$sums
+            ], 200);
+        }
+        $mo7afazat =$this->getAllMo7afazat();
+        $filtered_clients = User::where('type_','عميل')->where('name_',$request->client_id)->pluck('code_')->toArray();
+        $Commercial_names =Commercial_name::whereIn('code_',$filtered_clients)->groupBy('name_')->get();
         $branches =BranchInfo::all();
-        $mo7afazat =Mohfza::all();
+        $status_color=Setting::whereIN('name',['status_6_color','status_1_color','status_2_color','status_3_color'
+        ,'status_4_color','status_7_color','status_8_color','status_9_color'])->get()->keyBy('name')->pluck('val','name');
+        $css_prop = Setting::get('status_css_prop');
         // dd($counter);
         $page_title='الشحنات  المسددة للفرع';
-        return view('frou3.accounting.mosadad',compact('all','branches','mo7afazat','brach_filter','waselOnly','page_title'));
+        return view('frou3.accounting.mosadad',compact('sums','all','branches','mo7afazat','brach_filter','waselOnly','page_title','status_color'
+        ,'css_prop'));
     }
 
 

@@ -32,7 +32,7 @@
                                 </div>
                            
                             <div class="post__content tab-content">
-                                <form action="{{route('shiments.store')}}" method="POST" id="shipment_form">
+                                <form action="{{route('shiments.update')}}" method="POST" id="shipment_form">
                                     @csrf;
                                     <div id="content" class="tab-pane p-5 active" role="tabpanel" aria-labelledby=	"content-tab">
                                     <div class="form-inline">
@@ -44,7 +44,8 @@
                                     @if(!$code_ai)
                                     <div class="form-inline mt-3">
                                         <label for="rakam-wasl" class="form-label sm:w-20">رقم الوصل</label>
-                                        <input id="rakam-wasl" type="text" class="form-control"  name="code"/>
+                                        <input id="rakam-wasl" type="text" class="form-control"  name="code" disabled value="{{$shipment->code_}}"/>
+                                        <input id="rakam-wasl" type="hidden" class="form-control"  name="code" value="{{$shipment->code_}}"/>
                                         
                                     </div>
                                     <small class="warring " style="margin-right: 100px;"></small>
@@ -53,7 +54,7 @@
                                         <label for="3amil-name" class="form-label sm:w-20">اسم العميل</label>
                                         <select class="form-control client_id " id='client_id' name="client_id">
                                             @foreach ($clients as $client)
-                                             <option value="{{$client->code_}}">{{$client->name_}}</option>
+                                             <option value="{{$client->code_}}" @if($client->code_ == $shipment->client_ID_) selected @endif>{{$client->name_}}</option>
                                              @endforeach
                                         </select>
                                         <script>
@@ -67,18 +68,18 @@
                                     </div>
                                     <div class="form-inline mt-3">
                                         <label for="phone" class="form-label sm:w-20">هاتف المستلم</label>
-                                        <input id="phone" type="text" class="form-control"  name="reciver_phone_" />
+                                        <input id="phone" type="text" class="form-control"  name="reciver_phone_" value="{{$shipment->reciver_phone_}}"/>
                                     </div>
                                     <div class="form-inline mt-3">
                                         <label for="phone" class="form-label sm:w-20">اسم المستلم</label>
-                                        <input id="phone" type="text" class="form-control"  name="reciver_name_" />
+                                        <input id="phone" type="text" class="form-control"  name="reciver_name_" value="{{$shipment->reciver_name_}}"/>
                                     </div>
                                     <div class="form-inline mt-3">
                                         <label for="mo7afaza" class="form-label sm:w-20 ">المحافظة</label>
                                         <select name="mo7afza" id='mo7afza' class="form-control mo7afza" >
                                             
                                             @foreach($mo7afazat as $mo7afaza)
-                                            <option value="{{$mo7afaza->code}}"  >{{$mo7afaza->name}}</option>
+                                            <option value="{{$mo7afaza->code}}"  @if($mo7afaza->code ==$shipment->mo7afaza_id) selected @endif>{{$mo7afaza->name}}</option>
                                             @endforeach
                                         </select>
                                         <script>
@@ -92,18 +93,18 @@
                                            
                                         </select>
                                         <label for="horizontal-form-1" class="form-label sm:w-20">العنوان</label>
-                                        <input type="text" name="el3nwan" id="" class="form-select form-select-sm mr-1" style=" width:400px; ">
+                                        <input type="text" name="el3nwan" id="" class="form-select form-select-sm mr-1" style=" width:400px; " value="{{$shipment->el3nwan}}">
                                     </div>
 
                                     <div class="form-inline mt-3">
                                         <label for="horizontal-form-1" class="form-label sm:w-20">مبلغ الشحنه</label>
                                         
-                                        <input id="shipment_cost" type="text" class="form-control   mr-1" name="shipment_coast_" aria-label="default input inline 1"> 
+                                        <input id="shipment_cost" type="text" class="form-control   mr-1" name="shipment_coast_"  aria-label="default input inline 1" value="{{$shipment->shipment_coast_}}"> 
 
                                         <label for="horizontal-form-1" class="form-label sm:w-20">مبلغ التوصيل</label>
-                                        <input id="tawsil_cost" type="text" class="form-control col-span-2" name="tawsil_coast_"  aria-label="default input inline 1"> 
+                                        <input id="tawsil_cost" type="text" class="form-control col-span-2" name="tawsil_coast_"  aria-label="default input inline 1" value="{{$shipment->tawsil_coast_}}"> 
                                         <label for="horizontal-form-1" class="form-label sm:w-20">الصافى</label>
-                                        <input  id="total" type="text" class="form-control col-span-2"  aria-label="default input inline 1" name="total_"> 
+                                        <input  id="total" type="text" class="form-control col-span-2"  name="total_" aria-label="default input inline 1" value="{{$shipment->total_}}"> 
 
 
                                     </div>
@@ -112,7 +113,30 @@
 
                                     <div class="form-inline mt-3">
                                         <label for="horizontal-form-1" class="form-label sm:w-20">ملاحظات</label>
-                                        <input id="horizontal-form-1" type="text" class="form-control"   name="notes_"/>
+                                        <input id="horizontal-form-1" type="text" class="form-control"  name="notes_"  value="{{$shipment->notes_}}"/>
+                                    </div>
+
+                                    <div class="form-inline mt-3">
+                                        <label for="horizontal-form-1" class="form-label sm:w-20">تحويل اول</label>
+                                        
+                                        <input id="shipment_cost" type="text" class="form-control   mr-1" name="transfere_1" value="{{$shipment->transfere_1}}"  aria-label="default input inline 1" value="{{$shipment->shipment_coast_}}"> 
+
+                                        <label for="horizontal-form-1" class="form-label sm:w-20">تحويل ثاني</label>
+                                        <input id="tawsil_cost" type="text" class="form-control col-span-2" name="transfere_2" value="{{$shipment->transfere_2}}"  aria-label="default input inline 1" value="{{$shipment->tawsil_coast_}}"> 
+                                        
+
+
+                                    </div>
+                                    <div class="form-inline mt-3">
+                                        <label for="horizontal-form-1" class="form-label sm:w-20">استقطاع اول</label>
+                                        
+                                        <input id="shipment_cost" type="text" class="form-control   mr-1" name="transfer_coast_" value="{{$shipment->transfer_coast_1}}"  aria-label="default input inline 1" value="{{$shipment->shipment_coast_}}"> 
+
+                                        <label for="horizontal-form-1" class="form-label sm:w-20">استقطاع ثاني</label>
+                                        <input id="tawsil_cost" type="text" class="form-control col-span-2" name="transfer_coast_2" value="{{$shipment->transfer_coast_2}}" aria-label="default input inline 1" value="{{$shipment->tawsil_coast_}}"> 
+                                        
+
+
                                     </div>
                                    
                                    
@@ -223,15 +247,15 @@ var  manteka =new TomSelect("#manteka",{
     })
 
     
-    $('#shipment_form').on("submit",function(e){
-        e.preventDefault();
-        save_shipment()
-    } );
-    $('#shipment_cost').on("keyup",function(e){
-        if(e.keyCode == 13){
-            save_shipment()
-        }
-    } )
+    // $('#shipment_form').on("submit",function(e){
+    //     e.preventDefault();
+    //     save_shipment()
+    // } );
+    // $('#shipment_cost').on("keyup",function(e){
+    //     if(e.keyCode == 13){
+    //         save_shipment()
+    //     }
+    // } )
 
     $('#rakam-wasl').on("keyup",function(e){
         let code= $(this).val();
