@@ -1003,7 +1003,8 @@ class shipmentsController extends Controller
             $shipment->serial_ 	 = $request->code;
         $client = USer::where('code_',$request->client_id)->first();
         $shipment->client_ID_   = $client->code_;
-        $shipment->clinet_phone_   = $client->name_;
+        $shipment->client_name_   = $client->name_;
+        $shipment->clinet_phone_   = $client->phone_;
         $shipment->reciver_name_   = $request->reciver_name_;
         $shipment->Commercial_name_ = $request->Commercial_name;
         $shipment->mo7afaza_id   = $request->mo7afza;
@@ -1167,7 +1168,8 @@ class shipmentsController extends Controller
             // $shipment->serial_ 	 = $request->code;
         $client = USer::where('code_',$request->client_id)->first();
         $shipment->client_ID_   = $client->code_;
-        $shipment->clinet_phone_   = $client->name_;
+        $shipment->client_name_   = $client->name_;
+        $shipment->clinet_phone_   = $client->phone_;
         $shipment->reciver_name_   = $request->reciver_name_;
         $shipment->reciver_phone_   = $request->reciver_phone_;
         if(isset($request->Commercial_name)){
