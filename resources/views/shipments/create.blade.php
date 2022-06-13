@@ -20,7 +20,7 @@
                                 </div>
                             @endif
                            
-                                <div id='msgs' class="">
+                                <div id='msgs' class="alert ">
                                     <p></p>
                                     <ul class="cerror" id='cerror'>
                                         @if($errors->any())
@@ -33,7 +33,7 @@
                            
                             <div class="post__content tab-content">
                                 <form action="{{route('shiments.store')}}" method="POST" id="shipment_form">
-                                    @csrf;
+                                    @csrf
                                     <div id="content" class="tab-pane p-5 active" role="tabpanel" aria-labelledby=	"content-tab">
                                     <div class="form-inline">
                                         <label for="date" class="form-label sm:w-20">التاريخ</label>
@@ -255,10 +255,13 @@ var  manteka =new TomSelect("#manteka",{
         var data={}
         var flg=0;
         formData.forEach(element => 
-        {   data[element['name']]= element['value'] ;
+        {   if(element['name']=='notes_'){
+            
+            }else{
+            data[element['name']]= element['value'] ;
             if(element['value'] =='' || element['value'] == null)
             {flg=1; $("#cerror").append('<li>'+element['name'] +' is required</li>');}
-            //console.log(element);
+            }
         });
        if(flg) {
         $('msgs').addClass( "alert alert-danger" );
@@ -274,6 +277,8 @@ var  manteka =new TomSelect("#manteka",{
                         $('#rakam-wasl').val('');
                         document.getElementById("rakam-wasl").focus();
                         $('.warring').text('');
+                        $("#cerror").text('');
+                        $("#cerror").append('<li> تم الحفظ بنجاح</li>');
                     
                     },
                     fail: function(result){

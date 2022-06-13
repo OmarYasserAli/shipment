@@ -34,6 +34,14 @@ class shipmentsController extends Controller
 
         return Mohfza::where('branch',auth()->user()->branch)->get();
     } 
+
+
+
+    /**
+     * status
+     * ship_area = user->branch
+     * trasfaere accept refuse in [1 , 0]
+     */
     public function HomePage(Request $request)
     {
        
@@ -42,11 +50,11 @@ class shipmentsController extends Controller
         $statuses= Shipment_status::orderBy('sort_no')->where('code_' ,'!=',10)
         ->UserTypeFilter($user->type_,$user->code_)
         ->select('code_','name_')->get()->toArray();
-
+        $total=0;
         foreach($statuses as $key=> $status){
             
-            $shipments = Shipment::where('Status_',$status['code_'])
-            ->UserType($user->type_,$user->code_);
+            $shipments = Shipment::where('Status_',$status['code_'])->whereIn('TRANSFERE_ACCEPT_REFUSE',[1,0])->where('Ship_area_',$user->branch);
+            //->UserType($user->type_,$user->code_);
             if(isset(request()->commercial_name)){
                 $shipments=$shipments->where('commercial_name_',request()->commercial_name);
             }
@@ -54,43 +62,15 @@ class shipmentsController extends Controller
             //->groupBy( 'Status_')
             ->first();
             $statuses[$key]['cnt'] = $shipments ? $shipments->cnt : 0;
-            
+            $total+=$statuses[$key]['cnt'];
         }
-        if($user->type_=='مندوب تسليم')
-            $statuses[0]['name_']='شحناتى';
-        if($user->type_=='مندوب استلام')
-           {
-             //  dd('d');
-            $statuses[1]['name_']='شحناتى';
-            $statuses[0]['cnt']=$shipment = Shipment::where('Status_',3)
-            ->where('branch_',$user->branch)
-            //->UserType($user->type_,$user->code_)
-            ->count();
-           }
-        
+
        
       
-        if(!isset(request()->commercial_name))
-           { $cummercial_names = DB::table('commercial_name_for_main_comp')
-            ->select('commercial_name_for_main_comp.name_','commercial_name_for_main_comp.code_')
-            ->where('code_client', request()->user_id)
-            ->groupBy( 'commercial_name_for_main_comp.name_' ,'commercial_name_for_main_comp.code_')
-                ->get();
-            if($user->type_=='مندوب استلام')
-           {
-              
-             $cummercial_names= $this->get_estlam_commercial_names( $request,$user)->get();
-          
-           }
-                $cummercial_names_count= $cummercial_names->count();
-
-            }
-        else{
-            $cummercial_names =  request()->commercial_name;
-            $cummercial_names_count  =1;
-        }
-        // dd($statuses);
-        return view('shipments.total',compact('statuses','cummercial_names'));
+ 
+        //  dd($total);
+        return view('shipments.7ala',compact('statuses','total'));
+        //return view('shipments.total',compact('statuses','cummercial_names'));
       
        
     }
@@ -1025,7 +1005,7 @@ class shipmentsController extends Controller
         $shipment->client_ID_   = $client->code_;
         $shipment->clinet_phone_   = $client->name_;
         $shipment->reciver_name_   = $request->reciver_name_;
-        $shipment->Commercial_name = $request->Commercial_name;
+        $shipment->Commercial_name_ = $request->Commercial_name;
         $shipment->mo7afaza_id   = $request->mo7afza;
         $shipment->mantika_id   = $request->manteka;
         $mo7afzaName=Mohfza::where('code',$shipment->mo7afaza_id)->first()->name;
@@ -1191,7 +1171,7 @@ class shipmentsController extends Controller
         $shipment->reciver_name_   = $request->reciver_name_;
         $shipment->reciver_phone_   = $request->reciver_phone_;
         if(isset($request->Commercial_name)){
-           $shipment->Commercial_name = $request->Commercial_name;
+           $shipment->Commercial_name_ = $request->Commercial_name;
         }
         $shipment->mo7afaza_id   = $request->mo7afza;
         
