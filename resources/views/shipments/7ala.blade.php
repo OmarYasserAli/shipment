@@ -9,13 +9,14 @@
                     <div class="col-span-12 2xl:col-span-12">
                         <div class="grid grid-cols-12 gap-6">
                             <!-- BEGIN: General Report -->
-                            <div class="col-span-12 mt-8">
+                            <div class="col-span-12 mt-8 " >
                                 
                                 <div class="grid grid-cols-12 gap-6 mt-5">
                                     @foreach($statuses as $status)
                                         
-                                    <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
-                                            <div class="report-box zoom-in">
+                                    <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y linky" data-code="{{$status['code_']}}">
+                                        <a href="{{route('shiments',['type' =>$status['code_'] ])}}">
+                                        <div class="report-box zoom-in">
                                                 <div class="box p-5">
                                                     <div class="flex">
                                                         <i data-lucide="shopping-cart" class="report-box__icon text-primary"></i> 
@@ -27,6 +28,7 @@
                                                     <div class="text-base text-slate-500 mt-1">{{$status['name_']}}</div>
                                                 </div>
                                             </div>
+                                        </a>
                                         </div>
                                     @endforeach
                                     
@@ -64,4 +66,12 @@
                 </div>
                 
             </div>
+
+
+            <script>
+                $('.linky').on('click',function(){
+                    var code = $(this).data('code');
+                    //window.location.replace(window.location.href+'/'+code)
+                })
+            </script>
 @endsection

@@ -52,6 +52,7 @@
                                     <div class="form-inline mt-3">
                                         <label for="3amil-name" class="form-label sm:w-20">اسم العميل</label>
                                         <select class="form-control client_id " id='client_id' name="client_id">
+                                            <option value=""></option>
                                             @foreach ($clients as $client)
                                              <option value="{{$client->code_}}">{{$client->name_}}</option>
                                              @endforeach
@@ -76,7 +77,7 @@
                                     <div class="form-inline mt-3">
                                         <label for="mo7afaza" class="form-label sm:w-20 ">المحافظة</label>
                                         <select name="mo7afza" id='mo7afza' class="form-control mo7afza" >
-                                            
+                                            <option value=""></option>
                                             @foreach($mo7afazat as $mo7afaza)
                                             <option value="{{$mo7afaza->code}}"  >{{$mo7afaza->name}}</option>
                                             @endforeach
@@ -134,7 +135,7 @@
 
 
 <script>
-
+document.getElementById("client_id").focus();
 var  comName =new TomSelect(".Commercial_name",{
 	valueField: 'id',
 	labelField: 'title',
@@ -275,16 +276,20 @@ var  manteka =new TomSelect("#manteka",{
                     success: function(result){
                         console.log(result)
                         $('#rakam-wasl').val('');
-                        document.getElementById("rakam-wasl").focus();
+                        if($('#rakam-wasl').length>0)
+                            document.getElementById("rakam-wasl").focus();
+                        else
+                            document.getElementById("client_id").focus();
                         $('.warring').text('');
                         $("#cerror").text('');
                         $("#cerror").append('<li> تم الحفظ بنجاح</li>');
                     
                     },
                     fail: function(result){
-                        alert('f');
+                        
                         result.errors.forEach(element => {
-                            console.log(element)
+                            $("#cerror").text('');
+                            $("#cerror").append('<li>'+element+'</li>');
                         });
                     }
                 });

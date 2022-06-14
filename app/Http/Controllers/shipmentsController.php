@@ -75,97 +75,95 @@ class shipmentsController extends Controller
        
     }
     
-    public function shipments(int $type)
+    public function shipments(int $type,Request $request)
     { 
            $status=$type;
             $user=auth()->user();
-            $offset=0; $limit=10;
-            if(isset(request()->offset ))   $offset =request()->offset;
-            if(isset(request()->limit ))   $limit =request()->limit;
-            
-            $shipments_null_date = Shipment::with(['Branch_user' => function ($query) {
-                $query->select('code_','phone_');
-            },
-            'Shipment_status'=> function ($query) {
-                $query->select('code_','name_');
-            },])
-            ->where('status_',$status)
-            ->UserType($user->type_,$user->code_)
-            ->where('tarikh_tasdid_el3amil' ,'')
-            ->where('tarikh_el7ala' ,'');
-            if(isset(request()->commercial_name)){
-                $shipments_null_date = $shipments_null_date->where('add_shipment_tb_.commercial_name_', request()->commercial_name);
-            }
+            $limit=Setting::get('items_per_page');
+             $page =0;
+             if(isset(request()->page)) $page= request()->page;
+           
 
             $shipments = Shipment::with(['Branch_user' => function ($query) {
                 $query->select('code_','phone_');
-            }])
+            }])->whereIn('TRANSFERE_ACCEPT_REFUSE',[1,0])->where('Ship_area_',$user->branch)
             ->where('status_',$status);
             
            
             
-            if($user->type_== 'مندوب استلام' && $status ==3){
-                $shipments = $shipments->where('branch_',$user->branch);
-                
-            }else{
-                $shipments = $shipments->UserType($user->type_,$user->code_);
-            }
+           
             if(isset(request()->commercial_name)){
                 $shipments = $shipments->where('add_shipment_tb_.commercial_name_', request()->commercial_name);
             }
-
-           
-            $all_shipments = $shipments;
-
-            if($user->type_ =='عميل'){
-               
-                if(isset( request()->date_from))
-                    $all_shipments= $all_shipments->where('date_' ,'>=',DATE($request->date_from) );
-                if(isset( request()->date_to))
-                    $all_shipments= $all_shipments->where('date_' ,'<=' ,DATE($request->date_to) );
-                   
-            }else{
-                if(isset( request()->date_from))
-                    $all_shipments= $all_shipments->where('tarikh_el7ala' ,'>=',DATE( request()->date_from) );
-                if(isset( request()->date_to))
-                    $all_shipments= $all_shipments->where('tarikh_el7ala' ,'<=',DATE( request()->date_to) );
-
+            
+        if(isset($request->code)){
+           $shipments = $shipments->where('code_', '=', $request->code);       
+        }
+        if(isset($request->reciver_phone)){
+            $shipments = $shipments->where('reciver_phone_', '=', $request->reciver_phone);       
+         }
+        
+        if(isset($request->mo7afza)){
+            $shipments = $shipments->where('mo7afaza_id', '=', $request->mo7afza);       
+         }
+       if(isset($request->branch_) && $request->branch_!='الكل'){
+        $shipments = $shipments->where('branch_', '=', $request->branch_);       
+        }
+        if(isset($request->Commercial_name)){
+            $shipments = $shipments->where('commercial_name_', '=', $request->Commercial_name);       
             }
-            
-
+        $all_shipments = $shipments;
+        
+        if(isset( request()->date_from))
+            $shipments= $shipments->where('date_' ,'>=',DATE($request->date_from) );
+        if(isset( request()->date_to))
+            $shipments= $shipments->where('date_' ,'<=' ,DATE($request->date_to) );
+       
+        if(isset( request()->hala_date_from))
+            $shipments= $shipments->where('tarikh_el7ala' ,'>=',DATE( request()->hala_date_from) );
+        if(isset( request()->hala_date_to))
+            $shipments= $shipments->where('tarikh_el7ala' ,'<=',DATE( request()->hala_date_to) );
+    
+        if(request()->showAll == 'on'){
             $counter= $all_shipments->get();
-            
-            $totalCost = $counter->sum('shipment_coast_');
-            if($user->type_=='عميل')
-                $tawsilCost = $counter->sum('tawsil_coast_');
-            if($user->type_=='مندوب استلام')
-                $tawsilCost = $counter->sum('tas3ir_mandoub_estlam');
-            if($user->type_=='مندوب تسليم')
-                $tawsilCost = $counter->sum('tas3ir_mandoub_taslim');
-            
-            $netCost =  $totalCost-$tawsilCost;
-
             $count_all = $counter->count();
-            if(request()->page == -100)
-                request()->limit=$count_all;
-            $all = $all_shipments->paginate(request()->limit ?? 10);
-           // $data=$all->items();
-           $superUserBranch  =BranchInfo::all();
-            return view('shipments.index',compact('all','superUserBranch'));
-        return response()->json([
-            'status' => 200,
-            'message' => 'success',
-            'total-cost' => $totalCost,
-            'tawsil-cost' => $tawsilCost,
-            'net-cost' => $netCost,
-            'count' => $all->count(),
-            'count-all' => $count_all,
-            "type" => $user->type_,
-            "currentPage" => $all->currentPage(),
-            'lastPage' => $all->lastPage(),
-            'hasMorePages' => $all->hasMorePages(),
-            'data' => $all->items(),
-        ]);
+            request()->limit=$count_all;
+        }
+        //  dd($all_shipments->skip(0)->limit(40)->get()[20]);
+        $totalCost = $all_shipments->sum('shipment_coast_');
+        $tawsilCost = $all_shipments->sum('tawsil_coast_');
+        $allCount = $all_shipments->count();
+        $netCost =  $totalCost-$tawsilCost;
+        $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];
+        $all = $all_shipments->skip($limit*$page)->limit($limit)->get();
+        if(isset(request()->lodaMore)){
+            
+            return response()->json([
+                'status' => 200,
+                'data' => $all,
+                'message' => 'sucecss',
+                'sums'=>$sums
+            ], 200);
+        }
+        
+        // $all->withPath("?mo7afza={$request->mo7afza}&showAll={$request->showAll}
+        // &client_id={$request->client_id}");
+        
+        $mo7afazat =$this->getAllMo7afazat();
+        $filtered_clients = User::where('type_','عميل')->where('name_',$request->client_id)->pluck('code_')->toArray();
+        $Commercial_names =Commercial_name::whereIn('code_',$filtered_clients)->groupBy('name_')->get();
+            
+        
+        $clients =User::where('type_','عميل')->get();
+        $status_color=Setting::whereIN('name',['status_6_color','status_1_color','status_2_color','status_3_color'
+        ,'status_4_color','status_7_color','status_8_color','status_9_color'])->get()->keyBy('name')->pluck('val','name');
+        $css_prop = Setting::get('status_css_prop');
+        //  dd($status_color);
+        $page_title='الشحنات الغير مسددة للعميل';
+        return view('shipments.index',compact('all','type','mo7afazat','page_title','Commercial_names',
+        'clients','status_color','css_prop','sums'));
+           
+           
 
             
         
@@ -997,10 +995,12 @@ class shipmentsController extends Controller
         // $shipment->date_   = $request->date;
         $shipment->reciver_phone_   = $request->reciver_phone_;
         $shipment->client_ID_   = $request->client_id;
-        if(!Setting::get('shipment_code_ai'))
+        if(!Setting::get('shipment_code_ai')){
             $shipment->code_   = $request->code;
-        
             $shipment->serial_ 	 = $request->code;
+
+        }
+        
         $client = USer::where('code_',$request->client_id)->first();
         $shipment->client_ID_   = $client->code_;
         $shipment->client_name_   = $client->name_;
