@@ -14,7 +14,7 @@ return [
      */
 
     'name' => env('APP_NAME', 'Hiring'),
-
+    'timezone' => env('TIME_ZONE', 'Asia/Baghdad'),
     /*
     |--------------------------------------------------------------------------
     | Application Environment
@@ -67,7 +67,7 @@ return [
     |
      */
 
-    'timezone' => 'UTC',
+    //'timezone' => 'UTC',
 
     /*
     |--------------------------------------------------------------------------

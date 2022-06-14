@@ -2,11 +2,11 @@
   'app' => 
   array (
     'name' => 'MetaWan',
+    'timezone' => 'Asia/Baghdad',
     'env' => 'local',
     'debug' => true,
     'url' => 'http://localhost/Cargo/public',
     'asset_url' => NULL,
-    'timezone' => 'UTC',
     'locale' => 'en',
     'fallback_locale' => 'en',
     'faker_locale' => 'en_US',

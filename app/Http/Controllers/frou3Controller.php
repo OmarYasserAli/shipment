@@ -558,14 +558,15 @@ class frou3Controller extends Controller
         $user=auth()->user();
         $limit=Setting::get('items_per_page');
         $page =0;
+        if(isset(request()->page)) $page= request()->page;
         $brach_filter = 'الفرع الرئيسى';
-        if(isset($request->branch_))
+        if(isset($request->branch_)  && $request->branch_!='الكل')
             $brach_filter= $request->branch_;
         $waselOnly=0;
         if(isset($request->waselOnly))
             $waselOnly= 1;
             
-        if(isset(request()->limit ))   $limit =request()->limit;
+        //if(isset(request()->limit ))   $limit =request()->limit;
         $shipments = Shipment::select('*',DB::raw("(CASE 
                                     WHEN ( branch_ = '{$user->branch}' and  transfere_1 = '{$brach_filter}' and elfar3_elmosadad_mno = '') THEN  transfer_coast_1
                                     WHEN ( transfere_1 = '{$user->branch}' and  transfere_2 = '{$brach_filter}' and elfar3_elmosadad_mno_2 = '') THEN transfer_coast_2
@@ -608,7 +609,7 @@ class frou3Controller extends Controller
         if(isset($request->mo7afza)){
             $shipments = $shipments->where('mo7afaza_id', '=', $request->mo7afza);       
          }
-       if(isset($request->client_id) && $request->client_id!='الكل'){
+       if(isset($request->client_id)){
         $shipments = $shipments->where('client_name_', '=', $request->client_id);       
         }
         if(isset($request->Commercial_name)){
@@ -697,8 +698,9 @@ class frou3Controller extends Controller
         $user=auth()->user();
         $limit=Setting::get('items_per_page');
         $page =0;
+        if(isset(request()->page)) $page= request()->page;
         $brach_filter = 'الفرع الرئيسى';
-        if(isset($request->branch))
+        if(isset($request->branch) && $request->branch_!='الكل')
             $brach_filter= $request->branch;
         $waselOnly=0;
         if(isset($request->waselOnly))
@@ -747,7 +749,7 @@ class frou3Controller extends Controller
         if(isset($request->mo7afza)){
             $shipments = $shipments->where('mo7afaza_id', '=', $request->mo7afza);       
          }
-       if(isset($request->client_id) && $request->client_id!='الكل'){
+       if(isset($request->client_id) ){
         $shipments = $shipments->where('client_name_', '=', $request->client_id);       
         }
         if(isset($request->Commercial_name)){

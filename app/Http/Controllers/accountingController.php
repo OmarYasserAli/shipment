@@ -68,8 +68,8 @@ class accountingController extends Controller
         if(isset($request->mo7afza)){
             $shipments = $shipments->where('mo7afaza_id', '=', $request->mo7afza);       
          }
-       if(isset($request->branch_) && $request->branch_!='الكل'){
-        $shipments = $shipments->where('branch_', '=', $request->branch_);       
+       if(isset($request->client_id) && $request->client_id!='الكل'){
+        $shipments = $shipments->where('client_name_', '=', $request->client_id);       
         }
         if(isset($request->Commercial_name)){
             $shipments = $shipments->where('commercial_name_', '=', $request->Commercial_name);       

@@ -80,7 +80,7 @@
                                 <input name='tasdid_date_to' type="date"  class="form-control form-select-sm "  aria-label="default input inline 1" style=""> 
                             </div>
                             <div class="form-inline 3amil">
-                                <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:15px; margin-top:1px; width:30px; ">العميل</label>
+                                <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:15px; margin-top:1px; width:30px; ">مندوب الاستلام</label>
                                 
                                 <input type="hidden" value="@if(request()->get('client_id')!= null){{request()->get('client_id')}}@else الكل @endif" name='client_id'>
                                     <div class="mr-6 alert alert-outline-secondary alert-dismissible show flex items-center mb-2" role="alert">

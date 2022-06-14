@@ -974,14 +974,18 @@ class shipmentsController extends Controller
         $user = auth()->user();
         $clients = User::where('type_','عميل')->where('branch', $user->branch)->get();
         $mo7afazat =Mohfza::where('branch',$user->branch)->get();
-        $now = Carbon::now();
+        $now = Carbon::now()->format('Y-m-d  g:i:s A');
+        
         $code_ai=Setting::get('shipment_code_ai');
-        return view('shipments.create',compact('clients','mo7afazat','now','code_ai'));
+        $page_title='اضافة شحنة';
+        $clearFileds=Setting::whereIn('name',['remove_mantka','remove_mo7fza','remove_client_name','remove_commercial_name'])->get()->pluck('val','name')->toArray();
+        // dd($clearFileds);
+        return view('shipments.create',compact('clients','mo7afazat','now','code_ai','page_title','clearFileds'));
     }
     public function store(Request $request){
        
         $validated = $request->validate([
-            'reciver_name_' => 'required',
+            //'reciver_name_' => 'required',
             'client_id' => 'required',
             'mo7afza' => 'required',
             'manteka' => 'required',
@@ -1137,8 +1141,9 @@ class shipmentsController extends Controller
         $mo7afazat =Mohfza::where('branch',$user->branch)->get();
         $now = Carbon::now();
         $code_ai=Setting::get('shipment_code_ai');
+        $page_title='تعديل شحنة';
         
-        return view('shipments.edit',compact('shipment' ,'clients','mo7afazat','now','code_ai'));
+        return view('shipments.edit',compact('shipment' ,'clients','mo7afazat','now','code_ai','page_title'));
         // تحويل اول  => transfere 1
         // استقطاع اول  => transfere_cost_1
 

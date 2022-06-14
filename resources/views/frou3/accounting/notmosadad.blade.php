@@ -176,7 +176,7 @@
                             
                             <th class="whitespace-nowrap">الفرع</th>
                             <th class="whitespace-nowrap">الصافى</th>
-                            <th class="whitespace-nowrap">اجره الشركه</th>
+                            <th class="whitespace-nowrap">اجره الفرع</th>
                             <th class="whitespace-nowrap">مبلغ الشحنه</th>
                                     <th class="whitespace-nowrap">الكود</th>
                                     <th class="whitespace-nowrap"><input type="checkbox" id="checkAll"></th>
@@ -196,7 +196,7 @@
                             
                             <td class="whitespace-nowrap " >{{$shipment->branch_}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->total_}}</td>
-                            <td class="whitespace-nowrap " >{{$shipment->tawsil_coast_}}</td>
+                            <td class="whitespace-nowrap " >{{$shipment->t7weel_cost}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->shipment_coast_}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->code_}}</td>
                                     <td class="whitespace-nowrap " ><input type="checkbox" class="check_count" data-cost='{{$shipment->shipment_coast_}}'
@@ -365,7 +365,7 @@
                                     // success callback function
                                     //$('#manteka-table tr').not(function(){ return !!$(this).has('th').length; }).remove();
                                     
-                                    console.log((data.data)[0]);
+                                    
                                         $('#manteka-table   tr:last').after(`<tr class='' >
                                             <td>`+cnt+`</td>
                                             <td>`+res.code_+`</td>
@@ -581,11 +581,11 @@
                             
                             <td  class="whitespace-nowrap " >`+value.branch_+`</td>
                             <td  class="whitespace-nowrap " >`+value.total_+`</td>
-                            <td  class="whitespace-nowrap " >`+value.tawsil_coast_+`</td>
+                            <td  class="whitespace-nowrap " >`+value.t7weel_cost+`</td>
                             <td  class="whitespace-nowrap " >`+value.shipment_coast_+`</td>
                             <td  class="whitespace-nowrap " >`+value.code_+`</td>
                             <td class="whitespace-nowrap " ><input type="checkbox" class="check_count" data-cost='`+value.shipment_coast_+`'
-                                        data-t7wel='`+value.tawsil_coast_+`' data-net='`+value.shipment_coast_+`' data-code='`+value.code_+`' data-status='`+value.Status_+`'></td>                
+                                        data-t7wel='`+value.t7weel_cost+`' data-net='`+value.shipment_coast_+`' data-code='`+value.code_+`' data-status='`+value.Status_+`'></td>                
                                             </tr>`
                             );
 

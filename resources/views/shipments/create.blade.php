@@ -44,57 +44,67 @@
                                     @if(!$code_ai)
                                     <div class="form-inline mt-3">
                                         <label for="rakam-wasl" class="form-label sm:w-20">رقم الوصل</label>
-                                        <input id="rakam-wasl" type="text" class="form-control"  name="code"/>
+                                        <input id="rakam-wasl" type="text" class="form-control"  name="code" />
                                         
                                     </div>
-                                    <small class="warring " style="margin-right: 100px;"></small>
+                                    <small class="warring data-error" id='data-error-code' style="margin-right: 100px;" hidden></small>
                                     @endif
                                     <div class="form-inline mt-3">
                                         <label for="3amil-name" class="form-label sm:w-20">اسم العميل</label>
-                                        <select class="form-control client_id " id='client_id' name="client_id">
+                                        <select class="form-control client_id " id='client_id' name="client_id" data-clear='{{$clearFileds['remove_client_name']}}'>
                                             <option value=""></option>
                                             @foreach ($clients as $client)
                                              <option value="{{$client->code_}}">{{$client->name_}}</option>
                                              @endforeach
                                         </select>
-                                        <script>
-                                            new TomSelect(".client_id",{});
+                                        
+                                        <script> 
+                                            let clientSelect = new TomSelect(".client_id",{});
                                         </script>
                                     </div>
+                                    <small class="warring data-error" id='data-error-client_id' style="margin-right: 100px;" hidden></small>
                                     <div class="form-inline mt-3">
                                         <label for="commercial-name" class="form-label sm:w-20 ">الاسم التجارى</label>
-                                        <select class="Commercial_name form-control" id='Commercial_name' name="Commercial_name" >     
+                                        <select class="Commercial_name form-control" id='Commercial_name' name="Commercial_name" data-clear='{{$clearFileds['remove_commercial_name']}}'>     
                                         </select>
                                     </div>
+                                    <small class="warring data-error" id='data-error-Commercial_name' style="margin-right: 100px;" hidden></small>
+
                                     <div class="form-inline mt-3">
                                         <label for="phone" class="form-label sm:w-20">هاتف المستلم</label>
                                         <input id="phone" type="text" class="form-control"  name="reciver_phone_" />
                                     </div>
+                                    <small class="warring data-error" id='data-error-reciver_phone_' style="margin-right: 100px;" hidden></small>
+
                                     <div class="form-inline mt-3">
                                         <label for="phone" class="form-label sm:w-20">اسم المستلم</label>
                                         <input id="phone" type="text" class="form-control"  name="reciver_name_" />
-                                    </div>
+                                    </div> 
                                     <div class="form-inline mt-3">
                                         <label for="mo7afaza" class="form-label sm:w-20 ">المحافظة</label>
-                                        <select name="mo7afza" id='mo7afza' class="form-control mo7afza" >
+                                        <select name="mo7afza" id='mo7afza' class="form-control mo7afza" data-clear='{{$clearFileds['remove_mo7fza']}}'>
                                             <option value=""></option>
                                             @foreach($mo7afazat as $mo7afaza)
                                             <option value="{{$mo7afaza->code}}"  >{{$mo7afaza->name}}</option>
                                             @endforeach
                                         </select>
                                         <script>
-                                            new TomSelect(".mo7afza",{});
+                                           let mo7afazaSelect = new TomSelect(".mo7afza",{});
                                         </script>
                                     </div>
+                                    <small class="warring data-error" id='data-error-mo7afza' style="margin-right: 100px;" hidden></small>
+
                                     <div class="form-inline mt-3">
                                         <label for="horizontal-form-1" class="form-label sm:w-20">المنطقة</label>
-                                        <select name="manteka" id='manteka'  class="form-control   mr-1"  style=" width:200px; margin-right:20px;">
+                                        <select name="manteka" id='manteka'  class="form-control   mr-1"  style=" width:200px; margin-right:20px;" data-clear='{{$clearFileds['remove_mantka']}}'>
                                             
                                            
                                         </select>
                                         <label for="horizontal-form-1" class="form-label sm:w-20">العنوان</label>
                                         <input type="text" name="el3nwan" id="" class="form-select form-select-sm mr-1" style=" width:400px; ">
                                     </div>
+                                    <small class="warring data-error" id='data-error-el3nwan' style="margin-right: 100px;" hidden></small>
+                                    <small class="warring data-error" id='data-error-manteka' style="margin-right: 400px;" hidden></small>
 
                                     <div class="form-inline mt-3">
                                         <label for="horizontal-form-1" class="form-label sm:w-20">مبلغ الشحنه</label>
@@ -108,6 +118,7 @@
 
 
                                     </div>
+                                    <small class="warring data-error" id='data-error-shipment_coast_' style="margin-right: 100px;" hidden></small>
                                     
                                   
 
@@ -160,17 +171,21 @@ var  manteka =new TomSelect("#manteka",{
                           },
                           dataType : 'json',
                           success: function(result){
-                              console.log(result)
+                             
                           $('#Commercial_name').prop('disabled', false);
-                         
+                         var temp = ''; var f=0;
                           comName.clearOptions();
                           $.each(result.all,function(key,value){
+                            if(f==0){
+                                f=1;
+                                temp = value.name_;
+                            }
                               comName.addOption({
                                 id: value.name_,
                                 title: value.name_,
-                              
+                                
                             });
-                              
+                            comName.setValue(temp);
                           });
                           }
                       });
@@ -190,12 +205,15 @@ var  manteka =new TomSelect("#manteka",{
                           $('#manteka').prop('disabled', false);
                           //$('#manteka').html('<option value="">...</option>');
                           manteka.clearOptions();
+                          var temp = ''; var f=0;
                           $.each(result.all,function(key,value){
-                            manteka.addOption({
-                                id: value.code,
-                                title: value.name,
-                                
-                            });
+                                if(f==0   ){ f=1;  temp = value.code;  }
+                                manteka.addOption({
+                                    id: value.code,
+                                    title: value.name,
+                                    
+                                });
+                                manteka.setValue(temp);
                             });
                           }
                       });
@@ -214,13 +232,16 @@ var  manteka =new TomSelect("#manteka",{
                                 console.log(result.all)
                                   $('#tawsil_cost').val(result.all);
                                   if($('#shipment_cost').val() !='')
-                                  $('#total').val( parseInt($('#shipment_cost').val()) - parseInt($('#tawsil_cost').val())   )
+                                  var total = (parseInt($('#shipment_cost').val()) - parseInt($('#tawsil_cost').val()));
+                                    total = total || 0
+                                    $('#total').val(total   )
                             }
                         });
       }); 
     $('#shipment_cost').on('keyup',function(){
-        
-        $('#total').val( parseInt($('#shipment_cost').val()) - parseInt($('#tawsil_cost').val())   )
+        var total = (parseInt($('#shipment_cost').val()) - parseInt($('#tawsil_cost').val()));
+        total = total || 0
+            $('#total').val(total   )
     })
 
     
@@ -240,10 +261,11 @@ var  manteka =new TomSelect("#manteka",{
         url:"{{route('shiments.isCodeUsed')}}?code="+code,
         type: "get",
         success: function(result){
+            $('#data-error-code').show()
            if(result.data == true)
-            $('.warring').css('color','red').text('هذا الرقم غير متاح');
+            $('#data-error-code').css('color','red').text('هذا الرقم غير متاح');
             else
-            $('.warring').css('color','green').text('هذا الرقم  متاح');
+            $('#data-error-code').css('color','green').text('هذا الرقم  متاح');
 
         }
     });
@@ -253,19 +275,34 @@ var  manteka =new TomSelect("#manteka",{
     function save_shipment() {
         // var formData = new FormData($('#shipment_form')[0]);
         var formData = $('#shipment_form').serializeArray();
+        $('.data-error').hide();
         var data={}
         var flg=0;
         formData.forEach(element => 
-        {   if(element['name']=='notes_'){
+        {   
             
-            }else{
+            if(element['id'] != undefined){
+                //console.log($('#'+element['id']))
+                $('#'+element['id']).val('')
+            }
             data[element['name']]= element['value'] ;
-            if(element['value'] =='' || element['value'] == null)
-            {flg=1; $("#cerror").append('<li>'+element['name'] +' is required</li>');}
+            if(element['name']!='notes_' && element['name']!='reciver_name_'){
+            
+                if(element['value'] =='' || element['value'] == null)
+                {
+                    flg=1; 
+                    var tag_id= '#data-error-'+element['name'];
+                    console.log(tag_id);
+                    $(tag_id).show();
+                    $(tag_id).css('color','red').text('هذا الحقل مطلوب');
+                    //$("#cerror").append('<li>'+element['name'] +' is required</li>');
+                }
             }
         });
+           
+       
        if(flg) {
-        $('msgs').addClass( "alert alert-danger" );
+       // $('msgs').addClass( "alert alert-danger" );
         return;
     };
         $.ajax({
@@ -283,6 +320,21 @@ var  manteka =new TomSelect("#manteka",{
                         $('.warring').text('');
                         $("#cerror").text('');
                         $("#cerror").append('<li> تم الحفظ بنجاح</li>');
+                        if($('#manteka').data('clear'))
+                            manteka.clear();
+                        if($('#Commercial_name').data('clear'))
+                            comName.clear();
+                        if($('#client_id').data('clear'))
+                            clientSelect.clear();
+                        if($('#mo7afza').data('clear'))
+                            mo7afazaSelect.clear();
+
+                        
+                        $(':input','#shipment_form')
+                        .not(':button, :submit, :reset, :hidden')
+                        .val('');
+                        // .prop('checked', false)
+                        // .prop('selected', false);
                     
                     },
                     fail: function(result){

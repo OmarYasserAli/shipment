@@ -66,7 +66,7 @@
                                     <form method="post" action="{{ route('settings.store') }}" role="form">
                                {!! csrf_field() !!}
                                 @foreach($settings as $setting)
-                                    @if($setting->name=='status_css_prop' ||  $setting->name=='shipment_code_ai') @continue @endif
+                                    @if($setting->name=='status_css_prop' ||  $setting->type=='checkbox') @continue @endif
                                         <div class=" mt-3">
                                             <label for="regular-form-1" class="form-label" style="width: 150px;">{{$setting->read_name}}</label>
                                             <input type="{{$setting->type}}" name="{{$setting->name}}" value="{{$setting->val}}" class="form-control form-select-sm filterByEnter"  aria-label="default input inline 1" style="width: 150px; height:45px;" > 
@@ -80,12 +80,13 @@
                                         <option value="color" @if($settings['status_css_prop']->val=='color') selected @endif>font color </option>
                                     </select>
                                 </div>
-                                <?php $setting = $settings['shipment_code_ai']?>
+                                @foreach($settings as $setting)
+                                @if($setting->name=='status_css_prop' ||  $setting->type !='checkbox') @continue @endif
                                 <div class=" mt-3">
                                     <label for="regular-form-1" class="form-label" style="width: 150px;">{{$setting->read_name}}</label>
                                     <input type="{{$setting->type}}" name="{{$setting->name}}"  class="form-control form-select-sm filterByEnter"  aria-label="default input inline 1" style="width: 150px; height:45px;" @if($setting->val == 1) checked @endif> 
                                 </div>
-                                
+                                @endforeach
                                 <button class="btn btn-primary mt-5">Save</button>  
                             </form>
                                 </div>
