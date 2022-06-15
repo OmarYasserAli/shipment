@@ -984,49 +984,59 @@ class shipmentsController extends Controller
     }
     public function store(Request $request){
        
-        $validated = $request->validate([
-            //'reciver_name_' => 'required',
-            'client_id' => 'required',
-            'mo7afza' => 'required',
-            'manteka' => 'required',
-            'date' => 'required',
-        ]);
+        try {
+            $validated = $request->validate([
+                //'reciver_name_' => 'required',
+                'client_id' => 'required',
+                'mo7afza' => 'required',
+                'manteka' => 'required',
+                'date' => 'required',
+            ]);
         // dd($request->all());
-        $user= auth()->user();
-        $shipment = new Shipment();
-        $shipment->date_   = $request->date;
-        $shipment->tarikh_el7ala   = $request->date;
-        // $shipment->date_   = $request->date;
-        $shipment->reciver_phone_   = $request->reciver_phone_;
-        $shipment->client_ID_   = $request->client_id;
-        if(!Setting::get('shipment_code_ai')){
-            $shipment->code_   = $request->code;
-            $shipment->serial_ 	 = $request->code;
 
-        }
+            $user= auth()->user();
+            $shipment = new Shipment();
+            $shipment->date_   = $request->date;
+            $shipment->tarikh_el7ala   = $request->date;
+            // $shipment->date_   = $request->date;
+            $shipment->reciver_phone_   = $request->reciver_phone_;
+            $shipment->client_ID_   = $request->client_id;
+            if(!Setting::get('shipment_code_ai')){
+                $shipment->code_   = $request->code;
+                $shipment->serial_ 	 = $request->code;
+
+            }
+            
+            $client = USer::where('code_',$request->client_id)->first();
+            $shipment->client_ID_   = $client->code_;
+            $shipment->client_name_   = $client->name_;
+            $shipment->clinet_phone_   = $client->phone_;
+            $shipment->reciver_name_   = $request->reciver_name_;
+            $shipment->Commercial_name_ = $request->Commercial_name;
+            $shipment->mo7afaza_id   = $request->mo7afza;
+            $shipment->mantika_id   = $request->manteka;
+            $mo7afzaName=Mohfza::where('code',$shipment->mo7afaza_id)->first()->name;
+            $manatekName=Mantikqa::where('code',$shipment->mantika_id )->first()->name;
+            $shipment->mo7afza_   = $mo7afzaName;
+            $shipment->mantqa_   = $manatekName;
+            $shipment->Ship_area_   = $user->branch;
+            $shipment->branch_   = $user->branch;
+            $shipment->status_   = 1;
+            $shipment->el3nwan=$request->el3nwan;
+            $shipment->elmantqa_el3nwan=$manatekName."/".$request->el3nwan;
+            $shipment->shipment_coast_=$request->shipment_coast_;
+            $shipment->tawsil_coast_=$request->tawsil_coast_;
+            $shipment->total_=$request->total_;
+            $shipment->notes_  =    $request->notes_;
+            $shipment->save();
         
-        $client = USer::where('code_',$request->client_id)->first();
-        $shipment->client_ID_   = $client->code_;
-        $shipment->client_name_   = $client->name_;
-        $shipment->clinet_phone_   = $client->phone_;
-        $shipment->reciver_name_   = $request->reciver_name_;
-        $shipment->Commercial_name_ = $request->Commercial_name;
-        $shipment->mo7afaza_id   = $request->mo7afza;
-        $shipment->mantika_id   = $request->manteka;
-        $mo7afzaName=Mohfza::where('code',$shipment->mo7afaza_id)->first()->name;
-        $manatekName=Mantikqa::where('code',$shipment->mantika_id )->first()->name;
-        $shipment->mo7afza_   = $mo7afzaName;
-        $shipment->mantqa_   = $manatekName;
-        $shipment->Ship_area_   = $user->branch;
-        $shipment->branch_   = $user->branch;
-        $shipment->status_   = 1;
-        $shipment->el3nwan=$request->el3nwan;
-        $shipment->elmantqa_el3nwan=$manatekName."/".$request->el3nwan;
-        $shipment->shipment_coast_=$request->shipment_coast_;
-        $shipment->tawsil_coast_=$request->tawsil_coast_;
-        $shipment->total_=$request->total_;
-        $shipment->notes_  =    $request->notes_;
-        $shipment->save();
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 500,
+                'message' =>   $e->getMessage(),
+            ],500);
+             
+        }
         return response()->json([
             'status' => 200,
             'message' => '',

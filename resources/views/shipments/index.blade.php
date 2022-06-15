@@ -141,7 +141,7 @@
                             <th class="whitespace-nowrap">اجره الشركه</th>
                             <th class="whitespace-nowrap">مبلغ الشحنه</th>
                                     <th class="whitespace-nowrap">الكود</th>
-                                    <th class="whitespace-nowrap"></th>
+                                    <th class="whitespace-nowrap"><input type="checkbox" id="checkAll"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -160,7 +160,7 @@
                             <td class="whitespace-nowrap " >{{$shipment->tawsil_coast_}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->shipment_coast_}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->code_}}</td>
-                                    <td class="whitespace-nowrap " ><input type="hidden" class="check_count" data-cost='{{$shipment->shipment_coast_}}'
+                                    <td class="whitespace-nowrap " ><input type="checkbox" class="check_count" data-cost='{{$shipment->shipment_coast_}}'
                                         data-t7wel='{{$shipment->tawsil_coast_}}' data-net='{{$shipment->shipment_coast_}}' data-code='{{$shipment->code_}}' data-status='{{$shipment->Status_}}'></td>
                         </tr>
                         @endforeach
@@ -389,7 +389,7 @@
                             <td  class="whitespace-nowrap " >`+value.tawsil_coast_+`</td>
                             <td  class="whitespace-nowrap " >`+value.shipment_coast_+`</td>
                             <td  class="whitespace-nowrap " >`+value.code_+`</td>
-                            <td class="whitespace-nowrap " ><input type="hidden" class="check_count" data-cost='`+value.shipment_coast_+`'
+                            <td class="whitespace-nowrap " ><input type="checkbox" class="check_count" data-cost='`+value.shipment_coast_+`'
                                         data-t7wel='`+value.tawsil_coast_+`' data-net='`+value.shipment_coast_+`' data-code='`+value.code_+`' data-status='`+value.Status_+`'></td>                
                                             </tr>`
                                             );
