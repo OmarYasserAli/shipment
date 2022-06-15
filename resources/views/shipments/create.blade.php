@@ -163,6 +163,7 @@ var  manteka =new TomSelect("#manteka",{
                   
                   var client_id = this.value;
                       $("#Commercial_name").html('');
+                      if(client_id == '') return;
                       $.ajax({
                           url:"{{url('getCommertialnameBy3amil')}}?client_id="+client_id+"&bycode=1",
                           type: "get",
@@ -194,6 +195,7 @@ var  manteka =new TomSelect("#manteka",{
                   
                   var mo7afza_id = this.value;
                       $("#manteka").html('');
+                      if(mo7afza_id == '') return;
                       $.ajax({
                           url:"{{url('getManateqByMa7afza')}}?mo7afza="+mo7afza_id+"&bycode=1",
                           type: "get",
@@ -223,8 +225,9 @@ var  manteka =new TomSelect("#manteka",{
                     var manteka_id = this.value;
                     var client_id  = $('#client_id ').find(":selected").val();
                     var mo7afza_id  = $('#mo7afza ').find(":selected").val();
-                     
+                    
                         $("#tawsil_cost").html('');
+                        if(manteka_id == '') return;
                         $.ajax({ 
                             url:"{{url('getTawsilByManteka')}}?bycode=1&client_id="+client_id+'&mo7afza_id='+ mo7afza_id+'&manteka_id='+manteka_id ,
                             type: "get",
