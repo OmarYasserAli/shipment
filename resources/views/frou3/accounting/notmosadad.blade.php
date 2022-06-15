@@ -200,7 +200,7 @@
                             <td class="whitespace-nowrap " >{{$shipment->shipment_coast_}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->code_}}</td>
                                     <td class="whitespace-nowrap " ><input type="checkbox" class="check_count" data-cost='{{$shipment->shipment_coast_}}'
-                                        data-t7wel='{{$shipment->tawsil_coast_}}' data-net='{{$shipment->shipment_coast_}}' data-code='{{$shipment->code_}}' data-status='{{$shipment->Status_}}'></td>
+                                        data-t7wel='{{$shipment->t7weel_cost}}' data-net='{{$shipment->shipment_coast_}}' data-code='{{$shipment->code_}}' data-status='{{$shipment->Status_}}'></td>
                         </tr>
                         @endforeach
                         

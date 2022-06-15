@@ -615,14 +615,18 @@ class frou3Controller extends Controller
         if(isset($request->Commercial_name)){
             $shipments = $shipments->where('commercial_name_', '=', $request->Commercial_name);       
             }
-        $all_shipments = $shipments;
+       
         
         if(isset( request()->date_from))
             $shipments= $shipments->where('date_' ,'>=',DATE($request->date_from) );
         if(isset( request()->date_to))
             $shipments= $shipments->where('date_' ,'<=' ,DATE($request->date_to) );
         
-
+            $all_shipments = $shipments;
+            $ta7weel=0;
+            foreach($all_shipments->get() as $ship){
+                $ta7weel += $ship->t7weel_cost ; 
+            }
         if(request()->showAll == 'on'){
             $counter= $all_shipments->get();
             $count_all = $counter->count();
@@ -630,7 +634,7 @@ class frou3Controller extends Controller
         }
        
         $totalCost = $all_shipments->sum('shipment_coast_');
-        $tawsilCost = $all_shipments->sum('tawsil_coast_');
+        $tawsilCost = $ta7weel;
         $allCount = $all_shipments->count();
         $netCost =  $totalCost-$tawsilCost;
         $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];
@@ -755,14 +759,18 @@ class frou3Controller extends Controller
         if(isset($request->Commercial_name)){
             $shipments = $shipments->where('commercial_name_', '=', $request->Commercial_name);       
             }
-        $all_shipments = $shipments;
+        
         
         if(isset( request()->date_from))
             $shipments= $shipments->where('date_' ,'>=',DATE($request->date_from) );
         if(isset( request()->date_to))
             $shipments= $shipments->where('date_' ,'<=' ,DATE($request->date_to) );
         
-
+            $all_shipments = $shipments;
+            $ta7weel=0;
+            foreach($all_shipments->get() as $ship){
+                $ta7weel += $ship->t7weel_cost ; 
+            }    
         if(request()->showAll == 'on'){
             $counter= $all_shipments->get();
             $count_all = $counter->count();
@@ -770,7 +778,7 @@ class frou3Controller extends Controller
         }
        
         $totalCost = $all_shipments->sum('shipment_coast_');
-        $tawsilCost = $all_shipments->sum('tawsil_coast_');
+        $tawsilCost = $ta7weel;
         $allCount = $all_shipments->count();
         $netCost =  $totalCost-$tawsilCost;
         $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];

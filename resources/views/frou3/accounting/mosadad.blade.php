@@ -196,11 +196,11 @@
                             <td class="whitespace-nowrap " >{{$shipment->tarikh_tasdid_far3}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->branch_}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->total_}}</td>
-                            <td class="whitespace-nowrap " >{{$shipment->tawsil_coast_}}</td>
+                            <td class="whitespace-nowrap " >{{$shipment->t7weel_cost}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->shipment_coast_}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->code_}}</td>
                                     <td class="whitespace-nowrap " ><input type="checkbox" class="check_count" data-cost='{{$shipment->shipment_coast_}}'
-                                        data-t7wel='{{$shipment->tawsil_coast_}}' data-net='{{$shipment->shipment_coast_}}' data-code='{{$shipment->code_}}' data-status='{{$shipment->Status_}}'></td>
+                                        data-t7wel='{{$shipment->t7weel_cost}}' data-net='{{$shipment->shipment_coast_}}' data-code='{{$shipment->code_}}' data-status='{{$shipment->Status_}}'></td>
                         </tr>
                         @endforeach
                         
@@ -583,11 +583,11 @@
                             <td  class="whitespace-nowrap " >`+value.tarikh_tasdid_far3s+`</td> 
                             <td  class="whitespace-nowrap " >`+value.branch_+`</td>
                             <td  class="whitespace-nowrap " >`+value.total_+`</td>
-                            <td  class="whitespace-nowrap " >`+value.tawsil_coast_+`</td>
+                            <td  class="whitespace-nowrap " >`+value.t7weel_cost+`</td>
                             <td  class="whitespace-nowrap " >`+value.shipment_coast_+`</td>
                             <td  class="whitespace-nowrap " >`+value.code_+`</td>
                             <td class="whitespace-nowrap " ><input type="checkbox" class="check_count" data-cost='`+value.shipment_coast_+`'
-                                        data-t7wel='`+value.tawsil_coast_+`' data-net='`+value.shipment_coast_+`' data-code='`+value.code_+`' data-status='`+value.Status_+`'></td>                
+                                        data-t7wel='`+value.t7weel_cost+`' data-net='`+value.shipment_coast_+`' data-code='`+value.code_+`' data-status='`+value.Status_+`'></td>                
                                             </tr>`
                             );
 
