@@ -82,7 +82,7 @@
                             <div class="form-inline 3amil">
                                 <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:15px; margin-top:1px; width:30px; ">العميل</label>
                                 
-                                <input type="hidden" value="@if(request()->get('branch_')!= null){{request()->get('branch_')}}@else الكل @endif" name='branch_'>
+                                <input type="hidden" id='branch_' value="@if(request()->get('branch_')!= null){{request()->get('branch_')}}@else الكل @endif" name='branch_'>
                                     <div class="mr-6 alert alert-outline-secondary alert-dismissible show flex items-center mb-2" role="alert">
                                         @if(request()->get('branch_')!= null)
                                             {{request()->get('branch_')}}
@@ -151,10 +151,10 @@
                             </div > 
                         </div>
                         <div>
-                            @if(request()->get('client_id') != null)
+                            @if(request()->get('branch_') != null)
                                 <div class="form-inline align-left">
                                     <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:10px; margin-top:8px;  width:400px; "> </label>
-                                    <input type="button"  class="btn btn-success  align-left" style="direction: ltr"  value="الغاء تسديد المحدد" id='tasdid' >
+                                    <input type="button"  class="btn btn-success  align-left" style="direction: ltr"  value="تسديد المحدد" id='tasdid' >
                                 
                                 </div>
                             @endif
@@ -175,6 +175,7 @@
                             <th class="whitespace-nowrap">تاريخ الشحنه</th>
                             
                             <th class="whitespace-nowrap">الفرع</th>
+                            <th class="whitespace-nowrap">مكان الشحنة</th>
                             <th class="whitespace-nowrap">الصافى</th>
                             <th class="whitespace-nowrap">اجره الفرع</th>
                             <th class="whitespace-nowrap">مبلغ الشحنه</th>
@@ -195,6 +196,7 @@
                             <td class="whitespace-nowrap " >{{$shipment->date_}}</td>
                             
                             <td class="whitespace-nowrap " >{{$shipment->branch_}}</td>
+                            <td class="whitespace-nowrap " >{{$shipment->Ship_area_}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->total_}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->t7weel_cost}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->shipment_coast_}}</td>
@@ -396,11 +398,11 @@
                         codes.push($(this).data('code'));
                     }
                 });
-                
+                var brach_filter = $('#branch_').val();
                  $.ajax({  
                      url: "{{route('frou3.accounting.tasdid')}}" ,
                      type: 'post',
-                     data:{ code:codes,  _token: "{{ csrf_token() }}"},
+                     data:{ code:codes,  _token: "{{ csrf_token() }}" ,brach_filter:brach_filter},
                      error: function(e){
                          console.log(e);
                      },
@@ -417,8 +419,8 @@
                         let total_net= parseInt($('#total_net').val($('#total_cost').val()-$('#total_tawsil').val()));
                         var i=1; 
                         $('.check_count').each(function() {
-                            
-                            if($(this).is(':checked') && $(this).data('status')==7){
+                            //
+                            if($(this).is(':checked')  && $(this).data('status')==7){
                                 console.log($(this).data('status'));
                                 total_cnt--;
                                 total_cost-= $(this).data('cost');

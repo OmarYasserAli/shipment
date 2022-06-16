@@ -15,7 +15,45 @@
     <!-- BEGIN: Top Bar -->
     @include('layout.partial.topbar')
     <!-- END: Top Bar -->
-  
+    <div id="msg_modal" class="modal" data-tw-backdrop="static" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body px-5 py-10">
+                    <div class="text-center">
+                        
+                        
+                          <div class="form-inline" style="font-size: 24px; align-items:center;">
+                            <p id='msg_modal_text' style="margin: auto;"></p>
+                          </div>
+                         <button type="button" data-tw-dismiss="" id='msg_modal_close' class="btn btn-primary w-24 mt-5">استمرار</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="type_modal" class="modal" data-tw-backdrop="static" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body px-5 py-10">
+                    <div class="text-center">
+                        <div class="mb-5" style="font-size: 25px">اسم مندوب التسليم</div>
+                        <div class="form-inline">
+                            
+                            <select class="form-select form-select-lg sm:mt-2 sm:mr-2 mb-5" id='select_type' aria-label=".form-select-lg example">
+                                @foreach($manadeb_taslim as $mandob)
+                                <option value="{{$mandob->code_}}">{{$mandob->name_}}</option>
+                                @endforeach
+                                
+                               
+                            </select>
+                          </div>
+                         <button type="button" data-tw-dismiss="" id='modal_close' class="btn btn-primary w-24">استمرار</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- END: Modal Toggle --> <!-- BEGIN: Modal Content --> 
 
 <!-- END: Modal Content -->
@@ -105,22 +143,26 @@
                                 </div>
                                 
                                 
-                                <div class="form-inline">
+                                <div class="form-inline align-left">
                                     <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:10px; margin-top:8px; margin-right:3px ; width:50px"> </label>
 
                                     <input type="submit"  class="btn btn-primary  "  value="فلتر">
                                     
                                 </div>
+                                
                             </div > 
                         </div>
-                        <div>
-                            @if(request()->get('client_id') != null  && request()->get('client_id') !='الكل')
-                                <div class="form-inline align-left">
-                                    <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:10px; margin-top:8px;  width:400px; "> </label>
-                                    <input type="button"  class="btn btn-success  align-left" style="direction: ltr"  value="تسديد المحدد" id='tasdid' >
+                        <div class="form-inline">
+                            <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:10px; margin-top:8px; margin-right:3px ; width:250px">تحويل الشحنات الى</label>
+
+                            <select id="t7weel_to" name="t7weel_to" class="form-select form-select-sm align-left" aria-label=".form-select-sm example" style="margin-left:8px; width:244px ; direction: ltr">
+                                <option value="">...</option>
+                                @foreach($t7weelTo as $element)
+                                    <option value="{{$element}}"   >{{$element}}</option>
+                                @endforeach
                                 
-                                </div>
-                            @endif
+                            </select>
+                            <input type="button"  class="btn btn-success  align-left" style="direction: ltr"  value="تحويل المحدد" id='tasdid' >
                         </div>
                     </div>
                 </div>
@@ -243,9 +285,109 @@
                 
                
 
-                
-           
+                $( "#msg_modal_close" ).click(function() {
+                const msg_Modal = tailwind.Modal.getOrCreateInstance(document.querySelector("#msg_modal"));
+                msg_Modal.hide();
+            });
+            $('#t7weel_to').on('change',function(){
 
+                if($('#t7weel_to').val() == 'الشحنات لدى مندوب التسليم'){
+                    const myModal = tailwind.Modal.getOrCreateInstance(document.querySelector("#type_modal"));
+                    myModal.show();
+                }
+            })
+            $( "#modal_close" ).click(function() {
+                
+                $('#mandob').val($( "#select_type option:selected" ).text());
+                current_status=$( "#select_type option:selected" ).val();
+                const myModal = tailwind.Modal.getOrCreateInstance(document.querySelector("#type_modal"));
+                myModal.hide();
+            });
+           
+                $( "#tasdid" ).click(function() {
+                    
+                    var codes =[]
+                    var t7weel_to = $('#t7weel_to').val();
+                    $('.check_count').each(function() {
+                        if($(this).is(':checked')){
+                            codes.push($(this).data('code'));
+                        }
+                    });
+                    if(t7weel_to =='' || t7weel_to== null) return;
+                    //console.log(codes)
+                    $.ajax({
+                        url: "{{route('shiments.t7weel_manual')}}" ,
+                        type: 'post',
+                        data:{ code:codes, t7weel_to:t7weel_to, status:current_status, _token: "{{ csrf_token() }}"},
+                        error: function(e){
+                            console.log(e);
+                        },
+                        success: function(res) {
+                           // console.log(res)
+                            rowsAffected =  codes.length - res['count']
+                            msg =" تم تحويل " +res['count']+   " شحنة  "  +" تم رفض " + rowsAffected + " شحنة ";
+                            let msg_modal = tailwind.Modal.getOrCreateInstance(document.querySelector("#msg_modal"));
+                            $('#msg_modal_text').text(msg)
+                            msg_modal.show();
+                            let total_cost=parseInt($('#total_cost').val());
+                            let total_cnt=parseInt($('#total_cnt').val());
+                            let total_tawsil=parseInt($('#total_tawsil').val());
+                            let total_net= parseInt($('#total_net').val($('#total_cost').val()-$('#total_tawsil').val()));
+                            var i=1; 
+                            $('.check_count').each(function() {
+                                
+                                if($(this).is(':checked')){
+                                    console.log($(this).data('status'));
+                                    total_cnt--;
+                                    total_cost-= $(this).data('cost');
+                                    total_tawsil-= parseInt($(this).data('t7wel'));
+                                    total_net-= $(this).data('net');
+                                    $('#total_cost').val(total_cost);
+                                    $('#total_tawsil').val(total_tawsil);
+                                    $('#total_net').val($('#total_cost').val()-$('#total_tawsil').val());
+                                    $('#total_cnt').val(total_cnt);
+                                    
+                                    $(this).parent().parent().remove();
+                                    
+                                    
+                                }else{
+                                    $(this).parent().parent().children('td:first').text(i)
+                                    i++;
+
+                                }
+                        });
+                        }
+                    });
+                    
+             });
+
+
+                    
+             $(document).on('change', '.check_count', function(){ 
+                
+                let total_cost=parseInt($('#total_cost').val());
+                let total_cnt=parseInt($('#total_cnt').val());
+                let total_tawsil=parseInt($('#total_tawsil').val());
+                let total_net= parseInt($('#total_net').val($('#total_cost').val()-$('#total_tawsil').val()));
+                if($(this).is(':checked'))
+                {
+                    total_cnt++;
+                    total_cost+= $(this).data('cost');
+                    total_tawsil+= parseInt($(this).data('t7wel'));
+                    total_net+= $(this).data('net');
+                }
+                else 
+                {
+                    total_cnt--;
+                    total_cost-= $(this).data('cost');
+                    total_tawsil-= parseInt($(this).data('t7wel'));
+                    total_net-= $(this).data('net');
+                }
+                $('#total_cost').val(total_cost);
+                $('#total_tawsil').val(total_tawsil);
+                $('#total_net').val($('#total_cost').val()-$('#total_tawsil').val());
+                $('#total_cnt').val(total_cnt);
+            });
 
                   
             $(document).on('change', '.check_count', function(){ 

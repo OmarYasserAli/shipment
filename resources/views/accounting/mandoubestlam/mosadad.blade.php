@@ -389,60 +389,60 @@
                 });
 
                 
-                $( "#tasdid" ).click(function() {
+            $( "#tasdid" ).click(function() {
                     
-                 var codes =[]
-                 
-                 $('.check_count').each(function() {
-                    if($(this).is(':checked')){
-                        codes.push($(this).data('code'));
-                    }
-                });
-                console.log(codes)
-                 $.ajax({
-                     url: "{{route('accounting.mandoubestlam.canceltasdid')}}" ,
-                     type: 'post',
-                     data:{ code:codes,  _token: "{{ csrf_token() }}"},
-                     error: function(e){
-                         console.log(e);
-                     },
-                     success: function(res) {
-                         console.log(res)
-                         rowsAffected =  codes.length - res['count']
-                         msg =" تم تسديد " +res['count']+   " شحنة  "  +" تم رفض " + rowsAffected + " شحنة ";
-                         let msg_modal = tailwind.Modal.getOrCreateInstance(document.querySelector("#msg_modal"));
-                        $('#msg_modal_text').text(msg)
-                         msg_modal.show();
-                        let total_cost=parseInt($('#total_cost').val());
-                        let total_cnt=parseInt($('#total_cnt').val());
-                        let total_tawsil=parseInt($('#total_tawsil').val());
-                        let total_net= parseInt($('#total_net').val($('#total_cost').val()-$('#total_tawsil').val()));
-                        var i=1; 
-                        $('.check_count').each(function() {
-                            
-                            if($(this).is(':checked') && $(this).data('status')==7){
-                                console.log($(this).data('status'));
-                                total_cnt--;
-                                total_cost-= $(this).data('cost');
-                                total_tawsil-= parseInt($(this).data('t7wel'));
-                                total_net-= $(this).data('net');
-                                $('#total_cost').val(total_cost);
-                                $('#total_tawsil').val(total_tawsil);
-                                $('#total_net').val($('#total_cost').val()-$('#total_tawsil').val());
-                                $('#total_cnt').val(total_cnt);
-                                
-                                $(this).parent().parent().remove();
-                                
-                                
-                            }else{
-                                $(this).parent().parent().children('td:first').text(i)
-                                i++;
+                    var codes =[]
+                    
+                    $('.check_count').each(function() {
+                        if($(this).is(':checked')){
+                            codes.push($(this).data('code'));
+                        }
+                    });
+                    //console.log(codes)
+                    $.ajax({
+                        url: "{{route('accounting.mandoubestlam.canceltasdid')}}" ,
+                        type: 'post',
+                        data:{ code:codes,  _token: "{{ csrf_token() }}"},
+                        error: function(e){
+                            console.log(e);
+                        },
+                        success: function(res) {
+                            console.log(res)
+                            rowsAffected =  codes.length - res['count']
+                            msg =" تم تسديد " +res['count']+   " شحنة  "  +" تم رفض " + rowsAffected + " شحنة ";
+                            let msg_modal = tailwind.Modal.getOrCreateInstance(document.querySelector("#msg_modal"));
+                            $('#msg_modal_text').text(msg)
+                            msg_modal.show();
+                            let total_cost=parseInt($('#total_cost').val());
+                            let total_cnt=parseInt($('#total_cnt').val());
+                            let total_tawsil=parseInt($('#total_tawsil').val());
+                            let total_net= parseInt($('#total_net').val($('#total_cost').val()-$('#total_tawsil').val()));
+                            var i=1; 
+                            $('.check_count').each(function() {
+                                //
+                                if($(this).is(':checked' && $(this).data('status')==7) ){
+                                    console.log($(this).data('status'));
+                                    total_cnt--;
+                                    total_cost-= $(this).data('cost');
+                                    total_tawsil-= parseInt($(this).data('t7wel'));
+                                    total_net-= $(this).data('net');
+                                    $('#total_cost').val(total_cost);
+                                    $('#total_tawsil').val(total_tawsil);
+                                    $('#total_net').val($('#total_cost').val()-$('#total_tawsil').val());
+                                    $('#total_cnt').val(total_cnt);
+                                    
+                                    $(this).parent().parent().remove();
+                                    
+                                    
+                                }else{
+                                    $(this).parent().parent().children('td:first').text(i)
+                                    i++;
 
-                            }
-                      });
-                     }
-                 });
-                  
+                                }
+                        });
+                        }
+                    });
+                    
              });
 
 
@@ -471,7 +471,7 @@
                 $('#total_tawsil').val(total_tawsil);
                 $('#total_net').val($('#total_cost').val()-$('#total_tawsil').val());
                 $('#total_cnt').val(total_cnt);
-        });
+            });
                 
 
                     $("#checkAll").click(function(){

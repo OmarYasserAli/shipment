@@ -559,7 +559,7 @@ class frou3Controller extends Controller
         $limit=Setting::get('items_per_page');
         $page =0;
         if(isset(request()->page)) $page= request()->page;
-        $brach_filter = 'الفرع الرئيسى';
+        $brach_filter = '';
         if(isset($request->branch_)  && $request->branch_!='الكل')
             $brach_filter= $request->branch_;
         $waselOnly=0;
@@ -567,31 +567,47 @@ class frou3Controller extends Controller
             $waselOnly= 1;
             
         //if(isset(request()->limit ))   $limit =request()->limit;
-        $shipments = Shipment::select('*',DB::raw("(CASE 
+        
+
+        if( $brach_filter != '')
+        {
+            $shipments = Shipment::select('*',DB::raw("(CASE 
                                     WHEN ( branch_ = '{$user->branch}' and  transfere_1 = '{$brach_filter}' and elfar3_elmosadad_mno = '') THEN  transfer_coast_1
                                     WHEN ( transfere_1 = '{$user->branch}' and  transfere_2 = '{$brach_filter}' and elfar3_elmosadad_mno_2 = '') THEN transfer_coast_2
-                                    END) AS t7weel_cost"))
-        ->where(function ($query) use($request,$user,$brach_filter){
-            $query->where(function ($query) use($request,$user,$brach_filter){
-                $query->where('branch_', '=', $user->branch)
-                ->where('transfere_1', $brach_filter)
-                ->where('elfar3_elmosadad_mno','');
+                                    END) AS t7weel_cost"));
+            $shipments = $shipments->where(function ($query) use($request,$user,$brach_filter){
+                $query->where(function ($query) use($request,$user,$brach_filter){
+                    $query->where('branch_', '=', $user->branch)
+                    ->where('transfere_1', $brach_filter)
+                    ->where('elfar3_elmosadad_mno','');
 
-                /*
-                    get transfere_cost_1
+                    })
+                    ->orWhere(function ($query) use($request,$user,$brach_filter){
+                        $query->where('transfere_1', '=', $user->branch)
+                        ->where('transfere_2',$brach_filter )
+                        ->where('elfar3_elmosadad_mno_2','');
+                    });
+            });
+        }
+            else
+            {$shipments = Shipment::select('*',DB::raw("(CASE 
+                                    WHEN ( branch_ = '{$user->branch}' and  transfere_1 !=  '' and elfar3_elmosadad_mno = '') THEN  transfer_coast_1
+                                    WHEN ( transfere_1 = '{$user->branch}' and  transfere_2 != '' and elfar3_elmosadad_mno_2 = '') THEN transfer_coast_2
+                                    END) AS t7weel_cost"));
+                $shipments = $shipments->where(function ($query) use($request,$user,$brach_filter){
+                    $query->where(function ($query) use($request,$user,$brach_filter){
+                        $query->where('branch_', '=', $user->branch)
+                        ->where('transfere_1', '!=', '')
+                        ->where('elfar3_elmosadad_mno','=','');
 
-                */
-                })
-                ->orWhere(function ($query) use($request,$user,$brach_filter){
-                    $query->where('transfere_1', '=', $user->branch)
-                    ->where('transfere_2',$brach_filter )
-                    ->where('elfar3_elmosadad_mno_2','');
-                    /*
-                        get transfere_cost_2
-
-                    */
-                });
-        });        
+                        })
+                        ->orWhere(function ($query) use($request,$user,$brach_filter){
+                            $query->where('transfere_1', '=', $user->branch)
+                            ->where('transfere_2', '!=', '')
+                            ->where('elfar3_elmosadad_mno_2','=' ,'');
+                        });
+                }); 
+            }           
             //saif = shipmnt_cost  - t7weel
         
             if($waselOnly)
@@ -627,6 +643,7 @@ class frou3Controller extends Controller
             foreach($all_shipments->get() as $ship){
                 $ta7weel += $ship->t7weel_cost ; 
             }
+            // dd($ta7weel);
         if(request()->showAll == 'on'){
             $counter= $all_shipments->get();
             $count_all = $counter->count();
@@ -672,16 +689,19 @@ class frou3Controller extends Controller
             ], 404); 
         }
         //case 1 
-        DB::table('add_shipment_tb_')
+        
+        $row1 = DB::table('add_shipment_tb_')
         ->whereIn('add_shipment_tb_.code_', $request->code)
+        ->where('add_shipment_tb_.status_', 7)
         ->where('add_shipment_tb_.branch_' ,$user->branch)
         ->where('add_shipment_tb_.transfere_1' ,$request->brach_filter)
         ->where('add_shipment_tb_.elfar3_elmosadad_mno', '')
             ->update(['add_shipment_tb_.tarikh_tasdid_far3'=>Carbon::now(),
             'add_shipment_tb_.elfar3_elmosadad_mno' =>'مسدد',
             ]);
-        DB::table('add_shipment_tb_')
+        $row2 = DB::table('add_shipment_tb_')
             ->whereIn('add_shipment_tb_.code_', $request->code)
+            ->where('add_shipment_tb_.status_', 7)
             ->where('transfere_1', '=', $user->branch)
             ->where('transfere_2',$request->brach_filter )
             ->where('add_shipment_tb_.elfar3_elmosadad_mno_2', '')
@@ -692,6 +712,7 @@ class frou3Controller extends Controller
             return response()->json([
                 'status' => 200,
                 'message' => 'تم التسديد',
+                'count' => $row1+$row2,
             ], 200); 
     }
    
@@ -703,39 +724,52 @@ class frou3Controller extends Controller
         $limit=Setting::get('items_per_page');
         $page =0;
         if(isset(request()->page)) $page= request()->page;
-        $brach_filter = 'الفرع الرئيسى';
-        if(isset($request->branch) && $request->branch_!='الكل')
-            $brach_filter= $request->branch;
+        $brach_filter = '';
+        if(isset($request->branch_) && $request->branch_!='الكل')
+            $brach_filter= $request->branch_;
         $waselOnly=0;
         if(isset($request->waselOnly))
             $waselOnly= 1;
             
         if(isset(request()->limit ))   $limit =request()->limit;
-        $shipments = Shipment::select('*',DB::raw("(CASE 
+        
+        if($brach_filter != '')
+        {
+            $shipments = Shipment::select('*',DB::raw("(CASE 
                                     WHEN ( branch_ = '{$user->branch}' and  transfere_1 = '{$brach_filter}' and elfar3_elmosadad_mno != '') THEN  transfer_coast_1
                                     WHEN ( transfere_1 = '{$user->branch}' and  transfere_2 = '{$brach_filter}' and elfar3_elmosadad_mno_2 != '') THEN transfer_coast_2
-                                    END) AS t7weel_cost"))
-        ->where(function ($query) use($request,$user,$brach_filter){
-            $query->where(function ($query) use($request,$user,$brach_filter){
-                $query->where('branch_', '=', $user->branch)
-                ->where('transfere_1', $brach_filter)
-                ->where('elfar3_elmosadad_mno',  '!=' ,'');
-
-                /*
-                    get transfere_cost_1
-
-                */
-                })
-                ->orWhere(function ($query) use($request,$user,$brach_filter){
-                    $query->where('transfere_1', '=', $user->branch)
-                    ->where('transfere_2',$brach_filter )
-                    ->where('elfar3_elmosadad_mno_2','!=' ,'');
-                    /*
-                        get transfere_cost_2
-
-                    */
-                });
-        });        
+                                    END) AS t7weel_cost"));
+            $shipments= $shipments->where(function ($query) use($request,$user,$brach_filter){
+                $query->where(function ($query) use($request,$user,$brach_filter){
+                    $query->where('branch_', '=', $user->branch)
+                    ->where('transfere_1', $brach_filter)
+                    ->where('elfar3_elmosadad_mno',  '!=' ,'');
+                    })
+                    ->orWhere(function ($query) use($request,$user,$brach_filter){
+                        $query->where('transfere_1', '=', $user->branch)
+                        ->where('transfere_2',$brach_filter )
+                        ->where('elfar3_elmosadad_mno_2','!=' ,'');   
+                    });
+            });
+        }
+        else{
+            $shipments = Shipment::select('*',DB::raw("(CASE 
+                                    WHEN ( branch_ = '{$user->branch}' and  transfere_1 != '' and elfar3_elmosadad_mno != '') THEN  transfer_coast_1
+                                    WHEN ( transfere_1 = '{$user->branch}' and  transfere_2 != '' and elfar3_elmosadad_mno_2 != '') THEN transfer_coast_2
+                                    END) AS t7weel_cost"));
+            $shipments= $shipments->where(function ($query) use($request,$user,$brach_filter){
+                $query->where(function ($query) use($request,$user,$brach_filter){
+                    $query->where('branch_', '=', $user->branch)
+                    ->where('transfere_1', '!=', '')
+                    ->where('elfar3_elmosadad_mno',  '!=' ,'');
+                    })
+                    ->orWhere(function ($query) use($request,$user,$brach_filter){
+                        $query->where('transfere_1', '=', $user->branch)
+                        ->where('transfere_2','!=','')
+                        ->where('elfar3_elmosadad_mno_2','!=' ,'');   
+                    });
+            });
+        }       
             //saif = shipmnt_cost  - t7weel
         
             if($waselOnly)
@@ -817,26 +851,30 @@ class frou3Controller extends Controller
             ], 404); 
         }
         //case 1 
-        DB::table('add_shipment_tb_')
+        
+        $row1 = DB::table('add_shipment_tb_')
         ->whereIn('add_shipment_tb_.code_', $request->code)
+        ->where('add_shipment_tb_.status_', 7)
         ->where('add_shipment_tb_.branch_' ,$user->branch)
         ->where('add_shipment_tb_.transfere_1' ,$request->brach_filter)
         ->where('add_shipment_tb_.elfar3_elmosadad_mno','!=', '')
             ->update(['add_shipment_tb_.tarikh_tasdid_far3'=>'',
             'add_shipment_tb_.elfar3_elmosadad_mno' =>'',
         ]);
-        DB::table('add_shipment_tb_')
+        $row2= DB::table('add_shipment_tb_')
             ->whereIn('add_shipment_tb_.code_', $request->code)
+            ->where('add_shipment_tb_.status_', 7)
             ->where('transfere_1', '=', $user->branch)
             ->where('transfere_2',$request->brach_filter )
             ->where('add_shipment_tb_.elfar3_elmosadad_mno_2','!=' ,'')
                 ->update(['add_shipment_tb_.tarikh_tasdid_far3_2'=>'',
                 'add_shipment_tb_.elfar3_elmosadad_mno_2' =>'',
             ]);
-            
+           
             return response()->json([
                 'status' => 200,
                 'message' => 'تم التسديد',
+                'count' => $row1+$row2,
             ], 200); 
     }
      //end acc

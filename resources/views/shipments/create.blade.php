@@ -71,14 +71,14 @@
                                     <small class="warring data-error" id='data-error-Commercial_name' style="margin-right: 100px;" hidden></small>
 
                                     <div class="form-inline mt-3">
-                                        <label for="phone" class="form-label sm:w-20">هاتف المستلم</label>
-                                        <input id="phone" type="text" class="form-control"  name="reciver_phone_" />
+                                        <label for="reciver_phone_" class="form-label sm:w-20">هاتف المستلم</label>
+                                        <input id="reciver_phone_" type="text" class="form-control"  name="reciver_phone_" />
                                     </div>
                                     <small class="warring data-error" id='data-error-reciver_phone_' style="margin-right: 100px;" hidden></small>
 
                                     <div class="form-inline mt-3">
-                                        <label for="phone" class="form-label sm:w-20">اسم المستلم</label>
-                                        <input id="phone" type="text" class="form-control"  name="reciver_name_" />
+                                        <label for="reciver_name_" class="form-label sm:w-20">اسم المستلم</label>
+                                        <input id="reciver_name_" type="text" class="form-control"  name="reciver_name_" />
                                     </div> 
                                     <div class="form-inline mt-3">
                                         <label for="mo7afaza" class="form-label sm:w-20 ">المحافظة</label>
@@ -101,19 +101,19 @@
                                            
                                         </select>
                                         <label for="horizontal-form-1" class="form-label sm:w-20">العنوان</label>
-                                        <input type="text" name="el3nwan" id="" class="form-select form-select-sm mr-1" style=" width:400px; ">
+                                        <input type="text" name="el3nwan" id="el3nwan" class="form-select form-select-sm mr-1" style=" width:400px; ">
                                     </div>
-                                    <small class="warring data-error" id='data-error-el3nwan' style="margin-right: 100px;" hidden></small>
-                                    <small class="warring data-error" id='data-error-manteka' style="margin-right: 400px;" hidden></small>
+                                    <small class="warring data-error" id='data-error-manteka' style="margin-right: 100px " hidden></small>
+                                    <small class="warring data-error" id='data-error-el3nwan' style="margin-right: 550px;" hidden></small>
 
                                     <div class="form-inline mt-3">
                                         <label for="horizontal-form-1" class="form-label sm:w-20">مبلغ الشحنه</label>
                                         
                                         <input id="shipment_cost" type="text" class="form-control   mr-1" name="shipment_coast_" aria-label="default input inline 1"> 
 
-                                        <label for="horizontal-form-1" class="form-label sm:w-20">مبلغ التوصيل</label>
+                                        <label for="tawsil_cost" class="form-label sm:w-20">مبلغ التوصيل</label>
                                         <input id="tawsil_cost" type="text" class="form-control col-span-2" name="tawsil_coast_"  aria-label="default input inline 1"> 
-                                        <label for="horizontal-form-1" class="form-label sm:w-20">الصافى</label>
+                                        <label for="total" class="form-label sm:w-20">الصافى</label>
                                         <input  id="total" type="text" class="form-control col-span-2"  aria-label="default input inline 1" name="total_"> 
 
 
@@ -123,8 +123,8 @@
                                   
 
                                     <div class="form-inline mt-3">
-                                        <label for="horizontal-form-1" class="form-label sm:w-20">ملاحظات</label>
-                                        <input id="horizontal-form-1" type="text" class="form-control"   name="notes_"/>
+                                        <label for="notes_" class="form-label sm:w-20">ملاحظات</label>
+                                        <input id="notes_" type="text" class="form-control"   name="notes_"/>
                                     </div>
                                    
                                    
@@ -159,8 +159,21 @@ var  manteka =new TomSelect("#manteka",{
 	searchField: 'title',
 	create: false
 });
+$('#Commercial_name').on('change', function() {
+    $('#data-error-Commercial_name').hide();
+})
+$('#reciver_phone_').on('change', function() {
+    $('#data-error-reciver_phone_').hide();
+})
+
+$('#el3nwan').on('change', function() {
+    $('#data-error-el3nwan').hide();
+})
+                            
+                            
+$('#data-error-manteka').hide();
     $('#client_id').on('change', function() {
-                  
+                  $('#data-error-client_id').hide();
                   var client_id = this.value;
                       $("#Commercial_name").html('');
                       if(client_id == '') return;
@@ -192,7 +205,7 @@ var  manteka =new TomSelect("#manteka",{
                       });
     }); 
     $('#mo7afza').on('change', function() {
-                  
+        $('#data-error-mo7afza').hide();
                   var mo7afza_id = this.value;
                       $("#manteka").html('');
                       if(mo7afza_id == '') return;
@@ -221,7 +234,7 @@ var  manteka =new TomSelect("#manteka",{
                       });
     }); 
     $('#manteka').on('change', function() {
-                  
+        $('#data-error-manteka').hide();
                     var manteka_id = this.value;
                     var client_id  = $('#client_id ').find(":selected").val();
                     var mo7afza_id  = $('#mo7afza ').find(":selected").val();
@@ -246,7 +259,9 @@ var  manteka =new TomSelect("#manteka",{
         total = total || 0
             $('#total').val(total   )
     })
-
+    $('#shipment_cost').on('change', function() {
+    $('#data-error-shipment_coast_').hide();
+})
     
     $('#shipment_form').on("submit",function(e){
         e.preventDefault();
@@ -286,16 +301,17 @@ var  manteka =new TomSelect("#manteka",{
             
             if(element['id'] != undefined){
                 //console.log($('#'+element['id']))
-                $('#'+element['id']).val('')
+              //  $('#'+element['id']).val('')
             }
             data[element['name']]= element['value'] ;
             if(element['name']!='notes_' && element['name']!='reciver_name_'){
             
                 if(element['value'] =='' || element['value'] == null)
                 {
+                    console.log(element['value'] ,element)
                     flg=1; 
                     var tag_id= '#data-error-'+element['name'];
-                    console.log(tag_id);
+                    //console.log(tag_id);
                     $(tag_id).show();
                     $(tag_id).css('color','red').text('هذا الحقل مطلوب');
                     //$("#cerror").append('<li>'+element['name'] +' is required</li>');
@@ -314,7 +330,7 @@ var  manteka =new TomSelect("#manteka",{
                     data: data,
                     
                     success: function(result){
-                        console.log(result)
+                        //console.log(result)
                         $('#rakam-wasl').val('');
                         if($('#rakam-wasl').length>0)
                             document.getElementById("rakam-wasl").focus();
@@ -332,10 +348,15 @@ var  manteka =new TomSelect("#manteka",{
                         if($('#mo7afza').data('clear'))
                             mo7afazaSelect.clear();
 
-                        
-                        $(':input','#shipment_form')
-                        .not(':button, :submit, :reset, :hidden')
-                        .val('');
+                            
+                            $('#notes_').val('');
+                            $('#el3nwan').val('');
+                            $('#shipment_cost').val('');
+                            $('#reciver_phone_').val('');
+                            $('#reciver_name_').val('');
+                        // $(':input','#shipment_form')
+                        // .not(':button, :submit, :reset, :hidden')
+                        // .val('');
                         // .prop('checked', false)
                         // .prop('selected', false);
                     

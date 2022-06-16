@@ -74,6 +74,41 @@ class shipmentsController extends Controller
       
        
     }
+    public function t7weelArray($ind = null){
+        $arr=[];
+        $statuses= Shipment_status::orderBy('sort_no')->where('code_' ,'!=',10)->select('code_','name_')->get()->toArray();
+       
+        foreach($statuses as $stat){
+            if($stat['name_'] == 'الشحنات لدى العميل'){
+                $arr[$stat['code_']]  = ['الشحنات فى المخزن','الشحنات الراجعه فى المخزن'];
+            }
+            elseif($stat['name_'] == 'الشحنات فى المخزن'){
+                $arr[$stat['code_']]  = ['شحنات الواصل','الشحنات الراجعه فى المخزن','الشحنات لدى مندوب التسليم','شحنات واصل جزئى'];
+            }
+            elseif($stat['name_'] == 'الشحنات لدى مندوب الاستلام'){
+                $arr[$stat['code_']]  = ['الشحنات فى المخزن'];
+            }
+            elseif($stat['name_'] == 'الشحنات لدى مندوب التسليم'){
+                $arr[$stat['code_']]  = ['شحنات الواصل','شحنات واصل جزئى','الشحنات الراجعه فى المخزن'];
+            }
+            elseif($stat['name_'] == 'شحنات الواصل'){
+                $arr[$stat['code_']]  = ['الشحنات لدى مندوب التسليم'];
+            }
+            elseif($stat['name_'] == 'شحنات واصل جزئى'){
+                $arr[$stat['code_']]  = ['شحنات الواصل'];
+            }
+            elseif($stat['name_'] == 'الشحنات الراجعه فى المخزن'){
+                $arr[$stat['code_']]  = ['الشحنات فى المخزن','شحنات الراجع لدى العميل'];
+            }
+            elseif($stat['name_'] == 'شحنات الراجع لدى العميل'){
+                $arr[$stat['code_']]  = [];
+            }
+           
+        
+        }
+        if($ind != null ) return $arr[$ind];
+        dd($statuses);
+    }
     
     public function shipments(int $type,Request $request)
     { 
@@ -83,7 +118,7 @@ class shipmentsController extends Controller
              $page =0;
              if(isset(request()->page)) $page= request()->page;
            
-
+            $t7weelTo = $this->t7weelArray( $type);
             $shipments = Shipment::with(['Branch_user' => function ($query) {
                 $query->select('code_','phone_');
             }])->whereIn('TRANSFERE_ACCEPT_REFUSE',[1,0])->where('Ship_area_',$user->branch)
@@ -148,7 +183,7 @@ class shipmentsController extends Controller
         
         // $all->withPath("?mo7afza={$request->mo7afza}&showAll={$request->showAll}
         // &client_id={$request->client_id}");
-        
+        $manadeb_taslim= User::where('branch',auth()->user()->branch)->where('type_','مندوب تسليم')->get();
         $mo7afazat =$this->getAllMo7afazat();
         $filtered_clients = User::where('type_','عميل')->where('name_',$request->client_id)->pluck('code_')->toArray();
         $Commercial_names =Commercial_name::whereIn('code_',$filtered_clients)->groupBy('name_')->get();
@@ -159,9 +194,9 @@ class shipmentsController extends Controller
         ,'status_4_color','status_7_color','status_8_color','status_9_color'])->get()->keyBy('name')->pluck('val','name');
         $css_prop = Setting::get('status_css_prop');
         //  dd($status_color);
-        $page_title='الشحنات الغير مسددة للعميل';
+        $page_title='الشحنات';
         return view('shipments.index',compact('all','type','mo7afazat','page_title','Commercial_names',
-        'clients','status_color','css_prop','sums'));
+        'clients','status_color','css_prop','sums' ,'t7weelTo','manadeb_taslim'));
            
            
 
@@ -169,7 +204,74 @@ class shipmentsController extends Controller
         
     }
 
-    
+    public function t7weel_manual(Request $request){
+        //dd($request->all());
+        //dd($request->all());
+        if($request->t7weel_to=='الشحنات فى المخزن'){  //ta7wel sh7nat fel m5zn
+            $status=[3,2,9];
+            $updated_array = ['status_'=>1,'tarikh_el7ala'=>Carbon::now()->format('Y-m-d')];
+        }
+        if($request->t7weel_to == 'شحنات واصل جزئى'){  //ta7wel sh7nat fel m5zn
+            $status=[1,4];
+            $updated_array = ['status_'=>6,'tarikh_el7ala'=>Carbon::now()->format('Y-m-d')];
+        }
+        if($request->t7weel_to == 'شحنات الواصل'){  
+            $status=[1,4,6];
+            $updated_array = ['status_'=>7,'tarikh_el7ala'=>Carbon::now()->format('Y-m-d')];
+        }
+        if($request->t7weel_to == 'الشحنات لدى مندوب التسليم'){  
+           
+            
+            //to do
+            $status=array(1,7);
+
+            $mandob = User::findorfail($request->status);
+            $row = DB::table('add_shipment_tb_')
+            ->whereIn('add_shipment_tb_.code_', $request->code)
+        
+            ->whereIn('add_shipment_tb_.status_', $status)
+            ->leftjoin('mandoub_taslim_tas3irtb', function($join){
+                $join->on('mandoub_taslim_tas3irtb.mantika_id', '=', 'add_shipment_tb_.mantika_id');
+                $join->on('mandoub_taslim_tas3irtb.mo7afaza_id','=','add_shipment_tb_.mo7afaza_id'); 
+            })
+             
+              ->where('mandoub_taslim_tas3irtb.mandoub_ID', $mandob->code_)
+              //->get();
+              ->update(['add_shipment_tb_.tas3ir_mandoub_taslim'=> DB::raw("`mandoub_taslim_tas3irtb`.`price_`") ,
+              'tarikh_el7ala'=>Carbon::now()->format('Y-m-d') ,
+              'Delivery_Delivered_Shipment_ID'=> $mandob->code_ ,
+              'mandoub_taslim' =>$mandob->name_,
+              'add_shipment_tb_.status_' => 4
+            ]);
+           
+
+              return response()->json([
+                'status' => 200,
+                'message' => 'تم التحويل',
+                'count' => $row,
+            ], 200);     
+        }
+        if($request->t7weel_to=='شحنات الراجع لدى العميل'){   //t7wel rag3 lada 3amel
+            $status=array(9);
+            $updated_array = ['status_'=>8, 'tarikh_el7ala'=>Carbon::now()->format('Y-m-d'),
+                                'shipment_coast_'=>0 , 'tawsil_coast_'=>0 , 'total_'=>0  ];
+        }
+        if($request->t7weel_to=='الشحنات الراجعه فى المخزن'){   //t7wel rag3 lada m5zn
+            $status=array(1,3,4);
+            $updated_array = ['status_'=>9, 'tarikh_el7ala'=>Carbon::now()->format('Y-m-d'),
+                                'Delivery_Delivered_Shipment_ID'=>"" , 'mandoub_taslim'=>"" , 'tas3ir_mandoub_taslim'=>0 ];
+        }
+        $row = DB::table('add_shipment_tb_')
+              ->whereIn('code_', $request->code)
+              ->whereIn('status_', $status)
+              ->update($updated_array);
+
+              return response()->json([
+                'status' => 200,
+                'message' => 'تم التحويل',
+                'count' => $row,
+            ], 200);
+    }
 
     public function accounting(Request $request)
     {

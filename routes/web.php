@@ -51,6 +51,7 @@ Route::get('shiment/print', 'shipmentsController@print')->name('shiments.print')
 Route::get('shiment/estlamGet', 'shipmentsController@estlamGet')->name('shiments.estlamGet');
 Route::get('shiment/changeToArchive', 'shipmentsController@changeToArchive')->name('shiments.changeToArchive');
 Route::get('shiment/isCodeUsed', 'shipmentsController@isCodeUsed')->name('shiments.isCodeUsed');
+Route::post('shiment/t7weel_manual', 'shipmentsController@t7weel_manual')->name('shiments.t7weel_manual');
 
 
 Route::get('getShipmentsByCode', 'shipmentsController@getShipmentsByCode')->name('getShipmentsByCode');
