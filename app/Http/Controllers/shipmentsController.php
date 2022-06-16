@@ -1098,8 +1098,8 @@ class shipmentsController extends Controller
 
             $user= auth()->user();
             $shipment = new Shipment();
-            $shipment->date_   = $request->date;
-            $shipment->tarikh_el7ala   = $request->date;
+            $shipment->date_   = Carbon::now()->format('Y-m-d  g:i:s A');
+            $shipment->tarikh_el7ala   = Carbon::now()->format('Y-m-d  g:i:s A');
             // $shipment->date_   = $request->date;
             $shipment->reciver_phone_   = $request->reciver_phone_;
             $shipment->client_ID_   = $request->client_id;
