@@ -4,7 +4,22 @@
 
 <div class="content">
     <link href="https://cdn.jsdelivr.net/npm/tom-select@2.0.3/dist/css/tom-select.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/tom-select@2.0.3/dist/js/tom-select.complete.min.js"></script>
+    
+     <!-- BEGIN: Notification Content --> 
+     <div id="basic-non-sticky-notification-content" class="toastify-content hidden flex">
+         <div class="font-medium">تم الحفظ بنجاح</div> 
+         <a class="font-medium text-primary dark:text-slate-400 mt-1 sm:mt-0 sm:ml-40" href=""> </a> </div> 
+         <!-- END: Notification Content --> <!-- BEGIN: Notification Toggle --> 
+         <button id="basic-non-sticky-notification-toggle" class="btn btn-primary mr-1" style="display:none;">Show Non Sticky Notification</button>
+          
+    <script>
+
+    </script>
                 <!-- BEGIN: Top Bar -->
                 @include('layout.partial.topbar')
                 <!-- END: Top Bar -->
@@ -20,14 +35,15 @@
                                 </div>
                             @endif
                            
-                                <div id='msgs' class="alert ">
+                                <div id='msgs' class="alert " style=" display:none;">
                                     <p></p>
                                     <ul class="cerror" id='cerror'>
-                                        @if($errors->any())
+                                        <li> </li>
+                                        {{-- @if($errors->any())
                                             @foreach ($errors->all() as $error)
                                                 <li>{{ $error }}</li>
                                             @endforeach
-                                        @endif
+                                        @endif --}}
                                     </ul>
                                 </div>
                            
@@ -146,6 +162,8 @@
 
 
 <script>
+        
+
 document.getElementById("client_id").focus();
 var  comName =new TomSelect(".Commercial_name",{
 	valueField: 'id',
@@ -308,7 +326,7 @@ $('#data-error-manteka').hide();
             
                 if(element['value'] =='' || element['value'] == null)
                 {
-                    console.log(element['value'] ,element)
+                    //console.log(element['value'] ,element)
                     flg=1; 
                     var tag_id= '#data-error-'+element['name'];
                     //console.log(tag_id);
@@ -321,6 +339,10 @@ $('#data-error-manteka').hide();
            
        
        if(flg) {
+          
+       
+             
+
        // $('msgs').addClass( "alert alert-danger" );
         return;
     };
@@ -337,7 +359,7 @@ $('#data-error-manteka').hide();
                         else
                             document.getElementById("client_id").focus();
                         $('.warring').text('');
-                        $("#cerror").text('');
+                        $("#cerror").css('backgroud-color','green').text('');
                         $("#cerror").append('<li> تم الحفظ بنجاح</li>');
                         if($('#manteka').data('clear'))
                             manteka.clear();
@@ -347,7 +369,7 @@ $('#data-error-manteka').hide();
                             clientSelect.clear();
                         if($('#mo7afza').data('clear'))
                             mo7afazaSelect.clear();
-
+                            $( "#basic-non-sticky-notification-toggle" ).trigger( "click" );
                             
                             $('#notes_').val('');
                             $('#el3nwan').val('');
