@@ -1082,7 +1082,8 @@ class shipmentsController extends Controller
         $page_title='اضافة شحنة';
         $clearFileds=Setting::whereIn('name',['remove_mantka','remove_mo7fza','remove_client_name','remove_commercial_name'])->get()->pluck('val','name')->toArray();
         // dd($clearFileds);
-        return view('shipments.create',compact('clients','mo7afazat','now','code_ai','page_title','clearFileds'));
+        $phoneLength =Setting::get('phone_length');
+        return view('shipments.create',compact('clients','mo7afazat','now','code_ai','page_title','clearFileds','phoneLength'));
     }
     public function store(Request $request){
        

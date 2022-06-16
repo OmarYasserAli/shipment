@@ -72,7 +72,7 @@
 
                                     <div class="form-inline mt-3">
                                         <label for="reciver_phone_" class="form-label sm:w-20">هاتف المستلم</label>
-                                        <input id="reciver_phone_" type="text" class="form-control"  name="reciver_phone_" />
+                                        <input id="reciver_phone_" type="text" class="form-control"  name="reciver_phone_" maxlength="{{$phoneLength}}" minlength="{{$phoneLength}}"/>
                                     </div>
                                     <small class="warring data-error" id='data-error-reciver_phone_' style="margin-right: 100px;" hidden></small>
 
