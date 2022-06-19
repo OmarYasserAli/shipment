@@ -32,7 +32,7 @@ class generalController extends Controller
         $user= auth()->user();
         $mo7afza=request()->mo7afza;
         if(request()->bycode=="1"){
-            $chosen_Mohfza=Mohfza::where('code',$mo7afza)->first();
+            $chosen_Mohfza=Mohfza::where('code',$mo7afza)->where('branch',$user->branch)->first();
            
             $manatek =Mantikqa::with('Tas3ir_3amil' ,'Tas3ir_ta7wel')->where('mo7afza',$chosen_Mohfza->name)->where('branch',$user->branch)->get();
         }
@@ -79,7 +79,7 @@ class generalController extends Controller
             $manatek=Mantikqa::where('code',$manatek)->first()->name;
         }
         $isSprecial = AddClientsMainComp::where('code_',$client_id)->first();
-         
+        
         if(isset($isSprecial))
             if($isSprecial->Special_prices == 'لا'){
                {

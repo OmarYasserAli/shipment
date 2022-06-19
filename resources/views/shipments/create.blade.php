@@ -101,7 +101,7 @@
                                         <select name="mo7afza" id='mo7afza' class="form-control mo7afza" data-clear='{{$clearFileds['remove_mo7fza']}}'>
                                             <option value=""></option>
                                             @foreach($mo7afazat as $mo7afaza)
-                                            <option value="{{$mo7afaza->code}}"  >{{$mo7afaza->name}}</option>
+                                            <option value="{{$mo7afaza->name}}"  >{{$mo7afaza->name}}</option>
                                             @endforeach
                                         </select>
                                         <script>
@@ -227,7 +227,7 @@ $('#el3nwan').on('change', function() {
                       $("#manteka").html('');
                       if(mo7afza_id == '') return;
                       $.ajax({
-                          url:"{{url('getManateqByMa7afza')}}?mo7afza="+mo7afza_id+"&bycode=1",
+                          url:"{{url('getManateqByMa7afza')}}?mo7afza="+mo7afza_id+"&bycode=0",
                           type: "get",
                           data: {
                           },
@@ -239,9 +239,9 @@ $('#el3nwan').on('change', function() {
                           manteka.clearOptions();
                           var temp = ''; var f=0;
                           $.each(result.all,function(key,value){
-                                if(f==0   ){ f=1;  temp = value.code;  }
+                                if(f==0   ){ f=1;  temp = value.name;  }
                                 manteka.addOption({
-                                    id: value.code,
+                                    id: value.name,
                                     title: value.name,
                                     
                                 });
@@ -253,16 +253,17 @@ $('#el3nwan').on('change', function() {
     $('#manteka').on('change', function() {
         $('#data-error-manteka').hide();
                     var manteka_id = this.value;
+                   
                     var client_id  = $('#client_id ').find(":selected").val();
                     var mo7afza_id  = $('#mo7afza ').find(":selected").val();
                     
                         $("#tawsil_cost").html('');
                         if(manteka_id == '') return;
                         $.ajax({ 
-                            url:"{{url('getTawsilByManteka')}}?bycode=1&client_id="+client_id+'&mo7afza_id='+ mo7afza_id+'&manteka_id='+manteka_id ,
+                            url:"{{url('getTawsilByManteka')}}?bycode=0&client_id="+client_id+'&mo7afza_id='+ mo7afza_id+'&manteka_id='+manteka_id ,
                             type: "get",
                             success: function(result){
-                                console.log(result.all)
+                               
                                   $('#tawsil_cost').val(result.all);
                                   if($('#shipment_cost').val() !='')
                                   var total = (parseInt($('#shipment_cost').val()) - parseInt($('#tawsil_cost').val()));

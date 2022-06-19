@@ -41,11 +41,12 @@
                                         <input type="hidden" name="date" class="form-control"   value="{{$now}}" > 
                                        
                                     </div>
+                                    <input id="rakam-wasl" type="hidden" class="form-control"  name="code" value="{{$shipment->code_}}"/>
                                     @if(!$code_ai)
                                     <div class="form-inline mt-3">
                                         <label for="rakam-wasl" class="form-label sm:w-20">رقم الوصل</label>
                                         <input id="rakam-wasl" type="text" class="form-control"  name="code" disabled value="{{$shipment->code_}}"/>
-                                        <input id="rakam-wasl" type="hidden" class="form-control"  name="code" value="{{$shipment->code_}}"/>
+                                        
                                         
                                     </div>
                                     <small class="warring " style="margin-right: 100px;"></small>
@@ -65,6 +66,7 @@
                                         <label for="commercial-name" class="form-label sm:w-20 ">الاسم التجارى</label>
                                         <select class="Commercial_name form-control" id='Commercial_name' name="Commercial_name" >     
                                         </select>
+                                        <input type="hidden" id="Commercial_name_tmp" value="{{$shipment->commercial_name_}}">
                                     </div>
                                     <div class="form-inline mt-3">
                                         <label for="phone" class="form-label sm:w-20">هاتف المستلم</label>
@@ -79,7 +81,7 @@
                                         <select name="mo7afza" id='mo7afza' class="form-control mo7afza" >
                                             
                                             @foreach($mo7afazat as $mo7afaza)
-                                            <option value="{{$mo7afaza->code}}"  @if($mo7afaza->code ==$shipment->mo7afaza_id) selected @endif>{{$mo7afaza->name}}</option>
+                                            <option value="{{$mo7afaza->name}}"  @if($mo7afaza->name == $shipment->mo7afza_) selected @endif>{{$mo7afaza->name}}</option>
                                             @endforeach
                                         </select>
                                         <script>
@@ -88,10 +90,11 @@
                                     </div>
                                     <div class="form-inline mt-3">
                                         <label for="horizontal-form-1" class="form-label sm:w-20">المنطقة</label>
-                                        <select name="manteka" id='manteka'  class="form-control   mr-1"  style=" width:200px; margin-right:20px;">
+                                        <select name="manteka" id='manteka'  class="form-control   mr-1"  style=" width:200px; margin-right:20px;" >
                                             
                                            
                                         </select>
+                                        <input type="hidden" value="{{$shipment->mantqa_}}" id='manteka_tmp'>
                                         <label for="horizontal-form-1" class="form-label sm:w-20">العنوان</label>
                                         <input type="text" name="el3nwan" id="" class="form-select form-select-sm mr-1" style=" width:400px; " value="{{$shipment->el3nwan}}">
                                     </div>
@@ -158,6 +161,66 @@
 
 
 <script>
+    
+    $( document ).ready(function() {
+       
+        var client_id = $('#client_id').val();
+        var Commercial_name =$('#Commercial_name_tmp').val();
+                      $("#Commercial_name").html('');
+                      $.ajax({
+                          url:"{{url('getCommertialnameBy3amil')}}?client_id="+client_id+"&bycode=1",
+                          type: "get",
+                          data: {
+                              
+                          },
+                          dataType : 'json',
+                          success: function(result){
+                              console.log(result)
+                          $('#Commercial_name').prop('disabled', false);
+                         
+                          comName.clear();
+                          comName.clearOptions();
+                          
+                          $.each(result.all,function(key,value){
+                              comName.addOption({
+                                id: value.name_,
+                                title: value.name_,
+                              
+                            });
+                            comName.setValue(Commercial_name);
+                              
+                          });
+                          }
+                      });
+        var mo7afza_id = $('#mo7afza').val();
+        var manteka_id =$('#manteka_tmp').val();
+        console.log(manteka_id);
+                      $("#manteka").empty();
+                      $.ajax({
+                          url:"{{url('getManateqByMa7afza')}}?mo7afza="+mo7afza_id+"&bycode=0",
+                          type: "get",
+                          data: {
+                          },
+                          dataType : 'json',
+                          success: function(result){
+                              console.log(result.all)
+                          $('#manteka').prop('disabled', false);
+                          //$('#manteka').html('<option value="">...</option>');
+                          manteka.clearOptions();
+                          var tmp ='';
+                          $.each(result.all,function(key,value){
+                             
+                            manteka.addOption({
+                                id: value.name,
+                                title: value.name,
+                                
+                            });
+                            manteka.setValue(manteka_id);
+                            });
+                          }
+        });
+    });
+    
 
 var  comName =new TomSelect(".Commercial_name",{
 	valueField: 'id',
@@ -185,7 +248,7 @@ var  manteka =new TomSelect("#manteka",{
                           success: function(result){
                               console.log(result)
                           $('#Commercial_name').prop('disabled', false);
-                         
+                          comName.clear();
                           comName.clearOptions();
                           $.each(result.all,function(key,value){
                               comName.addOption({
@@ -203,19 +266,20 @@ var  manteka =new TomSelect("#manteka",{
                   var mo7afza_id = this.value;
                       $("#manteka").html('');
                       $.ajax({
-                          url:"{{url('getManateqByMa7afza')}}?mo7afza="+mo7afza_id+"&bycode=1",
+                          url:"{{url('getManateqByMa7afza')}}?mo7afza="+mo7afza_id+"&bycode=0",
                           type: "get",
                           data: {
                           },
                           dataType : 'json',
                           success: function(result){
-                              console.log(result.all)
+                              
                           $('#manteka').prop('disabled', false);
                           //$('#manteka').html('<option value="">...</option>');
+                          manteka.clear();
                           manteka.clearOptions();
                           $.each(result.all,function(key,value){
                             manteka.addOption({
-                                id: value.code,
+                                id: value.name,
                                 title: value.name,
                                 
                             });
@@ -231,7 +295,7 @@ var  manteka =new TomSelect("#manteka",{
                      
                         $("#tawsil_cost").html('');
                         $.ajax({ 
-                            url:"{{url('getTawsilByManteka')}}?bycode=1&client_id="+client_id+'&mo7afza_id='+ mo7afza_id+'&manteka_id='+manteka_id ,
+                            url:"{{url('getTawsilByManteka')}}?bycode=0&client_id="+client_id+'&mo7afza_id='+ mo7afza_id+'&manteka_id='+manteka_id ,
                             type: "get",
                             success: function(result){
                                 console.log(result.all)

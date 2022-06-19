@@ -43,7 +43,7 @@ class shipmentsController extends Controller
      */
     public function HomePage(Request $request)
     {
-       
+      
        
         $user=auth()->user();
         $statuses= Shipment_status::orderBy('sort_no')->where('code_' ,'!=',10)
@@ -1195,7 +1195,7 @@ class shipmentsController extends Controller
             // $shipment->date_   = $request->date;
             $shipment->reciver_phone_   = $request->reciver_phone_;
             $shipment->client_ID_   = $request->client_id;
-            if(!Setting::get('shipment_code_ai')){
+            if(!Setting::get('shipment_code_ai') && $request->code!='' && $request->code != null){
                 $shipment->code_   = $request->code;
                 $shipment->serial_ 	 = $request->code;
 
@@ -1207,17 +1207,18 @@ class shipmentsController extends Controller
             $shipment->clinet_phone_   = $client->phone_;
             $shipment->reciver_name_   = $request->reciver_name_;
             $shipment->Commercial_name_ = $request->Commercial_name;
-            $shipment->mo7afaza_id   = $request->mo7afza;
-            $shipment->mantika_id   = $request->manteka;
-            $mo7afzaName=Mohfza::where('code',$shipment->mo7afaza_id)->first()->name;
-            $manatekName=Mantikqa::where('code',$shipment->mantika_id )->first()->name;
-            $shipment->mo7afza_   = $mo7afzaName;
-            $shipment->mantqa_   = $manatekName;
+            
+            $mo7afzaCode=Mohfza::where('name',$request->mo7afza)->first()->code;
+            $manatekCode=Mantikqa::where('name',$request->manteka )->first()->code;
+            $shipment->mo7afaza_id   = $mo7afzaCode;
+            $shipment->mantika_id   = $manatekCode;
+            $shipment->mo7afza_   = $request->mo7afza;
+            $shipment->mantqa_   = $request->manteka;
             $shipment->Ship_area_   = $user->branch;
             $shipment->branch_   = $user->branch;
             $shipment->status_   = 1;
             $shipment->el3nwan=$request->el3nwan;
-            $shipment->elmantqa_el3nwan=$manatekName."/".$request->el3nwan;
+            $shipment->elmantqa_el3nwan=$request->manteka."/".$request->el3nwan;
             $shipment->shipment_coast_=$request->shipment_coast_;
             $shipment->tawsil_coast_=$request->tawsil_coast_;
             $shipment->total_=$request->total_;
@@ -1384,24 +1385,24 @@ class shipmentsController extends Controller
         if(isset($request->Commercial_name)){
            $shipment->Commercial_name_ = $request->Commercial_name;
         }
-        $shipment->mo7afaza_id   = $request->mo7afza;
         
-        $mo7afzaName=Mohfza::where('code',$shipment->mo7afaza_id)->first()->name;
-
+        $shipment->mo7afza_=$request->mo7afza;
+        $mo7afzaCode=Mohfza::where('name',$request->mo7afza)->first()->code;
+        $shipment->mo7afaza_id   = $mo7afzaCode;
         if(isset($request->manteka)){
-            $shipment->mantika_id   = $request->manteka;
-            $manatekName=Mantikqa::where('code',$shipment->mantika_id )->first()->name;
-            $shipment->mantqa_   = $manatekName;
-        }else{
+            $shipment->mantqa_   = $request->manteka;
+            $manatekcode=Mantikqa::where('name',$request->manteka )->first()->code;
+            $shipment->mantika_id   = $manatekcode;
+        }else{ 
             $manatekName= $shipment->mantqa_;
         }
-        $shipment->mo7afza_   = $mo7afzaName;
+        
         
         $shipment->Ship_area_   = $user->branch;
         $shipment->branch_   = $user->branch;
         //$shipment->status_   = 1;
         $shipment->el3nwan=$request->el3nwan;
-        $shipment->elmantqa_el3nwan=$manatekName."/".$request->el3nwan;
+        $shipment->elmantqa_el3nwan=$request->manteka."/".$request->el3nwan;
         
         $shipment->shipment_coast_=$request->shipment_coast_;
         $shipment->tawsil_coast_=$request->tawsil_coast_;

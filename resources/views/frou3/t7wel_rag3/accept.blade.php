@@ -42,10 +42,10 @@
                                         
                                     </div>
                                     <div class="form-inline">
-                                        <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:10px; margin-top:8px;  width:150px; ">العدد فى كل صفحة</label>
+                                        {{-- <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:10px; margin-top:8px;  width:150px; ">العدد فى كل صفحة</label>
                                         <input value="{{request()->get('limit')}}" name="limit" type="text" class="form-select form-select-sm " aria-label=".form-select-sm example" style=" width:50px">
                                         <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:10px; margin-top:8px;  width:50px; ">الكل</label>
-                                        <input type="checkbox" name='showAll' @if(request()->get('showAll') =='on') checked @endif >
+                                        <input type="checkbox" name='showAll' @if(request()->get('showAll') =='on') checked @endif > --}}
                                             
                                         <input type="submit" class="btn btn-primary mr-2" value="فلتر">
                                     </div > 
@@ -58,7 +58,7 @@
                     </div>
                     </form>
                     <div class="overflow-x-auto mt-5">
-                        <table class="table table-striped">
+                        <table class="table table-striped " id='dataTable'>
                             <thead class="table-light">
                                 <tr>
                                     <th class="whitespace-nowrap">الغاء</th>
@@ -74,7 +74,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($all->items() as $shipment)
+                                @foreach($all as $shipment)
                                 <tr data-code="{{ $shipment->code_}}">
                                     <td class="whitespace-nowrap"><button class="btn btn-elevated-rounded-danger w-15   action_btn"  data-type="cancel">الغاء</button></td>
                                     <td class="whitespace-nowrap"><button class="btn btn-elevated-rounded-success w-15 action_btn"  data-type="accept">موافق</button></td>
@@ -104,7 +104,7 @@
             
             <!-- END: Add Item Modal -->
             <div class="mt-5">
-                {!! $all->render() !!}
+                
             </div>
             
         </div>
@@ -343,7 +343,68 @@
                         }
                     });
                   
-             })
+            })
+
+            var page = 0;
+            let cont=0;
+       
+            $(window).scroll(function () {
+                if ($(window).scrollTop() + $(window).height()     >= $(document).height()) {
+                    page++;
+                    cont=$('#dataTable   tr:last td:first-child').text();
+                    infinteLoadMore(page);
+                }
+            });
+            function infinteLoadMore(page) {
+                $.ajax({
+                    url: "{{route('accept_frou3_rag3')}}"+ "?lodaMore=1&page=" + page+'&'+window.location.search.substr(1),
+                
+                    type: "get",
+                    beforeSend: function () {
+                        
+                    }
+                })
+                .done(function (response) {
+                    console.log(response);
+                    if (response.length == 0) {
+                       
+                        return;
+                    }
+                    $.each(response.data,function(key,value){
+                        console.log(value.client);
+                        cont++;
+                        var client = '';
+                        if (typeof value.client != 'undefined' &&  value.client != null){client = (value.client)['name_'];}else{client =value.client_name_}
+                        $('#dataTable   tr:last').after(`<tr  class='status_`+value.Status_+`_color'>
+                            <td class="whitespace-nowrap"><button class="btn btn-elevated-rounded-danger w-15   action_btn"  data-type="cancel">الغاء</button></td>
+                            <td class="whitespace-nowrap"><button class="btn btn-elevated-rounded-success w-15 action_btn"  data-type="accept">موافق</button></td>
+                            <td  class="whitespace-nowrap " >`+value.shipment_coast_+`</td>
+                            <td  class="whitespace-nowrap " >`+value.mo7afza_+`</td>
+                            <td  class="whitespace-nowrap " >`+ value.reciver_phone_+`</td>
+                            <td  class="whitespace-nowrap " >`+value.commercial_name_+`</td>
+                            <td  class="whitespace-nowrap " >`+value.tarikh_el7ala+`</td>
+                            <td  class="whitespace-nowrap " >`+value.branch_+`</td>
+                            <td  class="whitespace-nowrap " >`+value.code_+`</td>
+                                               
+                                            </tr>`
+                                            );
+
+                                            
+                                    
+                                    // <td class="whitespace-nowrap">{{$shipment->shipment_coast_}}</td>
+                                    // <td class="whitespace-nowrap">{{$shipment->mo7afza_}}</td>
+                                    // <td class="whitespace-nowrap">{{$shipment->reciver_phone_}}</td>
+                                    // <td class="whitespace-nowrap">{{$shipment->commercial_name_}}</td>
+                                    // <td class="whitespace-nowrap">{{$shipment->tarikh_el7ala}}</td>
+                                    // <td class="whitespace-nowrap">{{$shipment->branch_}}</td>
+                                    // <td class="whitespace-nowrap">{{$shipment->code_}}</td>
+                            //rows_counter()
+                    });
+                })
+                .fail(function (jqXHR, ajaxOptions, thrownError) {
+                    console.log('Server error occured');
+                });
+            }
                 
             </script>
 @endsection
