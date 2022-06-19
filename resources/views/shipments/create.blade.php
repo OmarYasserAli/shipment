@@ -114,7 +114,6 @@
                                         <label for="horizontal-form-1" class="form-label sm:w-20">المنطقة</label>
                                         <select name="manteka" id='manteka'  class="form-control   mr-1"  style=" width:200px; margin-right:20px;" data-clear='{{$clearFileds['remove_mantka']}}'>
                                             
-                                           
                                         </select>
                                         <label for="horizontal-form-1" class="form-label sm:w-20">العنوان</label>
                                         <input type="text" name="el3nwan" id="el3nwan" class="form-select form-select-sm mr-1" style=" width:400px; ">
@@ -189,7 +188,7 @@ $('#el3nwan').on('change', function() {
 })
                             
                             
-$('#data-error-manteka').hide();
+    $('#data-error-manteka').hide();
     $('#client_id').on('change', function() {
                   $('#data-error-client_id').hide();
                   var client_id = this.value;
@@ -284,7 +283,7 @@ $('#data-error-manteka').hide();
     $('#shipment_form').on("submit",function(e){
         e.preventDefault();
         save_shipment()
-    } );
+    });
     $('#shipment_cost').on("keyup",function(e){
         if(e.keyCode == 13){
             save_shipment()

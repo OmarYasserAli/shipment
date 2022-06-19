@@ -51,7 +51,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="side-menu-light-dashboard-overview-4.html" class="side-menu">
+                                <a href="{{route('sipments.search')}}" class="side-menu">
                                     <div class="side-menu__icon"> <i data-lucide="activity"></i> </div>
                                     <div class="side-menu__title"> اﺳﺗﻌﻼم ﻋن ﺷﺣﻧﺔ </div>
                                 </a>
@@ -380,7 +380,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="{{route('adduser')}}" class="side-menu">
+                                <a href="{{route('addUser')}}" class="side-menu">
                                     <div class="side-menu__icon"> <i data-lucide="activity"></i> </div>
                                     <div class="side-menu__title"> اﺿﺎﻓﺔ اﻟﻣﺳﺗﺧدﻣﯾن </div>
                                 </a>

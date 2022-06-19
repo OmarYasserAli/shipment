@@ -78,18 +78,15 @@
                                 <input name='hala_date_to' type="date"  class="form-control form-select-sm "  aria-label="default input inline 1" style=""> 
                             </div>
                             <div class="form-inline 3amil">
-                                <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:15px; margin-top:1px; width:30px; ">العميل</label>
+                                <label for="horizontal-form-1" class="form-label" style=" text-align:right; margin-left:15px; margin-top:1px; width:62px; ">العميل</label>
+                                <select class="form-control client_id tom-select mr-8" id='client_id' name="client_id">
+                                    <option value=""></option>
+                                    @foreach ($clients as $client)
+                                     <option value="{{$client->code_}}">{{$client->name_}}</option>
+                                     @endforeach
+                                </select>
                                 
-                                <input type="hidden" value="@if(request()->get('client_id')!= null){{request()->get('client_id')}}@else الكل @endif" name='client_id'>
-                                    <div class="mr-6 alert alert-outline-secondary alert-dismissible show flex items-center mb-2" role="alert">
-                                        @if(request()->get('client_id')!= null)
-                                            {{request()->get('client_id')}}
-                                       
-                                       @endif
-                                       @if(request()->get('client_id') == null)الكل@endif
-                                        <button type="button" class="btn-close" data-tw-dismiss="alert" aria-label="Close" onclick="window.location.replace('{{route('shiments',['type' =>$type])}}')">
-                                            <i data-lucide="x" class="w-4 h-4"></i> </button> 
-                                    </div>
+                                
                             </div>
                             
                         </div > 
@@ -113,7 +110,7 @@
                                 </div>
                                 <div class="form-inline">
                                     <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:10px; margin-top:8px;  width:64px; ">الاسم التجاري</label>
-                                    <select id="Commercial_name" name="Commercial_name" class="form-select form-select-sm " aria-label=".form-select-sm example" style=" width:244px">
+                                    <select id="Commercial_name" name="Commercial_name" class="form-select form-select-sm " aria-label=".form-select-sm example" style=" width:250px">
                                         <option value="">...</option>
                                         @foreach($Commercial_names as $Commercial_name)
                                             <option value="{{$Commercial_name->name_}}" @if(request()->get('Commercial_name') ==$Commercial_name->name_) selected @endif>{{$Commercial_name->name_}}</option>
@@ -153,16 +150,7 @@
                             </div > 
                         </div>
                         <div class="form-inline">
-                            <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:10px; margin-top:8px; margin-right:3px ; width:250px">تحويل الشحنات الى</label>
-
-                            <select id="t7weel_to" name="t7weel_to" class="form-select form-select-sm align-left" aria-label=".form-select-sm example" style="margin-left:8px; width:244px ; direction: ltr">
-                                <option value="">...</option>
-                                @foreach($t7weelTo as $element)
-                                    <option value="{{$element}}"   >{{$element}}</option>
-                                @endforeach
-                                
-                            </select>
-                            <input type="button"  class="btn btn-success  align-left" style="direction: ltr"  value="تحويل المحدد" id='tasdid' >
+                            
                         </div>
                     </div>
                 </div>
@@ -472,7 +460,7 @@
                 var client_id = this.value;
                     $("#Commercial_name").html('');
                     $.ajax({
-                        url:"{{url('getCommertialnameBy3amil')}}?client_id="+client_id,
+                        url:"{{url('getCommertialnameBy3amil')}}?bycode=1&client_id="+client_id,
                         type: "get",
                         data: {
                             
@@ -502,7 +490,7 @@
             });
             function infinteLoadMore(page) {
                 $.ajax({
-                    url: "{{route('shiments',['type' =>$type])}}"+ "?lodaMore=1&page=" + page+'&'+window.location.search.substr(1),
+                    url: "{{route('sipments.search')}}"+ "?lodaMore=1&page=" + page+'&'+window.location.search.substr(1),
                 
                     type: "get",
                     beforeSend: function () {

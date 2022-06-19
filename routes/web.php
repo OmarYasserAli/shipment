@@ -20,6 +20,7 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::get('/definations/company', 'setting\definationsController@company')->name('company');
 Route::get('/definations/city', 'setting\definationsController@addCity')->name('addCity');
 Route::get('/definations/branch', 'setting\definationsController@addBranch')->name('addBranch');
+Route::post('/definations/branch', 'setting\definationsController@storeBranch')->name('storeBranch');
 Route::get('/getManateqByMa7afza', 'generalController@getManateqByMa7afza')
     ->name('getManateqByMa7afza');
 Route::get('/getCommertialnameBy3amil', 'generalController@getCommertialnameBy3amil')
@@ -43,6 +44,7 @@ Route::get('shiment/create', 'shipmentsController@create')->name('shiments.creat
 Route::post('shiment/store', 'shipmentsController@store')->name('shiments.store');
 Route::get('shiment/edit/{code}', 'shipmentsController@edit')->name('shiments.edit');
 Route::post('shiment/update', 'shipmentsController@update')->name('shiments.update');
+Route::get('shiment/search', 'shipmentsController@shipmentsSearch')->name('sipments.search');
 
 
 Route::get('shiment/editview', 'shipmentsController@editview')->name('shiments.editview');
@@ -144,8 +146,15 @@ Route::get('/accounting/loadMore', 'accountingController@loadMore')->name('accou
 
 //users Definations
 Route::get('/users/add-client', 'setting\userdefinationsController@addClient')->name('addClient');
+Route::post('/users/add-client', 'setting\userdefinationsController@storeClient')->name('storeClient');
 Route::get('/users/add-mandoub', 'setting\userdefinationsController@addMandoub')->name('addMandoub');
-Route::get('/users/add-user', 'setting\userdefinationsController@adduser')->name('adduser');
+Route::post('/users/add-mandoub', 'setting\userdefinationsController@storeMandoub')->name('storeMandoub');
+
+
+Route::get('/users/add-user', 'setting\userdefinationsController@adduser')->name('addUser');
+Route::post('/users/add-user', 'setting\userdefinationsController@storeUser')->name('storeUser');
+
+
 Route::get('/users/registrationRequest', 'setting\userdefinationsController@registrationRequest')->name('registrationRequest');
 Route::get('/users/commercialNames', 'setting\userdefinationsController@commercialNames')->name('commercialNames');
 

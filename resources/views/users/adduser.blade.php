@@ -2,44 +2,58 @@
 
 @section('content')
 <div class="content">
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.0.3/dist/css/tom-select.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.0.3/dist/js/tom-select.complete.min.js"></script>
                 <!-- BEGIN: Top Bar -->
                 @include('layout.partial.topbar')
                 <!-- END: Top Bar -->
-                
+                @if (session('status'))
+                <div class="alert alert-success">
+                    {{ session('status') }}
+                </div>
+        @endif
+        @if($errors->any())
+            <div class="alert alert-warning">
+            @foreach ($errors->all() as $error)
+                <div>{{ $error }}</div>
+            @endforeach
+             </div>
+        @endif
                 <div class="pos intro-y grid grid-cols-12 gap-5 mt-5">
+                   
                     <!-- BEGIN: Post Content -->
                     <div class="intro-y col-span-12 lg:col-span-8">
                         
                         <div class="post intro-y overflow-hidden box mt-5">
-                            
+                        <form action="{{route('storeUser')}}" method="post">
                             <div class="post__content tab-content">
                                 <div id="content" class="tab-pane p-5 active" role="tabpanel" aria-labelledby=	"content-tab">
                                     <div class="form-inline">
-                                        <label for="date" class="form-label sm:w-20">اسم العميل</label>
-                                        <div class="grid grid-cols-12 gap-2"> 
-                                            <input type="text" class="form-control col-span-4"   aria-label="default input inline 1"> 
-                                        </div> 
+                                        <label for="date" class="form-label sm:w-20">اسم الموظف</label>
+                                        
+                                            <input type="text" class="form-control col-span-4" name="mandoub_name"   aria-label="default input inline 1" style="width: 350px;"> 
+                                        
                                     </div>
 
-                                    <div class="form-inline mt-3">
-                                        <label for="date" class="form-label sm:w-20">الاسم التجارى</label>
-                                        <div class="grid grid-cols-12 gap-2"> 
-                                             
-                                            <select class="form-control col-span-4"> 
-                                                <option value=""> </option>
+                                    {{-- <div class="form-inline mt-3 mb-2">
+                                        <label for="date" class="form-label sm:w-20">الوظيقة</label>
+                                            <select class="form-control col-span-4" name="job"> 
+                                                <option value="مندوب استلام">مندوب استلام</option>
+                                                <option value="مندوب تسليم">مندوب تسليم</option>
                                             </select>
-                                        </div> 
-                                    </div>
-                                  
-                                   <div class="form-inline mt-3">
-                                    <label for="date" class="form-label sm:w-20">الوظيفة</label>
+                                        
+                                    </div> --}}
+                                
+                                   {{-- <div class="form-inline mt-3">
+                                    <label for="date" class="form-label sm:w-20">الفرع</label>
                                     <div class="grid grid-cols-12 gap-2"> 
                                          
                                         <select class="form-control col-span-4"> 
                                             <option value=""> </option>
                                         </select>
                                     </div> 
-                                </div>
+                                </div> --}}
+                                @csrf
                                     <div class="form-inline mt-3">
                                         <label for="username" class="form-label sm:w-20">اسم المستخدم</label>
                                         <input id="username" type="text" class="form-control"  name='username' autocomplete="off"/>
@@ -51,44 +65,48 @@
                                     <div class="form-inline mt-3">
                                         <label for="date" class="form-label sm:w-20">رقم الهوية</label>
                                         <div class="grid grid-cols-12 gap-2"> 
-                                            <input type="text" class="form-control col-span-4"   aria-label="default input inline 1"> 
-                                            <label for="date" class="form-label col-span-4" style="text-align: left; margin-top:8px;">رقم الاهاتف</label>
-                                            <input type="text" class="form-control col-span-4"   aria-label="default input inline 1"> 
+                                            <input type="text" class="form-control col-span-4"   aria-label="default input inline 1" name="ID_"> 
+                                            {{-- <label for="date" class="form-label col-span-4" style="text-align: left; margin-top:8px;">رقم الاهاتف</label>
+                                            <input type="text" class="form-control col-span-4"   aria-label="default input inline 1" name="phone_">  --}}
                                         </div> 
                                     </div>
                                     <div class="form-inline mt-3">
-                                        <label for="phone" class="form-label sm:w-20">عنوان العميل</label>
-                                        <input id="phone" type="text" class="form-control"  />
-                                    </div>
-                                    <div class="form-inline mt-3">
-                                        <label for="date" class="form-label sm:w-20">المحافظة</label>
-                                        <div class="grid grid-cols-12 gap-2"> 
-                                            <select class="form-control col-span-4"> 
-                                                <option value=""> </option>
-                                            </select>
-                                            <label for="date" class="form-label col-span-4" style="text-align: left; margin-top:8px;">المفتاح</label>
-                                            <input type="text" class="form-control col-span-4"   aria-label="default input inline 1"> 
-                                        </div> 
+                                        <label for="phone" class="form-label sm:w-20">عنوان الموظف</label>
+                                        <input id="phone" type="text" class="form-control"  name="address_"/>
                                     </div>
                                     <div class="form-inline mt-3">
                                         <label for="mo7afaza" class="form-label sm:w-20">المحافظة</label>
-                                        <input id="mo7afaza" type="text" class="form-control"  />
+                                        <select name="mo7afza" id='mo7afza' class="form-control mo7afza" name="mo7fza">
+                                            <option value=""></option>
+                                            @foreach($mo7afazat as $mo7afaza)
+                                            <option value="{{$mo7afaza->code}}"  >{{$mo7afaza->name}}</option>
+                                            @endforeach
+                                        </select>
+                                        <script>
+                                            let mo7afazaSelect = new TomSelect(".mo7afza",{});
+                                        </script>
                                     </div>
                                     <div class="form-inline mt-3">
                                         <label for="horizontal-form-1" class="form-label sm:w-20">المنطقة</label>
-                                        <input id="horizontal-form-1" type="text" class="form-control"  />
+                                        <select name="manteka" id='manteka'  class="form-control   mr-1"  style=" " >
+                                            
+                                        </select>
                                     </div>
-                                    
+                                    <div class="form-inline mt-3">
+                                        <label for="horizontal-form-1" class="form-label sm:w-20">ملاحظات</label>
+                                        <textarea name="notes_" id='notes_'  class="form-control   mr-1"  style=" "  >
+                                            
+                                        </textarea>
+                                    </div>
 
                                    
-                                   
-                                   
-                                    <div class="sm:ml-20 sm:pl-5 mt-5">
+                                    <div class="sm:ml-20 sm:pl-5 mt-5 mb-10">
                                         <button class="btn btn-primary">حفظ</button>
                                     </div>
 							    </div>
 							                         
 							</div>
+                        </form>
                         </div>
                     </div>
                     <!-- END: Post Content -->
@@ -97,4 +115,42 @@
                     <!-- END: Post Info -->
                 </div>
 </div>
+
+<script>
+    var  manteka =new TomSelect("#manteka",{
+	valueField: 'id',
+	labelField: 'title',
+	searchField: 'title',
+	create: false
+});
+$('#mo7afza').on('change', function() {
+        $('#data-error-mo7afza').hide();
+                  var mo7afza_id = this.value;
+                      $("#manteka").html('');
+                      if(mo7afza_id == '') return;
+                      $.ajax({
+                          url:"{{url('getManateqByMa7afza')}}?mo7afza="+mo7afza_id+"&bycode=1",
+                          type: "get",
+                          data: {
+                          },
+                          dataType : 'json',
+                          success: function(result){
+                              console.log(result.all)
+                          $('#manteka').prop('disabled', false);
+                          //$('#manteka').html('<option value="">...</option>');
+                          manteka.clearOptions();
+                          var temp = ''; var f=0;
+                          $.each(result.all,function(key,value){
+                                if(f==0   ){ f=1;  temp = value.code;  }
+                                manteka.addOption({
+                                    id: value.name,
+                                    title: value.name,
+                                    
+                                });
+                                manteka.setValue(temp);
+                            });
+                          }
+                      });
+    }); 
+</script>
 @endsection

@@ -23,7 +23,6 @@ use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
-
 class shipmentsController extends Controller
 {
     public function __construct()
@@ -194,9 +193,101 @@ class shipmentsController extends Controller
         ,'status_4_color','status_7_color','status_8_color','status_9_color'])->get()->keyBy('name')->pluck('val','name');
         $css_prop = Setting::get('status_css_prop');
         //  dd($status_color);
-        $page_title='الشحنات';
+        $page_title=Shipment_status::where('code_',$type)->first()->name_;
         return view('shipments.index',compact('all','type','mo7afazat','page_title','Commercial_names',
         'clients','status_color','css_prop','sums' ,'t7weelTo','manadeb_taslim'));
+           
+           
+
+            
+        
+    }
+    public function shipmentsSearch(Request $request)
+    { 
+        
+            $user=auth()->user();
+            $limit=Setting::get('items_per_page');
+             $page =0;
+             if(isset(request()->page)) $page= request()->page;
+           
+           
+            $shipments = Shipment::with(['Branch_user' => function ($query) {
+                $query->select('code_','phone_');
+            }])->whereIn('TRANSFERE_ACCEPT_REFUSE',[1,0])->where('Ship_area_',$user->branch);
+            
+           
+            
+           
+            if(isset(request()->commercial_name)){
+                $shipments = $shipments->where('add_shipment_tb_.commercial_name_', request()->commercial_name);
+            }
+            
+        if(isset($request->code)){
+           $shipments = $shipments->where('code_', '=', $request->code);       
+        }
+        if(isset($request->reciver_phone)){
+            $shipments = $shipments->where('reciver_phone_', '=', $request->reciver_phone);       
+         }
+        
+        if(isset($request->mo7afza)){
+            $shipments = $shipments->where('mo7afaza_id', '=', $request->mo7afza);       
+         }
+       if(isset($request->branch_) && $request->branch_!='الكل'){
+        $shipments = $shipments->where('branch_', '=', $request->branch_);       
+        }
+        if(isset($request->Commercial_name)){
+            $shipments = $shipments->where('commercial_name_', '=', $request->Commercial_name);       
+            }
+        $all_shipments = $shipments;
+        
+        if(isset( request()->date_from))
+            $shipments= $shipments->where('date_' ,'>=',DATE($request->date_from) );
+        if(isset( request()->date_to))
+            $shipments= $shipments->where('date_' ,'<=' ,DATE($request->date_to) );
+       
+        if(isset( request()->hala_date_from))
+            $shipments= $shipments->where('tarikh_el7ala' ,'>=',DATE( request()->hala_date_from) );
+        if(isset( request()->hala_date_to))
+            $shipments= $shipments->where('tarikh_el7ala' ,'<=',DATE( request()->hala_date_to) );
+    
+        if(request()->showAll == 'on'){
+            $counter= $all_shipments->get();
+            $count_all = $counter->count();
+            request()->limit=$count_all;
+        }
+        //  dd($all_shipments->skip(0)->limit(40)->get()[20]);
+        $totalCost = $all_shipments->sum('shipment_coast_');
+        $tawsilCost = $all_shipments->sum('tawsil_coast_');
+        $allCount = $all_shipments->count();
+        $netCost =  $totalCost-$tawsilCost;
+        $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];
+        $all = $all_shipments->skip($limit*$page)->limit($limit)->get();
+        if(isset(request()->lodaMore)){
+            
+            return response()->json([
+                'status' => 200,
+                'data' => $all,
+                'message' => 'sucecss',
+                'sums'=>$sums
+            ], 200);
+        }
+        
+        // $all->withPath("?mo7afza={$request->mo7afza}&showAll={$request->showAll}
+        // &client_id={$request->client_id}");
+        $manadeb_taslim= User::where('branch',auth()->user()->branch)->where('type_','مندوب تسليم')->get();
+        $mo7afazat =$this->getAllMo7afazat();
+        $filtered_clients = User::where('type_','عميل')->where('name_',$request->client_id)->pluck('code_')->toArray();
+        $Commercial_names =Commercial_name::whereIn('code_',$filtered_clients)->groupBy('name_')->get();
+            
+        
+        $clients =User::where('type_','عميل')->get();
+        $status_color=Setting::whereIN('name',['status_6_color','status_1_color','status_2_color','status_3_color'
+        ,'status_4_color','status_7_color','status_8_color','status_9_color'])->get()->keyBy('name')->pluck('val','name');
+        $css_prop = Setting::get('status_css_prop');
+        //  dd($status_color);
+        $page_title='الاستعلام عن شحنة';
+        return view('shipments.search',compact('all','mo7afazat','page_title','Commercial_names',
+        'clients','status_color','css_prop','sums','manadeb_taslim'));
            
            
 

@@ -15,6 +15,7 @@
                     {{ session('status') }}
                 </div>
             @endif
+            
                
             {{-- <form method="post" action="{{ route('settings.store') }}" class="form-horizontal" role="form">
                 {!! csrf_field() !!}
