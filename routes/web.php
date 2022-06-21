@@ -172,6 +172,7 @@ Route::post('/users/updateUser', 'setting\userdefinationsController@updateUser')
 
 
 Route::get('/users/registrationRequest', 'setting\userdefinationsController@registrationRequest')->name('registrationRequest');
+Route::post('/users/registrationRequest', 'setting\userdefinationsController@registrationRequestSave')->name('registrationRequestSave');
 Route::get('/users/commercialNames', 'setting\userdefinationsController@commercialNames')->name('commercialNames');
 
 

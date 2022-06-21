@@ -42,6 +42,7 @@
                             <tr><td>&nbsp;&nbsp;<span>المحافظة :</span></td><td><span>{{$shipment->mo7afza_}}</span></td></tr>
                             <tr><td>&nbsp;&nbsp;<span>العنوان : </span></td><td><span>{{$shipment->el3nwan}}</span></td></tr>
                             <tr><td>&nbsp;&nbsp;<span>الفرع :</span></td><td><span>{{$shipment->branch_	}}</span></td></tr>
+                            <tr><td>&nbsp;&nbsp;<span>الحالة :</span></td><td><span>{{$shipment->Shipment_status->name_	}}</span></td></tr>
                             <tr><td>&nbsp;&nbsp;<span>التاريخ : </span></td><td><span>{{$shipment->date_}}</span></td></tr>
                             <tr><td>&nbsp;&nbsp;<span>الملاحظات : </span></td><td><span>{{$shipment->notes_}}</span></td></tr>
                         </table>

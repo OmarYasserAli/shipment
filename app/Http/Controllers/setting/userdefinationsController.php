@@ -8,7 +8,7 @@ use App\Models\Mohfza;
 use App\Models\Commercial_name;
 use App\Models\BranchInfo;
 use App\Models\AddClientsMainComp;
-;
+use App\Setting;
 use App\Models\AddBranchUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -73,7 +73,7 @@ class userdefinationsController extends Controller
                     $created_user = new user();
                     $created_user->name_  = $request-> client_name ;
                     $created_user->type_  = "عميل"  ;
-                    $created_user->status_  = 1  ;
+                    $created_user->status_  = 0  ;
                     $created_user->branch  = $user->branch  ;
                     $created_user->username  = $request->username ;
                     $created_user->password       = $request->password  ;
@@ -138,7 +138,7 @@ class userdefinationsController extends Controller
                     
                     $created_user->name_  = $request-> client_name ;
                     $created_user->type_  = "عميل"  ;
-                    $created_user->status_  = 1  ;
+                    //$created_user->status_  = 1  ;
                     $created_user->branch  = $user->branch  ;
                     $created_user->username  = $request->username ;
                     $created_user->password       = $request->password  ;
@@ -215,7 +215,7 @@ class userdefinationsController extends Controller
                     $created_user = new user();
                     $created_user->name_  = $request-> mandoub_name ;
                     $created_user->type_  = $request->job ;
-                    $created_user->status_  = 1  ;
+                    $created_user->status_  = 0  ;
                     $created_user->branch  = $user->branch  ;
                     $created_user->username  = $request->username ;
                     $created_user->password       = $request->password  ;
@@ -283,7 +283,7 @@ class userdefinationsController extends Controller
                     
                     $created_user->name_  = $request-> mandoub_name ;
                     $created_user->type_  = $request->job ;
-                    $created_user->status_  = 1  ;
+                    //$created_user->status_  = 0  ;
                     $created_user->branch  = $user->branch  ;
                     $created_user->username  = $request->username ;
                     $created_user->password       = $request->password  ;
@@ -429,7 +429,7 @@ class userdefinationsController extends Controller
                     
                     $created_user->name_  = $request-> mandoub_name ;
                     $created_user->type_  =  'موظف';
-                    $created_user->status_  = 1  ;
+                    //$created_user->status_  = 1  ;
                     $created_user->branch  = $user->branch  ;
                     $created_user->username  = $request->username ;
                     $created_user->password       = $request->password  ;
@@ -447,9 +447,82 @@ class userdefinationsController extends Controller
                 return redirect()->back()->with('status', 'تم تسجيل التعديلات');
                 
         }
-        public function registrationRequest()
-        {
-        	return view('users.registrationRequest');
+        public function registrationRequest(Request $request)
+        { 
+                
+                $user=auth()->user();
+                $limit=Setting::get('items_per_page');
+                $page =0;
+                if(isset(request()->page)) $page= request()->page;
+
+                $shipments = User::where('status_',0);
+                if(isset($request->branch)){
+                $shipments = $shipments->where(function ($query) use($request){
+                        $query->where('branch_', '=', $request->branch)
+                        ->orWhere('transfere_1', '=', $request->branch);
+                });        
+                }
+                if(isset($request->mo7afza)){
+                $shipments = $shipments->where('mo7afaza_id', '=', $request->mo7afza);       
+                }
+
+                $all_shipments = $shipments;
+
+                
+                
+                if(request()->showAll == 'on'){
+                $counter= $all_shipments->get();
+                $count_all = $counter->count();
+                request()->limit=$count_all;
+                }
+                //  dd($all_shipments->skip(0)->limit(40)->get()[20]);
+             
+                $all = $all_shipments->skip($limit*$page)->limit($limit)->get();
+                if(isset(request()->lodaMore)){
+                
+                return response()->json([
+                        'status' => 200,
+                        'data' => $all,
+                        'message' => 'sucecss',
+                        'sums'=>$sums
+                ], 200);
+                }
+                
+                $page_title='الموافقة على  طلبات التسجيل';
+                $branches =BranchInfo::all();
+                $mo7afazat =Mohfza::all();
+                return view('users.registrationRequest',compact('all','branches','mo7afazat'));
+        
+        }
+        public function registrationRequestSave (Request $request){
+               
+                $u = User::where('code_',$request->code)->first();
+                if(!isset($u)){
+                        return response()->json([
+                                'status' => 404,
+                                'message' => 'fail',
+                                
+                        ], 404);
+                }
+                if($request->type=='accept'){
+                        $u->status_ =1;
+                }
+                elseif($request->type=='cancel'){
+                        $u->status_ =2;
+                }else{
+                        return response()->json([
+                                'status' => 404,
+                                'message' => 'fail',
+                                
+                        ], 404);
+                }
+                $u->save();
+
+                return response()->json([
+                        'status' => 200,
+                        'message' => 'sucecss',
+                        
+                ], 200);
         }
         public function commercialNames()
         {

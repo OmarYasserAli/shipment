@@ -15,6 +15,7 @@ use App\Models\Archive;
 use App\User;
 use App\Models\Branch_user;
 
+
 use Carbon\Carbon;
 use App\Setting;
 use Illuminate\Http\Request;
@@ -296,7 +297,7 @@ class shipmentsController extends Controller
     }
     public function shipment_bar_search(Request $request){
         $value=$request->q;
-        $shipments = Shipment::where('code_',$value)->orWhere('reciver_phone_',$value)->get();
+        $shipments = Shipment::with(['Shipment_status'])->where('code_',$value)->orWhere('reciver_phone_',$value)->get();
         
         $page_title='البحث عن شحنة';
         return view('shipments.searchBar',compact('shipments','page_title'));
