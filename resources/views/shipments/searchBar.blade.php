@@ -24,7 +24,9 @@
         @endif
         <div class="pos intro-y grid grid-cols-12 gap-5 mt-5">
             <div class="intro-y col-span-6 lg:col-span-6    ">
-                <div class="intro-y box mt-5 lg:mt-0">
+                @if($shipments!= null)
+                @foreach($shipments as $shipment)
+                <div class="intro-y box mt-5 lg:mt-0 mb-10">
                     <div class="relative flex items-center p-5">
                        
                         <div class="ml-4 " >
@@ -38,7 +40,7 @@
                             <tr><td>&nbsp;&nbsp; <span>مبلغ الشحنة :</span></td><td><span>{{$shipment->shipment_coast_}}</span></td></tr>
                             <tr><td>&nbsp;&nbsp;<span>هاتف المستلم :</span></td><td><span>{{$shipment->reciver_phone_}}</span></td></tr>
                             <tr><td>&nbsp;&nbsp;<span>المحافظة :</span></td><td><span>{{$shipment->mo7afza_}}</span></td></tr>
-                            <tr><td>&nbsp;&nbsp;<span>العنوان : </span></td><td><span>{{$shipment->mantqa_}}</span></td></tr>
+                            <tr><td>&nbsp;&nbsp;<span>العنوان : </span></td><td><span>{{$shipment->el3nwan}}</span></td></tr>
                             <tr><td>&nbsp;&nbsp;<span>الفرع :</span></td><td><span>{{$shipment->branch_	}}</span></td></tr>
                             <tr><td>&nbsp;&nbsp;<span>التاريخ : </span></td><td><span>{{$shipment->date_}}</span></td></tr>
                             <tr><td>&nbsp;&nbsp;<span>الملاحظات : </span></td><td><span>{{$shipment->notes_}}</span></td></tr>
@@ -56,6 +58,10 @@
                     </table>
                     </div>
                 </div>
+                @endforeach
+                @else
+                    يم يتم العثور على شحنات
+                @endif
                 
             </div>
         </div>

@@ -296,10 +296,10 @@ class shipmentsController extends Controller
     }
     public function shipment_bar_search(Request $request){
         $value=$request->q;
-        $shipment = Shipment::where('code_',$value)->orWhere('reciver_phone_',$value)->first();
+        $shipments = Shipment::where('code_',$value)->orWhere('reciver_phone_',$value)->get();
         
         $page_title='البحث عن شحنة';
-        return view('shipments.searchBar',compact('shipment','page_title'));
+        return view('shipments.searchBar',compact('shipments','page_title'));
     }
 
     public function t7weel_manual(Request $request){
