@@ -285,11 +285,98 @@ class frou3Controller extends Controller
      'css_prop','status_color' ,'sums'));
     }
     //t7wel sho7nat
-    public function frou3_t7wel_sho7nat_manual(){
+    public function frou3_t7wel_sho7nat_manual(Request $request)
+    { 
         
+        $user=auth()->user();
+        $limit=Setting::get('items_per_page');
+        $page =0;
+        if(isset(request()->page)) $page= request()->page;
+        $brach_filter = '';
+        if(isset($request->branch_)  && $request->branch_!='الكل')
+            $brach_filter= $request->branch_;
+        $waselOnly=0;
+        if(isset($request->waselOnly))
+            $waselOnly= 1;
+
+        
+            $shipments = Shipment::select('*');
+            $shipments = $shipments->where('Ship_area_', '=', $user->branch)
+                    ->where('transfere_2','')
+                    ->where('status_',1);
+     
+           
+        
+            if($waselOnly)
+            $shipments = $shipments->where('status_' ,'=',7) ;
+        else
+            $shipments = $shipments->where('status_' ,'!=',8) ;
+ 
+        if(isset($request->code)){
+           $shipments = $shipments->where('code_', '=', $request->code);       
+        }
+        if(isset($request->reciver_phone)){
+            $shipments = $shipments->where('reciver_phone_', '=', $request->reciver_phone);       
+         }
+        
+        if(isset($request->mo7afza)){
+            $shipments = $shipments->where('mo7afaza_id', '=', $request->mo7afza);       
+         }
+       if(isset($request->client_id)){
+        $shipments = $shipments->where('client_name_', '=', $request->client_id);       
+        }
+        if(isset($request->Commercial_name)){
+            $shipments = $shipments->where('commercial_name_', '=', $request->Commercial_name);       
+            }
+       
+        
+        if(isset( request()->date_from))
+            $shipments= $shipments->where('date_' ,'>=',DATE($request->date_from) );
+        if(isset( request()->date_to))
+            $shipments= $shipments->where('date_' ,'<=' ,DATE($request->date_to) );
+        
+            $all_shipments = $shipments;
+            $ta7weel=0;
+            foreach($all_shipments->get() as $ship){
+                $ta7weel += $ship->t7weel_cost ; 
+            }
+            // dd($ta7weel);
+        if(request()->showAll == 'on'){
+            $counter= $all_shipments->get();
+            $count_all = $counter->count();
+            request()->limit=$count_all;
+        }
+       
+        $totalCost = $all_shipments->sum('shipment_coast_');
+        $tawsilCost = $ta7weel;
+        $allCount = $all_shipments->count();
+        $netCost =  $totalCost-$tawsilCost;
+        $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];
+        $all = $all_shipments->skip($limit*$page)->limit($limit)->get();
+        if(isset(request()->lodaMore)){
+            
+            return response()->json([
+                'status' => 200,
+                'data' => $all,
+                'message' => 'sucecss',
+                'sums'=>$sums
+            ], 200);
+        }
+        $mo7afazat =$this->getAllMo7afazat();
+        $filtered_clients = User::where('type_','عميل')->where('name_',$request->client_id)->pluck('code_')->toArray();
+        $Commercial_names =Commercial_name::whereIn('code_',$filtered_clients)->groupBy('name_')->get();
+        $branches =BranchInfo::all();
+        $status_color=Setting::whereIN('name',['status_6_color','status_1_color','status_2_color','status_3_color'
+        ,'status_4_color','status_7_color','status_8_color','status_9_color'])->get()->keyBy('name')->pluck('val','name');
+        $css_prop = Setting::get('status_css_prop');
+        // dd($counter);
+        $page_title='تحويل الشحنات يدويا الى فرع';
+        return view('frou3.t7wel_sho7nat.manual',compact('all','branches','mo7afazat','brach_filter','waselOnly','page_title',
+     'css_prop','status_color' ,'sums'));
     }
     public function frou3_t7wel_sho7nat_manual_save(Request $request){
-        
+        // dd($request->all());
+        return ($this->frou3_t7wel_sho7nat_qr_save( $request));
     }
     public function frou3_t7wel_sho7nat_qr(Request $request){
         $branches=DB::table('branch_info_tb')
@@ -298,13 +385,19 @@ class frou3Controller extends Controller
         return view('frou3.t7wel_sho7nat.qr',compact('branches'));
     }
     public function frou3_t7wel_sho7nat_qr_save(Request $request){
+        $user = $user = auth()->user();
+        
         $status=array(1);
 
         $branch=DB::table('branch_info_tb')
         ->where('serial_',$request->status)
         ->select('serial_','name_')->first();
-        $user = $user = auth()->user();        
-
+        if($user->branch == $branch->name_ ){
+            return response()->json([
+                'status' => 403,
+                'msg' => 'لا يمكن تحويل الشحنه الى نفس الفرع',
+            ], 403);
+        }
         $t1 =DB::table('add_shipment_tb_')
             ->whereIn('add_shipment_tb_.code_', $request->code)
             ->where('add_shipment_tb_.transfere_1', '')
@@ -356,6 +449,7 @@ class frou3Controller extends Controller
               return response()->json([
                 'status' => 200,
                 'message' => 'تم التحويل',
+                'count'  => $q1+$q2,
             ], 200);      
         }
 
@@ -374,9 +468,7 @@ class frou3Controller extends Controller
          }])
          ->where('Ship_area_', '=', $user->branch)
          ->where('TRANSFERE_ACCEPT_REFUSE',2);
-         
-        
-    
+
          if(isset($request->branch)){
              $shipments = $shipments->where(function ($query) use($request){
                 $query->where('branch_', '=', $request->branch)
@@ -510,6 +602,99 @@ class frou3Controller extends Controller
     //end t7weel sho7nat
 
     //rag3
+    public function frou3_t7wel_rag3_manual(Request $request)
+    { 
+        
+        $user=auth()->user();
+        $limit=Setting::get('items_per_page');
+        $page =0;
+        if(isset(request()->page)) $page= request()->page;
+        $brach_filter = '';
+        if(isset($request->branch_)  && $request->branch_!='الكل')
+            $brach_filter= $request->branch_;
+        $waselOnly=0;
+        if(isset($request->waselOnly))
+            $waselOnly= 1;
+
+        
+            $shipments = Shipment::select('*');
+            $shipments = $shipments->where('Ship_area_', '=', $user->branch)
+                    ->where('transfere_1','!=','')
+                    ->where('status_',9);
+     
+           
+        
+            if($waselOnly)
+            $shipments = $shipments->where('status_' ,'=',7) ;
+        else
+            $shipments = $shipments->where('status_' ,'!=',8) ;
+ 
+        if(isset($request->code)){
+           $shipments = $shipments->where('code_', '=', $request->code);       
+        }
+        if(isset($request->reciver_phone)){
+            $shipments = $shipments->where('reciver_phone_', '=', $request->reciver_phone);       
+         }
+        
+        if(isset($request->mo7afza)){
+            $shipments = $shipments->where('mo7afaza_id', '=', $request->mo7afza);       
+         }
+       if(isset($request->client_id)){
+        $shipments = $shipments->where('client_name_', '=', $request->client_id);       
+        }
+        if(isset($request->Commercial_name)){
+            $shipments = $shipments->where('commercial_name_', '=', $request->Commercial_name);       
+            }
+       
+        
+        if(isset( request()->date_from))
+            $shipments= $shipments->where('date_' ,'>=',DATE($request->date_from) );
+        if(isset( request()->date_to))
+            $shipments= $shipments->where('date_' ,'<=' ,DATE($request->date_to) );
+        
+            $all_shipments = $shipments;
+            $ta7weel=0;
+            foreach($all_shipments->get() as $ship){
+                $ta7weel += $ship->t7weel_cost ; 
+            }
+            // dd($ta7weel);
+        if(request()->showAll == 'on'){
+            $counter= $all_shipments->get();
+            $count_all = $counter->count();
+            request()->limit=$count_all;
+        }
+       
+        $totalCost = $all_shipments->sum('shipment_coast_');
+        $tawsilCost = $ta7weel;
+        $allCount = $all_shipments->count();
+        $netCost =  $totalCost-$tawsilCost;
+        $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];
+        $all = $all_shipments->skip($limit*$page)->limit($limit)->get();
+        if(isset(request()->lodaMore)){
+            
+            return response()->json([
+                'status' => 200,
+                'data' => $all,
+                'message' => 'sucecss',
+                'sums'=>$sums
+            ], 200);
+        }
+        $mo7afazat =$this->getAllMo7afazat();
+        $filtered_clients = User::where('type_','عميل')->where('name_',$request->client_id)->pluck('code_')->toArray();
+        $Commercial_names =Commercial_name::whereIn('code_',$filtered_clients)->groupBy('name_')->get();
+        $branches =BranchInfo::all();
+        $status_color=Setting::whereIN('name',['status_6_color','status_1_color','status_2_color','status_3_color'
+        ,'status_4_color','status_7_color','status_8_color','status_9_color'])->get()->keyBy('name')->pluck('val','name');
+        $css_prop = Setting::get('status_css_prop');
+        // dd($counter);
+        $page_title='تحويل الرواجع يدويا الى فرع';
+        return view('frou3.t7wel_rag3.manual',compact('all','branches','mo7afazat','brach_filter','waselOnly','page_title',
+     'css_prop','status_color' ,'sums'));
+    }
+    public function frou3_t7wel_rag3_manual_save(Request $request){
+        // dd($request->all());
+        return ($this->frou3_t7wel_rag3_qr_save( $request));
+    }
     public function frou3_t7wel_rag3_qr(Request $request){
         $branches=DB::table('branch_info_tb')
         ->select('serial_','name_')
@@ -518,56 +703,53 @@ class frou3Controller extends Controller
     }
     public function frou3_t7wel_rag3_qr_save(Request $request){
         $status=array(1);
-
+        
         $branch=DB::table('branch_info_tb')
         ->where('serial_',$request->status)
         ->select('serial_','name_')->first();
       
         $user = $user = auth()->user();
-        //993
+        if($user->branch == $branch->name_ ){
+            return response()->json([
+                'status' => 403,
+                'msg' => 'لا يمكن تحويل الشحنه الى نفس الفرع',
+            ], 403);
+        }
      
             $t1 =DB::table('add_shipment_tb_')
             ->whereIn('add_shipment_tb_.code_', $request->code)
             ->where('add_shipment_tb_.transfere_2' ,'')
             ->where('add_shipment_tb_.transfere_1' ,'!=','')
             ->where('add_shipment_tb_.status_', 9)
-            ->where('add_shipment_tb_.branch_', $user->branch)->get();
+            ->where('add_shipment_tb_.Ship_area_', $user->branch)->get();
             Tempo::insert(json_decode(json_encode($t1), true));
 
             $t2 = DB::table('add_shipment_tb_')
             ->whereIn('add_shipment_tb_.code_', $request->code)
             ->where('add_shipment_tb_.transfere_2','!=' ,'')
             ->where('add_shipment_tb_.status_', 9)
-            ->where('add_shipment_tb_.branch_', $user->branch)->get();
+            ->where('add_shipment_tb_.Ship_area_', $user->branch)->get();
             Tempo::insert(json_decode(json_encode($t2), true));
 
-            DB::table('add_shipment_tb_')
+           $u1 =  DB::table('add_shipment_tb_')
             ->whereIn('add_shipment_tb_.code_', $request->code)
             ->where('add_shipment_tb_.transfere_2' ,'')
             ->where('add_shipment_tb_.transfere_1' ,'!=','')
             ->where('add_shipment_tb_.status_', 9)
-            ->where('add_shipment_tb_.branch_', $user->branch)
-           ->join('transfer_prices_main_tb', function($join){
-               $join->on('transfer_prices_main_tb.mantika_id', '=', 'add_shipment_tb_.mantika_id');
-               $join->on('transfer_prices_main_tb.mo7afaza_id','=','add_shipment_tb_.mo7afaza_id'); 
-            })
-   
+            ->where('add_shipment_tb_.Ship_area_', $user->branch)
+
                ->update(['add_shipment_tb_.transfere_1'=>'',
                 'add_shipment_tb_.transfer_coast_1' =>'',
                 'add_shipment_tb_.TRANSFERE_ACCEPT_REFUSE'=>3,
                 'tarikh_el7ala'=>Carbon::now()->format('Y-m-d'),
                 'Ship_area_'=>$branch->name_ ]);
 
-               DB::table('add_shipment_tb_')
+            $u2 =   DB::table('add_shipment_tb_')
                ->whereIn('add_shipment_tb_.code_', $request->code)
                ->where('add_shipment_tb_.transfere_2','!=' ,'')
                ->where('add_shipment_tb_.status_', 9)
-               ->where('add_shipment_tb_.branch_', $user->branch)
-              ->join('transfer_prices_main_tb', function($join){
-                  $join->on('transfer_prices_main_tb.mantika_id', '=', 'add_shipment_tb_.mantika_id');
-                  $join->on('transfer_prices_main_tb.mo7afaza_id','=','add_shipment_tb_.mo7afaza_id'); 
-               })
-      
+               ->where('add_shipment_tb_.Ship_area_', $user->branch)
+
                   ->update(['add_shipment_tb_.transfere_2'=>'', 
                   'add_shipment_tb_.transfer_coast_2' =>'',
                   'add_shipment_tb_.TRANSFERE_ACCEPT_REFUSE'=>3,
@@ -580,6 +762,7 @@ class frou3Controller extends Controller
               return response()->json([
                 'status' => 200,
                 'message' => 'تم التحويل',
+                'count' => $u1 +$u2,
             ], 200);      
         }
 

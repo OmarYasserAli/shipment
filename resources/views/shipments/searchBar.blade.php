@@ -1,0 +1,103 @@
+@extends('layout.app')
+
+@section('content')
+<style>
+    tr{margin-top: 12px;}
+</style>
+<div class="content">
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.0.3/dist/css/tom-select.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.0.3/dist/js/tom-select.complete.min.js"></script>
+                <!-- BEGIN: Top Bar -->
+                @include('layout.partial.topbar')
+                <!-- END: Top Bar -->
+                @if (session('status'))
+                <div class="alert alert-success">
+                    {{ session('status') }}
+                </div>
+        @endif
+        @if($errors->any())
+            <div class="alert alert-warning">
+            @foreach ($errors->all() as $error)
+                <div>{{ $error }}</div>
+            @endforeach
+             </div>
+        @endif
+        <div class="pos intro-y grid grid-cols-12 gap-5 mt-5">
+            <div class="intro-y col-span-6 lg:col-span-6    ">
+                <div class="intro-y box mt-5 lg:mt-0">
+                    <div class="relative flex items-center p-5">
+                       
+                        <div class="ml-4 " >
+                            <div class="font-medium text-base" >اسم العميل :  {{$shipment->client_name_}}</div>
+                            <div class="text-slate-500">الاسم التجاري : {{$shipment->commercial_name_}}</div>
+                        </div>
+                       
+                    </div>
+                    <div class="p-5 border-t border-slate-200/60 dark:border-darkmode-400">
+                        <table style="font-size: 16px;">
+                            <tr><td>&nbsp;&nbsp; <span>مبلغ الشحنة :</span></td><td><span>{{$shipment->shipment_coast_}}</span></td></tr>
+                            <tr><td>&nbsp;&nbsp;<span>هاتف المستلم :</span></td><td><span>{{$shipment->reciver_phone_}}</span></td></tr>
+                            <tr><td>&nbsp;&nbsp;<span>المحافظة :</span></td><td><span>{{$shipment->mo7afza_}}</span></td></tr>
+                            <tr><td>&nbsp;&nbsp;<span>العنوان : </span></td><td><span>{{$shipment->mantqa_}}</span></td></tr>
+                            <tr><td>&nbsp;&nbsp;<span>الفرع :</span></td><td><span>{{$shipment->branch_	}}</span></td></tr>
+                            <tr><td>&nbsp;&nbsp;<span>التاريخ : </span></td><td><span>{{$shipment->date_}}</span></td></tr>
+                            <tr><td>&nbsp;&nbsp;<span>الملاحظات : </span></td><td><span>{{$shipment->notes_}}</span></td></tr>
+                        </table>
+                        
+                    </div>
+                    <div class="p-5 border-t border-slate-200/60 dark:border-darkmode-400">
+                    <table style="font-size: 16px;">
+                        <tr><td>&nbsp;&nbsp; <span>مكان الشحنة : </span></td><td><span>{{$shipment->Ship_area_}}</span></td></tr>
+                        <tr><td>&nbsp;&nbsp;<span>تسديد العميل :</span></td><td><span>{{$shipment->el3amil_elmosadad}}</span></td></tr>
+                        <tr><td>&nbsp;&nbsp;<span>تسديد المندوب :</span></td><td><span>{{$shipment->elmandoub_elmosadad_taslim}}</span></td></tr>
+                        <tr><td>&nbsp;&nbsp;<span>تسديد الفرع الاول : </span></td><td><span>{{$shipment->elfar3_elmosadad_mno}}</span></td></tr>
+                        <tr><td>&nbsp;&nbsp;<span>تسديد الفرع الثاني :</span></td><td><span>{{$shipment->elfar3_elmosadad_mno_2}}</span></td></tr>
+      
+                    </table>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+                
+</div>
+
+<script>
+    var  manteka =new TomSelect("#manteka",{
+	valueField: 'id',
+	labelField: 'title',
+	searchField: 'title',
+	create: false
+});
+$('#mo7afza').on('change', function() {
+        $('#data-error-mo7afza').hide();
+                  var mo7afza_id = this.value;
+                      $("#manteka").html('');
+                      if(mo7afza_id == '') return;
+                      $.ajax({
+                          url:"{{url('getManateqByMa7afza')}}?mo7afza="+mo7afza_id+"&bycode=1",
+                          type: "get",
+                          data: {
+                          },
+                          dataType : 'json',
+                          success: function(result){
+                              console.log(result.all)
+                          $('#manteka').prop('disabled', false);
+                          //$('#manteka').html('<option value="">...</option>');
+                          manteka.clearOptions();
+                          var temp = ''; var f=0;
+                          $.each(result.all,function(key,value){
+                                if(f==0   ){ f=1;  temp = value.code;  }
+                                manteka.addOption({
+                                    id: value.name,
+                                    title: value.name,
+                                    
+                                });
+                                manteka.setValue(temp);
+                            });
+                          }
+                      });
+    }); 
+</script>
+@endsection

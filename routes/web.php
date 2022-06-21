@@ -63,6 +63,8 @@ Route::get('shipment/taslim_qr', 'shipmentsController@taslim_qr')->name('shipmen
 Route::post('shipment/taslim_qr', 'shipmentsController@taslim_qr_save')->name('shipment.taslim_qr_save');
 
 
+Route::get('shipment/shipment_search', 'shipmentsController@shipment_bar_search')->name('shipment_bar_search');
+
 //end shipments
 
 //frou3
@@ -79,6 +81,10 @@ Route::get('/accept_t7wel_get', 'frou3Controller@accept_t7wel_get')->name('accep
 Route::post('/accept_frou3_t7wel_qr_save', 'frou3Controller@accept_frou3_t7wel_save')->name('accept_frou3_t7wel_qr_save');
 
 
+Route::get('/frou3_t7wel_sho7nat_manual', 'frou3Controller@frou3_t7wel_sho7nat_manual')->name('frou3_t7wel_sho7nat_manual');
+Route::post('/frou3_t7wel_sho7nat_manual', 'frou3Controller@frou3_t7wel_sho7nat_manual_save')->name('frou3_t7wel_sho7nat_manual_save');
+
+
  //end t7wel sho7nat
  
 
@@ -92,7 +98,8 @@ Route::post('/accept_frou3_rag3', 'frou3Controller@accept_frou3_rag3_save')->nam
 Route::get('/accept_rag3_get', 'frou3Controller@accept_rag3_get')->name('accept_rag3_get');
 Route::post('/accept_frou3_rag3_qr_save', 'frou3Controller@accept_frou3_rag3_save')->name('accept_frou3_rag3_qr_save');
 
-
+Route::get('/frou3_t7wel_rag3_manual', 'frou3Controller@frou3_t7wel_rag3_manual')->name('frou3_t7wel_rag3_manual');
+Route::post('/frou3_t7wel_rag3_manual', 'frou3Controller@frou3_t7wel_rag3_manual_save')->name('frou3_t7wel_rag3_manual_save');
 
 
 
@@ -147,12 +154,21 @@ Route::get('/accounting/loadMore', 'accountingController@loadMore')->name('accou
 //users Definations
 Route::get('/users/add-client', 'setting\userdefinationsController@addClient')->name('addClient');
 Route::post('/users/add-client', 'setting\userdefinationsController@storeClient')->name('storeClient');
+Route::get('/users/editclient/{code}', 'setting\userdefinationsController@editclient')->name('editclient');
+Route::post('/users/updateClient', 'setting\userdefinationsController@updateClient')->name('updateClient');
+
+
 Route::get('/users/add-mandoub', 'setting\userdefinationsController@addMandoub')->name('addMandoub');
 Route::post('/users/add-mandoub', 'setting\userdefinationsController@storeMandoub')->name('storeMandoub');
+Route::get('/users/edit-mandoub/{code}', 'setting\userdefinationsController@editMandoub')->name('editMandoub');
+Route::post('/users/updateMandoub', 'setting\userdefinationsController@updateMandoub')->name('updateMandoub');
 
 
 Route::get('/users/add-user', 'setting\userdefinationsController@adduser')->name('addUser');
 Route::post('/users/add-user', 'setting\userdefinationsController@storeUser')->name('storeUser');
+Route::get('/users/edit-user/{code}', 'setting\userdefinationsController@editUser')->name('editUser');
+
+Route::post('/users/updateUser', 'setting\userdefinationsController@updateUser')->name('updateUser');
 
 
 Route::get('/users/registrationRequest', 'setting\userdefinationsController@registrationRequest')->name('registrationRequest');

@@ -108,7 +108,7 @@
                                 </a>
                                 <ul class="">
                                     <li>
-                                        <a href="side-menu-light-regular-table.html" class="side-menu">
+                                        <a href="{{route('frou3_t7wel_sho7nat_manual')}}" class="side-menu">
                                             <div class="side-menu__icon"> <i data-lucide="zap"></i> </div>
                                             <div class="side-menu__title"> ﺗﺣوﯾل اﻟﺷﺣﻧﺎت اﻟﻰ ﻓرع ﯾدوﯾﺎ</div>
                                         </a>
@@ -137,7 +137,7 @@
                                 </a>
                                 <ul class="">
                                     <li>
-                                        <a href="side-menu-light-modal.html" class="side-menu">
+                                        <a href="{{route('frou3_t7wel_rag3_manual')}}" class="side-menu">
                                             <div class="side-menu__icon"> <i data-lucide="zap"></i> </div>
                                             <div class="side-menu__title">ﺗﺣوﯾل اﻟرواﺟﻊ اﻟﻰ ﻓرع ﯾدوﯾﺎ
                                             </div>

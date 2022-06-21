@@ -30,76 +30,22 @@
 
         
             <div class="search hidden sm:block">
-                <input type="text" class="search__input form-control border-transparent" placeholder="Search...">
+                <input type="text" class="search__input form-control" placeholder="Search..." id="shipment_search">
                 <i data-lucide="search" class="search__icon dark:text-slate-500"></i> 
             </div>
+            <script>
+                $('#shipment_search').keyup(function(e){
+                    if(e.keyCode == 13)
+                    {
+                        
+                        if(($(this).val() !='') && $(this).val() !=null){
+                            window.location.replace('{{route('shipment_bar_search')}}?q='+$(this).val())
+                        }
+                    }
+                });
+            </script>
             <a class="notification sm:hidden" href=""> <i data-lucide="search" class="notification__icon dark:text-slate-500"></i> </a>
-            <div class="search-result">
-                <div class="search-result__content">
-                    <div class="search-result__content__title">Pages</div>
-                    <div class="mb-5">
-                        <a href="" class="flex items-center">
-                            <div class="w-8 h-8 bg-success/20 dark:bg-success/10 text-success flex items-center justify-center rounded-full"> <i class="w-4 h-4" data-lucide="inbox"></i> </div>
-                            <div class="ml-3">Mail Settings</div>
-                        </a>
-                        <a href="" class="flex items-center mt-2">
-                            <div class="w-8 h-8 bg-pending/10 text-pending flex items-center justify-center rounded-full"> <i class="w-4 h-4" data-lucide="users"></i> </div>
-                            <div class="ml-3">Users & Permissions</div>
-                        </a>
-                        <a href="" class="flex items-center mt-2">
-                            <div class="w-8 h-8 bg-primary/10 dark:bg-primary/20 text-primary/80 flex items-center justify-center rounded-full"> <i class="w-4 h-4" data-lucide="credit-card"></i> </div>
-                            <div class="ml-3">Transactions Report</div>
-                        </a>
-                    </div>
-                    <div class="search-result__content__title">Users</div>
-                    <div class="mb-5">
-                        <a href="" class="flex items-center mt-2">
-                            <div class="w-8 h-8 image-fit">
-                                <img alt="Midone - HTML Admin Template" class="rounded-full" src="{{asset('images/profile-1.jpg')}}">
-                            </div>
-                            <div class="ml-3">Russell Crowe</div>
-                            <div class="ml-auto w-48 truncate text-slate-500 text-xs text-right">russellcrowe@left4code.com</div>
-                        </a>
-                        <a href="" class="flex items-center mt-2">
-                            <div class="w-8 h-8 image-fit">
-                                <img alt="Midone - HTML Admin Template" class="rounded-full" src="{{asset('/images/profile-12.jpg')}}">
-                            </div>
-                            <div class="ml-3">Russell Crowe</div>
-                            <div class="ml-auto w-48 truncate text-slate-500 text-xs text-right">russellcrowe@left4code.com</div>
-                        </a>
-                        <a href="" class="flex items-center mt-2">
-                            <div class="w-8 h-8 image-fit">
-                                <img alt="Midone - HTML Admin Template" class="rounded-full" src="{{asset('images/profile-14.jpg')}}">
-                            </div>
-                            <div class="ml-3">Denzel Washington</div>
-                            <div class="ml-auto w-48 truncate text-slate-500 text-xs text-right">denzelwashington@left4code.com</div>
-                        </a>
-                        <a href="" class="flex items-center mt-2">
-                            <div class="w-8 h-8 image-fit">
-                                <img alt="Midone - HTML Admin Template" class="rounded-full" src="{{asset('images/profile-5.jpg')}}">
-                            </div>
-                            <div class="ml-3">Christian Bale</div>
-                            <div class="ml-auto w-48 truncate text-slate-500 text-xs text-right">christianbale@left4code.com</div>
-                        </a>
-                    </div>
-                    <div class="search-result__content__title">Products</div>
-                    <a href="" class="flex items-center mt-2">
-                        <div class="w-8 h-8 image-fit">
-                            <img alt="Midone - HTML Admin Template" class="rounded-full" src="{{asset('images/preview-14.jpg')}}">
-                        </div>
-                        <div class="ml-3">Nike Tanjun</div>
-                        <div class="ml-auto w-48 truncate text-slate-500 text-xs text-right">Sport &amp; Outdoor</div>
-                    </a>
-                    <a href="" class="flex items-center mt-2">
-                        <div class="w-8 h-8 image-fit">
-                            <img alt="Midone - HTML Admin Template" class="rounded-full" src="{{asset('images/preview-11.jpg')}}">
-                        </div>
-                        <div class="ml-3">Sony Master Series A9G</div>
-                        <div class="ml-auto w-48 truncate text-slate-500 text-xs text-right">Electronic</div>
-                    </a>
-                  
-                </div>
-            </div>
+            
         </div>
         <!-- END: Search -->
         <!-- BEGIN: Notifications -->
