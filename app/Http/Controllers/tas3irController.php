@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\MandoubEstlam;
+use App\Models\MandoubTaslim;
 use App\User;
 use App\Models\Mohfza;
 use App\Models\Mantikqa;
 use App\Models\Tas3ir_3amil;
 use App\Models\Tas3ir_3amil_5as;
 use App\Models\Tas3ir_ta7wel;
+use App\Models\AddClientsMainComp;
 
 
 use Illuminate\Http\Request;

@@ -41,6 +41,34 @@
 
 <div class="content">
                 <!-- BEGIN: Top Bar -->
+    <!-- END: Modal Toggle --> <!-- BEGIN: Modal Content -->
+    <div id="type_modal" class="modal" data-tw-backdrop="static" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+                <div class="modal-body px-5 py-10">
+                    <div class="text-center">
+                        <div class="mb-5" style="font-size: 25px">العميل الخاص</div>
+                        <div class="form-inline">
+                    @isset($specialClients)
+
+                            <select name="3amel5ase"  class="form-select form-select-lg sm:mt-2 sm:mr-2 mb-5" id='3amel5ase' aria-label=".form-select-lg example">
+                                <option value="0">اختار العميل الخاص</option>
+                                @foreach($specialClients as $client)
+                                <option value="{{$client->code_}}">{{$client->name_}}</option>
+                                @endforeach
+                            </select>
+
+                            @endisset
+                        </div>
+                        <button type="button" data-tw-dismiss="" id='modal_close' class="btn btn-primary w-24">استمرار</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- END: Modal Content -->
                 <div class="top-bar">
                     <!-- BEGIN: Breadcrumb -->
                     <nav aria-label="breadcrumb" class="-intro-x mr-auto hidden sm:flex">
@@ -54,7 +82,7 @@
                     <div class="intro-x relative mr-3 sm:mr-6">
                         <div class="search hidden sm:block">
                             <input type="text" class="search__input form-control border-transparent" placeholder="Search...">
-                            <i data-lucide="search" class="search__icon dark:text-slate-500"></i> 
+                            <i data-lucide="search" class="search__icon dark:text-slate-500"></i>
                         </div>
                         <a class="notification sm:hidden" href=""> <i data-lucide="search" class="notification__icon dark:text-slate-500"></i> </a>
                         <div class="search-result">
@@ -151,7 +179,7 @@
                                     </div>
                                     <div class="ml-2 overflow-hidden">
                                         <div class="flex items-center">
-                                            <a href="javascript:;" class="font-medium truncate mr-5">Russell Crowe</a> 
+                                            <a href="javascript:;" class="font-medium truncate mr-5">Russell Crowe</a>
                                             <div class="text-xs text-slate-400 ml-auto whitespace-nowrap">01:10 PM</div>
                                         </div>
                                         <div class="w-full truncate text-slate-500 mt-0.5">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomi</div>
@@ -164,7 +192,7 @@
                                     </div>
                                     <div class="ml-2 overflow-hidden">
                                         <div class="flex items-center">
-                                            <a href="javascript:;" class="font-medium truncate mr-5">Russell Crowe</a> 
+                                            <a href="javascript:;" class="font-medium truncate mr-5">Russell Crowe</a>
                                             <div class="text-xs text-slate-400 ml-auto whitespace-nowrap">01:10 PM</div>
                                         </div>
                                         <div class="w-full truncate text-slate-500 mt-0.5">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomi</div>
@@ -177,7 +205,7 @@
                                     </div>
                                     <div class="ml-2 overflow-hidden">
                                         <div class="flex items-center">
-                                            <a href="javascript:;" class="font-medium truncate mr-5">Denzel Washington</a> 
+                                            <a href="javascript:;" class="font-medium truncate mr-5">Denzel Washington</a>
                                             <div class="text-xs text-slate-400 ml-auto whitespace-nowrap">05:09 AM</div>
                                         </div>
                                         <div class="w-full truncate text-slate-500 mt-0.5">Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 20</div>
@@ -190,7 +218,7 @@
                                     </div>
                                     <div class="ml-2 overflow-hidden">
                                         <div class="flex items-center">
-                                            <a href="javascript:;" class="font-medium truncate mr-5">Christian Bale</a> 
+                                            <a href="javascript:;" class="font-medium truncate mr-5">Christian Bale</a>
                                             <div class="text-xs text-slate-400 ml-auto whitespace-nowrap">01:10 PM</div>
                                         </div>
                                         <div class="w-full truncate text-slate-500 mt-0.5">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#039;s standard dummy text ever since the 1500</div>
@@ -203,7 +231,7 @@
                                     </div>
                                     <div class="ml-2 overflow-hidden">
                                         <div class="flex items-center">
-                                            <a href="javascript:;" class="font-medium truncate mr-5">Robert De Niro</a> 
+                                            <a href="javascript:;" class="font-medium truncate mr-5">Robert De Niro</a>
                                             <div class="text-xs text-slate-400 ml-auto whitespace-nowrap">01:10 PM</div>
                                         </div>
                                         <div class="w-full truncate text-slate-500 mt-0.5">Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 20</div>
@@ -252,7 +280,7 @@
                 </div>
                 <!-- END: Top Bar -->
                 <div class="intro-y flex items-center mt-8">
-                    
+
                 </div>
                 <div class="grid grid-cols-12 gap-6 mt-5">
                     <div class="intro-y col-span-12 lg:col-span-6">
@@ -262,7 +290,7 @@
                                 <h2 class="font-medium text-base mr-auto">
                                      المحافظات
                                 </h2>
-                               
+
                             </div>
                             <div class="p-5" id="basic-table">
                                 <div class="preview">
@@ -272,30 +300,30 @@
                                                 <tr>
                                                     <th class="whitespace-nowrap">#</th>
                                                     <th class="whitespace-nowrap">الاسم</th>
-                                                   
+
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                               
+
                                                 @php $i=1; @endphp
                                                 @foreach($cities as $city)
                                                 <tr class="mo7afza-row" data-id='{{$city->name}}'>
                                                     <td>{{$i}}</td>
                                                     <td>{{$city->name}}</td>
-                                                    
+
                                                 </tr>
                                                 @php $i++; @endphp
                                                 @endforeach
                                             </tbody>
                                         </table>
-                                        
+
                                     </div>
                                 </div>
-                                
+
                             </div>
                         </div>
                         <!-- END: Basic Table -->
-                        
+
                     </div>
 
                      <div class="intro-y col-span-12 lg:col-span-6">
@@ -305,7 +333,7 @@
                                 <h2 class="font-medium text-base mr-auto">
                                    المناطق
                                 </h2>
-                               
+
                             </div>
                             <div class="p-5" id="basic-table">
                                 <div class="preview">
@@ -313,10 +341,10 @@
                                         <table class="table" id='manteka-table'>
                                             <thead>
                                                 <tr class="mantika-row">
-                                                    
+
                                                     <th class="whitespace-nowrap">الاسم</th>
                                                     <th class="whitespace-nowrap"> تسعير العميل الخاص</th>
-                                                    
+
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -325,56 +353,75 @@
                                                     <td>s</td>
                                                     <td>s</td>
                                                 </tr>
-                                              
+
                                             </tbody>
                                         </table>
-                                        
+
                                     </div>
                                 </div>
-                                
+
                             </div>
                         </div>
                         <!-- END: Basic Table -->
-                        
+
                     </div>
                 </div>
             </div>
 
+<input type="hidden" name="name_of3amel5ase" id="name_of3amel5ase">
+  <script type="text/javascript">
 
-            <script type="text/javascript">
-                
                 $( ".mo7afza-row" ).click(function() {
                   var mo7afza = ( $(this).data('id'));
-                 
-                 $.ajax("{{route('getManateqAndTas3ir5asByMa7afza')}}"+"?mo7afza="+mo7afza,   // request url
+                    var specialClient = $('#name_of3amel5ase').val();
+                 $.ajax("{{route('getManateqAndTas3ir5asByMa7afza')}}"+"?mo7afza="+mo7afza+"&specialClient="+specialClient,   // request url
                         {
                             success: function (data, status, xhr) {// success callback function
                                 $('#manteka-table tr').not(function(){ return !!$(this).has('th').length; }).remove();
-                                for(i=0;i<data.sum;i++) {
-                                    console.log(data.all[i]);
-                                    $('#manteka-table tbody ').after(`<tr class='mantika-row' >
-                                        <td>`+data.all[i].name+`</td>
-                                        <td class='editable' data-type='3amel'
-                                         data-code='`+(data.all[i].tas3ir_3amil_5as).code_+`'>`
-                                        +(data.all[i].tas3ir_3amil_5as).price_+`
-                                        </td> 
-                                       `
-                                        ); 
+                                if (data.mandobe.length === 0) {
+                                    for (i = 0; i < data.sum; i++) {
+                                        $('#manteka-table tbody ').after(`<tr class='mantika-row' >
+                                        <td>` + data.all[i].name + `</td>
+
+                                        <td class='editable' data-type='mandobe'
+                                         data-code='0' data-mo7afaza='` + mo7afza + `' data-manteqa='` + data.all[i].name + `'>
+                                                0
+                                        </td>
+
+                                        </tr>`
+                                        );
+                                    }
+                                }else {
+
+                                    for (i = 0; i < data.sum; i++) {
+                                        // console.log(data.all[i]);
+                                        $('#manteka-table tbody ').after(`<tr class='mantika-row' >
+                                        <td>` + data.all[i].name + `</td>
+                                        <td class='editable' data-type='mandobe'
+                                         data-code='` + (data.mandobe[i]).code_ + `'>`
+                                            + (data.mandobe[i]).price_ + `
+                                        </td>
+
+                                        </tr>`
+                                        );
+                                    }
                                 }
                         }
                     });
                   $('#mo7afa-table tr').removeClass('selected');
                  $(this).addClass('selected');
                 });
-                 ;
-                 
+
+
 $('#manteka-table').on('dblclick', 'td', function(){
-               
+
     var $this = $(this);
-    var code = ( $(this).data('code'));
+    var serial = ( $(this).data('code'));
     var type = ( $(this).data('type'));
     var url = "{{route('save_3amel_5as')}}" ;
-  
+    var mo7afza = ( $(this).data('mo7afaza'));
+    var mnateqaName = ( $(this).data('manteqa'));
+    var specialClient = $('#name_of3amel5ase').val();
     console.log(type);
     var $input = $('<input>', {
         value: $this.text(),
@@ -385,7 +432,7 @@ $('#manteka-table').on('dblclick', 'td', function(){
             $.ajax({
             url: url ,
             type: 'post',
-            data:{ code:code, value:this.value , _token: "{{ csrf_token() }}"},
+            data:{ serial:serial, value:this.value ,manteqa:mnateqaName,mo7afza:mo7afza ,specialClient:specialClient, _token: "{{ csrf_token() }}"},
             error: function(e){
                 console.log(e);
             },
@@ -401,4 +448,101 @@ $('#manteka-table').on('dblclick', 'td', function(){
     }).appendTo( $this.empty() ).focus();
 });
             </script>
+
+<script type="text/javascript">
+    let  shipments=[];
+    let  selected=[];
+    let cnt=1;
+
+    let current_status=0;
+    $( document ).ready(function() {
+        const myModal = tailwind.Modal.getOrCreateInstance(document.querySelector("#type_modal"));
+        myModal.show();
+    });
+
+    $( "#modal_close" ).click(function() {
+
+        $('#type').val($( "#select_type option:selected" ).text());
+        current_status=$( "#select_type option:selected" ).val();
+        const myModal = tailwind.Modal.getOrCreateInstance(document.querySelector("#type_modal"));
+        myModal.hide();
+    });
+    $( "#qr_new" ).click(function() {
+        $('#manteka-table tr').not(function(){ return !!$(this).has('th').length; }).remove();
+        cnt=1;
+        shipments=[];
+        $('#shipment_form').find("input[type=text], textarea").val("");
+        const myModal = tailwind.Modal.getOrCreateInstance(document.querySelector("#type_modal"));
+        myModal.show();
+    });
+
+    $('#mandoube_name').hide();
+
+    $( "#tanfez" ).click(function() {
+
+        $.ajax({
+            url: "{{route('shipment.t7wel_qr_save')}}" ,
+            type: 'post',
+            data:{ code:shipments, status:current_status, _token: "{{ csrf_token() }}"},
+            error: function(e){
+                console.log(e);
+            },
+            success: function(res) {
+                alert('تم التحويل بناح');
+            }
+        });
+
+    });
+
+
+    $( "#tanfez" ).click(function() {
+
+        $.ajax({
+            url: "{{route('shipment.t7wel_qr_save')}}" ,
+            type: 'post',
+            data:{ code:shipments, status:current_status, _token: "{{ csrf_token() }}"},
+            error: function(e){
+                console.log(e);
+            },
+            success: function(res) {
+                alert('تم التحويل بناح');
+            }
+        });
+
+    });
+    $( "#cancel" ).click(function() {
+        cnt=0;
+        $('#manteka-table tr').each(function( index ) {
+            if($( this ).hasClass('selected') )
+            {
+                //selected.push($(this).data('code'));
+                $( this ).remove();
+                var code=$(this).data('code')
+                shipments.splice(shipments.indexOf(code)-1, 1)
+                console.log(shipments);
+            }else{
+                $( this ).find("td:first").text(cnt);
+                cnt++;
+            }
+        });
+    });
+
+    // Department Change
+
+
+
+    $('#modal_close').click(function () {
+        var amel5ase = $('#3amel5ase').val();
+        $('#name_of3amel5ase').attr('value',amel5ase) ;
+
+    });
+
+    $('#manteka-table').on('click', 'tr', function(){
+        var code = $(this).data('code')
+
+        $(this).toggleClass('selected');
+
+    });
+
+</script>
 @endsection

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\User;
 use App\Models\Mohfza;
 use App\Models\BranchInfo;
+use App\Models\CompanyInfo;
 
 
 
