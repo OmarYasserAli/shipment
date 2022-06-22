@@ -39,15 +39,16 @@
       22 => 'Yajra\\DataTables\\DataTablesServiceProvider',
       23 => 'Laravel\\Passport\\PassportServiceProvider',
       24 => 'Barryvdh\\Debugbar\\ServiceProvider',
-      25 => 'Intervention\\Image\\ImageServiceProvider',
-      26 => 'App\\Providers\\AppServiceProvider',
-      27 => 'App\\Providers\\AuthServiceProvider',
-      28 => 'App\\Providers\\EventServiceProvider',
-      29 => 'App\\Providers\\RouteServiceProvider',
-      30 => 'Laratrust\\LaratrustServiceProvider',
-      31 => 'RealRashid\\SweetAlert\\SweetAlertServiceProvider',
-      32 => 'Darryldecode\\Cart\\CartServiceProvider',
-      33 => 'Tymon\\JWTAuth\\Providers\\LaravelServiceProvider',
+      25 => 'niklasravnsborg\\LaravelPdf\\PdfServiceProvider',
+      26 => 'Intervention\\Image\\ImageServiceProvider',
+      27 => 'App\\Providers\\AppServiceProvider',
+      28 => 'App\\Providers\\AuthServiceProvider',
+      29 => 'App\\Providers\\EventServiceProvider',
+      30 => 'App\\Providers\\RouteServiceProvider',
+      31 => 'Laratrust\\LaratrustServiceProvider',
+      32 => 'RealRashid\\SweetAlert\\SweetAlertServiceProvider',
+      33 => 'Darryldecode\\Cart\\CartServiceProvider',
+      34 => 'Tymon\\JWTAuth\\Providers\\LaravelServiceProvider',
     ),
     'aliases' => 
     array (
@@ -90,6 +91,7 @@
       'View' => 'Illuminate\\Support\\Facades\\View',
       'Image' => 'Intervention\\Image\\Facades\\Image',
       'Laratrust' => 'Laratrust\\LaratrustFacade',
+      'PDF' => 'niklasravnsborg\\LaravelPdf\\Facades\\Pdf',
       'Alert' => 'RealRashid\\SweetAlert\\Facades\\Alert',
       'Cart' => 'Darryldecode\\Cart\\Facades\\CartFacade',
       'DataTables' => 'Yajra\\DataTables\\DataTablesServiceProvider',
@@ -448,6 +450,11 @@
       'dom' => 'Bfrtip',
     ),
   ),
+  'datatables-fractal' => 
+  array (
+    'includes' => 'include',
+    'serializer' => 'League\\Fractal\\Serializer\\DataArraySerializer',
+  ),
   'datatables-html' => 
   array (
     'namespace' => 'LaravelDataTables',
@@ -571,6 +578,141 @@
     'theme' => 'auto',
     'debug_backtrace_limit' => 50,
   ),
+  'dompdf' => 
+  array (
+    'show_warnings' => false,
+    'orientation' => 'portrait',
+    'convert_entities' => true,
+    'defines' => 
+    array (
+      'font_dir' => 'C:\\xampp\\htdocs\\Cargo\\storage\\fonts',
+      'font_cache' => 'C:\\xampp\\htdocs\\Cargo\\storage\\fonts',
+      'temp_dir' => 'C:\\TMP',
+      'chroot' => 'C:\\xampp\\htdocs\\Cargo',
+      'enable_font_subsetting' => false,
+      'pdf_backend' => 'CPDF',
+      'default_media_type' => 'screen',
+      'default_paper_size' => 'a4',
+      'default_font' => 'serif',
+      'dpi' => 96,
+      'enable_php' => false,
+      'enable_javascript' => true,
+      'enable_remote' => true,
+      'font_height_ratio' => 1.1,
+      'enable_html5_parser' => false,
+    ),
+  ),
+  'excel' => 
+  array (
+    'exports' => 
+    array (
+      'chunk_size' => 1000,
+      'pre_calculate_formulas' => false,
+      'strict_null_comparison' => false,
+      'csv' => 
+      array (
+        'delimiter' => ',',
+        'enclosure' => '"',
+        'line_ending' => '
+',
+        'use_bom' => false,
+        'include_separator_line' => false,
+        'excel_compatibility' => false,
+        'output_encoding' => '',
+      ),
+      'properties' => 
+      array (
+        'creator' => '',
+        'lastModifiedBy' => '',
+        'title' => '',
+        'description' => '',
+        'subject' => '',
+        'keywords' => '',
+        'category' => '',
+        'manager' => '',
+        'company' => '',
+      ),
+    ),
+    'imports' => 
+    array (
+      'read_only' => true,
+      'ignore_empty' => false,
+      'heading_row' => 
+      array (
+        'formatter' => 'slug',
+      ),
+      'csv' => 
+      array (
+        'delimiter' => NULL,
+        'enclosure' => '"',
+        'escape_character' => '\\',
+        'contiguous' => false,
+        'input_encoding' => 'UTF-8',
+      ),
+      'properties' => 
+      array (
+        'creator' => '',
+        'lastModifiedBy' => '',
+        'title' => '',
+        'description' => '',
+        'subject' => '',
+        'keywords' => '',
+        'category' => '',
+        'manager' => '',
+        'company' => '',
+      ),
+    ),
+    'extension_detector' => 
+    array (
+      'xlsx' => 'Xlsx',
+      'xlsm' => 'Xlsx',
+      'xltx' => 'Xlsx',
+      'xltm' => 'Xlsx',
+      'xls' => 'Xls',
+      'xlt' => 'Xls',
+      'ods' => 'Ods',
+      'ots' => 'Ods',
+      'slk' => 'Slk',
+      'xml' => 'Xml',
+      'gnumeric' => 'Gnumeric',
+      'htm' => 'Html',
+      'html' => 'Html',
+      'csv' => 'Csv',
+      'tsv' => 'Csv',
+      'pdf' => 'Dompdf',
+    ),
+    'value_binder' => 
+    array (
+      'default' => 'Maatwebsite\\Excel\\DefaultValueBinder',
+    ),
+    'cache' => 
+    array (
+      'driver' => 'memory',
+      'batch' => 
+      array (
+        'memory_limit' => 60000,
+      ),
+      'illuminate' => 
+      array (
+        'store' => NULL,
+      ),
+    ),
+    'transactions' => 
+    array (
+      'handler' => 'db',
+      'db' => 
+      array (
+        'connection' => NULL,
+      ),
+    ),
+    'temporary_files' => 
+    array (
+      'local_path' => 'C:\\xampp\\htdocs\\Cargo\\storage\\framework/cache/laravel-excel',
+      'remote_disk' => NULL,
+      'remote_prefix' => NULL,
+      'force_resync_remote' => NULL,
+    ),
+  ),
   'filesystems' => 
   array (
     'default' => 'local',
@@ -610,6 +752,31 @@
       'C:\\xampp\\htdocs\\Cargo\\public\\storage' => 'C:\\xampp\\htdocs\\Cargo\\storage\\app/public',
     ),
   ),
+  'flare' => 
+  array (
+    'key' => NULL,
+    'reporting' => 
+    array (
+      'anonymize_ips' => true,
+      'collect_git_information' => false,
+      'report_queries' => true,
+      'maximum_number_of_collected_queries' => 200,
+      'report_query_bindings' => true,
+      'report_view_data' => true,
+      'grouping_type' => NULL,
+      'report_logs' => true,
+      'maximum_number_of_collected_logs' => 200,
+      'censor_request_body_fields' => 
+      array (
+        0 => 'password',
+      ),
+    ),
+    'send_logs_as_events' => true,
+    'censor_request_body_fields' => 
+    array (
+      0 => 'password',
+    ),
+  ),
   'hashing' => 
   array (
     'driver' => 'bcrypt',
@@ -623,6 +790,21 @@
       'threads' => 2,
       'time' => 2,
     ),
+  ),
+  'ignition' => 
+  array (
+    'editor' => 'phpstorm',
+    'theme' => 'light',
+    'enable_share_button' => true,
+    'register_commands' => false,
+    'ignored_solution_providers' => 
+    array (
+      0 => 'Facade\\Ignition\\SolutionProviders\\MissingPackageSolutionProvider',
+    ),
+    'enable_runnable_solutions' => NULL,
+    'remote_sites_path' => '',
+    'local_sites_path' => '',
+    'housekeeping_endpoint_prefix' => '_ignition',
   ),
   'image' => 
   array (
@@ -973,6 +1155,38 @@
     ),
     'ssl' => false,
   ),
+  'passport' => 
+  array (
+    'private_key' => NULL,
+    'public_key' => NULL,
+    'client_uuids' => false,
+    'personal_access_client' => 
+    array (
+      'id' => NULL,
+      'secret' => NULL,
+    ),
+    'storage' => 
+    array (
+      'database' => 
+      array (
+        'connection' => 'mysql',
+      ),
+    ),
+  ),
+  'pdf' => 
+  array (
+    'mode' => 'utf-8',
+    'format' => 'A4',
+    'author' => '',
+    'subject' => '',
+    'keywords' => '',
+    'creator' => 'Laravel Pdf',
+    'display_mode' => 'fullpage',
+    'tempDir' => 'C:\\xampp\\htdocs\\Cargo\\../temp/',
+    'pdf_a' => false,
+    'pdf_a_auto' => false,
+    'icc_profile_path' => '',
+  ),
   'queue' => 
   array (
     'default' => 'sync',
@@ -1183,6 +1397,19 @@
       'footer' => NULL,
     ),
   ),
+  'tinker' => 
+  array (
+    'commands' => 
+    array (
+    ),
+    'alias' => 
+    array (
+    ),
+    'dont_alias' => 
+    array (
+      0 => 'App\\Nova',
+    ),
+  ),
   'translatable' => 
   array (
     'locales' => 
@@ -1206,6 +1433,11 @@
       'suffix' => '%',
     ),
   ),
+  'trustedproxy' => 
+  array (
+    'proxies' => NULL,
+    'headers' => 94,
+  ),
   'view' => 
   array (
     'paths' => 
@@ -1213,197 +1445,5 @@
       0 => 'C:\\xampp\\htdocs\\Cargo\\resources\\views',
     ),
     'compiled' => 'C:\\xampp\\htdocs\\Cargo\\storage\\framework\\views',
-  ),
-  'flare' => 
-  array (
-    'key' => NULL,
-    'reporting' => 
-    array (
-      'anonymize_ips' => true,
-      'collect_git_information' => false,
-      'report_queries' => true,
-      'maximum_number_of_collected_queries' => 200,
-      'report_query_bindings' => true,
-      'report_view_data' => true,
-      'grouping_type' => NULL,
-      'report_logs' => true,
-      'maximum_number_of_collected_logs' => 200,
-      'censor_request_body_fields' => 
-      array (
-        0 => 'password',
-      ),
-    ),
-    'send_logs_as_events' => true,
-    'censor_request_body_fields' => 
-    array (
-      0 => 'password',
-    ),
-  ),
-  'ignition' => 
-  array (
-    'editor' => 'phpstorm',
-    'theme' => 'light',
-    'enable_share_button' => true,
-    'register_commands' => false,
-    'ignored_solution_providers' => 
-    array (
-      0 => 'Facade\\Ignition\\SolutionProviders\\MissingPackageSolutionProvider',
-    ),
-    'enable_runnable_solutions' => NULL,
-    'remote_sites_path' => '',
-    'local_sites_path' => '',
-    'housekeeping_endpoint_prefix' => '_ignition',
-  ),
-  'passport' => 
-  array (
-    'private_key' => NULL,
-    'public_key' => NULL,
-    'client_uuids' => false,
-    'personal_access_client' => 
-    array (
-      'id' => NULL,
-      'secret' => NULL,
-    ),
-    'storage' => 
-    array (
-      'database' => 
-      array (
-        'connection' => 'mysql',
-      ),
-    ),
-  ),
-  'excel' => 
-  array (
-    'exports' => 
-    array (
-      'chunk_size' => 1000,
-      'pre_calculate_formulas' => false,
-      'strict_null_comparison' => false,
-      'csv' => 
-      array (
-        'delimiter' => ',',
-        'enclosure' => '"',
-        'line_ending' => '
-',
-        'use_bom' => false,
-        'include_separator_line' => false,
-        'excel_compatibility' => false,
-        'output_encoding' => '',
-      ),
-      'properties' => 
-      array (
-        'creator' => '',
-        'lastModifiedBy' => '',
-        'title' => '',
-        'description' => '',
-        'subject' => '',
-        'keywords' => '',
-        'category' => '',
-        'manager' => '',
-        'company' => '',
-      ),
-    ),
-    'imports' => 
-    array (
-      'read_only' => true,
-      'ignore_empty' => false,
-      'heading_row' => 
-      array (
-        'formatter' => 'slug',
-      ),
-      'csv' => 
-      array (
-        'delimiter' => NULL,
-        'enclosure' => '"',
-        'escape_character' => '\\',
-        'contiguous' => false,
-        'input_encoding' => 'UTF-8',
-      ),
-      'properties' => 
-      array (
-        'creator' => '',
-        'lastModifiedBy' => '',
-        'title' => '',
-        'description' => '',
-        'subject' => '',
-        'keywords' => '',
-        'category' => '',
-        'manager' => '',
-        'company' => '',
-      ),
-    ),
-    'extension_detector' => 
-    array (
-      'xlsx' => 'Xlsx',
-      'xlsm' => 'Xlsx',
-      'xltx' => 'Xlsx',
-      'xltm' => 'Xlsx',
-      'xls' => 'Xls',
-      'xlt' => 'Xls',
-      'ods' => 'Ods',
-      'ots' => 'Ods',
-      'slk' => 'Slk',
-      'xml' => 'Xml',
-      'gnumeric' => 'Gnumeric',
-      'htm' => 'Html',
-      'html' => 'Html',
-      'csv' => 'Csv',
-      'tsv' => 'Csv',
-      'pdf' => 'Dompdf',
-    ),
-    'value_binder' => 
-    array (
-      'default' => 'Maatwebsite\\Excel\\DefaultValueBinder',
-    ),
-    'cache' => 
-    array (
-      'driver' => 'memory',
-      'batch' => 
-      array (
-        'memory_limit' => 60000,
-      ),
-      'illuminate' => 
-      array (
-        'store' => NULL,
-      ),
-    ),
-    'transactions' => 
-    array (
-      'handler' => 'db',
-      'db' => 
-      array (
-        'connection' => NULL,
-      ),
-    ),
-    'temporary_files' => 
-    array (
-      'local_path' => 'C:\\xampp\\htdocs\\Cargo\\storage\\framework/cache/laravel-excel',
-      'remote_disk' => NULL,
-      'remote_prefix' => NULL,
-      'force_resync_remote' => NULL,
-    ),
-  ),
-  'trustedproxy' => 
-  array (
-    'proxies' => NULL,
-    'headers' => 94,
-  ),
-  'datatables-fractal' => 
-  array (
-    'includes' => 'include',
-    'serializer' => 'League\\Fractal\\Serializer\\DataArraySerializer',
-  ),
-  'tinker' => 
-  array (
-    'commands' => 
-    array (
-    ),
-    'alias' => 
-    array (
-    ),
-    'dont_alias' => 
-    array (
-      0 => 'App\\Nova',
-    ),
   ),
 );

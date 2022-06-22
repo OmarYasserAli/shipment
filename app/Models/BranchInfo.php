@@ -10,6 +10,6 @@ class BranchInfo extends Model
     protected $primaryKey = 'serial';
     protected $table = 'branch_info_tb';
     protected $guarded = [];
-    protected $filables =['name_' ,'name_E' , 'address_' => 'required', 'Tel_'];
+    protected $filables =['name_' ,'name_E' , 'address_' => 'required', 'Tel_','notes_'];
     
 }

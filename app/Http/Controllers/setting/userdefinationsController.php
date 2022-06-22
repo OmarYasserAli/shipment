@@ -18,6 +18,10 @@ class userdefinationsController extends Controller
         public function addClient()
         {
                 $user=auth()->user();
+                if(!$user->isAbleTo('add3amel-userDefinations')){
+                        return abort(403); 
+                }
+                $user=auth()->user();
                 $mo7afazat =Mohfza::where('branch',$user->branch)->get();
                 $Commercial_names =Commercial_name::groupBy('name_')->get();
                 $users =AddClientsMainComp::all();
@@ -157,6 +161,9 @@ class userdefinationsController extends Controller
         public function addMandoub()
         {
                 $user=auth()->user();
+                if(!$user->isAbleTo('addmandoub-userDefinations')){
+                        return abort(403); 
+                }
                 $mo7afazat =Mohfza::where('branch',$user->branch)->get();
                 $Commercial_names =Commercial_name::groupBy('name_')->get();
                 $manadeeb =AddBranchUser::where('Job','مندوب تسليم')->orWhere('Job','مندوب استلام')->get();
@@ -303,6 +310,9 @@ class userdefinationsController extends Controller
         public function adduser()
         {
                 $user=auth()->user();
+                if(!$user->isAbleTo('adduser-userDefinations')){
+                        return abort(403); 
+                }
                 $mo7afazat =Mohfza::where('branch',$user->branch)->get();
                 $Commercial_names =Commercial_name::groupBy('name_')->get();
                 $users =AddBranchUser::where('Job','موظف')->get();
@@ -451,6 +461,9 @@ class userdefinationsController extends Controller
         { 
                 
                 $user=auth()->user();
+                if(!$user->isAbleTo('registrationRequest-userDefinations')){
+                        return abort(403); 
+                }
                 $limit=Setting::get('items_per_page');
                 $page =0;
                 if(isset(request()->page)) $page= request()->page;
@@ -526,6 +539,10 @@ class userdefinationsController extends Controller
         }
         public function commercialNames()
         {
+                $user=auth()->user();
+                if(!$user->isAbleTo('commertialName-userDefinations')){
+                        return abort(403); 
+                }
         	return view('users.commercialNames');
         }
 

@@ -16,7 +16,7 @@
                     <div class="intro-x relative mr-3 sm:mr-6">
                         <div class="search hidden sm:block">
                             <input type="text" class="search__input form-control border-transparent" placeholder="Search...">
-                            <i data-lucide="search" class="search__icon dark:text-slate-500"></i> 
+                            <i data-lucide="search" class="search__icon dark:text-slate-500"></i>
                         </div>
                         <a class="notification sm:hidden" href=""> <i data-lucide="search" class="notification__icon dark:text-slate-500"></i> </a>
                         <div class="search-result">
@@ -113,7 +113,7 @@
                                     </div>
                                     <div class="ml-2 overflow-hidden">
                                         <div class="flex items-center">
-                                            <a href="javascript:;" class="font-medium truncate mr-5">Russell Crowe</a> 
+                                            <a href="javascript:;" class="font-medium truncate mr-5">Russell Crowe</a>
                                             <div class="text-xs text-slate-400 ml-auto whitespace-nowrap">05:09 AM</div>
                                         </div>
                                         <div class="w-full truncate text-slate-500 mt-0.5">Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 20</div>
@@ -126,7 +126,7 @@
                                     </div>
                                     <div class="ml-2 overflow-hidden">
                                         <div class="flex items-center">
-                                            <a href="javascript:;" class="font-medium truncate mr-5">John Travolta</a> 
+                                            <a href="javascript:;" class="font-medium truncate mr-5">John Travolta</a>
                                             <div class="text-xs text-slate-400 ml-auto whitespace-nowrap">03:20 PM</div>
                                         </div>
                                         <div class="w-full truncate text-slate-500 mt-0.5">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem </div>
@@ -139,7 +139,7 @@
                                     </div>
                                     <div class="ml-2 overflow-hidden">
                                         <div class="flex items-center">
-                                            <a href="javascript:;" class="font-medium truncate mr-5">Angelina Jolie</a> 
+                                            <a href="javascript:;" class="font-medium truncate mr-5">Angelina Jolie</a>
                                             <div class="text-xs text-slate-400 ml-auto whitespace-nowrap">01:10 PM</div>
                                         </div>
                                         <div class="w-full truncate text-slate-500 mt-0.5">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomi</div>
@@ -152,7 +152,7 @@
                                     </div>
                                     <div class="ml-2 overflow-hidden">
                                         <div class="flex items-center">
-                                            <a href="javascript:;" class="font-medium truncate mr-5">Al Pacino</a> 
+                                            <a href="javascript:;" class="font-medium truncate mr-5">Al Pacino</a>
                                             <div class="text-xs text-slate-400 ml-auto whitespace-nowrap">03:20 PM</div>
                                         </div>
                                         <div class="w-full truncate text-slate-500 mt-0.5">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomi</div>
@@ -165,7 +165,7 @@
                                     </div>
                                     <div class="ml-2 overflow-hidden">
                                         <div class="flex items-center">
-                                            <a href="javascript:;" class="font-medium truncate mr-5">Edward Norton</a> 
+                                            <a href="javascript:;" class="font-medium truncate mr-5">Edward Norton</a>
                                             <div class="text-xs text-slate-400 ml-auto whitespace-nowrap">01:10 PM</div>
                                         </div>
                                         <div class="w-full truncate text-slate-500 mt-0.5">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem </div>
@@ -213,48 +213,65 @@
                     <!-- END: Account Menu -->
                 </div>
                 <!-- END: Top Bar -->
-                
+    <!-- BEGIN: Top Bar -->
+@include('layout.partial.topbar')
+<!-- END: Top Bar -->
+    <div class="intro-y   mt-8" >
+        @if (session('status'))
+            <div class="alert alert-success">
+                {{ session('status') }}
+            </div>
+        @endif
+        @if($errors->any())
+            <div class="alert alert-warning">
+                @foreach ($errors->all() as $error)
+                    <div>{{ $error }}</div>
+                @endforeach
+            </div>
+        @endif
                 <div class="pos intro-y grid grid-cols-12 gap-5 mt-5">
                     <!-- BEGIN: Post Content -->
                     <div class="intro-y col-span-12 lg:col-span-8">
-                        
+
                         <div class="post intro-y overflow-hidden box mt-5">
-                            
+
                             <div class="post__content tab-content">
+                                <form action="{{route('storeCompany')}}" method="POST">
+                                    @csrf
                                 <div id="content" class="tab-pane p-5 active" role="tabpanel" aria-labelledby=	"content-tab">
-							   <div> 
+							   <div>
 							      <label for="regular-form-1" class="form-label">
 							      أسم الشركة عربى
-							      </label> 
-							      <input id="regular-form-1" type="text" class="form-control" > 
+							      </label>
+							      <input id="regular-form-1" @if(isset($company->name_)) value="{{$company->name_}}" @endif name="name_" type="text" class="form-control" >
 							   </div>
-							   <div class="mt-3"> 
-								   	<label for="regular-form-2" class="form-label">اسم الشركه انجلزي</label> 
-								   	<input id="regular-form-2" type="text" class="form-control" >
+							   <div class="mt-3">
+								   	<label for="regular-form-2" class="form-label">اسم الشركه انجلزي</label>
+								   	<input id="regular-form-2"@if(isset($company->name_E)) value="{{$company->name_E}}" @endif  name="name_E" type="text" class="form-control" >
 							   	</div>
-							   <div class="mt-3"> 
-								   	<label for="regular-form-2" class="form-label">عنوان الشركة</label> 
-								   	<input id="regular-form-2" type="text" class="form-control" >
+							   <div class="mt-3">
+								   	<label for="regular-form-2" class="form-label">عنوان الشركة</label>
+								   	<input id="regular-form-2"@if(isset($company->address_)) value="{{$company->address_}}" @endif  name="address_" type="text" class="form-control" >
 							   	</div>
-							   <div class="mt-3"> 
-								   	<label for="regular-form-2" class="form-label">التليفون</label> 
-								   	<input id="regular-form-2" type="text" class="form-control" >
+							   <div class="mt-3">
+								   	<label for="regular-form-2" class="form-label">التليفون</label>
+								   	<input id="regular-form-2"@if(isset($company->Tel_)) value="{{$company->Tel_}}" @endif  name="Tel_" type="text" class="form-control" >
 							   	</div>
-							   <div class="mt-3"> 
+							   <div class="mt-3">
 								   	<label for="regular-form-5" class="form-label">
-								   ملاحضات</label> 
-								   	<textarea id="regular-form-5" type="text" class="form-control"  > 
+								   ملاحضات</label>
+								   	<textarea id="regular-form-5"  type="text" name="notes_" class="form-control"  >@if(isset($company->notes_)){{$company->notes_}} @endif
 								   	</textarea>
 							   	</div>
-							    <button class="btn btn-primary mt-5">Save</button>  
+							    <button class="btn btn-primary mt-5">Save</button>
 							</div>
-							                         
+                                </form>
 							</div>
                         </div>
                     </div>
                     <!-- END: Post Content -->
                     <!-- BEGIN: Post Info -->
-                    
+
                     <!-- END: Post Info -->
                 </div>
 </div>

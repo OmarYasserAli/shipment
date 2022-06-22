@@ -163,8 +163,8 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
         Laravel\Passport\PassportServiceProvider::class,
-        Barryvdh\Debugbar\ServiceProvider::class,
-
+        
+        Meneses\LaravelMpdf\LaravelMpdfServiceProvider::class,
         
         // Yajra\DataTables\HtmlServiceProvider::class,
         // Yajra\DataTables\ButtonsServiceProvider::class,
@@ -252,6 +252,7 @@ return [
         'Image' => Intervention\Image\Facades\Image::class,
         // laratrust
         'Laratrust' => Laratrust\LaratrustFacade::class,
+        'PDF' => Meneses\LaravelMpdf\Facades\LaravelMpdf::class,
 
         'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
 

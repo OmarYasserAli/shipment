@@ -94,8 +94,9 @@
                             
                         </div > 
                     </div>
-                    <div class="col-span-1">
-                       
+                    <div class="form-inline">
+
+                        
                     </div>
                 </div>
                     <div class="mt-1 grid  grid-cols-3">
@@ -147,6 +148,7 @@
                                     <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:10px; margin-top:8px; margin-right:3px ; width:50px"> </label>
 
                                     <input type="submit"  class="btn btn-primary  "  value="فلتر">
+                                    <input type="button"  class="btn btn-success  align-left mr-1" style="direction: ltr"  value="طباعه" id='print' >
                                     
                                 </div>
                                 
@@ -256,6 +258,11 @@
 
         <script type="text/javascript">
        
+            $('#print').on('click', function(){
+                window.open(window.location.href+'?pdf=1');
+               // window.location.replace (); 
+            });
+            
             let  shipments=[];
             let cnt=1;
            

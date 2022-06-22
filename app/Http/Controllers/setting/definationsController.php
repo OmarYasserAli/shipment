@@ -16,11 +16,19 @@ class definationsController extends Controller
 {
         public function company()
         {
+                $user=auth()->user();
+                if(!$user->isAbleTo('companyDefinations-definations')){
+                return abort(403); 
+                }
         	return view('deffinations.company');
         }
 
         public function addCity()
         {
+                $user=auth()->user();
+                if(!$user->isAbleTo('addManatek-definations')){
+                return abort(403); 
+                }
         	$cities=Mohfza::where('branch',auth()->user()->branch)->get();
         	return view('deffinations.city',compact('cities'));
         }
@@ -45,6 +53,10 @@ class definationsController extends Controller
 
         public function addBranch()
         {
+                $user=auth()->user();
+                if(!$user->isAbleTo('addBranches-definations')){
+                return abort(403); 
+                }
         	return view('deffinations.branch');
         }
 }

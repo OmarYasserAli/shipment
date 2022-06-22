@@ -39,6 +39,9 @@ class accountingController extends Controller
     { 
         
         $user=auth()->user();
+        if(!$user->isAbleTo('notMosadad3amel-accounting')){
+            return abort(403); 
+        }
         $limit=Setting::get('items_per_page');
         $page =0;
         if(isset(request()->page)) $page= request()->page;
@@ -156,6 +159,9 @@ class accountingController extends Controller
     { 
         
         $user=auth()->user();
+        if(!$user->isAbleTo('mosadad3amel-accounting')){
+            return abort(403); 
+        }
         $limit=Setting::get('items_per_page');
         $page =0;
         if(isset(request()->page)) $page= request()->page;
@@ -272,6 +278,9 @@ class accountingController extends Controller
     { 
         
         $user=auth()->user();
+        if(!$user->isAbleTo('notMosadadMandoubTaslem-accounting')){
+            return abort(403); 
+        }
         $limit=Setting::get('items_per_page');
         $page =0;
         if(isset(request()->page)) $page= request()->page;
@@ -388,6 +397,9 @@ class accountingController extends Controller
     { 
         
         $user=auth()->user();
+        if(!$user->isAbleTo('mosadadMandoubTaslem-accounting')){
+            return abort(403); 
+        }
         $limit=Setting::get('items_per_page');
         $page =0;
         if(isset(request()->page)) $page= request()->page;
@@ -504,6 +516,9 @@ class accountingController extends Controller
     { 
         
         $user=auth()->user();
+        if(!$user->isAbleTo('notMosadadMandoubEstlam-accounting')){
+            return abort(403); 
+        }
         $limit=Setting::get('items_per_page');
         $page =0;
         if(isset(request()->page)) $page= request()->page;
@@ -621,6 +636,9 @@ class accountingController extends Controller
     { 
         
         $user=auth()->user();
+        if(!$user->isAbleTo('mosadadMandoubEstlam-accounting')){
+            return abort(403); 
+        }
         $limit=Setting::get('items_per_page');
         $page =0;
         if(isset(request()->page)) $page= request()->page;

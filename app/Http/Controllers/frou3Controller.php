@@ -38,6 +38,9 @@ class frou3Controller extends Controller
     { 
         
         $user=auth()->user();
+        if(!$user->isAbleTo('export-frou3')){
+            return abort(403); 
+        }
         $limit=Setting::get('items_per_page');
         $page =0;
         if(isset(request()->page)) $page= request()->page;
@@ -163,6 +166,9 @@ class frou3Controller extends Controller
     { 
         
         $user=auth()->user();
+        if(!$user->isAbleTo('import-frou3')){
+            return abort(403); 
+        }
         $limit=Setting::get('items_per_page');
         $page =0;
         if(isset(request()->page)) $page= request()->page;
@@ -289,6 +295,9 @@ class frou3Controller extends Controller
     { 
         
         $user=auth()->user();
+        if(!$user->isAbleTo('t7welSho7natManual-frou3')){
+            return abort(403); 
+        }
         $limit=Setting::get('items_per_page');
         $page =0;
         if(isset(request()->page)) $page= request()->page;
@@ -379,6 +388,10 @@ class frou3Controller extends Controller
         return ($this->frou3_t7wel_sho7nat_qr_save( $request));
     }
     public function frou3_t7wel_sho7nat_qr(Request $request){
+        $user=auth()->user();
+        if(!$user->isAbleTo('t7welsho7natQr-frou3')){
+            return abort(403); 
+        }
         $branches=DB::table('branch_info_tb')
         ->select('serial_','name_')
         ->get();
@@ -459,6 +472,9 @@ class frou3Controller extends Controller
     { 
         
         $user=auth()->user();
+        if(!$user->isAbleTo('acceptT7welsho7natQr-frou3')){
+            return abort(403); 
+        }
         $limit=Setting::get('items_per_page');
         $page =0;
         if(isset(request()->page)) $page= request()->page;
@@ -606,6 +622,9 @@ class frou3Controller extends Controller
     { 
         
         $user=auth()->user();
+        if(!$user->isAbleTo('t7welRag3Manual-frou3')){
+            return abort(403); 
+        }
         $limit=Setting::get('items_per_page');
         $page =0;
         if(isset(request()->page)) $page= request()->page;
@@ -696,6 +715,10 @@ class frou3Controller extends Controller
         return ($this->frou3_t7wel_rag3_qr_save( $request));
     }
     public function frou3_t7wel_rag3_qr(Request $request){
+        $user=auth()->user();
+        if(!$user->isAbleTo('t7welRag3Qr-frou3')){
+            return abort(403); 
+        }
         $branches=DB::table('branch_info_tb')
         ->select('serial_','name_')
         ->get();
@@ -771,6 +794,9 @@ class frou3Controller extends Controller
     { 
        
         $user=auth()->user();
+        if(!$user->isAbleTo('acceptT7welRag3Qr-frou3')){
+            return abort(403); 
+        }
         $limit=Setting::get('items_per_page');
         $page =0;
         if(isset(request()->page)) $page= request()->page;
@@ -925,6 +951,9 @@ class frou3Controller extends Controller
     { 
         
         $user=auth()->user();
+        if(!$user->isAbleTo('notMosadad-frou3')){
+            return abort(403); 
+        }
         $limit=Setting::get('items_per_page');
         $page =0;
         if(isset(request()->page)) $page= request()->page;
@@ -1090,6 +1119,9 @@ class frou3Controller extends Controller
     { 
         
         $user=auth()->user();
+        if(!$user->isAbleTo('mosadad-frou3')){
+            return abort(403); 
+        }
         $limit=Setting::get('items_per_page');
         $page =0;
         if(isset(request()->page)) $page= request()->page;

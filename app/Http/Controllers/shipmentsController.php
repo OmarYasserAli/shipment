@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
+use PDF;
 class shipmentsController extends Controller
 {
     public function __construct()
@@ -45,8 +46,11 @@ class shipmentsController extends Controller
     public function HomePage(Request $request)
     {
       
-       
         $user=auth()->user();
+
+        if(!$user->isAbleTo('homePage-shipment')){
+            return abort(403); 
+        }
         $statuses= Shipment_status::orderBy('sort_no')->where('code_' ,'!=',10)
         ->UserTypeFilter($user->type_,$user->code_)
         ->select('code_','name_')->get()->toArray();
@@ -112,8 +116,12 @@ class shipmentsController extends Controller
     
     public function shipments(int $type,Request $request)
     { 
+        $user=auth()->user();
+        if(!$user->isAbleTo('index-shipment')){
+            return abort(403); 
+        }
            $status=$type;
-            $user=auth()->user();
+            
             $limit=Setting::get('items_per_page');
              $page =0;
              if(isset(request()->page)) $page= request()->page;
@@ -181,6 +189,7 @@ class shipmentsController extends Controller
             ], 200);
         }
         
+        
         // $all->withPath("?mo7afza={$request->mo7afza}&showAll={$request->showAll}
         // &client_id={$request->client_id}");
         $manadeb_taslim= User::where('branch',auth()->user()->branch)->where('type_','مندوب تسليم')->get();
@@ -195,6 +204,14 @@ class shipmentsController extends Controller
         $css_prop = Setting::get('status_css_prop');
         //  dd($status_color);
         $page_title=Shipment_status::where('code_',$type)->first()->name_;
+        if(isset(request()->pdf)){
+            //return view('shipments.print' , compact('all'));
+            $data = [
+                'all'=>$all
+            ];
+            $mpdf = PDF::loadView('shipments.print',$data);
+            return $mpdf->stream('document.pdf');
+        }
         return view('shipments.index',compact('all','type','mo7afazat','page_title','Commercial_names',
         'clients','status_color','css_prop','sums' ,'t7weelTo','manadeb_taslim'));
            
@@ -206,7 +223,10 @@ class shipmentsController extends Controller
     public function shipmentsSearch(Request $request)
     { 
         
-            $user=auth()->user();
+        $user=auth()->user();
+        if(!$user->isAbleTo('search-shipment')){
+            return abort(403); 
+        }
             $limit=Setting::get('items_per_page');
              $page =0;
              if(isset(request()->page)) $page= request()->page;
@@ -1172,7 +1192,11 @@ class shipmentsController extends Controller
 
 
     public function create(){
-        $user = auth()->user();
+        
+        $user=auth()->user();
+        if(!$user->isAbleTo('new-shipment')){
+            return abort(403); 
+        }
         $clients = User::where('type_','عميل')->where('branch', $user->branch)->get();
         $mo7afazat =Mohfza::where('branch',$user->branch)->get();
         $now = Carbon::now()->format('Y-m-d  g:i:s A');
@@ -1263,6 +1287,9 @@ class shipmentsController extends Controller
     }
     public function editView(Request $request){
         $user=auth()->user();
+        if(!$user->isAbleTo('update-shipment')){
+            return abort(403); 
+        }
         $limit=Setting::get('items_per_page');
         $page =0;
         if(isset(request()->page)) $page= request()->page;
@@ -1347,9 +1374,12 @@ class shipmentsController extends Controller
         'clients','status_color','css_prop','sums'));
     }
     public function edit(int $code){
-
+        $user=auth()->user();
+        if(!$user->isAbleTo('update-shipment')){
+            return abort(403); 
+        }
         $shipment = Shipment::where('code_',$code)->first();
-        $user = auth()->user();
+        
         $clients = User::where('type_','عميل')->where('branch', $user->branch)->get();
         $mo7afazat =Mohfza::where('branch',$user->branch)->get();
         $now = Carbon::now();

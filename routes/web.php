@@ -34,6 +34,13 @@ Route::post('/tas3ir/save-3amel', 'tas3irController@save_3amel')->name('save_tas
 Route::post('/tas3ir/save-ta7wel', 'tas3irController@save_ta7wel')->name('save_tas3ir_ta7wel');
 Route::post('/tas3ir/save-3amel-5as', 'tas3irController@save_3amel_5as')->name('save_3amel_5as');
     
+Route::get('/tas3ir/mandouben', 'tas3irController@tas3ir_mandouben')->name('tas3ir.mandouben');
+Route::get('/tas3ir/getNameByType/{id}', 'tas3irController@getNameByType')->name('tas3ir.mandouben.getNameByType');
+Route::post('/tas3ir/save-mandouben', 'tas3irController@saveMandobe')->name('save_tas3ir_mandouben');
+Route::get('/getManateqAndTas3irMandobByMa7afza', 'tas3irController@getManateqAndTas3irMandobByMa7afza')->name('getManateqAndTas3irMandobByMa7afza');
+
+
+
 Route::get('/getManateqAndTas3ir5asByMa7afza', 'tas3irController@getManateqAndTas3ir5asByMa7afza')->name('getManateqAndTas3ir5asByMa7afza');
 
 //shipments
@@ -178,6 +185,12 @@ Route::get('/users/commercialNames', 'setting\userdefinationsController@commerci
 
 
 //end Definations
+
+
+Route::get('/permissions', 'permissionController@index')->name('permissions');
+Route::post('/permissions/store', 'permissionController@store')->name('permissions.store');
+
+
 Route::get('/home', 'HomeController@index')->name('home');
 
 

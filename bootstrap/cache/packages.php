@@ -29,6 +29,17 @@
       'SnappyImage' => 'Barryvdh\\Snappy\\Facades\\SnappyImage',
     ),
   ),
+  'carlos-meneses/laravel-mpdf' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Meneses\\LaravelMpdf\\LaravelMpdfServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'PDF' => 'Meneses\\LaravelMpdf\\Facades\\LaravelMpdf',
+    ),
+  ),
   'darryldecode/cart' => 
   array (
     'providers' => 
@@ -143,6 +154,17 @@
     'providers' => 
     array (
       0 => 'Carbon\\Laravel\\ServiceProvider',
+    ),
+  ),
+  'niklasravnsborg/laravel-pdf' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'niklasravnsborg\\LaravelPdf\\PdfServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'PDF' => 'niklasravnsborg\\LaravelPdf\\Facades\\Pdf',
     ),
   ),
   'nunomaduro/collision' => 
