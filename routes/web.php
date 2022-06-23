@@ -9,7 +9,7 @@ use App\Http\Controllers\Dashboard\cityController;
 use App\Http\Controllers\Dashboard\ProfileController;
 use Illuminate\Support\Facades\Artisan;
 
-Auth::routes();
+Auth::routes(['register' => false]);
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/settings', 'SettingController@index')->name('settings');
     Route::post('/settings', 'SettingController@store')->name('settings.store');
@@ -18,6 +18,9 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/definations/company', 'setting\definationsController@company')->name('company');
+Route::post('/definations/storeCompany', 'setting\definationsController@storeCompany')->name('storeCompany');
+
+
 Route::get('/definations/city', 'setting\definationsController@addCity')->name('addCity');
 Route::get('/definations/branch', 'setting\definationsController@addBranch')->name('addBranch');
 Route::post('/definations/branch', 'setting\definationsController@storeBranch')->name('storeBranch');
@@ -214,42 +217,43 @@ Route::group(
     function () {
 
 
+        Route::get('/dashboard','HomeController@index')->name('dashboard');
         Route::get('/dashboard/home','HomeController@index')->name('dashboard.home');
-        Route::prefix('dashboard')->namespace('Dashboard')->middleware(['auth'])->name('dashboard.')->group(function () {
-            Route::resource('roles', 'RoleController');
-            Route::resource('users', 'UserController');
-            //doctors
-            Route::delete('/doctors/bulk_delete', 'DoctorController@bulkDelete')->name('doctors.bulk_delete');
-            Route::resource('doctors', 'DoctorController')->except('show');
-            Route::get('/doctors/data','DoctorController@data')->name('doctors.data');
-            Route::get('/doctors/forclogout/{id}','DoctorController@forcLogout')->middleware('permission:update-logoutdoctors')->name('doctors.forclogout');
-            //patients
-            Route::delete('/patients/bulk_delete', 'PatientController@bulkDelete')->name('patients.bulk_delete');
-            Route::resource('patients', 'PatientController')->except('show');
-            Route::get('/patients/data','PatientController@data')->name('patients.data');
-            Route::get('/patients/forclogout/{id}','PatientController@forcLogout')->middleware('permission:update-logoutpatients')->name('patients.forclogout');
+        // Route::prefix('dashboard')->namespace('Dashboard')->middleware(['auth'])->name('dashboard.')->group(function () {
+        //     // Route::resource('roles', 'RoleController');
+        //     // Route::resource('users', 'UserController');
+        //     //doctors
+        //     Route::delete('/doctors/bulk_delete', 'DoctorController@bulkDelete')->name('doctors.bulk_delete');
+        //     Route::resource('doctors', 'DoctorController')->except('show');
+        //     Route::get('/doctors/data','DoctorController@data')->name('doctors.data');
+        //     Route::get('/doctors/forclogout/{id}','DoctorController@forcLogout')->middleware('permission:update-logoutdoctors')->name('doctors.forclogout');
+        //     //patients
+        //     Route::delete('/patients/bulk_delete', 'PatientController@bulkDelete')->name('patients.bulk_delete');
+        //     Route::resource('patients', 'PatientController')->except('show');
+        //     Route::get('/patients/data','PatientController@data')->name('patients.data');
+        //     Route::get('/patients/forclogout/{id}','PatientController@forcLogout')->middleware('permission:update-logoutpatients')->name('patients.forclogout');
 
-            //first aids
-            Route::delete('/firstaids/bulk_delete', 'FirstAidController@bulkDelete')->name('firstaids.bulk_delete');
-            Route::resource('firstaids', 'FirstAidController')->except('show');;
-            Route::get('/firstaids/data','FirstAidController@data')->name('firstaids.data');
-            //first aids children
-            Route::delete('/firstaidchildren/bulk_delete', 'FirstAidChildController@bulkDelete')->name('firstaidchildren.bulk_delete');
-            Route::resource('firstaidchildren', 'FirstAidChildController')->except('show');;
-            Route::get('/firstaidchildren/data','FirstAidChildController@data')->name('firstaidchildren.data');
-            //emergenc
-            Route::delete('/emergencs/bulk_delete', 'EmergencController@bulkDelete')->name('emergencs.bulk_delete');
-            Route::resource('emergencs', 'EmergencController')->except('show');;
-            Route::get('/emergencs/data','EmergencController@data')->name('emergencs.data');
-            //emergenc
-            Route::delete('/emergencchildren/bulk_delete', 'EmergencChildController@bulkDelete')->name('emergencchildren.bulk_delete');
-            Route::resource('emergencchildren', 'EmergencChildController')->except('show');
-            Route::get('/emergencchildren/data','EmergencChildController@data')->name('emergencchildren.data');
-            //profile 
-            Route::resource('profiles','ProfileController');
+        //     //first aids
+        //     Route::delete('/firstaids/bulk_delete', 'FirstAidController@bulkDelete')->name('firstaids.bulk_delete');
+        //     Route::resource('firstaids', 'FirstAidController')->except('show');;
+        //     Route::get('/firstaids/data','FirstAidController@data')->name('firstaids.data');
+        //     //first aids children
+        //     Route::delete('/firstaidchildren/bulk_delete', 'FirstAidChildController@bulkDelete')->name('firstaidchildren.bulk_delete');
+        //     Route::resource('firstaidchildren', 'FirstAidChildController')->except('show');;
+        //     Route::get('/firstaidchildren/data','FirstAidChildController@data')->name('firstaidchildren.data');
+        //     //emergenc
+        //     Route::delete('/emergencs/bulk_delete', 'EmergencController@bulkDelete')->name('emergencs.bulk_delete');
+        //     Route::resource('emergencs', 'EmergencController')->except('show');;
+        //     Route::get('/emergencs/data','EmergencController@data')->name('emergencs.data');
+        //     //emergenc
+        //     Route::delete('/emergencchildren/bulk_delete', 'EmergencChildController@bulkDelete')->name('emergencchildren.bulk_delete');
+        //     Route::resource('emergencchildren', 'EmergencChildController')->except('show');
+        //     Route::get('/emergencchildren/data','EmergencChildController@data')->name('emergencchildren.data');
+        //     //profile 
+        //     Route::resource('profiles','ProfileController');
 
            
-        });
+        // });
 
     });
 

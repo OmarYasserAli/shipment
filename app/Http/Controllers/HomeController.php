@@ -13,7 +13,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        //$this->middleware('auth');
+        $this->middleware('auth');
     }
 
     /**
@@ -23,12 +23,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        
-        return view('main.index');
+        $page_title='لوحة المواقبة';
+        return view('home' ,compact('page_title'));
     }
     public function index2()
     {
-        
-        return view('dashboard.home');
+        $page_title='لوحة المواقبة';
+        return view('home' ,compact('page_title'));
     }
 }

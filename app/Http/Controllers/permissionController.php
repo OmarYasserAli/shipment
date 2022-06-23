@@ -40,7 +40,7 @@ class permissionController extends Controller
             'صلاحيات التعريفات'=>$permisssions_4,
             'صلاحيات التسعر'=>$permisssions_5,
             'صلاحيات المستخدمين'=>$permisssions_6,
-            'صلاحيات الحسابات'=>$permisssions_7];
+            'صلاحيات الاعدادات'=>$permisssions_7];
         }else{
             $users=user::where('type_','موظف')->where('status_',1)->get();
         }

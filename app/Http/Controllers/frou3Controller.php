@@ -159,6 +159,14 @@ class frou3Controller extends Controller
         $css_prop = Setting::get('status_css_prop');
         // dd($counter);
         $page_title='الشحنات الصادرة الي الفرع';
+        if(isset(request()->pdf)){
+            //return view('shipments.print' , compact('all'));
+            $data = [
+                'all'=>$all
+            ];
+            $mpdf = PDF::loadView('shipments.print',$data);
+            return $mpdf->stream('document.pdf');
+        }
         return view('frou3.export',compact('all','branches','mo7afazat','brach_filter','waselOnly','page_title',
      'css_prop','status_color' ,'sums'));
     }
@@ -287,6 +295,14 @@ class frou3Controller extends Controller
         $css_prop = Setting::get('status_css_prop');
         // dd($counter);
         $page_title='الشحنات الواردة من الفرع';
+        if(isset(request()->pdf)){
+            //return view('shipments.print' , compact('all'));
+            $data = [
+                'all'=>$all
+            ];
+            $mpdf = PDF::loadView('shipments.print',$data);
+            return $mpdf->stream('document.pdf');
+        }
         return view('frou3.import',compact('all','branches','mo7afazat','brach_filter','waselOnly','page_title',
      'css_prop','status_color' ,'sums'));
     }
@@ -537,6 +553,14 @@ class frou3Controller extends Controller
         $page_title='الموافقة على تحويل رواجع الفروع';
        $branches =BranchInfo::all();
        $mo7afazat =Mohfza::all();
+       if(isset(request()->pdf)){
+        //return view('shipments.print' , compact('all'));
+        $data = [
+            'all'=>$all
+        ];
+        $mpdf = PDF::loadView('shipments.print',$data);
+        return $mpdf->stream('document.pdf');
+    }
          return view('frou3.t7wel_sho7nat.accept',compact('all','branches','mo7afazat'));
     
     }
@@ -861,6 +885,14 @@ class frou3Controller extends Controller
         $page_title='الموافقة على تحويل رواجع الفروع';
         $branches =BranchInfo::all();
         $mo7afazat =Mohfza::all();
+        if(isset(request()->pdf)){
+            //return view('shipments.print' , compact('all'));
+            $data = [
+                'all'=>$all
+            ];
+            $mpdf = PDF::loadView('shipments.print',$data);
+            return $mpdf->stream('document.pdf');
+        }
         return view('frou3.t7wel_rag3.accept',compact('all','branches','mo7afazat'));
     }
     public function accept_frou3_rag3_save(Request $request){
@@ -1072,6 +1104,14 @@ class frou3Controller extends Controller
         $css_prop = Setting::get('status_css_prop');
         // dd($counter);
         $page_title='الشحنات الغير مسددة للفرع';
+        if(isset(request()->pdf)){
+            //return view('shipments.print' , compact('all'));
+            $data = [
+                'all'=>$all
+            ];
+            $mpdf = PDF::loadView('shipments.print',$data);
+            return $mpdf->stream('document.pdf');
+        }
         return view('frou3.accounting.notmosadad',compact('all','branches','mo7afazat','brach_filter','waselOnly','page_title',
      'css_prop','status_color' ,'sums'));
     }
@@ -1236,6 +1276,14 @@ class frou3Controller extends Controller
         $css_prop = Setting::get('status_css_prop');
         // dd($counter);
         $page_title='الشحنات  المسددة للفرع';
+        if(isset(request()->pdf)){
+            //return view('shipments.print' , compact('all'));
+            $data = [
+                'all'=>$all
+            ];
+            $mpdf = PDF::loadView('shipments.print',$data);
+            return $mpdf->stream('document.pdf');
+        }
         return view('frou3.accounting.mosadad',compact('sums','all','branches','mo7afazat','brach_filter','waselOnly','page_title','status_color'
         ,'css_prop'));
     }
