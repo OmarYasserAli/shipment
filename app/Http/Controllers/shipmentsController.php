@@ -205,9 +205,9 @@ class shipmentsController extends Controller
         //  dd($status_color);
         $page_title=Shipment_status::where('code_',$type)->first()->name_;
         if(isset(request()->pdf)){
-            //return view('shipments.print' , compact('all'));
             $data = [
-                'all'=>$all
+                'all'=>$all,
+                'title'=>$page_title
             ];
             $mpdf = PDF::loadView('shipments.print',$data);
             return $mpdf->stream('document.pdf');

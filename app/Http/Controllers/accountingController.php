@@ -17,7 +17,7 @@ use App\Models\Commercial_name;
 use App\Models\Archive;
 
 use Carbon\Carbon;
-
+use PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -129,6 +129,14 @@ class accountingController extends Controller
         $css_prop = Setting::get('status_css_prop');
         //  dd($status_color);
         $page_title='الشحنات الغير مسددة للعميل';
+        if(isset(request()->pdf)){
+            $data = [
+                'all'=>$all,
+                'title'=>$page_title
+            ];
+            $mpdf = PDF::loadView('shipments.print',$data);
+            return $mpdf->stream('document.pdf');
+        }
         return view('accounting.3amil.notmosadad',compact('all','mo7afazat','waselOnly','page_title','Commercial_names',
         'clients','status_color','css_prop','sums'));
     }
@@ -247,6 +255,14 @@ class accountingController extends Controller
         ,'status_4_color','status_7_color','status_8_color','status_9_color'])->get()->keyBy('name')->pluck('val','name');
         $css_prop = Setting::get('status_css_prop');
         $page_title='الشحنات  المسددة للعميل';
+        if(isset(request()->pdf)){
+            $data = [
+                'all'=>$all,
+                'title'=>$page_title
+            ];
+            $mpdf = PDF::loadView('shipments.print',$data);
+            return $mpdf->stream('document.pdf');
+        }
         return view('accounting.3amil.mosadad',compact('sums','all','mo7afazat','brach_filter','waselOnly',
         'page_title','clients' ,'user','css_prop','status_color','Commercial_names'));
     }
@@ -368,6 +384,14 @@ class accountingController extends Controller
         $css_prop = Setting::get('status_css_prop');
         // dd($counter);
         $page_title='الشحنات الغير مسددة لمندوب التسليم';
+        if(isset(request()->pdf)){
+            $data = [
+                'all'=>$all,
+                'title'=>$page_title
+            ];
+            $mpdf = PDF::loadView('shipments.print',$data);
+            return $mpdf->stream('document.pdf');
+        }
         return view('accounting.mandoubtaslim.notmosadad',compact('sums','all','mo7afazat','waselOnly','page_title',
         'clients','status_color','css_prop','Commercial_names'));
     }
@@ -485,6 +509,14 @@ class accountingController extends Controller
         $css_prop = Setting::get('status_css_prop');
         // dd($counter);
         $page_title='الشحنات  المسددة لمندوب التسليم';
+        if(isset(request()->pdf)){
+            $data = [
+                'all'=>$all,
+                'title'=>$page_title
+            ];
+            $mpdf = PDF::loadView('shipments.print',$data);
+            return $mpdf->stream('document.pdf');
+        }
         return view('accounting.mandoubtaslim.mosadad',compact('sums','all','mo7afazat','waselOnly','page_title',
         'clients','status_color', 'css_prop','Commercial_names'));
     }
@@ -607,6 +639,14 @@ class accountingController extends Controller
         $css_prop = Setting::get('status_css_prop');
         // dd($counter);
         $page_title='الشحنات الغير مسددة لمندوب الاستلام';
+        if(isset(request()->pdf)){
+            $data = [
+                'all'=>$all,
+                'title'=>$page_title
+            ];
+            $mpdf = PDF::loadView('shipments.print',$data);
+            return $mpdf->stream('document.pdf');
+        }
         return view('accounting.mandoubestlam.notmosadad',compact('sums','all','mo7afazat','waselOnly','page_title',
         'clients','status_color' ,'css_prop','Commercial_names'));
     }
@@ -732,6 +772,14 @@ class accountingController extends Controller
         $css_prop = $setting['status_css_prop'];
          //dd();
         $page_title='الشحنات  المسددة لمندوب الاستلام';
+        if(isset(request()->pdf)){
+            $data = [
+                'all'=>$all,
+                'title'=>$page_title
+            ];
+            $mpdf = PDF::loadView('shipments.print',$data);
+            return $mpdf->stream('document.pdf');
+        }
         return view('accounting.mandoubestlam.mosadad',compact('sums','all','mo7afazat','waselOnly','page_title',
         'clients','css_prop' ,'status_color' ,'Commercial_names'));
     }
@@ -763,18 +811,6 @@ class accountingController extends Controller
             ], 200); 
     }
      //end acc
-
-
-
-
-
-
-
-
-
-
-
-
 
 
      public function loadMore(Request $request)

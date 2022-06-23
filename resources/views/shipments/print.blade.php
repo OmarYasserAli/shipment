@@ -193,7 +193,7 @@
 
     </table>
     <div class="data_of_title">
-        <h2>الشحنات فى المخزن</h2>
+        <h2>{{$title}}</h2>
     </div>
 <div class="number_of_shipment">
 {{--    <div class="data_of_number">--}}

@@ -48,6 +48,8 @@
                                         <input type="checkbox" name='showAll' @if(request()->get('showAll') =='on') checked @endif >
                                              --}}
                                         <input type="submit" class="btn btn-primary mr-2" value="فلتر">
+                                    <input type="button"  class="btn btn-success  align-left mr-1" style="direction: ltr"  value="طباعه" id='print' >
+
                                     </div > 
                             </div> 
                             
@@ -238,6 +240,10 @@
 
 
         <script type="text/javascript">
+        $('#print').on('click', function(){
+                window.open(window.location.href+'?pdf=1');
+               // window.location.replace (); 
+            });
             let  shipments=[];
             let cnt=1;
            

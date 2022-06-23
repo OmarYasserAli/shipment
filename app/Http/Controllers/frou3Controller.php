@@ -16,7 +16,7 @@ use App\Models\Archive;
 use App\Setting;
 use App\User;
 use Carbon\Carbon;
-
+use PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -162,7 +162,8 @@ class frou3Controller extends Controller
         if(isset(request()->pdf)){
             //return view('shipments.print' , compact('all'));
             $data = [
-                'all'=>$all
+                'all'=>$all,
+                'title'=>$page_title
             ];
             $mpdf = PDF::loadView('shipments.print',$data);
             return $mpdf->stream('document.pdf');
@@ -298,7 +299,8 @@ class frou3Controller extends Controller
         if(isset(request()->pdf)){
             //return view('shipments.print' , compact('all'));
             $data = [
-                'all'=>$all
+                'all'=>$all,
+                'title'=>$page_title
             ];
             $mpdf = PDF::loadView('shipments.print',$data);
             return $mpdf->stream('document.pdf');
@@ -556,7 +558,8 @@ class frou3Controller extends Controller
        if(isset(request()->pdf)){
         //return view('shipments.print' , compact('all'));
         $data = [
-            'all'=>$all
+            'all'=>$all,
+            'title'=>$page_title
         ];
         $mpdf = PDF::loadView('shipments.print',$data);
         return $mpdf->stream('document.pdf');
@@ -888,7 +891,8 @@ class frou3Controller extends Controller
         if(isset(request()->pdf)){
             //return view('shipments.print' , compact('all'));
             $data = [
-                'all'=>$all
+                'all'=>$all,
+                'title'=>$page_title
             ];
             $mpdf = PDF::loadView('shipments.print',$data);
             return $mpdf->stream('document.pdf');
@@ -1107,7 +1111,8 @@ class frou3Controller extends Controller
         if(isset(request()->pdf)){
             //return view('shipments.print' , compact('all'));
             $data = [
-                'all'=>$all
+                'all'=>$all,
+                'title'=>$page_title
             ];
             $mpdf = PDF::loadView('shipments.print',$data);
             return $mpdf->stream('document.pdf');
@@ -1279,7 +1284,8 @@ class frou3Controller extends Controller
         if(isset(request()->pdf)){
             //return view('shipments.print' , compact('all'));
             $data = [
-                'all'=>$all
+                'all'=>$all,
+                'title'=>$page_title
             ];
             $mpdf = PDF::loadView('shipments.print',$data);
             return $mpdf->stream('document.pdf');
