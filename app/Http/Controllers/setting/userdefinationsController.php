@@ -25,7 +25,7 @@ class userdefinationsController extends Controller
                 $mo7afazat =Mohfza::where('branch',$user->branch)->get();
                 $Commercial_names =Commercial_name::groupBy('name_')->get();
                 $branches = BranchInfo::all();
-                $users =AddClientsMainComp::all();
+                $users =AddClientsMainComp::where('Branch_name',$user->branch)->get();
                 $page_title='اضافة عميل';
          return view('users.addClient',compact('page_title','Commercial_names','mo7afazat','users','branches'));
         }
@@ -88,6 +88,12 @@ class userdefinationsController extends Controller
                     $created_user->mo7fza  = $mo7afzaa  ;
                     $created_user->mantqa  = $request->manteka  ;
                     $created_user->phone_  = $request->phone_  ;
+                    if($request->addshipment =='on'){
+                        $created_user->addshipment  = 1  ;
+                    }
+                    
+
+                    
                     $created_user->save();
                 try {
 
@@ -155,6 +161,11 @@ class userdefinationsController extends Controller
                     $created_user->mo7fza  = $mo7afzaa  ;
                     $created_user->mantqa  = $request->manteka  ;
                     $created_user->phone_  = $request->phone_  ;
+                    if($request->addshipment =='on'){
+                        $created_user->addshipment  = 1  ;
+                    }else{
+                        $created_user->addshipment  = 0  ;
+                    }
                     $created_user->save();
                 try {
 
@@ -172,7 +183,8 @@ class userdefinationsController extends Controller
                 }
                 $mo7afazat =Mohfza::where('branch',$user->branch)->get();
                 $Commercial_names =Commercial_name::groupBy('name_')->get();
-                $manadeeb =AddBranchUser::where('Job','مندوب تسليم')->orWhere('Job','مندوب استلام')->get();
+                $manadeeb =AddBranchUser::where('branch_name',$user->branch)->where('Job','مندوب تسليم')->orWhere('Job','مندوب استلام')->get();
+
                 $page_title='اضافة مندوب';
             $branches = BranchInfo::all();
          return view('users.addMandoub',compact('page_title','Commercial_names','mo7afazat','manadeeb','branches'));
@@ -324,7 +336,7 @@ class userdefinationsController extends Controller
                 }
                 $mo7afazat =Mohfza::where('branch',$user->branch)->get();
                 $Commercial_names =Commercial_name::groupBy('name_')->get();
-                $users =AddBranchUser::where('Job','موظف')->get();
+                $users =AddBranchUser::where('branch_name',$user->branch)->where('Job','موظف')->get();
             $branches = BranchInfo::all();
                 $page_title='اضافة مستخدم';
          return view('users.adduser',compact('page_title','Commercial_names','mo7afazat','users','branches'));
@@ -479,7 +491,7 @@ class userdefinationsController extends Controller
                 $page =0;
                 if(isset(request()->page)) $page= request()->page;
 
-                $shipments = User::where('status_',0);
+                $shipments = User::where('status_',0)->where('branch',$user->branch);
                 if(isset($request->branch)){
                 $shipments = $shipments->where(function ($query) use($request){
                         $query->where('branch_', '=', $request->branch)

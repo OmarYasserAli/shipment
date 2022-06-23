@@ -20,12 +20,12 @@
              </div>
         @endif
                 {{-- <div class="pos intro-y grid grid-cols-12 gap-5 mt-5">
-                   
+
                     <!-- BEGIN: Post Content -->
-                    
+
                     <!-- END: Post Content -->
                     <!-- BEGIN: Post Info -->
-                    
+
                     <!-- END: Post Info -->
                 </div> --}}
 
@@ -36,35 +36,35 @@
                 <div class="tab-content border-l border-r border-b">
                     <div id="example-tab-1" class="tab-pane leading-relaxed p-5 active" role="tabpanel" aria-labelledby="example-1-tab">
                         <div class="intro-y col-span-12 lg:col-span-8">
-                        
+
                             <div class="post intro-y overflow-hidden box mt-5">
                             <form action="{{route('storeUser')}}" method="post">
                                 <div class="post__content tab-content">
                                     <div id="content" class="tab-pane p-5 active" role="tabpanel" aria-labelledby=	"content-tab">
                                         <div class="form-inline">
                                             <label for="date" class="form-label sm:w-20">اسم الموظف</label>
-                                            
-                                                <input type="text" class="form-control col-span-4" name="mandoub_name"   aria-label="default input inline 1" style="width: 350px;"> 
-                                            
+
+                                                <input type="text" class="form-control col-span-4" name="mandoub_name"   aria-label="default input inline 1" style="width: 350px;">
+
                                         </div>
-    
+
                                         {{-- <div class="form-inline mt-3 mb-2">
                                             <label for="date" class="form-label sm:w-20">الوظيقة</label>
-                                                <select class="form-control col-span-4" name="job"> 
+                                                <select class="form-control col-span-4" name="job">
                                                     <option value="مندوب استلام">مندوب استلام</option>
                                                     <option value="مندوب تسليم">مندوب تسليم</option>
                                                 </select>
-                                            
+
                                         </div> --}}
-                                    
+
                                        {{-- <div class="form-inline mt-3">
                                         <label for="date" class="form-label sm:w-20">الفرع</label>
-                                        <div class="grid grid-cols-12 gap-2"> 
-                                             
-                                            <select class="form-control col-span-4"> 
+                                        <div class="grid grid-cols-12 gap-2">
+
+                                            <select class="form-control col-span-4">
                                                 <option value=""> </option>
                                             </select>
-                                        </div> 
+                                        </div>
                                     </div> --}}
                                     @csrf
                                         <div class="form-inline mt-3">
@@ -77,11 +77,11 @@
                                         </div>
                                         <div class="form-inline mt-3">
                                             <label for="date" class="form-label sm:w-20">رقم الهوية</label>
-                                            <div class="grid grid-cols-12 gap-2"> 
-                                                <input type="text" class="form-control col-span-4"   aria-label="default input inline 1" name="ID_"> 
+                                            <div class="grid grid-cols-12 gap-2">
+                                                <input type="text" class="form-control col-span-4"   aria-label="default input inline 1" name="ID_">
                                                 {{-- <label for="date" class="form-label col-span-4" style="text-align: left; margin-top:8px;">رقم الاهاتف</label>
                                                 <input type="text" class="form-control col-span-4"   aria-label="default input inline 1" name="phone_">  --}}
-                                            </div> 
+                                            </div>
                                         </div>
                                         <div class="form-inline mt-3">
                                             <label for="phone" class="form-label sm:w-20">عنوان الموظف</label>
@@ -102,47 +102,59 @@
                                         <div class="form-inline mt-3">
                                             <label for="horizontal-form-1" class="form-label sm:w-20">المنطقة</label>
                                             <select name="manteka" id='manteka'  class="form-control   mr-1"  style=" " >
-                                                
+
                                             </select>
+                                        </div>
+                                        <div class="form-inline mt-3">
+                                            <label for="branch" class="form-label sm:w-20">الفرع</label>
+                                            <select name="branch" id='branch' class="form-control branch" name="branch">
+                                                <option value=""></option>
+                                                @foreach($branches as $branch)
+                                                    <option value="{{$branch->code_}}"  >{{$branch->name_}}</option>
+                                                @endforeach
+                                            </select>
+                                            <script>
+                                                let mo7afazaSelect = new TomSelect(".branch",{});
+                                            </script>
                                         </div>
                                         <div class="form-inline mt-3">
                                             <label for="horizontal-form-1" class="form-label sm:w-20">ملاحظات</label>
                                             <textarea name="notes_" id='notes_'  class="form-control   mr-1"  style=" "  >
-                                                
+
                                             </textarea>
                                         </div>
-    
-                                       
+
+
                                         <div class="sm:ml-20 sm:pl-5 mt-5 mb-10">
                                             <button class="btn btn-primary">حفظ</button>
                                         </div>
                                     </div>
-                                                         
+
                                 </div>
                             </form>
                             </div>
                         </div>
                     </div>
-                    <div id="example-tab-2" class="tab-pane leading-relaxed p-5" role="tabpanel" aria-labelledby="example-2-tab"> 
+                    <div id="example-tab-2" class="tab-pane leading-relaxed p-5" role="tabpanel" aria-labelledby="example-2-tab">
                         <div class="overflow-x-auto mt-5">
                             <table class="table table-striped" id="dataTable">
                                 <thead class="table-light">
                                     <tr>
-                                                
+
                                         <th class="whitespace-nowrap">#</th>
                                         <th class="whitespace-nowrap">الاسم</th>
                                         <th class="whitespace-nowrap">اسم المستخدم</th>
                                         <th class="whitespace-nowrap">الرقم التعريفى</th>
                                         <th class="whitespace-nowrap">الوظيقة</th>
                                         <th class="whitespace-nowrap">الفرع</th>
-                                        
+
                                                 <th class="whitespace-nowrap"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @php $i=1; @endphp
                                     @foreach($users as $user)
-                                    
+
                                     <th class="whitespace-nowrap">{{$i}}</th>
                                     <th class="whitespace-nowrap">{{$user->name_}}</th>
                                     <th class="whitespace-nowrap">{{$user->USERNAME}}</th>
@@ -150,7 +162,7 @@
                                     <th class="whitespace-nowrap">{{$user->Job}}</th>
                                     <th class="whitespace-nowrap">{{$user->branch_name}}</th>
 
-                                    
+
                                     <th class="whitespace-nowrap">
                                         <a href="{{route('editUser',['code' =>$user->code_])}}"><i data-lucide="edit" class="check_count"
                                             ></i></a>
@@ -158,7 +170,7 @@
                                     </tr>
                                     @php $i++; @endphp
                                     @endforeach
-                                    
+
                                 </tbody>
                             </table>
                         </div>
@@ -195,12 +207,12 @@ $('#mo7afza').on('change', function() {
                                 manteka.addOption({
                                     id: value.name,
                                     title: value.name,
-                                    
+
                                 });
                                 manteka.setValue(temp);
                             });
                           }
                       });
-    }); 
+    });
 </script>
 @endsection

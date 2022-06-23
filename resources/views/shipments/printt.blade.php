@@ -24,10 +24,10 @@
         .data_of_number{
             margin-bottom: 25px;
         }
-        .data_of_number th,.data_of_number td {
+       .data_of_number th,.data_of_number td {
 
             text-align: right;
-            width: 46px;
+           width: 46px;
         }
         .data_of_number td{
             padding-bottom: 0px !important;
@@ -43,9 +43,7 @@
             border-radius: 8px;
             color: white;
         }
-span{
-    font-size: 15px;
-}
+
 
         .data_of_number th{
             background: grey;
@@ -152,59 +150,66 @@ span{
 </head>
 
 <body>
-@php
-    $company = App\Models\CompanyInfo::where('branch_',Auth::user()->branch)->first() ;
-@endphp
+    @php  
+        $company = App\Models\CompanyInfo::where('branch_',Auth::user()->branch)->first() ;
+    @endphp
 <div class="invoice-box rtl">
     <table cellpadding="0" cellspacing="0">
         <tr class="top">
             <td colspan="2">
                 <table>
                     <tr>
+                        <td class="title">
+                            <img src="{{asset('assets/'.$company->image_data)}}" height="80px" alt="" class="ml-auto" style="height: 80px!important; margin-bottom: 30px">
+                        </td>
+
                         <td>
-                            <h3>{{$company->name_}} <br><br><span>{{$company->Tel_}} </span> </h3>
+                           
+                            التاريخ: {{Carbon\Carbon::now()->format('Y-m-d')}}<br />
+
                         </td>
-                        <td class="title" style="">
-                            {{-- <img style="widows: 80px;" src="{{asset('assets/'.$company->image_data)}}"  alt="" class="ml-auto" style="height: 80px!important; margin-bottom: 30px"> --}}
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr class="information">
+            <td colspan="2" align="right">
+                <table>
+                    <tr>
+                        <td>
+                           <h2>شركة خيرات العادل للتوصيل السريع</h2>
                         </td>
+
                         <td>
                             <h4>
-                                {{$company->branch_}}<br />
-                                {{$company->address_}}
+                            الفرع الرئيسى<br />
+
+                            بغداد - المنصور - الداوودي
                             </h4>
                         </td>
-
-
                     </tr>
                 </table>
             </td>
         </tr>
 
 
-
-
     </table>
     <div class="data_of_title">
         <h2>{{$title}}</h2>
     </div>
-    <div class="number_of_shipment">
-        {{--    <div class="data_of_number">--}}
-        {{--    <span>عدد الشحنات</span>--}}
-        {{--    <span>{{count($all)}}</span>--}}
-        {{--    </div>--}}
-        <table class="data_of_number" style="width:30%;float: right">
-            <tr>
-                <th>عدد الشحنات:</th>
-                <td>{{count($all)}}</td>
-            </tr>
-        </table>
-        <table class="data_of_number" style="width:30%;float: left">
-            <tr>
-                <th>التاريخ:</th>
-                <td>{{Carbon\Carbon::now()->format('Y-m-d')}}</td>
-            </tr>
-        </table>
-    </div>
+<div class="number_of_shipment">
+{{--    <div class="data_of_number">--}}
+{{--    <span>عدد الشحنات</span>--}}
+{{--    <span>{{count($all)}}</span>--}}
+{{--    </div>--}}
+    <table class="data_of_number" style="width:30%">
+        <tr>
+            <th>عدد الشحنات:</th>
+            <td>{{count($all)}}</td>
+        </tr>
+    </table>
+</div>
 
     <table class="tabel_data" align="center">
         <tr>

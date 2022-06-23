@@ -70,6 +70,10 @@
                                 </tr>
                             </thead>
                             <tbody>
+                               
+                                @if(count($all) >0)
+                            
+                                    
                                 @foreach($all as $shipment)
                                 <tr data-code="{{ $shipment->code_}}">
                                     <td class="whitespace-nowrap"><button class="btn btn-elevated-rounded-danger w-15   action_btn"  data-type="cancel">الغاء</button></td>
@@ -82,7 +86,7 @@
                                     <td class="whitespace-nowrap">{{$shipment->code_}}</td>
                                 </tr>
                                 @endforeach
-                                
+                                @endif
                             </tbody>
                         </table>
                     </div>
@@ -260,15 +264,7 @@
                                             );
 
                                             
-                                    
-                                    // <td class="whitespace-nowrap">{{$shipment->shipment_coast_}}</td>
-                                    // <td class="whitespace-nowrap">{{$shipment->mo7afza_}}</td>
-                                    // <td class="whitespace-nowrap">{{$shipment->reciver_phone_}}</td>
-                                    // <td class="whitespace-nowrap">{{$shipment->commercial_name_}}</td>
-                                    // <td class="whitespace-nowrap">{{$shipment->tarikh_el7ala}}</td>
-                                    // <td class="whitespace-nowrap">{{$shipment->branch_}}</td>
-                                    // <td class="whitespace-nowrap">{{$shipment->code_}}</td>
-                            //rows_counter()
+                                
                     });
                 })
                 .fail(function (jqXHR, ajaxOptions, thrownError) {

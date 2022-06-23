@@ -211,7 +211,7 @@ class shipmentsController extends Controller
                 'all'=>$all,
                 'title'=>$page_title
             ];
-            return view('shipments.print' ,compact('all','title'));
+            //return view('shipments.print' ,compact('all','title'));
             $mpdf = PDF::loadView('shipments.print',$data);
             return $mpdf->stream('document.pdf');
         }

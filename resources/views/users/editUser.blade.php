@@ -19,31 +19,31 @@
             @endforeach
              </div>
         @endif
-                
-                
-        
+
+
+
         <div class="pos intro-y grid grid-cols-12 gap-5 mt-5">
                             <div class="intro-y col-span-12 lg:col-span-8">
-                                
+
                                 <div class="post intro-y overflow-hidden box mt-5">
                                 <form action="{{route('updateUser')}}" method="post">
                                     <div class="post__content tab-content">
                                         <div id="content" class="tab-pane p-5 active" role="tabpanel" aria-labelledby=	"content-tab">
                                             <div class="form-inline">
                                                 <label for="date" class="form-label sm:w-20">اسم المندوب</label>
-                                                
-                                                    <input type="text" class="form-control col-span-4" name="mandoub_name"  value="{{$manadoub->name_}}"   style="width: 350px;"> 
-                                                
+
+                                                    <input type="text" class="form-control col-span-4" name="mandoub_name"  value="{{$manadoub->name_}}"   style="width: 350px;">
+
                                             </div>
                                             <input type="hidden" value="{{$manadoub->code_}}" name="code_">
                                            {{-- <div class="form-inline mt-3">
                                             <label for="date" class="form-label sm:w-20">الفرع</label>
-                                            <div class="grid grid-cols-12 gap-2"> 
-                                                 
-                                                <select class="form-control col-span-4"> 
+                                            <div class="grid grid-cols-12 gap-2">
+
+                                                <select class="form-control col-span-4">
                                                     <option value=""> </option>
                                                 </select>
-                                            </div> 
+                                            </div>
                                         </div> --}}
                                         @csrf
                                             <div class="form-inline mt-3">
@@ -51,16 +51,16 @@
                                                 <input id="username" type="text" class="form-control"  name='username' value="{{$manadoub->USERNAME}}" autocomplete="off"/>
                                             </div>
                                             <div class="form-inline mt-3">
-                                                <label for="password" class="form-label sm:w-20">الباسورد</label> 
+                                                <label for="password" class="form-label sm:w-20">الباسورد</label>
                                                 <input id="password" type="password" class="form-control"   name='password' value="{{ $manadoub->PASSWORD}}"/>
                                             </div>
                                             <div class="form-inline mt-3">
                                                 <label for="date" class="form-label sm:w-20">رقم الهوية</label>
-                                                <div class="grid grid-cols-12 gap-2"> 
-                                                    <input type="text" class="form-control col-span-4"   aria-label="default input inline 1" name="ID_"  value="{{ $manadoub->ID_}}"> 
+                                                <div class="grid grid-cols-12 gap-2">
+                                                    <input type="text" class="form-control col-span-4"   aria-label="default input inline 1" name="ID_"  value="{{ $manadoub->ID_}}">
                                                     <label for="date" class="form-label col-span-4" style="text-align: left; margin-top:8px;">رقم الاهاتف</label>
-                                                    <input type="text" class="form-control col-span-4"   aria-label="default input inline 1" name="phone_" value="{{ $manadoub->phone_}}"> 
-                                                </div> 
+                                                    <input type="text" class="form-control col-span-4"   aria-label="default input inline 1" name="phone_" value="{{ $manadoub->phone_}}">
+                                                </div>
                                             </div>
                                             <div class="form-inline mt-3">
                                                 <label for="phone" class="form-label sm:w-20">عنوان المندوب</label>
@@ -81,22 +81,34 @@
                                             <div class="form-inline mt-3">
                                                 <label for="horizontal-form-1" class="form-label sm:w-20">المنطقة</label>
                                                 <select name="manteka" id='manteka'  class="form-control   mr-1"  style=" " >
-                                                    
+
                                                 </select>
+                                            </div>
+                                            <div class="form-inline mt-3">
+                                                <label for="branch" class="form-label sm:w-20">الفرع</label>
+                                                <select name="branch" id='branch' class="form-control branch" name="branch">
+                                                    <option value=""></option>
+                                                    @foreach($branches as $branch)
+                                                        <option value="{{$branch->code_}}" @if( $branch->name_== $manadoub->branch_name) selected @endif >{{$branch->name_}}</option>
+                                                    @endforeach
+                                                </select>
+                                                <script>
+                                                    let mo7afazaSelect = new TomSelect(".branch",{});
+                                                </script>
                                             </div>
                                             <div class="form-inline mt-3">
                                                 <label for="horizontal-form-1" class="form-label sm:w-20">ملاحظات</label>
                                                 <textarea name="notes_" id='notes_'  class="form-control   mr-1"  style=" "  >
-                                                    
+
                                                 </textarea>
                                             </div>
-        
-                                           
+
+
                                             <div class="sm:ml-20 sm:pl-5 mt-5 mb-10">
                                                 <button class="btn btn-primary">حفظ</button>
                                             </div>
                                         </div>
-                                                             
+
                                     </div>
                                 </form>
                                 </div>
@@ -104,11 +116,11 @@
         </div>
                             <!-- END: Post Content -->
                             <!-- BEGIN: Post Info -->
-                            
+
                             <!-- END: Post Info -->
-                      
-                
-            
+
+
+
 </div>
 
 <script>
@@ -140,12 +152,12 @@ $('#mo7afza').on('change', function() {
                                 manteka.addOption({
                                     id: value.name,
                                     title: value.name,
-                                    
+
                                 });
                                 manteka.setValue(temp);
                             });
                           }
                       });
-    }); 
+    });
 </script>
 @endsection

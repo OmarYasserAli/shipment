@@ -19,31 +19,31 @@
             @endforeach
              </div>
         @endif
-                
-                
-        
+
+
+
         <div class="pos intro-y grid grid-cols-12 gap-5 mt-5">
-                   
+
             <!-- BEGIN: Post Content -->
             <div class="intro-y col-span-12 lg:col-span-8">
-                
+
                 <div class="post intro-y overflow-hidden box mt-5">
                 <form action="{{route('updateClient')}}" method="post">
                     <div class="post__content tab-content">
                         <div id="content" class="tab-pane p-5 active" role="tabpanel" aria-labelledby=	"content-tab">
                             <div class="form-inline">
                                 <label for="date" class="form-label sm:w-20">اسم العميل</label>
-                                
-                                    <input type="text" class="form-control col-span-4" name="client_name"  value="{{$user->name_}}"  aria-label="default input inline 1" style="width: 350px;"> 
-                                
+
+                                    <input type="text" class="form-control col-span-4" name="client_name"  value="{{$user->name_}}"  aria-label="default input inline 1" style="width: 350px;">
+
                             </div>
 
                             <div class="form-inline mt-3 mb-2">
                                 <label for="date" class="form-label sm:w-20">الاسم التجارى</label>
                                 <input type="hidden" value="{{$user ->code_}}" name="code_">
-                                     
+
                                     <select class="Commercial_name  " id='Commercial_name' name="Commercial_name" style="width: 350px;">
-                                        <option value="">...</option>    
+                                        <option value="">...</option>
                                         @foreach($Commercial_names as $name)
                                             <option value="{{$name->name_}}" @if( $name->name_ == $user->commercial_name) selected @endif>{{$name->name_}}</option>
                                         @endforeach
@@ -51,17 +51,17 @@
                                     <script>
                                         let CommercialNameSelect = new TomSelect("#Commercial_name",{});
                                     </script>
-                                
+
                             </div>
                          <hr>
                            {{-- <div class="form-inline mt-3">
                             <label for="date" class="form-label sm:w-20">الفرع</label>
-                            <div class="grid grid-cols-12 gap-2"> 
-                                 
-                                <select class="form-control col-span-4"> 
+                            <div class="grid grid-cols-12 gap-2">
+
+                                <select class="form-control col-span-4">
                                     <option value=""> </option>
                                 </select>
-                            </div> 
+                            </div>
                         </div> --}}
                         @csrf
                             <div class="form-inline mt-3">
@@ -74,11 +74,11 @@
                             </div>
                             <div class="form-inline mt-3">
                                 <label for="date" class="form-label sm:w-20">رقم الهوية</label>
-                                <div class="grid grid-cols-12 gap-2"> 
-                                    <input type="text" class="form-control col-span-4"   aria-label="default input inline 1" name="ID_" value="{{$user->ID_}}"> 
+                                <div class="grid grid-cols-12 gap-2">
+                                    <input type="text" class="form-control col-span-4"   aria-label="default input inline 1" name="ID_" value="{{$user->ID_}}">
                                     <label for="date" class="form-label col-span-4" style="text-align: left; margin-top:8px;">رقم الاهاتف</label>
-                                    <input type="text" class="form-control col-span-4"   aria-label="default input inline 1" name="phone_" value="{{$user->phone_}}"> 
-                                </div> 
+                                    <input type="text" class="form-control col-span-4"   aria-label="default input inline 1" name="phone_" value="{{$user->phone_}}">
+                                </div>
                             </div>
                             <div class="form-inline mt-3">
                                 <label for="phone" class="form-label sm:w-20" >عنوان العميل</label>
@@ -99,47 +99,65 @@
                             <div class="form-inline mt-3">
                                 <label for="horizontal-form-1" class="form-label sm:w-20">المنطقة</label>
                                 <select name="manteka" id='manteka'  class="form-control   mr-1"  style=" "  name="mantqa">
-                                    
+
                                 </select>
                             </div>
                             <div class="form-inline mt-3">
+                                <label for="branch" class="form-label sm:w-20">الفرع</label>
+                                <select name="branch" id='branch' class="form-control branch" name="branch">
+                                    <option value=""></option>
+                                    @foreach($branches as $branch)
+                                        <option value="{{$branch->code_}}" @if( $branch->name_== $user->Branch_name) selected @endif >{{$branch->name_}}</option>
+                                    @endforeach
+                                </select>
+                                <script>
+                                    let mo7afazaSelect = new TomSelect(".branch",{});
+                                </script>
+                            </div>
+                            <div class="form-inline mt-3">
                                 <label for="date" class="form-label sm:w-20">اسعار خاصة</label>
-                                <div class="grid grid-cols-12 gap-2"> 
-                                    <select class="form-control col-span-4" name="Special_prices"> 
-                                        <option value="لا" @if($user->Special_prices =='لا')  @endif>لا</option>
-                                        <option value="نعم" @if($user->Special_prices =='نعم')  @endif>نعم</option>
+                                <div class="grid grid-cols-12 gap-2">
+                                    <select class="form-control col-span-4" name="Special_prices">
+                                        <option value="لا" @if($user->Special_prices =='لا') selected @endif>لا</option>
+                                        <option value="نعم" @if($user->Special_prices =='نعم') selected  @endif>نعم</option>
                                     </select>
                                     {{-- <label for="date" class="form-label col-span-4" style="text-align: left; margin-top:8px;">المفتاح</label>
                                     <input type="text" class="form-control col-span-4"   aria-label="default input inline 1">  --}}
-                                </div> 
+                                </div>
                             </div>
-                            
-                            
+                            <div class="form-inline mt-3">
+                                <label for="date" class="form-label sm:w-20">اضافه شحنات</label>
+                                <div class="grid grid-cols-12 gap-2">
+                                    <input type="checkbox" name="addshipment" @if($user->addshipment =='1') checked  @endif/>
+                                </div>
+                            </div>
 
-                           
-                           
-                           
+
+
+
+
+
                             <div class="sm:ml-20 sm:pl-5 mt-5 mb-10">
                                 <button class="btn btn-primary">حفظ</button>
                             </div>
                         </div>
-                                             
+
                     </div>
                 </form>
                 </div>
             </div>
             <!-- END: Post Content -->
             <!-- BEGIN: Post Info -->
-            
+
             <!-- END: Post Info -->
         </div>
                             <!-- END: Post Content -->
                             <!-- BEGIN: Post Info -->
-                            
+
                             <!-- END: Post Info -->
-                      
-                
-            
+
+
+
 </div>
 
 <script>
@@ -171,12 +189,12 @@ $('#mo7afza').on('change', function() {
                                 manteka.addOption({
                                     id: value.name,
                                     title: value.name,
-                                    
+
                                 });
                                 manteka.setValue(temp);
                             });
                           }
                       });
-    }); 
+    });
 </script>
 @endsection
