@@ -10,5 +10,5 @@ class CompanyInfo extends Model
     protected $primaryKey = 'serial_';
     protected $table = 'company_info_tb';
     protected $guarded = [];
-    protected $filables =['name_' ,'name_E' , 'address_' => 'required','Tel_','notes_','branch_','serial_'];
+    protected $filables =['name_' ,'name_E' , 'address_' => 'required','Tel_','notes_','branch_','serial_','image_data'];
 }

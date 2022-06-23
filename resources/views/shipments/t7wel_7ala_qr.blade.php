@@ -146,9 +146,10 @@
                                             </tbody>
                                         </table>
                                         <div class="sm:ml-20 sm:pl-5 mt-5" style="font-size: 20px">
+                                            
                                             <button class="btn btn-primary " id='tanfez'>تنفيذ</button>
-                                        
                                             <button class="btn btn-warning " id='cancel' >حذف</button>
+                                            <input type="button"  class="btn btn-success  align-left mr-1" style="direction: ltr"  value="طباعه" id='print' >
                                           </div>
                                     </div>
                                 </div>
@@ -162,6 +163,21 @@
             </div>
 
         <script type="text/javascript">
+        $('#print').on('click', function(){
+            $.ajax({
+                        url: "{{route('shipment.t7wel_qr_save')}}?pdf=1" ,
+                        type: 'post',
+                        data:{ code:shipments, status:current_status, _token: "{{ csrf_token() }}"},
+                        error: function(e){
+                           // console.log(e);
+                        },
+                        success: function(res) {
+                           
+                        }
+                    });
+                //window.open(window.location.href+'?pdf=1');
+               // window.location.replace (); 
+            });
             let  shipments=[];
             let  selected=[];
             let cnt=1;

@@ -3,7 +3,7 @@
 @section('content')
 <div class="content">
                 <!-- BEGIN: Top Bar -->
-                
+
                 <!-- END: Top Bar -->
     <!-- BEGIN: Top Bar -->
 @include('layout.partial.topbar')
@@ -28,10 +28,18 @@
                         <div class="post intro-y overflow-hidden box mt-5">
 
                             <div class="post__content tab-content">
-                                <form action="{{route('storeCompany')}}" method="POST">
+                                <form action="{{route('storeCompany')}}" method="POST" enctype="multipart/form-data">
                                     @csrf
-                                <div id="content" class="tab-pane p-5 active" role="tabpanel" aria-labelledby=	"content-tab">
-							   <div>
+                                <div id="content" class="tab-pane p-5 active" role="tabpanel" aria-labelledby="content-tab">
+                                    <div class="mt-3">
+
+                                        <label for="regular-form-1" class="form-label">الشعار</label>
+                                        @if ($company->image_data)
+                                            <img src="{{asset('assets/'.$company->image_data)}}" height="80px" alt="" class="ml-auto" style="height: 80px!important; margin-bottom: 30px">
+                                        @endif
+                                        <input type="file" name="logo" class="form-control credit-card-mask" placeholder="الشعار"  />
+                                        @error('logo')<span class="text-danger">{{ $message }}</span>@enderror </div>
+							   <div class="mt-3">
 							      <label for="regular-form-1" class="form-label">
 							      أسم الشركة عربى
 							      </label>

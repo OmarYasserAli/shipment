@@ -150,6 +150,9 @@
 </head>
 
 <body>
+    @php  
+        $company = App\Models\CompanyInfo::where('branch_',Auth::user()->branch)->first() ;
+    @endphp
 <div class="invoice-box rtl">
     <table cellpadding="0" cellspacing="0">
         <tr class="top">
@@ -157,11 +160,11 @@
                 <table>
                     <tr>
                         <td class="title">
-                            {{-- <img src="https://www.sparksuite.com/images/logo.png" style="width: 100%; max-width: 300px" /> --}}
+                            <img src="{{asset('assets/'.$company->image_data)}}" height="80px" alt="" class="ml-auto" style="height: 80px!important; margin-bottom: 30px">
                         </td>
 
                         <td>
-                            رقم الفاتورة #: 123<br />
+                           
                             التاريخ: {{Carbon\Carbon::now()->format('Y-m-d')}}<br />
 
                         </td>

@@ -149,6 +149,8 @@
                                             <button class="btn btn-primary " id='tanfez'>تنفيذ</button>
                                         
                                             <button class="btn btn-warning " id='cancel' >حذف</button>
+                                            <input type="button"  class="btn btn-success  align-left mr-1" style="direction: ltr"  value="طباعه" id='print' >
+
                                           </div>
                                     </div>
                                 </div>
@@ -162,6 +164,19 @@
             </div>
 
         <script type="text/javascript">
+        $('#print').on('click', function(){
+            $.ajax({
+                        url: "{{route('frou3_t7wel_rag3_qr_save')}}?pdf=1" ,
+                        type: 'post',
+                        data:{ code:shipments, status:current_status, _token: "{{ csrf_token() }}"},
+                        error: function(e){
+                            console.log(e);
+                        },
+                        success: function(res) {
+                           
+                        }
+                    }); 
+            });
             let  shipments=[];
             let  selected=[];
             let cnt=1;

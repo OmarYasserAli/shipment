@@ -204,11 +204,14 @@ class shipmentsController extends Controller
         $css_prop = Setting::get('status_css_prop');
         //  dd($status_color);
         $page_title=Shipment_status::where('code_',$type)->first()->name_;
+        $title=Shipment_status::where('code_',$type)->first()->name_;
         if(isset(request()->pdf)){
+            
             $data = [
                 'all'=>$all,
                 'title'=>$page_title
             ];
+            return view('shipments.print' ,compact('all','title'));
             $mpdf = PDF::loadView('shipments.print',$data);
             return $mpdf->stream('document.pdf');
         }
@@ -1471,8 +1474,8 @@ class shipmentsController extends Controller
     }
     public function t7wel_qr()
     {
-        
-        return view('shipments.t7wel_7ala_qr');
+        $page_title='تحويل حالة الشحنات باستخدام qr';
+        return view('shipments.t7wel_7ala_qr',compact('page_title'));
     }
     public function t7wel_qr_save(Request $request)
     {
@@ -1490,6 +1493,20 @@ class shipmentsController extends Controller
             $status=array(1,4);
             $updated_array = ['status_'=>9, 'tarikh_el7ala'=>Carbon::now()->format('Y-m-d'),
                                 'Delivery_Delivered_Shipment_ID'=>"" , 'mandoub_taslim'=>"" , 'tas3ir_mandoub_taslim'=>0 ];
+        }
+       
+       
+        if(isset(request()->pdf)){
+            $all = DB::table('add_shipment_tb_')
+              ->whereIn('code_', $request->code)
+              ->whereIn('status_', $status)->get();
+            $data = [
+                'all'=>$all,
+                'title'=>'تحويل حالة الشحنات باستخدام qr'
+            ];
+           
+            $mpdf = PDF::loadView('shipments.print',$data);
+            return $mpdf->stream('document.pdf');
         }
         DB::table('add_shipment_tb_')
               ->whereIn('code_', $request->code)
@@ -1514,7 +1531,22 @@ class shipmentsController extends Controller
 
         $mandob = User::findorfail($request->status);
         $user = $user = auth()->user();
-        
+        if(isset(request()->pdf)){
+            $all =  DB::table('add_shipment_tb_')
+            ->whereIn('add_shipment_tb_.code_', $request->code)
+            ->where('add_shipment_tb_.status_', 1)
+            ->leftjoin('mandoub_taslim_tas3irtb', function($join){
+            $join->on('mandoub_taslim_tas3irtb.mantika_id', '=', 'add_shipment_tb_.mantika_id');
+            $join->on('mandoub_taslim_tas3irtb.mo7afaza_id','=','add_shipment_tb_.mo7afaza_id'); 
+           }) ->where('mandoub_taslim_tas3irtb.mandoub_ID', $mandob->code_)->get();
+            $data = [
+                'all'=>$all,
+                'title'=>'تسليم الشحنة الى مندوب التسليم باستخدام qr'
+            ];
+           
+            $mpdf = PDF::loadView('shipments.print',$data);
+            return $mpdf->stream('document.pdf');
+        }
         
          DB::table('add_shipment_tb_')
          ->whereIn('add_shipment_tb_.code_', $request->code)

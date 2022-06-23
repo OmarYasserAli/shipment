@@ -434,13 +434,12 @@ class frou3Controller extends Controller
             ->where('add_shipment_tb_.transfere_1', '')
             ->where('add_shipment_tb_.status_', 1)
             ->where('add_shipment_tb_.branch_', $user->branch)->get();
-        Tempo::insert(json_decode(json_encode($t1), true));
             
         $t2 = DB::table('add_shipment_tb_')
             ->whereIn('add_shipment_tb_.code_', $request->code)
             ->where('add_shipment_tb_.transfere_1','!=', '')
             ->where('add_shipment_tb_.status_', 1)->get();
-        Tempo::insert(json_decode(json_encode($t2), true));
+        
 
          $q1 =DB::table('add_shipment_tb_')
          ->whereIn('add_shipment_tb_.code_', $request->code)
@@ -461,6 +460,18 @@ class frou3Controller extends Controller
                $join->on('transfer_prices_main_tb.mantika_id', '=', 'add_shipment_tb_.mantika_id');
                $join->on('transfer_prices_main_tb.mo7afaza_id','=','add_shipment_tb_.mo7afaza_id'); 
             });
+            if(isset(request()->pdf)){
+               
+                $data = [
+                    'all'=>$q2->union($q1)->get(),
+                    'title'=>'تحويل الشحنات بين الفروع باستخدام qr'
+                ];
+               
+                $mpdf = PDF::loadView('shipments.print',$data);
+                return $mpdf->stream('document.pdf');
+            }
+            Tempo::insert(json_decode(json_encode($t2), true));
+        Tempo::insert(json_decode(json_encode($t1), true));
             $q2 =  $q2->update(['add_shipment_tb_.transfere_2'=>$branch->name_,
             'add_shipment_tb_.transfer_coast_2' =>DB::raw("`transfer_prices_main_tb`.`price_`"),
             'TRANSFERE_ACCEPT_REFUSE'=>2,
@@ -475,7 +486,7 @@ class frou3Controller extends Controller
             'TRANSFERE_ACCEPT_REFUSE'=>2,
             'tarikh_el7ala'=>Carbon::now()->format('Y-m-d'),
             'Ship_area_'=>$branch->name_]);
-   
+            
 
               return response()->json([
                 'status' => 200,
@@ -772,35 +783,49 @@ class frou3Controller extends Controller
             ->where('add_shipment_tb_.transfere_1' ,'!=','')
             ->where('add_shipment_tb_.status_', 9)
             ->where('add_shipment_tb_.Ship_area_', $user->branch)->get();
-            Tempo::insert(json_decode(json_encode($t1), true));
 
             $t2 = DB::table('add_shipment_tb_')
             ->whereIn('add_shipment_tb_.code_', $request->code)
             ->where('add_shipment_tb_.transfere_2','!=' ,'')
             ->where('add_shipment_tb_.status_', 9)
             ->where('add_shipment_tb_.Ship_area_', $user->branch)->get();
-            Tempo::insert(json_decode(json_encode($t2), true));
-
-           $u1 =  DB::table('add_shipment_tb_')
+            
+            $u1 =  DB::table('add_shipment_tb_')
             ->whereIn('add_shipment_tb_.code_', $request->code)
             ->where('add_shipment_tb_.transfere_2' ,'')
             ->where('add_shipment_tb_.transfere_1' ,'!=','')
             ->where('add_shipment_tb_.status_', 9)
-            ->where('add_shipment_tb_.Ship_area_', $user->branch)
+            ->where('add_shipment_tb_.Ship_area_', $user->branch);
+            $u2 =   DB::table('add_shipment_tb_')
+               ->whereIn('add_shipment_tb_.code_', $request->code)
+               ->where('add_shipment_tb_.transfere_2','!=' ,'')
+               ->where('add_shipment_tb_.status_', 9)
+               ->where('add_shipment_tb_.Ship_area_', $user->branch);
+            if(isset(request()->pdf)){
+               
+                $data = [
+                    'all'=>$u2->union($u1)->get(),
+                    'title'=>'تحويل الشحنات بين الفروع باستخدام qr'
+                ];
+               
+                $mpdf = PDF::loadView('shipments.print',$data);
+                return $mpdf->stream('document.pdf');
+            }
 
-               ->update(['add_shipment_tb_.transfere_1'=>'',
+            Tempo::insert(json_decode(json_encode($t2), true));
+            Tempo::insert(json_decode(json_encode($t1), true));
+
+           
+
+            $u1=$u1->update(['add_shipment_tb_.transfere_1'=>'',
                 'add_shipment_tb_.transfer_coast_1' =>'',
                 'add_shipment_tb_.TRANSFERE_ACCEPT_REFUSE'=>3,
                 'tarikh_el7ala'=>Carbon::now()->format('Y-m-d'),
                 'Ship_area_'=>$branch->name_ ]);
 
-            $u2 =   DB::table('add_shipment_tb_')
-               ->whereIn('add_shipment_tb_.code_', $request->code)
-               ->where('add_shipment_tb_.transfere_2','!=' ,'')
-               ->where('add_shipment_tb_.status_', 9)
-               ->where('add_shipment_tb_.Ship_area_', $user->branch)
+            
 
-                  ->update(['add_shipment_tb_.transfere_2'=>'', 
+               $u2=$u2->update(['add_shipment_tb_.transfere_2'=>'', 
                   'add_shipment_tb_.transfer_coast_2' =>'',
                   'add_shipment_tb_.TRANSFERE_ACCEPT_REFUSE'=>3,
                   'tarikh_el7ala'=>Carbon::now()->format('Y-m-d'),
