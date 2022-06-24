@@ -46,15 +46,28 @@
                                             <div class="form-inline mt-3 mb-2">
                                                 <label for="date" class="form-label sm:w-20">الاسم التجارى</label>
 
-
-                                                    <select class="Commercial_name  " id='Commercial_name' name="Commercial_name" style="width: 350px;">
-                                                        <option value="">...</option>
+                                                    <input type="hidden" name='Commercial_name' value="" id=Hcomname>
+                                                    <select class="Commercial_name "   id='Commercial_name' multiple name="" style="width: 350px;">
+                                                        {{-- <option value="">...</option> --}}
                                                         @foreach($Commercial_names as $name)
                                                             <option value="{{$name->name_}}">{{$name->name_}}</option>
                                                         @endforeach
                                                     </select>
                                                     <script>
-                                                        let CommercialNameSelect = new TomSelect("#Commercial_name",{});
+                                                        let CommercialNameSelect = new TomSelect("#Commercial_name",{
+                                                            maxItems: null,
+                                                            onDelete: function(values) {
+                                                                $('#Hcomname').val($('#Hcomname').val().replace(values+',', ''));
+                                                                // return confirm(values.length > 1 ? "Are you sure you want to remove these " + values.length + " items?" : "Are you sure you want to remove " + values[0] + "?");
+                                                            },
+                                                            onItemAdd: function(values) {
+                                                                $('#Hcomname').val($('#Hcomname').val()+values+',');
+                                                                console.log(values);
+                                                                // return confirm(values.length > 1 ? "Are you sure you want to remove these " + values.length + " items?" : "Are you sure you want to remove " + values[0] + "?");
+                                                            },
+                                                            
+                                                                   
+                                                        });
                                                     </script>
 
                                             </div>
