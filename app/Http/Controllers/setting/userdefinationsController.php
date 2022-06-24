@@ -32,7 +32,7 @@ class userdefinationsController extends Controller
         public function storeClient(Request $request){
 
                 $comerName = (explode(",",$request->Commercial_name));
-                dd($comerName);
+                //dd($comerName);
                
                 $validated = $request->validate([
                         "client_name" => 'required',
