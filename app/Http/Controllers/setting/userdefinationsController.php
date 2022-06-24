@@ -32,7 +32,7 @@ class userdefinationsController extends Controller
         public function storeClient(Request $request){
 
                 $comerName = (explode(",",$request->Commercial_name));
-                // dd($comerName);
+                dd($comerName);
                
                 $validated = $request->validate([
                         "client_name" => 'required',
@@ -70,7 +70,7 @@ class userdefinationsController extends Controller
                     $created_client->PASSWORD   = $request->password  ;
                     $created_client->ID_  = $request->ID_  ;
                     $created_client->address_  = $request->address_  ;
-                    $created_client->commercial_name  = "["+$request->Commercial_name+"]"  ;
+                    $created_client->commercial_name  = $request->Commercial_name  ;
                     $created_client->Branch_ID  =$request->branch ;
                     $created_client->Branch_name  = $branch_name  ;
                     $created_client->Special_prices  = $request->Special_prices  ;
