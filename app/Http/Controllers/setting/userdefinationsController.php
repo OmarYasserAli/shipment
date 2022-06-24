@@ -103,7 +103,7 @@ class userdefinationsController extends Controller
                         DB::table('add_commercial_names_tb')->insert(
                                 [
                                         'name'=> $com ,
-                                        'branch'=> $request->branch ,
+                                        'branch'=> $branch_name ,
                                         'elmola7zat'=> ' ',
                                         'USER'=>$request-> client_name ,
                                         'GUID'=> ' ',
