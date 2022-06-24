@@ -50,19 +50,19 @@
                                                     <select class="Commercial_name "   id='Commercial_name' multiple name="" style="width: 350px;">
                                                         {{-- <option value="">...</option> --}}
                                                         @foreach($Commercial_names as $name)
-                                                            <option value="{{$name->name_}}">{{$name->name_}}</option>
+                                                            {{-- <option value="{{$name->name_}}">{{$name->name_}}</option> --}}
                                                         @endforeach
                                                     </select>
                                                     <script>
                                                         let CommercialNameSelect = new TomSelect("#Commercial_name",{
                                                             maxItems: null,
+                                                            create: true,
                                                             onDelete: function(values) {
                                                                 $('#Hcomname').val($('#Hcomname').val().replace(values+',', ''));
                                                                 // return confirm(values.length > 1 ? "Are you sure you want to remove these " + values.length + " items?" : "Are you sure you want to remove " + values[0] + "?");
                                                             },
                                                             onItemAdd: function(values) {
                                                                 $('#Hcomname').val($('#Hcomname').val()+values+',');
-                                                                console.log(values);
                                                                 // return confirm(values.length > 1 ? "Are you sure you want to remove these " + values.length + " items?" : "Are you sure you want to remove " + values[0] + "?");
                                                             },
                                                             
