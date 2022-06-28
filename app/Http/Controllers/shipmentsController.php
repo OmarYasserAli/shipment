@@ -230,24 +230,22 @@ class shipmentsController extends Controller
         if(isset(request()->pdf)){
             // dd('a');
 
-
             if(isset(request()->codes))
             {
                 $codes= explode(',',request()->codes);
-
-                // dd(request()->pdf);
                 $all=Shipment::whereIn('code_',$codes);
                 // dd($all);
-
-
             }
 
             $all=$all->get();
 //            return count($all);
             $totalCost = $all->sum('shipment_coast_');
             $tawsilCost = $all->sum('tawsil_coast_');
-            if(request()->status == 4)
+            $printPage='shipments.print';
+            if(request()->status == 4){
+                $printPage='shipments.print';
                 $tawsilCost = $all->sum('tas3ir_mandoub_taslim');
+            }
             $alSafiCost = $all->sum('total_');
 
                 $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'alSafiCost'=>$alSafiCost,'company'=>1];
@@ -259,7 +257,7 @@ class shipmentsController extends Controller
                 'sum'=>$sums
             ];
             //return view('shipments.print' ,compact('all','title'));
-            $mpdf = PDF::loadView('shipments.print',$data);
+            $mpdf = PDF::loadView($printPage,$data);
             return $mpdf->stream('document.pdf');
         }
         $mandoub_taslims = user::where('branch',$user->branch)->where('type_','مندوب تسليم')->get();
