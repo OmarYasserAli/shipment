@@ -161,8 +161,7 @@ class tas3irController extends Controller
             ], 200);
         }else {
 
-            $tas3ir = Tas3ir_3amil_5as::where('code_',$request->serial)->where('mandoub_ID',$request->specialClient)->
-      where('city_name_',$request->mo7afza)->where('area_name_',$request->manteqa)->first();
+            $tas3ir = Tas3ir_3amil_5as::where('code_',$request->serial)->where('mandoub_ID',$request->specialClient)->first();
 
             $tas3ir->update([
                 'price_' => $request->value,
