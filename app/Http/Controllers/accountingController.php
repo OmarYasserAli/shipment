@@ -151,7 +151,7 @@ class accountingController extends Controller
                 'title'=>$page_title,
                 'sum'=>$sums
             ];
-            $mpdf = PDF::loadView('shipments.print',$data);
+            $mpdf = PDF::loadView('accounting.3amil.print',$data);
             return $mpdf->stream('document.pdf');
         }
         return view('accounting.3amil.notmosadad',compact('all','mo7afazat','waselOnly','page_title','Commercial_names',
@@ -294,7 +294,7 @@ class accountingController extends Controller
                 'title'=>$page_title,
                 'sum'=>$sums
             ];
-            $mpdf = PDF::loadView('shipments.print',$data);
+            $mpdf = PDF::loadView('accounting.3amil.print',$data);
             return $mpdf->stream('document.pdf');
         }
         return view('accounting.3amil.mosadad',compact('sums','all','mo7afazat','brach_filter','waselOnly',
@@ -441,7 +441,7 @@ class accountingController extends Controller
                 'title'=>$page_title,
                 'sum'=>$sums
             ];
-            $mpdf = PDF::loadView('shipments.print',$data);
+            $mpdf = PDF::loadView('accounting.mandoubtaslim.print',$data);
             return $mpdf->stream('document.pdf');
         }
         return view('accounting.mandoubtaslim.notmosadad',compact('sums','all','mo7afazat','waselOnly','page_title',
@@ -584,7 +584,7 @@ class accountingController extends Controller
                 'title'=>$page_title,
                 'sum'=>$sums
             ];
-            $mpdf = PDF::loadView('shipments.print',$data);
+            $mpdf = PDF::loadView('accounting.mandoubtaslim.print',$data);
             return $mpdf->stream('document.pdf');
         }
         return view('accounting.mandoubtaslim.mosadad',compact('sums','all','mo7afazat','waselOnly','page_title',
@@ -731,7 +731,7 @@ class accountingController extends Controller
                 'title'=>$page_title,
                 'sum'=>$sums
             ];
-            $mpdf = PDF::loadView('shipments.print',$data);
+            $mpdf = PDF::loadView('accounting.mandoubestlam.print',$data);
             return $mpdf->stream('document.pdf');
         }
         return view('accounting.mandoubestlam.notmosadad',compact('sums','all','mo7afazat','waselOnly','page_title',
@@ -881,7 +881,7 @@ class accountingController extends Controller
                 'title'=>$page_title,
                 'sum'=>$sums
             ];
-            $mpdf = PDF::loadView('shipments.print',$data);
+            $mpdf = PDF::loadView('accounting.mandoubestlam.print',$data);
             return $mpdf->stream('document.pdf');
         }
         return view('accounting.mandoubestlam.mosadad',compact('sums','all','mo7afazat','waselOnly','page_title',
