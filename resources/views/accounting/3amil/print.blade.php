@@ -199,15 +199,10 @@
 
                 <th >عدد الشحنات</th>
                 <th >اجمالي مبلغ الشحنة</th>
-                @if(isset($sum['company']))
+
                 <th>اجمالي اجرة الشركة</th>
-                @endif
-                @if(isset($sum['alfer3']))
-                    <th >اجمالي اجرة الفرع</th>
-                @endif
-                @if(isset($sum['mandoub']))
-                    <th >اجمالي اجرة المندوب</th>
-                @endif
+
+
                 <th >اجمالي الصافي</th>
                 <th >التاريخ</th>
 
@@ -232,24 +227,17 @@
             <th >المحافظة</th>
             <th >هاتف المستلم</th>
             <th>الاسم التجارى</th>
-            @if(isset($sum['company']) || isset($sum['alfer3']))
+
             <th >اسم العميل</th>
-            @endif
-            @if(isset($sum['mandoub']))
-                <th >اسم العميل</th>
-            @endif
+
+
             <th >تاريخ الشحنه</th>
             <th >الفرع</th>
             <th >الصافى</th>
-            @if(isset($sum['company']))
+
                 <th> اجرة الشركة</th>
-            @endif
-            @if(isset($sum['alfer3']))
-                <th > اجرة الفرع</th>
-            @endif
-            @if(isset($sum['mandoub']))
-                <th > اجرة المندوب</th>
-            @endif
+
+
             <th >مبلغ الشحنه</th>
             <th>الكود</th>
         </tr>
@@ -265,15 +253,10 @@
                 <td  >{{$shipment->date_}}</td>
                 <td  >{{$shipment->branch_}}</td>
                 <td >{{number_format($shipment->total_, 2)}}</td>
-                @if(isset($sum['company']) || isset($sum['alfer3']))
+
                 <td  >{{number_format($shipment->tawsil_coast_, 2)}}</td>
-                @endif
-                @if(isset($sum['mandoub']) && $sum['mandoub'] == 1 )
-                    <td  >{{number_format($shipment->tas3ir_mandoub_taslim, 2)}}</td>
-                @endif
-                @if(isset($sum['mandoub']) && $sum['mandoub'] == 2)
-                    <td  >{{number_format($shipment->tas3ir_mandoub_estlam, 2)}}</td>
-                @endif
+
+
                 <td  >{{number_format($shipment->shipment_coast_, 2)}}</td>
                 <td  >{{$shipment->code_}}</td>
 
