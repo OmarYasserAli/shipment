@@ -268,9 +268,7 @@
                                     $('#tawsil_cost').val(res.tawsil_coast_);
                                     $('#safi').val(res.total_);
                                 
-                                  
-                                   
-                                  
+
                                         $('#manteka-table   tr:last').after(`<tr class='sho7nat-row' data-code=`+res.code_+`>
                                             <td>`+cnt+`</td>
                                             <td>`+res.code_+`</td>
