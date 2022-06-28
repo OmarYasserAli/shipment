@@ -255,6 +255,12 @@
 
         <script type="text/javascript">
        $('#print').on('click', function(){
+        var codes=[];
+                $('.check_count').each(function() {
+                        if($(this).is(':checked')){
+                            codes.push($(this).data('code'));
+                        }
+                    }); 
         window.open(window.location.href.split('?')[0]+'?pdf=1&codes='+codes);
                // window.location.replace (); 
             });
@@ -591,7 +597,7 @@
                             <td  class="whitespace-nowrap " >`+value.branch_+`</td>
                             <td  class="whitespace-nowrap " >`+value.Ship_area_+`</td>
                             <td  class="whitespace-nowrap " >`+value.total_.toLocaleString('en-US')+`</td>
-                            <td  class="whitespace-nowrap " >`+value.t7weel_cost.toLocaleString('en-US')+`</td>
+                            <td  class="whitespace-nowrap " >`+parseInt(value.t7weel_cost).toLocaleString('en-US')+`</td>
                             <td  class="whitespace-nowrap " >`+value.shipment_coast_.toLocaleString('en-US')+`</td>
                             <td  class="whitespace-nowrap " >`+value.code_+`</td>
                             <td class="whitespace-nowrap " ><input type="checkbox" class="check_count" data-cost='`+value.shipment_coast_+`'

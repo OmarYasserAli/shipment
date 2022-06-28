@@ -472,8 +472,8 @@ class userdefinationsController extends Controller
                     $created_user->password       = $request->password  ;
                     $created_user->mo7fza  = $mo7afzaa  ;
                     $created_user->mantqa  = $request->manteka  ;
-                    $created_user->phone_  = ''  ;
-                //     $created_user->phone_  = ''  ;
+                    $created_user->phone_  = $request->phone_  ;
+            
                     $created_user->save();
                 try {
 

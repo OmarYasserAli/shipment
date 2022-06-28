@@ -262,6 +262,12 @@
 
         <script type="text/javascript">
             $('#print').on('click', function(){
+                var codes=[];
+                $('.check_count').each(function() {
+                        if($(this).is(':checked')){
+                            codes.push($(this).data('code'));
+                        }
+                    }); 
                 window.open(window.location.href.split('?')[0]+'?pdf=1&codes='+codes);
                 // window.location.replace (); 
                 });
