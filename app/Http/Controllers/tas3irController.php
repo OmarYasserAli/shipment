@@ -19,27 +19,27 @@ use Illuminate\Support\Facades\Auth;
 
 class tas3irController extends Controller
 {
-	
+
         public function save_3amel(Request $request)
         {
-        	
+
         	$tas3ir = Tas3ir_3amil::find($request->code);
                 $tas3ir->price_= $request->value;
                 $tas3ir->save();
         }
         public function save_ta7wel(Request $request)
         {
-        	
+
         	$tas3ir = Tas3ir_ta7wel::find($request->code);
                 $tas3ir->price_= $request->value;
                 $tas3ir->save();
-                
+
         }
         public function tas3ir_3amil_5as()
         {
                 $user=auth()->user();
                 if(!$user->isAbleTo('tas3ir3amel5as-definations')){
-                return abort(403); 
+                return abort(403);
                 }
         	$branch = Auth::user()->branch;
         	$cities=Mohfza::groupBy('name')->get();
@@ -74,7 +74,7 @@ class tas3irController extends Controller
 
     public function saveMandobe(Request $request)
     {
-    
+
 
         if ($request->mandobeType == 1){
             if ($request->serial == 0){
@@ -141,12 +141,11 @@ class tas3irController extends Controller
 
 
     public function save_3amel_5as(Request $request){
-
+//return  $request;
         if ($request->serial == 0){
-            return $specialClient = User::where('code_',$request->specialClient)->first();
+             $specialClient = User::where('code_',$request->specialClient)->first();
              $branch = Auth::user()->branch;
             Tas3ir_3amil_5as::create([
-                'code_'=>15,
                 'area_name_'=>$request->manteqa,
                 'city_name_'=>$request->mo7afza,
                 'price_'=>$request->value,
@@ -162,7 +161,8 @@ class tas3irController extends Controller
             ], 200);
         }else {
 
-            $tas3ir = Tas3ir_3amil_5as::where('code_',$request->serial)->where('mandoub_ID',$request->specialClient)->first();
+            $tas3ir = Tas3ir_3amil_5as::where('code_',$request->serial)->where('mandoub_ID',$request->specialClient)->
+      where('city_name_',$request->mo7afza)->where('area_name_',$request->manteqa)->first();
 
             $tas3ir->update([
                 'price_' => $request->value,
@@ -178,12 +178,12 @@ class tas3irController extends Controller
     public function getManateqAndTas3irMandobByMa7afza( )
     {
         $mo7afza=request()->mo7afza;
-
+        $branch = Auth::user()->branch;
         $mandobe = request()->mandobe;
         $mandobeType = request()->mandobeType;
         if ($mandobeType == 1){
-            $manatek =Mantikqa::where('mo7afza',$mo7afza)->where('branch','الفرع الرئيسى')->get();
-            $mandobeEstilam =MandoubEstlam::where('city_name_',$mo7afza)->where('mandoub_ID',$mandobe)->where('branch','الفرع الرئيسى')->get();
+            $manatek =Mantikqa::where('mo7afza',$mo7afza)->where('branch',$branch)->get();
+            $mandobeEstilam =MandoubEstlam::where('city_name_',$mo7afza)->where('mandoub_ID',$mandobe)->where('branch',$branch)->get();
 
             return response()->json([
                 'status' => 200,
@@ -194,8 +194,8 @@ class tas3irController extends Controller
                 'manbobeType'=>1
             ], 200);
         }elseif ($mandobeType == 2){
-            $manatek =Mantikqa::where('mo7afza',$mo7afza)->where('branch','الفرع الرئيسى')->get();
-            $mandobeTaslim =MandoubTaslim::where('city_name_',$mo7afza)->where('mandoub_ID',$mandobe)->where('branch','الفرع الرئيسى')->get();
+            $manatek =Mantikqa::where('mo7afza',$mo7afza)->where('branch',$branch)->get();
+            $mandobeTaslim =MandoubTaslim::where('city_name_',$mo7afza)->where('mandoub_ID',$mandobe)->where('branch',$branch)->get();
 
             return response()->json([
                 'status' => 200,
@@ -220,7 +220,7 @@ class tas3irController extends Controller
                 $specialClientRequest = request()->specialClient;
                   $specialClientsBranch = User::where('code_',$specialClientRequest )->first();
                 $branch = Auth::user()->branch;
-                $manatek =Mantikqa::where('mo7afza',$mo7afza)->where('branch','الفرع الرئيسى')->get();
+                $manatek =Mantikqa::where('mo7afza',$mo7afza)->where('branch',$branch)->get();
 
                 $specialClient =Tas3ir_3amil_5as::where('city_name_',$mo7afza)->where('mandoub_ID',$specialClientRequest)->where('branch',$branch)->get();
 
@@ -236,5 +236,5 @@ class tas3irController extends Controller
 
         }
 
-       
+
 }

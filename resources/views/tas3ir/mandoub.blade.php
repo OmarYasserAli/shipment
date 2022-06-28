@@ -193,7 +193,7 @@
                                             $('#manteka-table tbody ').after(`<tr class='mantika-row' >
                                         <td>` + data.all[i].name + `</td>
                                         <td class='editable' data-type='mandobe'
-                                         data-code='` + (data.mandobe[i]).serial_ + `'>`
+                                         data-code='` + (data.mandobe[i]).code_ + `'>`
                                                 + (data.mandobe[i]).price_ + `
                                         </td>
 
