@@ -241,7 +241,7 @@
             <div class="dropdown-menu w-60">
                 <ul class="dropdown-content">
                     <li> <a  class="dropdown-item"><span>{{number_format($sums['totalCost'])}}</span> <span style="margin-left:auto;">مبلغ الشحنات </span></a> </li>
-                    <li> <a  class="dropdown-item"><span>{{number_format($sums['tawsilCost'])}}</span>   <span style="margin-left:auto;">أجرة الشركة</span> </a> </li>
+                    <li> <a  class="dropdown-item"><span>{{number_format($sums['tawsilCost'])}}</span>   <span style="margin-left:auto;">أجرة المندوب</span> </a> </li>
                     <li> <a  class="dropdown-item"><span>{{number_format($sums['netCost'])}}</span>   <span style="margin-left:auto;">الصافى</span>   </a> </li>
                     <li> <a  class="dropdown-item"><span>{{number_format($sums['allCount'])}}</span>   <span style="margin-left:auto;">عدد الشحنات</span> </a> </li>
 
