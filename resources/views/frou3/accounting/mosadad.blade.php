@@ -199,9 +199,9 @@
                             <td class="whitespace-nowrap " >{{$shipment->tarikh_tasdid_far3}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->branch_}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->Ship_area_}}</td>
-                            <td class="whitespace-nowrap " >{{$shipment->total_}}</td>
-                            <td class="whitespace-nowrap " >{{$shipment->t7weel_cost}}</td>
-                            <td class="whitespace-nowrap " >{{$shipment->shipment_coast_}}</td>
+                            <td class="whitespace-nowrap " >{{number_format($shipment->total_ , 0)}}</td>
+                            <td class="whitespace-nowrap " >{{number_format($shipment->t7weel_cost , 0)}}</td>
+                            <td class="whitespace-nowrap " >{{number_format($shipment->shipment_coast_ , 0)}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->code_}}</td>
                                     <td class="whitespace-nowrap " ><input type="checkbox" class="check_count" data-cost='{{$shipment->shipment_coast_}}'
                                         data-t7wel='{{$shipment->t7weel_cost}}' data-net='{{$shipment->shipment_coast_}}' data-code='{{$shipment->code_}}' data-status='{{$shipment->Status_}}'></td>
@@ -255,7 +255,7 @@
 
         <script type="text/javascript">
        $('#print').on('click', function(){
-                window.open(window.location.href+'?pdf=1');
+        window.open(window.location.href.split('?')[0]+'?pdf=1&codes='+codes);
                // window.location.replace (); 
             });
             let  shipments=[];
@@ -587,11 +587,12 @@
                             <td  class="whitespace-nowrap " >`+value.commercial_name_+`</td>
                             <td  class="whitespace-nowrap " >`+ client+`</td>
                             <td  class="whitespace-nowrap " >`+value.date_+`</td> 
-                            <td  class="whitespace-nowrap " >`+value.tarikh_tasdid_far3s+`</td> 
+                            <td  class="whitespace-nowrap " >`+value.tarikh_tasdid_far3+`</td> 
                             <td  class="whitespace-nowrap " >`+value.branch_+`</td>
-                            <td  class="whitespace-nowrap " >`+value.total_+`</td>
-                            <td  class="whitespace-nowrap " >`+value.t7weel_cost+`</td>
-                            <td  class="whitespace-nowrap " >`+value.shipment_coast_+`</td>
+                            <td  class="whitespace-nowrap " >`+value.Ship_area_+`</td>
+                            <td  class="whitespace-nowrap " >`+value.total_.toLocaleString('en-US')+`</td>
+                            <td  class="whitespace-nowrap " >`+value.t7weel_cost.toLocaleString('en-US')+`</td>
+                            <td  class="whitespace-nowrap " >`+value.shipment_coast_.toLocaleString('en-US')+`</td>
                             <td  class="whitespace-nowrap " >`+value.code_+`</td>
                             <td class="whitespace-nowrap " ><input type="checkbox" class="check_count" data-cost='`+value.shipment_coast_+`'
                                         data-t7wel='`+value.t7weel_cost+`' data-net='`+value.shipment_coast_+`' data-code='`+value.code_+`' data-status='`+value.Status_+`'></td>                

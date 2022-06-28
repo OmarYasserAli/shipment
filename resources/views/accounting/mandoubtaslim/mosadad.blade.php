@@ -199,9 +199,9 @@
                             <td class="whitespace-nowrap " >{{$shipment->date_}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->tarikh_tasdid_mandoub_eltaslim}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->branch_}}</td>
-                            <td class="whitespace-nowrap " >{{$shipment->shipment_coast_ -$shipment->tas3ir_mandoub_taslim}}</td>
-                            <td class="whitespace-nowrap " >{{$shipment->tas3ir_mandoub_taslim}}</td>
-                            <td class="whitespace-nowrap " >{{$shipment->shipment_coast_}}</td>
+                            <td class="whitespace-nowrap " >{{number_format($shipment->shipment_coast_ -$shipment->tas3ir_mandoub_taslim , 0)}}</td>
+                            <td class="whitespace-nowrap " >{{number_format($shipment->tas3ir_mandoub_taslim , 0)}}</td>
+                            <td class="whitespace-nowrap " >{{number_format($shipment->shipment_coast_ , 0)}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->code_}}</td>
                                     <td class="whitespace-nowrap " ><input type="checkbox" class="check_count" data-cost='{{$shipment->shipment_coast_}}'
                                         data-t7wel='{{$shipment->tas3ir_mandoub_taslim}}' data-net='{{$shipment->shipment_coast_}}' data-code='{{$shipment->code_}}' data-status='{{$shipment->Status_}}'></td>
@@ -255,7 +255,7 @@
 
         <script type="text/javascript">
                 $('#print').on('click', function(){
-                    window.open(window.location.href+'?pdf=1');
+                    window.open(window.location.href.split('?')[0]+'?pdf=1&codes='+codes);
                 // window.location.replace (); 
                 });
             let  shipments=[];
@@ -586,9 +586,9 @@
                             <td  class="whitespace-nowrap " >`+value.date_+`</td> 
                             <td  class="whitespace-nowrap " >`+value.tarikh_tasdid_mandoub_eltaslim+`</td> 
                             <td  class="whitespace-nowrap " >`+value.branch_+`</td>
-                            <td  class="whitespace-nowrap " >`+(value.shipment_coast_ - value.tas3ir_mandoub_taslim)+`</td>
-                            <td  class="whitespace-nowrap " >`+value.tas3ir_mandoub_taslim+`</td>
-                            <td  class="whitespace-nowrap " >`+value.shipment_coast_+`</td>
+                            <td  class="whitespace-nowrap " >`+(value.shipment_coast_ - value.tas3ir_mandoub_taslim).toLocaleString('en-US')+`</td>
+                            <td  class="whitespace-nowrap " >`+value.tas3ir_mandoub_taslim.toLocaleString('en-US')+`</td>
+                            <td  class="whitespace-nowrap " >`+value.shipment_coast_.toLocaleString('en-US')+`</td>
                             <td  class="whitespace-nowrap " >`+value.code_+`</td>
                             <td class="whitespace-nowrap " ><input type="checkbox" class="check_count" data-cost='`+value.shipment_coast_+`'
                                         data-t7wel='`+value.tas3ir_mandoub_taslim+`' data-net='`+value.shipment_coast_+`' data-code='`+value.code_+`' data-status='`+value.Status_+`'></td>                
