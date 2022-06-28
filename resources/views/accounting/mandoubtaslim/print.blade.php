@@ -230,7 +230,7 @@
 
 
                 <th >اسم العميل</th>
-
+            <th >اسم المندوب</th>
             <th >تاريخ الشحنه</th>
             <th >الفرع</th>
             <th >الصافى</th>
@@ -250,6 +250,7 @@
                 <td  >{{$shipment->reciver_phone_}}</td>
                 <td >{{$shipment->commercial_name_}}</td>
                 <td >@if(isset($shipment->client)){{$shipment->client->name_}} @else {{$shipment->client_name_}}@endif</td>
+                <td  >{{$shipment->mandoub_taslim}}</td>
                 <td  >{{$shipment->date_}}</td>
                 <td  >{{$shipment->branch_}}</td>
                 <td >{{number_format($shipment->total_, 2)}}</td>
