@@ -130,13 +130,15 @@ class accountingController extends Controller
         //  dd($status_color);
         $page_title='الشحنات الغير مسددة للعميل';
         if(isset(request()->pdf)){
-            $all = $all_shipments->skip(0)->limit($limit);
             if(isset(request()->codes))
             {
                 $codes= explode(',',request()->codes);
+
                 // dd(request()->pdf);
-                $all=$all->whereIn('code_',$codes);
+                $all=Shipment::whereIn('code_',$codes);
                 // dd($all);
+
+
             }
             $all=$all->get();
          $totalCost = $all->sum('shipment_coast_');
@@ -271,13 +273,15 @@ class accountingController extends Controller
         $css_prop = Setting::get('status_css_prop');
         $page_title='الشحنات  المسددة للعميل';
         if(isset(request()->pdf)){
-            $all = $all_shipments->skip(0)->limit($limit);
             if(isset(request()->codes))
             {
                 $codes= explode(',',request()->codes);
+
                 // dd(request()->pdf);
-                $all=$all->whereIn('code_',$codes);
+                $all=Shipment::whereIn('code_',$codes);
                 // dd($all);
+
+
             }
             $all=$all->get();
             $totalCost = $all->sum('shipment_coast_');
@@ -416,13 +420,15 @@ class accountingController extends Controller
         // dd($counter);
         $page_title='الشحنات الغير مسددة لمندوب التسليم';
         if(isset(request()->pdf)){
-            $all = $all_shipments->skip(0)->limit($limit);
             if(isset(request()->codes))
             {
                 $codes= explode(',',request()->codes);
+
                 // dd(request()->pdf);
-                $all=$all->whereIn('code_',$codes);
+                $all=Shipment::whereIn('code_',$codes);
                 // dd($all);
+
+
             }
             $all=$all->get();
          $totalCost = $all->sum('shipment_coast_');
@@ -557,13 +563,15 @@ class accountingController extends Controller
         // dd($counter);
         $page_title='الشحنات  المسددة لمندوب التسليم';
         if(isset(request()->pdf)){
-            $all = $all_shipments->skip(0)->limit($limit);
             if(isset(request()->codes))
             {
                 $codes= explode(',',request()->codes);
+
                 // dd(request()->pdf);
-                $all=$all->whereIn('code_',$codes);
+                $all=Shipment::whereIn('code_',$codes);
                 // dd($all);
+
+
             }
             $all=$all->get();
          $totalCost = $all->sum('shipment_coast_');
@@ -702,13 +710,15 @@ class accountingController extends Controller
         // dd($counter);
         $page_title='الشحنات الغير مسددة لمندوب الاستلام';
         if(isset(request()->pdf)){
-            $all = $all_shipments->skip(0)->limit($limit);
             if(isset(request()->codes))
             {
                 $codes= explode(',',request()->codes);
+
                 // dd(request()->pdf);
-                $all=$all->whereIn('code_',$codes);
+                $all=Shipment::whereIn('code_',$codes);
                 // dd($all);
+
+
             }
             $all=$all->get();
                 $totalCost = $all->sum('shipment_coast_');
@@ -850,13 +860,15 @@ class accountingController extends Controller
          //dd();
         $page_title='الشحنات  المسددة لمندوب الاستلام';
         if(isset(request()->pdf)){
-            $all = $all_shipments->skip(0)->limit($limit);
             if(isset(request()->codes))
             {
                 $codes= explode(',',request()->codes);
+
                 // dd(request()->pdf);
-                $all=$all->whereIn('code_',$codes);
+                $all=Shipment::whereIn('code_',$codes);
                 // dd($all);
+
+
             }
             $all=$all->get();
         $totalCost = $all->sum('shipment_coast_');
