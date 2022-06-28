@@ -1237,9 +1237,6 @@ class shipmentsController extends Controller
        return $all;
     }
 
-
-
-
     public function create(){
 
         $user=auth()->user();
@@ -1679,9 +1676,18 @@ class shipmentsController extends Controller
             $all = DB::table('add_shipment_tb_')
               ->whereIn('code_', $request->code)
               ->whereIn('status_', $status)->get();
+            $totalCost = $all->sum('shipment_coast_');
+            $tawsilCost = $all->sum('tawsil_coast_');
+            $printPage='shipments.print';
+            
+            $alSafiCost = $all->sum('total_');
+
+                $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'alSafiCost'=>$alSafiCost,'company'=>1];
+
             $data = [
                 'all'=>$all,
-                'title'=>'تحويل حالة الشحنات باستخدام qr'
+                'title'=>'تحويل حالة الشحنات باستخدام qr',
+                'sum'=>$sums
             ];
 
             $mpdf = PDF::loadView('shipments.print',$data);
@@ -1718,9 +1724,18 @@ class shipmentsController extends Controller
             $join->on('mandoub_taslim_tas3irtb.mantika_id', '=', 'add_shipment_tb_.mantika_id');
             $join->on('mandoub_taslim_tas3irtb.mo7afaza_id','=','add_shipment_tb_.mo7afaza_id');
            }) ->where('mandoub_taslim_tas3irtb.mandoub_ID', $mandob->code_)->get();
+            $totalCost = $all->sum('shipment_coast_');
+           
+            
+            $tawsilCost = $all->sum('tas3ir_mandoub_taslim');
+            $alSafiCost = $totalCost - $tawsilCost ;
+            
+            $printPage='accounting.mandoubtaslim.print';
+                $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'alSafiCost'=>$alSafiCost,'company'=>1];
             $data = [
                 'all'=>$all,
-                'title'=>'تسليم الشحنة الى مندوب التسليم باستخدام qr'
+                'title'=>'تسليم الشحنة الى مندوب التسليم باستخدام qr',
+                'sum'=>$sums
             ];
 
             $mpdf = PDF::loadView('shipments.print',$data);
