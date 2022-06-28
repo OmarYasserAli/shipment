@@ -242,6 +242,7 @@ class shipmentsController extends Controller
             $totalCost = $all->sum('shipment_coast_');
             $tawsilCost = $all->sum('tawsil_coast_');
             $printPage='shipments.print';
+
             if(request()->status == 4){
                 $printPage='accounting.mandoubtaslim.print';
                 $tawsilCost = $all->sum('tas3ir_mandoub_taslim');
