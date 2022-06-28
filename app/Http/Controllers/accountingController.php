@@ -432,10 +432,10 @@ class accountingController extends Controller
             }
             $all=$all->get();
          $totalCost = $all->sum('shipment_coast_');
-        $tawsilCost = $all->sum('tawsil_coast_');
+        $tawsilCost = $all->sum('tas3ir_mandoub_taslim');
         $alSafiCost = $all->sum('total_');
 
-        $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'alSafiCost'=>$alSafiCost,'mandoub' => 1];
+        $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'alSafiCost'=>$alSafiCost,'mandoub' => 1,];
          $data = [
                 'all'=>$all,
                 'title'=>$page_title,
@@ -575,7 +575,7 @@ class accountingController extends Controller
             }
             $all=$all->get();
          $totalCost = $all->sum('shipment_coast_');
-        $tawsilCost = $all->sum('tawsil_coast_');
+        $tawsilCost = $all->sum('tas3ir_mandoub_taslim');
         $alSafiCost = $all->sum('total_');
 
         $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'alSafiCost'=>$alSafiCost,'mandoub' => 1];
@@ -722,10 +722,10 @@ class accountingController extends Controller
             }
             $all=$all->get();
                 $totalCost = $all->sum('shipment_coast_');
-        $tawsilCost = $all->sum('tawsil_coast_');
+        $tawsilCost = $all->sum('tas3ir_mandoub_estlam');
         $alSafiCost = $all->sum('total_');
 
-        $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'alSafiCost'=>$alSafiCost,'mandoub' => 1];
+        $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'alSafiCost'=>$alSafiCost,'mandoub' => 2];
          $data = [
                 'all'=>$all,
                 'title'=>$page_title,
@@ -872,10 +872,10 @@ class accountingController extends Controller
             }
             $all=$all->get();
         $totalCost = $all->sum('shipment_coast_');
-        $tawsilCost = $all->sum('tawsil_coast_');
+        $tawsilCost = $all->sum('tas3ir_mandoub_estlam');
         $alSafiCost = $all->sum('total_');
 
-        $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'alSafiCost'=>$alSafiCost,'mandoub' => 1];
+        $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'alSafiCost'=>$alSafiCost,'mandoub' => 2];
          $data = [
                 'all'=>$all,
                 'title'=>$page_title,
