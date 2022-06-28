@@ -322,7 +322,7 @@ $('#el3nwan').on('change', function() {
               //  $('#'+element['id']).val('')
             }
             data[element['name']]= element['value'] ;
-            if(element['name']!='notes_' && element['name']!='reciver_name_'){
+            if(element['name']!='notes_' && element['name']!='reciver_name_' && element['name']!='code'){
             
                 if(element['value'] =='' || element['value'] == null)
                 {
