@@ -194,6 +194,9 @@ class shipmentsController extends Controller
         //  dd($all_shipments->skip(0)->limit(40)->get()[20]);
         $totalCost = $all_shipments->sum('shipment_coast_');
         $tawsilCost = $all_shipments->sum('tawsil_coast_');
+        if($status == 4)
+            $tawsilCost = $all_shipments->sum('tas3ir_mandoub_taslim');
+
         $allCount = $all_shipments->count();
         $netCost =  $totalCost-$tawsilCost;
         $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];
@@ -243,7 +246,9 @@ class shipmentsController extends Controller
 //            return count($all);
             $totalCost = $all->sum('shipment_coast_');
             $tawsilCost = $all->sum('tawsil_coast_');
-           $alSafiCost = $all->sum('total_');
+            if(request()->status == 4)
+                $tawsilCost = $all->sum('tas3ir_mandoub_taslim');
+            $alSafiCost = $all->sum('total_');
 
                 $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'alSafiCost'=>$alSafiCost,'company'=>1];
 

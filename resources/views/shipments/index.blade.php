@@ -193,16 +193,26 @@
                             <th class="whitespace-nowrap">تاريخ الشحنه</th>
                             <th class="whitespace-nowrap">الفرع</th>
                             <th class="whitespace-nowrap">الصافى</th>
-                            <th class="whitespace-nowrap">اجره الشركه</th>
+                            @if($type ==4)
+                                <th class="whitespace-nowrap">اجره المندوب</th>
+                            @else
+                                <th class="whitespace-nowrap">اجره الشركه</th>
+                            @endif
                             <th class="whitespace-nowrap">مبلغ الشحنه</th>
-                                    <th class="whitespace-nowrap">الكود</th>
-                                    <th class="whitespace-nowrap"><input type="checkbox" id="checkAll"></th>
+                                <th class="whitespace-nowrap">الكود</th>
+                                <th class="whitespace-nowrap"><input type="checkbox" id="checkAll"></th>
                         </tr>
                     </thead>
                     <tbody>
-                        @php $i=1; @endphp
-                        @foreach($all as $shipment)
+                        @php $i=1;
                         
+                         @endphp
+
+                        @foreach($all as $shipment)
+                        @php
+                            if($type ==4) $ogra=  $shipment->tas3ir_mandoub_taslim;
+                            else $ogra= $shipment->tawsil_coast_;
+                        @endphp
                         <tr  class="status_{!!$shipment->Status_!!}_color"   >
                             <td  class="whitespace-nowrap " ><?php echo $i; $i++?></td>
                             <td  class="whitespace-nowrap " >{{$shipment->mo7afza_}}</td>
@@ -215,11 +225,11 @@
                             <td class="whitespace-nowrap " >{{$shipment->date_}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->branch_}}</td>
                             <td class="whitespace-nowrap " >{{number_format($shipment->total_ , 0)}}</td>
-                            <td class="whitespace-nowrap " >{{number_format($shipment->tawsil_coast_ , 0)}}</td>
+                            <td class="whitespace-nowrap " >{{number_format($ogra , 0)}}</td>
                             <td class="whitespace-nowrap " >{{number_format($shipment->shipment_coast_ , 0)}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->code_}}</td>
                                     <td class="whitespace-nowrap " ><input type="checkbox" class="check_count" data-cost='{{$shipment->shipment_coast_}}'
-                                        data-t7wel='{{$shipment->tawsil_coast_}}' data-net='{{$shipment->shipment_coast_}}' data-code='{{$shipment->code_}}' data-status='{{$shipment->Status_}}'></td>
+                                        data-t7wel='{{$ogra}}' data-net='{{$shipment->shipment_coast_}}' data-code='{{$shipment->code_}}' data-status='{{$shipment->Status_}}'></td>
                         </tr>
                         @endforeach
                         
