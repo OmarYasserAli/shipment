@@ -256,7 +256,7 @@
                 <td >{{number_format($shipment->total_, 2)}}</td>
 
 
-                    <td  >{{number_format($shipment->tas3ir_mandoub_taslim, 2)}}</td>
+                <td  >{{number_format($shipment->tas3ir_mandoub_estlam, 2)}}</td>
 
 
                 <td  >{{number_format($shipment->shipment_coast_, 2)}}</td>
