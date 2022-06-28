@@ -46,7 +46,7 @@
         }
 
         .invoice-box table td {
-      
+
             vertical-align: top;
         }
 
@@ -61,14 +61,14 @@
             color: #333;
         }
 
-    
+
         .invoice-box table tr.heading td {
             background: #eee;
             border-bottom: 1px solid #ddd;
             font-weight: bold;
         }
 
- 
+
 
         .invoice-box table tr.item td {
             border-bottom: 1px solid #eee;
@@ -140,27 +140,27 @@
                             <tr>
                               <td class="title">
                                 <span style="font-size:13px;padding-top: 10px; font-weight: bold;">{{$company->name_}}</span>
-    
+
                             </td>
                                 <td class="title">
            {{--  <img src="{{asset('assets/'.$company->image_data)}}"  alt=""  style="width:30px; height: 30px!important; margin-bottom: 5px ;margin-right:1%; margin-left:-5px;">--}}
 
                                     {{-- <img src="https://www.sparksuite.com/images/logo.png" style="width: 100%; max-width: 300px" /> --}}
                                 </td>
-        
-                             
+
+
                             </tr>
                         </table>
                     </td>
                 </tr>
-        
-                
-        
-        
+
+
+
+
             </table>
-    
+
 <table class="fatoora" style="width:90% ;font-size:7px; margin:auto;">
-  
+
     <tr>
       <th style="width: 60px;">هاتف الزبون:</th>
       <td style="text-align: center;">{{$all[$i]->reciver_phone_}}</td>
@@ -180,9 +180,9 @@
     <tr>
       <th>رقم الشحنه:</th>
       <td style="text-align: center;">{{$all[$i]->code_}}</td>
-    </tr> 
+    </tr>
 
-     
+
   </table>
 
   <div class="totalammount" style="font-size: 8px;">
@@ -193,13 +193,13 @@
     <h6>{{Carbon\Carbon::now()->format('Y-m-d  g:i:s A')}}</h6>
      <p style="font-size: 7px">ust.center</p>
   </div>
-  
+
         </div>
-    
+
       <pagebreak></pagebreak>
-    
-  
-    
+
+
+
 
 @endfor
 

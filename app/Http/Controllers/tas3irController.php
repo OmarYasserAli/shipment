@@ -178,12 +178,12 @@ class tas3irController extends Controller
     public function getManateqAndTas3irMandobByMa7afza( )
     {
         $mo7afza=request()->mo7afza;
-
+        $branch = Auth::user()->branch;
         $mandobe = request()->mandobe;
         $mandobeType = request()->mandobeType;
         if ($mandobeType == 1){
-            $manatek =Mantikqa::where('mo7afza',$mo7afza)->where('branch','الفرع الرئيسى')->get();
-            $mandobeEstilam =MandoubEstlam::where('city_name_',$mo7afza)->where('mandoub_ID',$mandobe)->where('branch','الفرع الرئيسى')->get();
+            $manatek =Mantikqa::where('mo7afza',$mo7afza)->where('branch',$branch)->get();
+            $mandobeEstilam =MandoubEstlam::where('city_name_',$mo7afza)->where('mandoub_ID',$mandobe)->where('branch',$branch)->get();
 
             return response()->json([
                 'status' => 200,
@@ -194,8 +194,8 @@ class tas3irController extends Controller
                 'manbobeType'=>1
             ], 200);
         }elseif ($mandobeType == 2){
-            $manatek =Mantikqa::where('mo7afza',$mo7afza)->where('branch','الفرع الرئيسى')->get();
-            $mandobeTaslim =MandoubTaslim::where('city_name_',$mo7afza)->where('mandoub_ID',$mandobe)->where('branch','الفرع الرئيسى')->get();
+            $manatek =Mantikqa::where('mo7afza',$mo7afza)->where('branch',$branch)->get();
+            $mandobeTaslim =MandoubTaslim::where('city_name_',$mo7afza)->where('mandoub_ID',$mandobe)->where('branch',$branch)->get();
 
             return response()->json([
                 'status' => 200,
