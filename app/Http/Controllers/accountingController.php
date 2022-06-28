@@ -344,7 +344,8 @@ class accountingController extends Controller
 
             ->where('Delivery_Delivered_Shipment_ID', '!=',null)    // مسدد
             ->where('Delivery_Delivered_Shipment_ID', '!=',0)    // مسدد
-            ->where('branch_', '=', $user->branch)->with(['client']);
+            //->where('branch_', '=', $user->branch)
+            ->with(['client']);
             $shipments = $shipments->where('status_' ,'!=',8) ;
             //saif = shipmnt_cost  - t7weel
 
@@ -488,7 +489,8 @@ class accountingController extends Controller
             ->where('elmandoub_elmosadad_taslim','مسدد')
             ->where('Delivery_Delivered_Shipment_ID', '!=',null)    // مسدد
             ->where('Delivery_Delivered_Shipment_ID', '!=',0)
-            ->where('branch_', '=', $user->branch)->with(['client']);
+            //->where('branch_', '=', $user->branch)
+            ->with(['client']);
             $shipments = $shipments->where('status_' ,'!=',8) ;
         if($waselOnly)
             $shipments = $shipments->where('status_' ,'=',7) ;
