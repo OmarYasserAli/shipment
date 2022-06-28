@@ -1135,13 +1135,15 @@ class frou3Controller extends Controller
         $page_title='الشحنات الغير مسددة للفرع';
         if(isset(request()->pdf)){
             //return view('shipments.print' , compact('all'));
-            $all = $all_shipments->skip(0)->limit($limit);
             if(isset(request()->codes))
             {
                 $codes= explode(',',request()->codes);
+
                 // dd(request()->pdf);
-                $all=$all->whereIn('code_',$codes);
+                $all=Shipment::whereIn('code_',$codes);
                 // dd($all);
+
+
             }
             $all=$all->get();
                     $ta7weel=0;
@@ -1332,13 +1334,15 @@ class frou3Controller extends Controller
         $page_title='الشحنات  المسددة للفرع';
         if(isset(request()->pdf)){
             //return view('shipments.print' , compact('all'));
-            $all = $all_shipments->skip(0)->limit($limit);
             if(isset(request()->codes))
             {
                 $codes= explode(',',request()->codes);
+
                 // dd(request()->pdf);
-                $all=$all->whereIn('code_',$codes);
+                $all=Shipment::whereIn('code_',$codes);
                 // dd($all);
+
+
             }
             $all=$all->get();
                  $ta7weel=0;
