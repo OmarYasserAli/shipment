@@ -64,8 +64,7 @@
     60 => 'Laratrust\\LaratrustServiceProvider',
     61 => 'RealRashid\\SweetAlert\\SweetAlertServiceProvider',
     62 => 'Darryldecode\\Cart\\CartServiceProvider',
-    63 => 'SimpleSoftwareIO\\QrCode\\QrCodeServiceProvider',
-    64 => 'Tymon\\JWTAuth\\Providers\\LaravelServiceProvider',
+    63 => 'Tymon\\JWTAuth\\Providers\\LaravelServiceProvider',
   ),
   'eager' => 
   array (
@@ -118,8 +117,7 @@
     46 => 'Laratrust\\LaratrustServiceProvider',
     47 => 'RealRashid\\SweetAlert\\SweetAlertServiceProvider',
     48 => 'Darryldecode\\Cart\\CartServiceProvider',
-    49 => 'SimpleSoftwareIO\\QrCode\\QrCodeServiceProvider',
-    50 => 'Tymon\\JWTAuth\\Providers\\LaravelServiceProvider',
+    49 => 'Tymon\\JWTAuth\\Providers\\LaravelServiceProvider',
   ),
   'deferred' => 
   array (

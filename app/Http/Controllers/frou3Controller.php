@@ -33,13 +33,13 @@ class frou3Controller extends Controller
     public function getAllMo7afazat(){
 
         return Mohfza::where('branch',auth()->user()->branch)->get();
-    } 
+    }
     public function export(Request $request)
-    { 
-        
+    {
+
         $user=auth()->user();
         if(!$user->isAbleTo('export-frou3')){
-            return abort(403); 
+            return abort(403);
         }
         $limit=Setting::get('items_per_page');
         $page =0;
@@ -50,13 +50,13 @@ class frou3Controller extends Controller
         $waselOnly=0;
         if(isset($request->waselOnly))
             $waselOnly= 1;
-            
+
         //if(isset(request()->limit ))   $limit =request()->limit;
-        
+
 
         if( $brach_filter != '')
         {
-            $shipments = Shipment::select('*',DB::raw("(CASE 
+            $shipments = Shipment::select('*',DB::raw("(CASE
                                     WHEN ( branch_ = '{$user->branch}' and  transfere_1 = '{$brach_filter}' and elfar3_elmosadad_mno = '') THEN  transfer_coast_1
                                     WHEN ( transfere_1 = '{$user->branch}' and  transfere_2 = '{$brach_filter}' and elfar3_elmosadad_mno_2 = '') THEN transfer_coast_2
                                     END) AS t7weel_cost"));
@@ -75,7 +75,7 @@ class frou3Controller extends Controller
             });
         }
             else
-            {$shipments = Shipment::select('*',DB::raw("(CASE 
+            {$shipments = Shipment::select('*',DB::raw("(CASE
                                     WHEN ( branch_ = '{$user->branch}' and  transfere_1 !=  '' and elfar3_elmosadad_mno = '') THEN  transfer_coast_1
                                     WHEN ( transfere_1 = '{$user->branch}' and  transfere_2 != '' and elfar3_elmosadad_mno_2 = '') THEN transfer_coast_2
                                     END) AS t7weel_cost"));
@@ -91,42 +91,42 @@ class frou3Controller extends Controller
                             ->where('transfere_2', '!=', '')
                             ->where('elfar3_elmosadad_mno_2','=' ,'');
                         });
-                }); 
-            }           
+                });
+            }
             //saif = shipmnt_cost  - t7weel
-        
+
             if($waselOnly)
             $shipments = $shipments->where('status_' ,'=',7) ;
         else
             $shipments = $shipments->where('status_' ,'!=',8) ;
- 
+
         if(isset($request->code)){
-           $shipments = $shipments->where('code_', '=', $request->code);       
+           $shipments = $shipments->where('code_', '=', $request->code);
         }
         if(isset($request->reciver_phone)){
-            $shipments = $shipments->where('reciver_phone_', '=', $request->reciver_phone);       
+            $shipments = $shipments->where('reciver_phone_', '=', $request->reciver_phone);
          }
-        
+
         if(isset($request->mo7afza)){
-            $shipments = $shipments->where('mo7afaza_id', '=', $request->mo7afza);       
+            $shipments = $shipments->where('mo7afaza_id', '=', $request->mo7afza);
          }
        if(isset($request->client_id)){
-        $shipments = $shipments->where('client_name_', '=', $request->client_id);       
+        $shipments = $shipments->where('client_name_', '=', $request->client_id);
         }
         if(isset($request->Commercial_name)){
-            $shipments = $shipments->where('commercial_name_', '=', $request->Commercial_name);       
+            $shipments = $shipments->where('commercial_name_', '=', $request->Commercial_name);
             }
-       
-        
+
+
         if(isset( request()->date_from))
             $shipments= $shipments->where('date_' ,'>=',DATE($request->date_from) );
         if(isset( request()->date_to))
             $shipments= $shipments->where('date_' ,'<=' ,DATE($request->date_to) );
-        
+
             $all_shipments = $shipments;
             $ta7weel=0;
             foreach($all_shipments->get() as $ship){
-                $ta7weel += $ship->t7weel_cost ; 
+                $ta7weel += $ship->t7weel_cost ;
             }
             // dd($ta7weel);
         if(request()->showAll == 'on'){
@@ -134,7 +134,7 @@ class frou3Controller extends Controller
             $count_all = $counter->count();
             request()->limit=$count_all;
         }
-       
+
         $totalCost = $all_shipments->sum('shipment_coast_');
         $tawsilCost = $ta7weel;
         $allCount = $all_shipments->count();
@@ -142,7 +142,7 @@ class frou3Controller extends Controller
         $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];
         $all = $all_shipments->skip($limit*$page)->limit($limit)->get();
         if(isset(request()->lodaMore)){
-            
+
             return response()->json([
                 'status' => 200,
                 'data' => $all,
@@ -172,11 +172,11 @@ class frou3Controller extends Controller
      'css_prop','status_color' ,'sums'));
     }
     public function import(Request $request)
-    { 
-        
+    {
+
         $user=auth()->user();
         if(!$user->isAbleTo('import-frou3')){
-            return abort(403); 
+            return abort(403);
         }
         $limit=Setting::get('items_per_page');
         $page =0;
@@ -187,13 +187,13 @@ class frou3Controller extends Controller
         $waselOnly=0;
         if(isset($request->waselOnly))
             $waselOnly= 1;
-            
+
         //if(isset(request()->limit ))   $limit =request()->limit;
-        
+
 
         if( $brach_filter != '')
         {
-            $shipments = Shipment::select('*',DB::raw("(CASE 
+            $shipments = Shipment::select('*',DB::raw("(CASE
                                     WHEN ( branch_ = '{$brach_filter }' and  transfere_1 = '{$user->branch}' and elfar3_elmosadad_mno = '') THEN  transfer_coast_1
                                     WHEN ( transfere_1 = '{$brach_filter }' and  transfere_2 = '{$user->branch}' and elfar3_elmosadad_mno_2 = '') THEN transfer_coast_2
                                     END) AS t7weel_cost"));
@@ -212,7 +212,7 @@ class frou3Controller extends Controller
             });
         }
             else
-            {$shipments = Shipment::select('*',DB::raw("(CASE 
+            {$shipments = Shipment::select('*',DB::raw("(CASE
                                     WHEN ( branch_ != '' and  transfere_1 =  '{$user->branch}' and elfar3_elmosadad_mno = '') THEN  transfer_coast_1
                                     WHEN ( transfere_1 != '' and  transfere_2 = '{$user->branch}' and elfar3_elmosadad_mno_2 = '') THEN transfer_coast_2
                                     END) AS t7weel_cost"));
@@ -228,42 +228,42 @@ class frou3Controller extends Controller
                             ->where('transfere_2', '=', $user->branch)
                             ->where('elfar3_elmosadad_mno_2','=' ,'');
                         });
-                }); 
-            }           
+                });
+            }
             //saif = shipmnt_cost  - t7weel
-        
+
             if($waselOnly)
             $shipments = $shipments->where('status_' ,'=',7) ;
         else
             $shipments = $shipments->where('status_' ,'!=',8) ;
- 
+
         if(isset($request->code)){
-           $shipments = $shipments->where('code_', '=', $request->code);       
+           $shipments = $shipments->where('code_', '=', $request->code);
         }
         if(isset($request->reciver_phone)){
-            $shipments = $shipments->where('reciver_phone_', '=', $request->reciver_phone);       
+            $shipments = $shipments->where('reciver_phone_', '=', $request->reciver_phone);
          }
-        
+
         if(isset($request->mo7afza)){
-            $shipments = $shipments->where('mo7afaza_id', '=', $request->mo7afza);       
+            $shipments = $shipments->where('mo7afaza_id', '=', $request->mo7afza);
          }
        if(isset($request->client_id)){
-        $shipments = $shipments->where('client_name_', '=', $request->client_id);       
+        $shipments = $shipments->where('client_name_', '=', $request->client_id);
         }
         if(isset($request->Commercial_name)){
-            $shipments = $shipments->where('commercial_name_', '=', $request->Commercial_name);       
+            $shipments = $shipments->where('commercial_name_', '=', $request->Commercial_name);
             }
-       
-        
+
+
         if(isset( request()->date_from))
             $shipments= $shipments->where('date_' ,'>=',DATE($request->date_from) );
         if(isset( request()->date_to))
             $shipments= $shipments->where('date_' ,'<=' ,DATE($request->date_to) );
-        
+
             $all_shipments = $shipments;
             $ta7weel=0;
             foreach($all_shipments->get() as $ship){
-                $ta7weel += $ship->t7weel_cost ; 
+                $ta7weel += $ship->t7weel_cost ;
             }
             // dd($ta7weel);
         if(request()->showAll == 'on'){
@@ -271,7 +271,7 @@ class frou3Controller extends Controller
             $count_all = $counter->count();
             request()->limit=$count_all;
         }
-       
+
         $totalCost = $all_shipments->sum('shipment_coast_');
         $tawsilCost = $ta7weel;
         $allCount = $all_shipments->count();
@@ -279,7 +279,7 @@ class frou3Controller extends Controller
         $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];
         $all = $all_shipments->skip($limit*$page)->limit($limit)->get();
         if(isset(request()->lodaMore)){
-            
+
             return response()->json([
                 'status' => 200,
                 'data' => $all,
@@ -310,11 +310,11 @@ class frou3Controller extends Controller
     }
     //t7wel sho7nat
     public function frou3_t7wel_sho7nat_manual(Request $request)
-    { 
-        
+    {
+
         $user=auth()->user();
         if(!$user->isAbleTo('t7welSho7natManual-frou3')){
-            return abort(403); 
+            return abort(403);
         }
         $limit=Setting::get('items_per_page');
         $page =0;
@@ -326,46 +326,46 @@ class frou3Controller extends Controller
         if(isset($request->waselOnly))
             $waselOnly= 1;
 
-        
+
             $shipments = Shipment::select('*');
             $shipments = $shipments->where('Ship_area_', '=', $user->branch)
                     ->where('transfere_2','')
                     ->where('status_',1);
-     
-           
-        
+
+
+
             if($waselOnly)
             $shipments = $shipments->where('status_' ,'=',7) ;
         else
             $shipments = $shipments->where('status_' ,'!=',8) ;
- 
+
         if(isset($request->code)){
-           $shipments = $shipments->where('code_', '=', $request->code);       
+           $shipments = $shipments->where('code_', '=', $request->code);
         }
         if(isset($request->reciver_phone)){
-            $shipments = $shipments->where('reciver_phone_', '=', $request->reciver_phone);       
+            $shipments = $shipments->where('reciver_phone_', '=', $request->reciver_phone);
          }
-        
+
         if(isset($request->mo7afza)){
-            $shipments = $shipments->where('mo7afaza_id', '=', $request->mo7afza);       
+            $shipments = $shipments->where('mo7afaza_id', '=', $request->mo7afza);
          }
        if(isset($request->client_id)){
-        $shipments = $shipments->where('client_name_', '=', $request->client_id);       
+        $shipments = $shipments->where('client_name_', '=', $request->client_id);
         }
         if(isset($request->Commercial_name)){
-            $shipments = $shipments->where('commercial_name_', '=', $request->Commercial_name);       
+            $shipments = $shipments->where('commercial_name_', '=', $request->Commercial_name);
             }
-       
-        
+
+
         if(isset( request()->date_from))
             $shipments= $shipments->where('date_' ,'>=',DATE($request->date_from) );
         if(isset( request()->date_to))
             $shipments= $shipments->where('date_' ,'<=' ,DATE($request->date_to) );
-        
+
             $all_shipments = $shipments;
             $ta7weel=0;
             foreach($all_shipments->get() as $ship){
-                $ta7weel += $ship->t7weel_cost ; 
+                $ta7weel += $ship->t7weel_cost ;
             }
             // dd($ta7weel);
         if(request()->showAll == 'on'){
@@ -373,7 +373,7 @@ class frou3Controller extends Controller
             $count_all = $counter->count();
             request()->limit=$count_all;
         }
-       
+
         $totalCost = $all_shipments->sum('shipment_coast_');
         $tawsilCost = $ta7weel;
         $allCount = $all_shipments->count();
@@ -381,7 +381,7 @@ class frou3Controller extends Controller
         $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];
         $all = $all_shipments->skip($limit*$page)->limit($limit)->get();
         if(isset(request()->lodaMore)){
-            
+
             return response()->json([
                 'status' => 200,
                 'data' => $all,
@@ -408,7 +408,7 @@ class frou3Controller extends Controller
     public function frou3_t7wel_sho7nat_qr(Request $request){
         $user=auth()->user();
         if(!$user->isAbleTo('t7welsho7natQr-frou3')){
-            return abort(403); 
+            return abort(403);
         }
         $branches=DB::table('branch_info_tb')
         ->select('serial_','name_')
@@ -417,7 +417,7 @@ class frou3Controller extends Controller
     }
     public function frou3_t7wel_sho7nat_qr_save(Request $request){
         $user = $user = auth()->user();
-        
+
         $status=array(1);
 
         $branch=DB::table('branch_info_tb')
@@ -434,12 +434,12 @@ class frou3Controller extends Controller
             ->where('add_shipment_tb_.transfere_1', '')
             ->where('add_shipment_tb_.status_', 1)
             ->where('add_shipment_tb_.branch_', $user->branch)->get();
-            
+
         $t2 = DB::table('add_shipment_tb_')
             ->whereIn('add_shipment_tb_.code_', $request->code)
             ->where('add_shipment_tb_.transfere_1','!=', '')
             ->where('add_shipment_tb_.status_', 1)->get();
-        
+
 
          $q1 =DB::table('add_shipment_tb_')
          ->whereIn('add_shipment_tb_.code_', $request->code)
@@ -448,7 +448,7 @@ class frou3Controller extends Controller
          ->where('transfer_prices_main_tb.branch', $user->branch)
         ->join('transfer_prices_main_tb', function($join){
             $join->on('transfer_prices_main_tb.mantika_id', '=', 'add_shipment_tb_.mantika_id');
-            $join->on('transfer_prices_main_tb.mo7afaza_id','=','add_shipment_tb_.mo7afaza_id'); 
+            $join->on('transfer_prices_main_tb.mo7afaza_id','=','add_shipment_tb_.mo7afaza_id');
          });
 
             $q2 = DB::table('add_shipment_tb_')
@@ -458,15 +458,15 @@ class frou3Controller extends Controller
             ->where('transfer_prices_main_tb.branch', $user->branch)
            ->join('transfer_prices_main_tb', function($join){
                $join->on('transfer_prices_main_tb.mantika_id', '=', 'add_shipment_tb_.mantika_id');
-               $join->on('transfer_prices_main_tb.mo7afaza_id','=','add_shipment_tb_.mo7afaza_id'); 
+               $join->on('transfer_prices_main_tb.mo7afaza_id','=','add_shipment_tb_.mo7afaza_id');
             });
             if(isset(request()->pdf)){
-               
+
                 $data = [
                     'all'=>$q2->union($q1)->get(),
                     'title'=>'تحويل الشحنات بين الفروع باستخدام qr'
                 ];
-               
+
                 $mpdf = PDF::loadView('shipments.print',$data);
                 return $mpdf->stream('document.pdf');
             }
@@ -479,30 +479,30 @@ class frou3Controller extends Controller
             'Ship_area_'=>$branch->name_
             ]);
 
-      
+
 
             $q1=$q1->update(['add_shipment_tb_.transfere_1'=>$branch->name_,
             'add_shipment_tb_.transfer_coast_1' =>DB::raw("`transfer_prices_main_tb`.`price_`") ,
             'TRANSFERE_ACCEPT_REFUSE'=>2,
             'tarikh_el7ala'=>Carbon::now()->format('Y-m-d'),
             'Ship_area_'=>$branch->name_]);
-            
+
 
               return response()->json([
                 'status' => 200,
                 'message' => 'تم التحويل',
                 'count'  => $q1+$q2,
-            ], 200);      
+            ], 200);
         }
 
-    
-    
+
+
     public function accept_frou3_t7wel(Request $request)
-    { 
-        
+    {
+
         $user=auth()->user();
         if(!$user->isAbleTo('acceptT7welsho7natQr-frou3')){
-            return abort(403); 
+            return abort(403);
         }
         $limit=Setting::get('items_per_page');
         $page =0;
@@ -518,21 +518,21 @@ class frou3Controller extends Controller
              $shipments = $shipments->where(function ($query) use($request){
                 $query->where('branch_', '=', $request->branch)
                       ->orWhere('transfere_1', '=', $request->branch);
-            });        
+            });
          }
          if(isset($request->mo7afza)){
-            $shipments = $shipments->where('mo7afaza_id', '=', $request->mo7afza);       
+            $shipments = $shipments->where('mo7afaza_id', '=', $request->mo7afza);
         }
 
          $all_shipments = $shipments;
 
          if($user->type_ =='عميل'){
-            
+
              if(isset( request()->date_from))
                  $all_shipments= $all_shipments->where('date_' ,'>=',DATE($request->date_from) );
              if(isset( request()->date_to))
                  $all_shipments= $all_shipments->where('date_' ,'<=' ,DATE($request->date_to) );
-                
+
          }else{
              if(isset( request()->date_from))
                  $all_shipments= $all_shipments->where('tarikh_el7ala' ,'>=',DATE( request()->date_from) );
@@ -540,7 +540,7 @@ class frou3Controller extends Controller
                  $all_shipments= $all_shipments->where('tarikh_el7ala' ,'<=',DATE( request()->date_to) );
 
          }
-         
+
         if(request()->showAll == 'on'){
             $counter= $all_shipments->get();
             $count_all = $counter->count();
@@ -554,7 +554,7 @@ class frou3Controller extends Controller
         $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];
         $all = $all_shipments->skip($limit*$page)->limit($limit)->get();
         if(isset(request()->lodaMore)){
-            
+
             return response()->json([
                 'status' => 200,
                 'data' => $all,
@@ -562,7 +562,7 @@ class frou3Controller extends Controller
                 'sums'=>$sums
             ], 200);
         }
-        
+
         $page_title='الموافقة على تحويل رواجع الفروع';
        $branches =BranchInfo::all();
        $mo7afazat =Mohfza::all();
@@ -576,7 +576,7 @@ class frou3Controller extends Controller
         return $mpdf->stream('document.pdf');
     }
          return view('frou3.t7wel_sho7nat.accept',compact('all','branches','mo7afazat'));
-    
+
     }
     public function accept_frou3_t7wel_save(Request $request){
         $user=auth()->user();
@@ -586,10 +586,10 @@ class frou3Controller extends Controller
         $shipment=Shipment::where('code_',$request->code)
         ->where('TRANSFERE_ACCEPT_REFUSE',2)
         ->where('Ship_area_', '=', $user->branch);
-                  
-   
+
+
         if($request->type=='accept'){
-            
+
             $shipment=$shipment->first();
             if(!isset($shipment)) return ;
             $shipment->TRANSFERE_ACCEPT_REFUSE =1;
@@ -626,7 +626,7 @@ class frou3Controller extends Controller
         return response()->json([
             'status' => 200,
             'message' => 'تم الموافقة',
-        ], 200);  
+        ], 200);
 
     }
     public function accept_t7wel_get(Request $request)
@@ -636,8 +636,8 @@ class frou3Controller extends Controller
         ->where('Ship_area_', '=', $user->branch)
         ->where('TRANSFERE_ACCEPT_REFUSE',2);
         $shipment= $shipment->with(['Shipment_status'])
-        ->get(); 
-       
+        ->get();
+
         if($shipment->count()== 1)
         {
             $status=200;
@@ -657,11 +657,11 @@ class frou3Controller extends Controller
 
     //rag3
     public function frou3_t7wel_rag3_manual(Request $request)
-    { 
-        
+    {
+
         $user=auth()->user();
         if(!$user->isAbleTo('t7welRag3Manual-frou3')){
-            return abort(403); 
+            return abort(403);
         }
         $limit=Setting::get('items_per_page');
         $page =0;
@@ -673,46 +673,46 @@ class frou3Controller extends Controller
         if(isset($request->waselOnly))
             $waselOnly= 1;
 
-        
+
             $shipments = Shipment::select('*');
             $shipments = $shipments->where('Ship_area_', '=', $user->branch)
                     ->where('transfere_1','!=','')
                     ->where('status_',9);
-     
-           
-        
+
+
+
             if($waselOnly)
             $shipments = $shipments->where('status_' ,'=',7) ;
         else
             $shipments = $shipments->where('status_' ,'!=',8) ;
- 
+
         if(isset($request->code)){
-           $shipments = $shipments->where('code_', '=', $request->code);       
+           $shipments = $shipments->where('code_', '=', $request->code);
         }
         if(isset($request->reciver_phone)){
-            $shipments = $shipments->where('reciver_phone_', '=', $request->reciver_phone);       
+            $shipments = $shipments->where('reciver_phone_', '=', $request->reciver_phone);
          }
-        
+
         if(isset($request->mo7afza)){
-            $shipments = $shipments->where('mo7afaza_id', '=', $request->mo7afza);       
+            $shipments = $shipments->where('mo7afaza_id', '=', $request->mo7afza);
          }
        if(isset($request->client_id)){
-        $shipments = $shipments->where('client_name_', '=', $request->client_id);       
+        $shipments = $shipments->where('client_name_', '=', $request->client_id);
         }
         if(isset($request->Commercial_name)){
-            $shipments = $shipments->where('commercial_name_', '=', $request->Commercial_name);       
+            $shipments = $shipments->where('commercial_name_', '=', $request->Commercial_name);
             }
-       
-        
+
+
         if(isset( request()->date_from))
             $shipments= $shipments->where('date_' ,'>=',DATE($request->date_from) );
         if(isset( request()->date_to))
             $shipments= $shipments->where('date_' ,'<=' ,DATE($request->date_to) );
-        
+
             $all_shipments = $shipments;
             $ta7weel=0;
             foreach($all_shipments->get() as $ship){
-                $ta7weel += $ship->t7weel_cost ; 
+                $ta7weel += $ship->t7weel_cost ;
             }
             // dd($ta7weel);
         if(request()->showAll == 'on'){
@@ -720,7 +720,7 @@ class frou3Controller extends Controller
             $count_all = $counter->count();
             request()->limit=$count_all;
         }
-       
+
         $totalCost = $all_shipments->sum('shipment_coast_');
         $tawsilCost = $ta7weel;
         $allCount = $all_shipments->count();
@@ -728,7 +728,7 @@ class frou3Controller extends Controller
         $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];
         $all = $all_shipments->skip($limit*$page)->limit($limit)->get();
         if(isset(request()->lodaMore)){
-            
+
             return response()->json([
                 'status' => 200,
                 'data' => $all,
@@ -755,7 +755,7 @@ class frou3Controller extends Controller
     public function frou3_t7wel_rag3_qr(Request $request){
         $user=auth()->user();
         if(!$user->isAbleTo('t7welRag3Qr-frou3')){
-            return abort(403); 
+            return abort(403);
         }
         $branches=DB::table('branch_info_tb')
         ->select('serial_','name_')
@@ -764,11 +764,11 @@ class frou3Controller extends Controller
     }
     public function frou3_t7wel_rag3_qr_save(Request $request){
         $status=array(1);
-        
+
         $branch=DB::table('branch_info_tb')
         ->where('serial_',$request->status)
         ->select('serial_','name_')->first();
-      
+
         $user = $user = auth()->user();
         if($user->branch == $branch->name_ ){
             return response()->json([
@@ -776,7 +776,7 @@ class frou3Controller extends Controller
                 'msg' => 'لا يمكن تحويل الشحنه الى نفس الفرع',
             ], 403);
         }
-     
+
             $t1 =DB::table('add_shipment_tb_')
             ->whereIn('add_shipment_tb_.code_', $request->code)
             ->where('add_shipment_tb_.transfere_2' ,'')
@@ -789,7 +789,7 @@ class frou3Controller extends Controller
             ->where('add_shipment_tb_.transfere_2','!=' ,'')
             ->where('add_shipment_tb_.status_', 9)
             ->where('add_shipment_tb_.Ship_area_', $user->branch)->get();
-            
+
             $u1 =  DB::table('add_shipment_tb_')
             ->whereIn('add_shipment_tb_.code_', $request->code)
             ->where('add_shipment_tb_.transfere_2' ,'')
@@ -802,12 +802,12 @@ class frou3Controller extends Controller
                ->where('add_shipment_tb_.status_', 9)
                ->where('add_shipment_tb_.Ship_area_', $user->branch);
             if(isset(request()->pdf)){
-               
+
                 $data = [
                     'all'=>$u2->union($u1)->get(),
                     'title'=>'تحويل الشحنات بين الفروع باستخدام qr'
                 ];
-               
+
                 $mpdf = PDF::loadView('shipments.print',$data);
                 return $mpdf->stream('document.pdf');
             }
@@ -815,7 +815,7 @@ class frou3Controller extends Controller
             Tempo::insert(json_decode(json_encode($t2), true));
             Tempo::insert(json_decode(json_encode($t1), true));
 
-           
+
 
             $u1=$u1->update(['add_shipment_tb_.transfere_1'=>'',
                 'add_shipment_tb_.transfer_coast_1' =>'',
@@ -823,31 +823,31 @@ class frou3Controller extends Controller
                 'tarikh_el7ala'=>Carbon::now()->format('Y-m-d'),
                 'Ship_area_'=>$branch->name_ ]);
 
-            
 
-               $u2=$u2->update(['add_shipment_tb_.transfere_2'=>'', 
+
+               $u2=$u2->update(['add_shipment_tb_.transfere_2'=>'',
                   'add_shipment_tb_.transfer_coast_2' =>'',
                   'add_shipment_tb_.TRANSFERE_ACCEPT_REFUSE'=>3,
                   'tarikh_el7ala'=>Carbon::now()->format('Y-m-d'),
                   'Ship_area_'=>$branch->name_ ]);
-                 
-                  
-        
+
+
+
 
               return response()->json([
                 'status' => 200,
                 'message' => 'تم التحويل',
                 'count' => $u1 +$u2,
-            ], 200);      
+            ], 200);
         }
 
 
     public function accept_frou3_rag3(Request $request)
-    { 
-       
+    {
+
         $user=auth()->user();
         if(!$user->isAbleTo('acceptT7welRag3Qr-frou3')){
-            return abort(403); 
+            return abort(403);
         }
         $limit=Setting::get('items_per_page');
         $page =0;
@@ -862,10 +862,10 @@ class frou3Controller extends Controller
             $shipments = $shipments->where(function ($query) use($request){
                $query->where('branch_', '=', $request->branch)
                      ->orWhere('transfere_1', '=', $request->branch);
-           });        
+           });
         }
         if(isset($request->mo7afza)){
-           $shipments = $shipments->where('mo7afaza_id', '=', $request->mo7afza);       
+           $shipments = $shipments->where('mo7afaza_id', '=', $request->mo7afza);
        }
         $all_shipments = $shipments;
         if($user->type_ =='عميل'){
@@ -879,7 +879,7 @@ class frou3Controller extends Controller
             if(isset( request()->date_to))
                 $all_shipments= $all_shipments->where('tarikh_el7ala' ,'<=',DATE( request()->date_to) );
         }
-       
+
         // $totalCost = $counter->sum('shipment_coast_');
         // if($user->type_=='عميل')
         //     $tawsilCost = $counter->sum('tawsil_coast_');
@@ -887,7 +887,7 @@ class frou3Controller extends Controller
         //     $tawsilCost = $counter->sum('tas3ir_mandoub_estlam');
         // if($user->type_=='مندوب تسليم')
         //     $tawsilCost = $counter->sum('tas3ir_mandoub_taslim');
-        
+
         if(request()->showAll == 'on'){
             $counter= $all_shipments->get();
             $count_all = $counter->count();
@@ -901,7 +901,7 @@ class frou3Controller extends Controller
         $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];
         $all = $all_shipments->skip($limit*$page)->limit($limit)->get();
         if(isset(request()->lodaMore)){
-            
+
             return response()->json([
                 'status' => 200,
                 'data' => $all,
@@ -909,7 +909,7 @@ class frou3Controller extends Controller
                 'sums'=>$sums
             ], 200);
         }
-        
+
         $page_title='الموافقة على تحويل رواجع الفروع';
         $branches =BranchInfo::all();
         $mo7afazat =Mohfza::all();
@@ -926,18 +926,18 @@ class frou3Controller extends Controller
     }
     public function accept_frou3_rag3_save(Request $request){
         $user=auth()->user();
-        
+
         $t2 = Tempo::where('code_', $request->code)
         ->first();
-    
-    
+
+
         $shipment=Shipment::where('code_',$request->code)
         ->where('TRANSFERE_ACCEPT_REFUSE',3)
         ->where('Ship_area_', '=', $user->branch);
-                  
-   
+
+
         if($request->type=='accept'){
-            
+
             $shipment=$shipment->first();
             if(!isset($shipment)) return ;
             $shipment->TRANSFERE_ACCEPT_REFUSE =1;
@@ -958,7 +958,7 @@ class frou3Controller extends Controller
             $t2->delete();
     }
     public function accept_frou3_rag3_qr_save(Request $request){
-      
+
          $user = auth()->user();
          DB::table('add_shipment_tb_')
          ->whereIN('code_',$request->code)
@@ -966,17 +966,17 @@ class frou3Controller extends Controller
          ->where('Ship_area_', '=', $user->branch)
          ->update([
              'TRANSFERE_ACCEPT_REFUSE' =>1,
- 
+
          ]);
- 
+
          DB::table('add_shipment_tempo')
          ->whereIN('code_',$request->code)
          ->delete();
          return response()->json([
              'status' => 200,
              'message' => 'تم الموافقة',
-         ], 200);  
- 
+         ], 200);
+
      }
     public function accept_rag3_get(Request $request)
      {
@@ -985,8 +985,8 @@ class frou3Controller extends Controller
          ->where('Ship_area_', '=', $user->branch)
          ->where('TRANSFERE_ACCEPT_REFUSE',3);
          $shipment= $shipment->with(['Shipment_status'])
-         ->get(); 
-        
+         ->get();
+
          if($shipment->count()== 1)
          {
              $status=200;
@@ -1009,11 +1009,11 @@ class frou3Controller extends Controller
 
     //acc
     public function AccountingNotMosadad(Request $request)
-    { 
-        
+    {
+
         $user=auth()->user();
         if(!$user->isAbleTo('notMosadad-frou3')){
-            return abort(403); 
+            return abort(403);
         }
         $limit=Setting::get('items_per_page');
         $page =0;
@@ -1024,13 +1024,13 @@ class frou3Controller extends Controller
         $waselOnly=0;
         if(isset($request->waselOnly))
             $waselOnly= 1;
-            
+
         //if(isset(request()->limit ))   $limit =request()->limit;
-        
+
 
         if( $brach_filter != '')
         {
-            $shipments = Shipment::select('*',DB::raw("(CASE 
+            $shipments = Shipment::select('*',DB::raw("(CASE
                                     WHEN ( branch_ = '{$user->branch}' and  transfere_1 = '{$brach_filter}' and elfar3_elmosadad_mno = '') THEN  transfer_coast_1
                                     WHEN ( transfere_1 = '{$user->branch}' and  transfere_2 = '{$brach_filter}' and elfar3_elmosadad_mno_2 = '') THEN transfer_coast_2
                                     END) AS t7weel_cost"));
@@ -1049,7 +1049,7 @@ class frou3Controller extends Controller
             });
         }
             else
-            {$shipments = Shipment::select('*',DB::raw("(CASE 
+            {$shipments = Shipment::select('*',DB::raw("(CASE
                                     WHEN ( branch_ = '{$user->branch}' and  transfere_1 !=  '' and elfar3_elmosadad_mno = '') THEN  transfer_coast_1
                                     WHEN ( transfere_1 = '{$user->branch}' and  transfere_2 != '' and elfar3_elmosadad_mno_2 = '') THEN transfer_coast_2
                                     END) AS t7weel_cost"));
@@ -1065,42 +1065,42 @@ class frou3Controller extends Controller
                             ->where('transfere_2', '!=', '')
                             ->where('elfar3_elmosadad_mno_2','=' ,'');
                         });
-                }); 
-            }           
+                });
+            }
             //saif = shipmnt_cost  - t7weel
-        
+
             if($waselOnly)
             $shipments = $shipments->where('status_' ,'=',7) ;
         else
             $shipments = $shipments->where('status_' ,'!=',8) ;
- 
+
         if(isset($request->code)){
-           $shipments = $shipments->where('code_', '=', $request->code);       
+           $shipments = $shipments->where('code_', '=', $request->code);
         }
         if(isset($request->reciver_phone)){
-            $shipments = $shipments->where('reciver_phone_', '=', $request->reciver_phone);       
+            $shipments = $shipments->where('reciver_phone_', '=', $request->reciver_phone);
          }
-        
+
         if(isset($request->mo7afza)){
-            $shipments = $shipments->where('mo7afaza_id', '=', $request->mo7afza);       
+            $shipments = $shipments->where('mo7afaza_id', '=', $request->mo7afza);
          }
        if(isset($request->client_id)){
-        $shipments = $shipments->where('client_name_', '=', $request->client_id);       
+        $shipments = $shipments->where('client_name_', '=', $request->client_id);
         }
         if(isset($request->Commercial_name)){
-            $shipments = $shipments->where('commercial_name_', '=', $request->Commercial_name);       
+            $shipments = $shipments->where('commercial_name_', '=', $request->Commercial_name);
             }
-       
-        
+
+
         if(isset( request()->date_from))
             $shipments= $shipments->where('date_' ,'>=',DATE($request->date_from) );
         if(isset( request()->date_to))
             $shipments= $shipments->where('date_' ,'<=' ,DATE($request->date_to) );
-        
+
             $all_shipments = $shipments;
             $ta7weel=0;
             foreach($all_shipments->get() as $ship){
-                $ta7weel += $ship->t7weel_cost ; 
+                $ta7weel += $ship->t7weel_cost ;
             }
             // dd($ta7weel);
         if(request()->showAll == 'on'){
@@ -1108,7 +1108,7 @@ class frou3Controller extends Controller
             $count_all = $counter->count();
             request()->limit=$count_all;
         }
-       
+
         $totalCost = $all_shipments->sum('shipment_coast_');
         $tawsilCost = $ta7weel;
         $allCount = $all_shipments->count();
@@ -1116,7 +1116,7 @@ class frou3Controller extends Controller
         $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];
         $all = $all_shipments->skip($limit*$page)->limit($limit)->get();
         if(isset(request()->lodaMore)){
-            
+
             return response()->json([
                 'status' => 200,
                 'data' => $all,
@@ -1135,13 +1135,22 @@ class frou3Controller extends Controller
         $page_title='الشحنات الغير مسددة للفرع';
         if(isset(request()->pdf)){
             //return view('shipments.print' , compact('all'));
+            $all = $all_shipments->skip(0)->limit($limit);
+            if(isset(request()->codes))
+            {
+                $codes= explode(',',request()->codes);
+                // dd(request()->pdf);
+                $all=$all->whereIn('code_',$codes);
+                // dd($all);
+            }
+            $all=$all->get();
                     $ta7weel=0;
             foreach($all as $ship){
                 $ta7weel += $ship->t7weel_cost ;
             }
 
 
-           
+
             //return view('shipments.print' , compact('all'));
             $totalCost = $all->sum('shipment_coast_');
             $tawsilCost = $ta7weel;
@@ -1162,17 +1171,17 @@ class frou3Controller extends Controller
     }
 
     public function tasdid(Request $request){
-        
+
         $user = $user = auth()->user();
         if($user->branch !='الفرع الرئيسى' && $request->brach_filter!=$user->branch)
         {
             return response()->json([
                 'status' => 404,
                 'message' => 'لم يتم التسديد',
-            ], 404); 
+            ], 404);
         }
-        //case 1 
-        
+        //case 1
+
         $row1 = DB::table('add_shipment_tb_')
         ->whereIn('add_shipment_tb_.code_', $request->code)
         ->where('add_shipment_tb_.status_', 7)
@@ -1191,21 +1200,21 @@ class frou3Controller extends Controller
                 ->update(['add_shipment_tb_.tarikh_tasdid_far3_2'=>Carbon::now(),
                 'add_shipment_tb_.elfar3_elmosadad_mno_2' =>'مسدد',
             ]);
-            
+
             return response()->json([
                 'status' => 200,
                 'message' => 'تم التسديد',
                 'count' => $row1+$row2,
-            ], 200); 
+            ], 200);
     }
-   
-    
+
+
     public function AccountingMosadad(Request $request)
-    { 
-        
+    {
+
         $user=auth()->user();
         if(!$user->isAbleTo('mosadad-frou3')){
-            return abort(403); 
+            return abort(403);
         }
         $limit=Setting::get('items_per_page');
         $page =0;
@@ -1216,12 +1225,12 @@ class frou3Controller extends Controller
         $waselOnly=0;
         if(isset($request->waselOnly))
             $waselOnly= 1;
-            
+
         if(isset(request()->limit ))   $limit =request()->limit;
-        
+
         if($brach_filter != '')
         {
-            $shipments = Shipment::select('*',DB::raw("(CASE 
+            $shipments = Shipment::select('*',DB::raw("(CASE
                                     WHEN ( branch_ = '{$user->branch}' and  transfere_1 = '{$brach_filter}' and elfar3_elmosadad_mno != '') THEN  transfer_coast_1
                                     WHEN ( transfere_1 = '{$user->branch}' and  transfere_2 = '{$brach_filter}' and elfar3_elmosadad_mno_2 != '') THEN transfer_coast_2
                                     END) AS t7weel_cost"));
@@ -1234,12 +1243,12 @@ class frou3Controller extends Controller
                     ->orWhere(function ($query) use($request,$user,$brach_filter){
                         $query->where('transfere_1', '=', $user->branch)
                         ->where('transfere_2',$brach_filter )
-                        ->where('elfar3_elmosadad_mno_2','!=' ,'');   
+                        ->where('elfar3_elmosadad_mno_2','!=' ,'');
                     });
             });
         }
         else{
-            $shipments = Shipment::select('*',DB::raw("(CASE 
+            $shipments = Shipment::select('*',DB::raw("(CASE
                                     WHEN ( branch_ = '{$user->branch}' and  transfere_1 != '' and elfar3_elmosadad_mno != '') THEN  transfer_coast_1
                                     WHEN ( transfere_1 = '{$user->branch}' and  transfere_2 != '' and elfar3_elmosadad_mno_2 != '') THEN transfer_coast_2
                                     END) AS t7weel_cost"));
@@ -1252,51 +1261,51 @@ class frou3Controller extends Controller
                     ->orWhere(function ($query) use($request,$user,$brach_filter){
                         $query->where('transfere_1', '=', $user->branch)
                         ->where('transfere_2','!=','')
-                        ->where('elfar3_elmosadad_mno_2','!=' ,'');   
+                        ->where('elfar3_elmosadad_mno_2','!=' ,'');
                     });
             });
-        }       
+        }
             //saif = shipmnt_cost  - t7weel
-        
+
             if($waselOnly)
             $shipments = $shipments->where('status_' ,'=',7) ;
         else
             $shipments = $shipments->where('status_' ,'!=',8) ;
- 
+
         if(isset($request->code)){
-           $shipments = $shipments->where('code_', '=', $request->code);       
+           $shipments = $shipments->where('code_', '=', $request->code);
         }
         if(isset($request->reciver_phone)){
-            $shipments = $shipments->where('reciver_phone_', '=', $request->reciver_phone);       
+            $shipments = $shipments->where('reciver_phone_', '=', $request->reciver_phone);
          }
-        
+
         if(isset($request->mo7afza)){
-            $shipments = $shipments->where('mo7afaza_id', '=', $request->mo7afza);       
+            $shipments = $shipments->where('mo7afaza_id', '=', $request->mo7afza);
          }
        if(isset($request->client_id) ){
-        $shipments = $shipments->where('client_name_', '=', $request->client_id);       
+        $shipments = $shipments->where('client_name_', '=', $request->client_id);
         }
         if(isset($request->Commercial_name)){
-            $shipments = $shipments->where('commercial_name_', '=', $request->Commercial_name);       
+            $shipments = $shipments->where('commercial_name_', '=', $request->Commercial_name);
             }
-        
-        
+
+
         if(isset( request()->date_from))
             $shipments= $shipments->where('date_' ,'>=',DATE($request->date_from) );
         if(isset( request()->date_to))
             $shipments= $shipments->where('date_' ,'<=' ,DATE($request->date_to) );
-        
+
             $all_shipments = $shipments;
             $ta7weel=0;
             foreach($all_shipments->get() as $ship){
-                $ta7weel += $ship->t7weel_cost ; 
-            }    
+                $ta7weel += $ship->t7weel_cost ;
+            }
         if(request()->showAll == 'on'){
             $counter= $all_shipments->get();
             $count_all = $counter->count();
             request()->limit=$count_all;
         }
-       
+
         $totalCost = $all_shipments->sum('shipment_coast_');
         $tawsilCost = $ta7weel;
         $allCount = $all_shipments->count();
@@ -1304,7 +1313,7 @@ class frou3Controller extends Controller
         $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];
         $all = $all_shipments->skip($limit*$page)->limit($limit)->get();
         if(isset(request()->lodaMore)){
-            
+
             return response()->json([
                 'status' => 200,
                 'data' => $all,
@@ -1323,13 +1332,22 @@ class frou3Controller extends Controller
         $page_title='الشحنات  المسددة للفرع';
         if(isset(request()->pdf)){
             //return view('shipments.print' , compact('all'));
+            $all = $all_shipments->skip(0)->limit($limit);
+            if(isset(request()->codes))
+            {
+                $codes= explode(',',request()->codes);
+                // dd(request()->pdf);
+                $all=$all->whereIn('code_',$codes);
+                // dd($all);
+            }
+            $all=$all->get();
                  $ta7weel=0;
             foreach($all as $ship){
                 $ta7weel += $ship->t7weel_cost ;
             }
 
 
-            
+
             //return view('shipments.print' , compact('all'));
             $totalCost = $all->sum('shipment_coast_');
             $tawsilCost = $ta7weel;
@@ -1349,17 +1367,17 @@ class frou3Controller extends Controller
 
 
     public function cancelTasdid(Request $request){
-        
+
         $user = $user = auth()->user();
         if($user->branch !='الفرع الرئيسى' && $request->brach_filter!=$user->branch)
         {
             return response()->json([
                 'status' => 404,
                 'message' => 'لم يتم التسديد',
-            ], 404); 
+            ], 404);
         }
-        //case 1 
-        
+        //case 1
+
         $row1 = DB::table('add_shipment_tb_')
         ->whereIn('add_shipment_tb_.code_', $request->code)
         ->where('add_shipment_tb_.status_', 7)
@@ -1378,12 +1396,12 @@ class frou3Controller extends Controller
                 ->update(['add_shipment_tb_.tarikh_tasdid_far3_2'=>'',
                 'add_shipment_tb_.elfar3_elmosadad_mno_2' =>'',
             ]);
-           
+
             return response()->json([
                 'status' => 200,
                 'message' => 'تم التسديد',
                 'count' => $row1+$row2,
-            ], 200); 
+            ], 200);
     }
      //end acc
 }
