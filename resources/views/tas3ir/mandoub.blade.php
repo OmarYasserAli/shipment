@@ -193,7 +193,7 @@
                                             $('#manteka-table tbody ').after(`<tr class='mantika-row' >
                                         <td>` + data.all[i].name + `</td>
                                         <td class='editable' data-type='mandobe'
-                                         data-code='` + (data.mandobe[i]).code_ + `'>`
+                                         data-code='` + (data.mandobe[i]).serial_ + `'>`
                                                 + (data.mandobe[i]).price_ + `
                                         </td>
 
@@ -379,7 +379,7 @@ $('#mandoube_name').hide();
                 $('select[name="mandoube_name"]').append('<option value="">اختار اسم المندوب</option>')
                 $.each(data, function (key, value) {
                     // console.log(value)
-                    $('select[name="mandoube_name"]').append('<option value="' + value.mandoub_ID + '">' + value.mandoub_name_ + '</option>')
+                    $('select[name="mandoube_name"]').append('<option value="' + value.code_ + '">' + value.name_ + '</option>')
                 });
 
             }
