@@ -228,7 +228,7 @@
                             @endif
                             <td class="whitespace-nowrap " >{{$shipment->date_}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->branch_}}</td>
-                            <td class="whitespace-nowrap " >{{number_format($shipment->total_ , 0)}}</td>
+                            <td class="whitespace-nowrap " >{{number_format($shipment->shipment_coast_-$ogra , 0)}}</td>
                             <td class="whitespace-nowrap " >{{number_format($ogra , 0)}}</td>
                             <td class="whitespace-nowrap " >{{number_format($shipment->shipment_coast_ , 0)}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->code_}}</td>
@@ -533,7 +533,14 @@
                         cont++;
                         var client = '';
                         var mandoub='';
-                        if(value.Status_== 7|| value.Status_==6 || value.Status_ ==4) mandoub= '<td  class="whitespace-nowrap " >'+ value.mandoub_taslim+'</td>' 
+                        if(value.Status_ ==4) var ogra=  value.tas3ir_mandoub_taslim;
+                            else  var ogra= value.tawsil_coast_;
+                        if(value.Status_== 7|| value.Status_==6 || value.Status_ ==4)
+                         mandoub= '<td  class="whitespace-nowrap " >'+ value.mandoub_taslim+'</td>' 
+                         else if(value.Status_ ==1)
+                         mandoub= '<td  class="whitespace-nowrap " >'+ value.el3nwan+'</td>' 
+
+                         
                         if (typeof value.client != 'undefined' &&  value.client != null){client = (value.client)['name_'];}else{client =value.client_name_}
                         $('#dataTable   tr:last').after(`<tr  class='status_`+value.Status_+`_color'>
                             <td  class="whitespace-nowrap " >`+cont+`</td>
@@ -548,8 +555,8 @@
                             `
                             <td  class="whitespace-nowrap " >`+value.date_+`</td>
                             <td  class="whitespace-nowrap " >`+value.branch_+`</td>
-                            <td  class="whitespace-nowrap " >`+value.total_.toLocaleString('en-US')+`</td>
-                            <td  class="whitespace-nowrap " >`+value.tawsil_coast_.toLocaleString('en-US')+`</td>
+                            <td  class="whitespace-nowrap " >`+(value.shipment_coast_ - ogra).toLocaleString('en-US')+`</td>
+                            <td  class="whitespace-nowrap " >`+ogra.toLocaleString('en-US')+`</td>
                             <td  class="whitespace-nowrap " >`+value.shipment_coast_.toLocaleString('en-US')+`</td>
                             <td  class="whitespace-nowrap " >`+value.code_+`</td>
                             <td class="whitespace-nowrap " ><input type="checkbox" class="check_count" data-cost='`+value.shipment_coast_+`'

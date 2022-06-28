@@ -287,7 +287,7 @@ $('#el3nwan').on('change', function() {
     });
     $('#shipment_cost').on("keyup",function(e){
         if(e.keyCode == 13){
-            save_shipment()
+           // save_shipment()
         }
     } )
 
