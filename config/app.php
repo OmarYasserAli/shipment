@@ -194,7 +194,7 @@ return [
         RealRashid\SweetAlert\SweetAlertServiceProvider::class,
 
         Darryldecode\Cart\CartServiceProvider::class,
-        SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
+
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
 
     ],
