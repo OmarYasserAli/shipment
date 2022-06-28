@@ -15,6 +15,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/settings', 'SettingController@store')->name('settings.store');
 });
 
+Route::get('/clear-cache',function(){
+    Artisan::call('config:cache');
+    Artisan::call('cache:clear');
+    // Artisan::call('jwt:secret');
+    return "cache clear";
+});
 
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/definations/company', 'setting\definationsController@company')->name('company');
@@ -38,7 +44,7 @@ Route::post('/tas3ir/save-ta7wel', 'tas3irController@save_ta7wel')->name('save_t
 Route::post('/tas3ir/save-3amel-5as', 'tas3irController@save_3amel_5as')->name('save_3amel_5as');
     
 Route::get('/tas3ir/mandouben', 'tas3irController@tas3ir_mandouben')->name('tas3ir.mandouben');
-Route::get('/tas3ir/getNameByType/{id}', 'tas3irController@getNameByType')->name('tas3ir.mandouben.getNameByType');
+Route::get('/tas3ir/getNameByType/', 'tas3irController@getNameByType')->name('tas3ir.mandouben.getNameByType');
 Route::post('/tas3ir/save-mandouben', 'tas3irController@saveMandobe')->name('save_tas3ir_mandouben');
 Route::get('/getManateqAndTas3irMandobByMa7afza', 'tas3irController@getManateqAndTas3irMandobByMa7afza')->name('getManateqAndTas3irMandobByMa7afza');
 
@@ -166,20 +172,20 @@ Route::get('/accounting/loadMore', 'accountingController@loadMore')->name('accou
 Route::get('/users/add-client', 'setting\userdefinationsController@addClient')->name('addClient');
 Route::post('/users/add-client', 'setting\userdefinationsController@storeClient')->name('storeClient');
 Route::get('/users/editclient/{code}', 'setting\userdefinationsController@editclient')->name('editclient');
-Route::post('/users/updateClient', 'setting\userdefinationsController@updateClient')->name('updateClient');
+Route::post('/users/updateClient/{code}', 'setting\userdefinationsController@updateClient')->name('updateClient');
 
 
 Route::get('/users/add-mandoub', 'setting\userdefinationsController@addMandoub')->name('addMandoub');
 Route::post('/users/add-mandoub', 'setting\userdefinationsController@storeMandoub')->name('storeMandoub');
 Route::get('/users/edit-mandoub/{code}', 'setting\userdefinationsController@editMandoub')->name('editMandoub');
-Route::post('/users/updateMandoub', 'setting\userdefinationsController@updateMandoub')->name('updateMandoub');
+Route::post('/users/updateMandoub/{code}', 'setting\userdefinationsController@updateMandoub')->name('updateMandoub');
 
 
 Route::get('/users/add-user', 'setting\userdefinationsController@adduser')->name('addUser');
 Route::post('/users/add-user', 'setting\userdefinationsController@storeUser')->name('storeUser');
 Route::get('/users/edit-user/{code}', 'setting\userdefinationsController@editUser')->name('editUser');
 
-Route::post('/users/updateUser', 'setting\userdefinationsController@updateUser')->name('updateUser');
+Route::post('/users/updateUser/{code}', 'setting\userdefinationsController@updateUser')->name('updateUser');
 
 
 Route::get('/users/registrationRequest', 'setting\userdefinationsController@registrationRequest')->name('registrationRequest');

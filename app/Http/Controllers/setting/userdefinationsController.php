@@ -570,7 +570,7 @@ class userdefinationsController extends Controller
                 if(!$user->isAbleTo('commertialName-userDefinations')){
                         return abort(403); 
                 }
-        	return view('users.commercialNames');
+                return view('users.commercialNames');
         }
 
         

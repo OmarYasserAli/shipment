@@ -130,9 +130,15 @@ class accountingController extends Controller
         //  dd($status_color);
         $page_title='الشحنات الغير مسددة للعميل';
         if(isset(request()->pdf)){
-            $data = [
+         $totalCost = $all->sum('shipment_coast_');
+        $tawsilCost = $all->sum('tawsil_coast_');
+        $alSafiCost = $all->sum('total_');
+
+        $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'alSafiCost'=>$alSafiCost,'company' => 1];
+         $data = [
                 'all'=>$all,
-                'title'=>$page_title
+                'title'=>$page_title,
+                'sum'=>$sums
             ];
             $mpdf = PDF::loadView('shipments.print',$data);
             return $mpdf->stream('document.pdf');
@@ -256,9 +262,15 @@ class accountingController extends Controller
         $css_prop = Setting::get('status_css_prop');
         $page_title='الشحنات  المسددة للعميل';
         if(isset(request()->pdf)){
-            $data = [
+            $totalCost = $all->sum('shipment_coast_');
+        $tawsilCost = $all->sum('tawsil_coast_');
+        $alSafiCost = $all->sum('total_');
+
+        $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'alSafiCost'=>$alSafiCost,'company' => 1];
+         $data = [
                 'all'=>$all,
-                'title'=>$page_title
+                'title'=>$page_title,
+                'sum'=>$sums
             ];
             $mpdf = PDF::loadView('shipments.print',$data);
             return $mpdf->stream('document.pdf');
@@ -385,9 +397,15 @@ class accountingController extends Controller
         // dd($counter);
         $page_title='الشحنات الغير مسددة لمندوب التسليم';
         if(isset(request()->pdf)){
-            $data = [
+         $totalCost = $all->sum('shipment_coast_');
+        $tawsilCost = $all->sum('tawsil_coast_');
+        $alSafiCost = $all->sum('total_');
+
+        $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'alSafiCost'=>$alSafiCost,'mandoub' => 1];
+         $data = [
                 'all'=>$all,
-                'title'=>$page_title
+                'title'=>$page_title,
+                'sum'=>$sums
             ];
             $mpdf = PDF::loadView('shipments.print',$data);
             return $mpdf->stream('document.pdf');
@@ -510,9 +528,15 @@ class accountingController extends Controller
         // dd($counter);
         $page_title='الشحنات  المسددة لمندوب التسليم';
         if(isset(request()->pdf)){
-            $data = [
+         $totalCost = $all->sum('shipment_coast_');
+        $tawsilCost = $all->sum('tawsil_coast_');
+        $alSafiCost = $all->sum('total_');
+
+        $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'alSafiCost'=>$alSafiCost,'mandoub' => 1];
+         $data = [
                 'all'=>$all,
-                'title'=>$page_title
+                'title'=>$page_title,
+                'sum'=>$sums
             ];
             $mpdf = PDF::loadView('shipments.print',$data);
             return $mpdf->stream('document.pdf');
@@ -640,9 +664,15 @@ class accountingController extends Controller
         // dd($counter);
         $page_title='الشحنات الغير مسددة لمندوب الاستلام';
         if(isset(request()->pdf)){
-            $data = [
+                $totalCost = $all->sum('shipment_coast_');
+        $tawsilCost = $all->sum('tawsil_coast_');
+        $alSafiCost = $all->sum('total_');
+
+        $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'alSafiCost'=>$alSafiCost,'mandoub' => 1];
+         $data = [
                 'all'=>$all,
-                'title'=>$page_title
+                'title'=>$page_title,
+                'sum'=>$sums
             ];
             $mpdf = PDF::loadView('shipments.print',$data);
             return $mpdf->stream('document.pdf');
@@ -773,9 +803,15 @@ class accountingController extends Controller
          //dd();
         $page_title='الشحنات  المسددة لمندوب الاستلام';
         if(isset(request()->pdf)){
-            $data = [
+                 $totalCost = $all->sum('shipment_coast_');
+        $tawsilCost = $all->sum('tawsil_coast_');
+        $alSafiCost = $all->sum('total_');
+
+        $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'alSafiCost'=>$alSafiCost,'mandoub' => 1];
+         $data = [
                 'all'=>$all,
-                'title'=>$page_title
+                'title'=>$page_title,
+                'sum'=>$sums
             ];
             $mpdf = PDF::loadView('shipments.print',$data);
             return $mpdf->stream('document.pdf');

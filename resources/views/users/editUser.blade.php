@@ -26,9 +26,9 @@
                             <div class="intro-y col-span-12 lg:col-span-8">
 
                                 <div class="post intro-y overflow-hidden box mt-5">
-                                <form action="{{route('updateUser')}}" method="post">
+                                <form action="{{route('updateUser',['code'=>$manadoub->code_])}}" method="post">
                                     <div class="post__content tab-content">
-                                        <div id="content" class="tab-pane p-5 active" role="tabpanel" aria-labelledby=	"content-tab">
+                                        <div id="content" class="tab-pane p-5 active" role="tabpanel" aria-labelledby=  "content-tab">
                                             <div class="form-inline">
                                                 <label for="date" class="form-label sm:w-20">اسم المندوب</label>
 
@@ -125,10 +125,10 @@
 
 <script>
     var  manteka =new TomSelect("#manteka",{
-	valueField: 'id',
-	labelField: 'title',
-	searchField: 'title',
-	create: false
+    valueField: 'id',
+    labelField: 'title',
+    searchField: 'title',
+    create: false
 });
 $('#mo7afza').on('change', function() {
         $('#data-error-mo7afza').hide();

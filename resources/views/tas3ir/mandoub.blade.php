@@ -371,7 +371,7 @@ $('#mandoube_name').hide();
 
         // AJAX request
         $.ajax({
-            url: '/tas3ir/getNameByType/' + id,
+            url: "{{route('tas3ir.mandouben.getNameByType')}}"+"?id="+id,
             type: 'get',
             data: "json",
             success: function (data) {

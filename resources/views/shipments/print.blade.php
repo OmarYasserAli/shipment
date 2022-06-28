@@ -43,9 +43,9 @@
             border-radius: 8px;
             color: white;
         }
-span{
-    font-size: 15px;
-}
+        span{
+            font-size: 15px;
+        }
 
         .data_of_number th{
             background: grey;
@@ -165,7 +165,7 @@ span{
                             <h3>{{$company->name_}} <br><br><span>{{$company->Tel_}} </span> </h3>
                         </td>
                         <td class="title" style="">
-                            {{-- <img style="widows: 80px;" src="{{asset('assets/'.$company->image_data)}}"  alt="" class="ml-auto" style="height: 80px!important; margin-bottom: 30px"> --}}
+                            {{-- <img style="width: 130px;" src="{{asset('assets/'.$company->image_data)}}"  alt="" class="ml-auto" style="height: 130px!important; margin-bottom: 30px"> --}}
                         </td>
                         <td>
                             <h4>
@@ -192,19 +192,39 @@ span{
         {{--    <span>عدد الشحنات</span>--}}
         {{--    <span>{{count($all)}}</span>--}}
         {{--    </div>--}}
-        <table class="data_of_number" style="width:30%;float: right">
+
+
+        <table class="tabel_data" align="center">
             <tr>
-                <th>عدد الشحنات:</th>
-                <td>{{count($all)}}</td>
+
+                <th >عدد الشحنات</th>
+                <th >اجمالي مبلغ الشحنة</th>
+                @if(isset($sum['company']))
+                <th>اجمالي اجرة الشركة</th>
+                @endif
+                @if(isset($sum['alfer3']))
+                    <th >اجمالي اجرة الفرع</th>
+                @endif
+                @if(isset($sum['mandoub']))
+                    <th >اجمالي اجرة المندوب</th>
+                @endif
+                <th >اجمالي الصافي</th>
+                <th >التاريخ</th>
+
             </tr>
-        </table>
-        <table class="data_of_number" style="width:30%;float: left">
-            <tr>
-                <th>التاريخ:</th>
-                <td>{{Carbon\Carbon::now()->format('Y-m-d')}}</td>
-            </tr>
+
+
+                <tr >
+                    <td>{{count($all)}}</td>
+                    <td>{{number_format($sum['totalCost'], 2)}}</td>
+                    <td>{{number_format($sum['tawsilCost'], 2)}}</td>
+                    <td>{{number_format($sum['alSafiCost'], 2)}}</td>
+                    <td>{{Carbon\Carbon::now()->format('Y-m-d  g:i:s A')}}</td>
+                </tr>
+
         </table>
     </div>
+    <br><br><br><br>
 
     <table class="tabel_data" align="center">
         <tr>
@@ -216,7 +236,15 @@ span{
             <th >تاريخ الشحنه</th>
             <th >الفرع</th>
             <th >الصافى</th>
-            <th >اجره الشركه</th>
+            @if(isset($sum['company']))
+                <th> اجرة الشركة</th>
+            @endif
+            @if(isset($sum['alfer3']))
+                <th > اجرة الفرع</th>
+            @endif
+            @if(isset($sum['mandoub']))
+                <th > اجرة المندوب</th>
+            @endif
             <th >مبلغ الشحنه</th>
             <th>الكود</th>
         </tr>
@@ -231,9 +259,9 @@ span{
                 <td >@if(isset($shipment->client)){{$shipment->client->name_}} @else {{$shipment->client_name_}}@endif</td>
                 <td  >{{$shipment->date_}}</td>
                 <td  >{{$shipment->branch_}}</td>
-                <td >{{$shipment->total_}}</td>
-                <td  >{{$shipment->tawsil_coast_}}</td>
-                <td  >{{$shipment->shipment_coast_}}</td>
+                <td >{{number_format($shipment->total_, 2)}}</td>
+                <td  >{{number_format($shipment->tawsil_coast_, 2)}}</td>
+                <td  >{{number_format($shipment->shipment_coast_, 2)}}</td>
                 <td  >{{$shipment->code_}}</td>
 
             </tr>
@@ -244,3 +272,4 @@ span{
 </div>
 </body>
 </html>
+

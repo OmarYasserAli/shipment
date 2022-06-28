@@ -100,9 +100,9 @@ class definationsController extends Controller
                 if(!$user->isAbleTo('addManatek-definations')){
                 return abort(403); 
                 }
-        	$cities=Mohfza::where('branch',auth()->user()->branch)->get();
+            $cities=Mohfza::where('branch',auth()->user()->branch)->get();
                 $page_title='المناطق و المحافظات';
-        	return view('deffinations.city',compact('cities','page_title'));
+            return view('deffinations.city',compact('cities','page_title'));
         }
         public function storeBranch(Request $request){
                 // dd($request->all());
@@ -130,6 +130,6 @@ class definationsController extends Controller
                 return abort(403); 
                 }
                 $page_title='اضافة الفروع';
-        	return view('deffinations.branch',compact('page_title'));
+            return view('deffinations.branch',compact('page_title'));
         }
 }

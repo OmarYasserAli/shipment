@@ -34,7 +34,7 @@
                             <div class="post__content tab-content">
                                 <form action="{{route('shiments.update')}}" method="POST" id="shipment_form">
                                     @csrf;
-                                    <div id="content" class="tab-pane p-5 active" role="tabpanel" aria-labelledby=	"content-tab">
+                                    <div id="content" class="tab-pane p-5 active" role="tabpanel" aria-labelledby=  "content-tab">
                                     <div class="form-inline">
                                         <label for="date" class="form-label sm:w-20">التاريخ</label>
                                         <input type="text" name="date" class="form-control"   value="{{$now}}" disabled> 
@@ -146,10 +146,10 @@
                                     <div class="sm:ml-20 sm:pl-5 mt-5">
                                         <button class="btn btn-primary">حفظ</button>
                                     </div>
-							    </div>
+                                </div>
                             </form>
-							                         
-							</div>
+                                                     
+                            </div>
                         </div>
                     </div>
                     <!-- END: Post Content -->
@@ -223,16 +223,16 @@
     
 
 var  comName =new TomSelect(".Commercial_name",{
-	valueField: 'id',
-	labelField: 'title',
-	searchField: 'title',
-	create: false
+    valueField: 'id',
+    labelField: 'title',
+    searchField: 'title',
+    create: false
 });
 var  manteka =new TomSelect("#manteka",{
-	valueField: 'id',
-	labelField: 'title',
-	searchField: 'title',
-	create: false
+    valueField: 'id',
+    labelField: 'title',
+    searchField: 'title',
+    create: false
 });
     $('#client_id').on('change', function() {
                   

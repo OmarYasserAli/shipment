@@ -78,8 +78,7 @@ class generalController extends Controller
             $mo7afza=Mohfza::where('code',$mo7afza)->first()->name;
             $manatek=Mantikqa::where('code',$manatek)->first()->name;
         }
-        // dd(User::where('code_',$client_id)->first());
-        $isSprecial = User::where('code_',$client_id)->first();
+       $isSprecial = User::where('code_',$client_id)->first();
         
         if(isset($isSprecial))
             if($isSprecial->Special_prices == 'لا'){

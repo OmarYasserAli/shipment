@@ -1135,10 +1135,25 @@ class frou3Controller extends Controller
         $page_title='الشحنات الغير مسددة للفرع';
         if(isset(request()->pdf)){
             //return view('shipments.print' , compact('all'));
+                    $ta7weel=0;
+            foreach($all as $ship){
+                $ta7weel += $ship->t7weel_cost ;
+            }
+
+
+           
+            //return view('shipments.print' , compact('all'));
+            $totalCost = $all->sum('shipment_coast_');
+            $tawsilCost = $ta7weel;
+            $alSafiCost = $all->sum('total_');
+
+            $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'alSafiCost'=>$alSafiCost,'alfer3' => 1];
             $data = [
                 'all'=>$all,
-                'title'=>$page_title
+                'title'=>$page_title,
+                'sum'=>$sums
             ];
+
             $mpdf = PDF::loadView('shipments.print',$data);
             return $mpdf->stream('document.pdf');
         }
@@ -1308,11 +1323,24 @@ class frou3Controller extends Controller
         $page_title='الشحنات  المسددة للفرع';
         if(isset(request()->pdf)){
             //return view('shipments.print' , compact('all'));
+                 $ta7weel=0;
+            foreach($all as $ship){
+                $ta7weel += $ship->t7weel_cost ;
+            }
+
+
+            
+            //return view('shipments.print' , compact('all'));
+            $totalCost = $all->sum('shipment_coast_');
+            $tawsilCost = $ta7weel;
+            $alSafiCost = $all->sum('total_');
+
+            $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'alSafiCost'=>$alSafiCost,'alfer3' => 1];
             $data = [
                 'all'=>$all,
-                'title'=>$page_title
-            ];
-            $mpdf = PDF::loadView('shipments.print',$data);
+                'title'=>$page_title,
+                'sum'=>$sums
+            ];            $mpdf = PDF::loadView('shipments.print',$data);
             return $mpdf->stream('document.pdf');
         }
         return view('frou3.accounting.mosadad',compact('sums','all','branches','mo7afazat','brach_filter','waselOnly','page_title','status_color'
