@@ -28,6 +28,7 @@
         "niklasravnsborg/laravel-pdf": "^4.1",
         "realrashid/sweet-alert": "^3.2",
         "santigarcor/laratrust": "^6.0",
+        "simplesoftwareio/simple-qrcode": "^4.2",
         "spatie/laravel-newsletter": "^4.8",
         "tymon/jwt-auth": "^1.0",
         "yajra/laravel-datatables": "^1.5",

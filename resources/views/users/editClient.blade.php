@@ -66,24 +66,22 @@
                         @csrf
                             <div class="form-inline mt-3">
                                 <label for="username" class="form-label sm:w-20">اسم المستخدم</label>
-                                <input id="username" type="text" class="form-control"  name='username' value="{{$user->USERNAME}}" autocomplete="off"/>
+                                <input id="username" type="text" class="form-control"  name='username' value="{{$user->username}}" autocomplete="off"/>
                             </div>
                             <div class="form-inline mt-3">
                                 <label for="password" class="form-label sm:w-20">الباسورد</label>
-                                <input id="password" type="password" class="form-control"   name='password' value="{{$user->PASSWORD}}"/>
+                                <input id="password" type="password" class="form-control"   name='password' value="{{$user->password}}"/>
                             </div>
                             <div class="form-inline mt-3">
-                                <label for="date" class="form-label sm:w-20">رقم الهوية</label>
-                                <div class="grid grid-cols-12 gap-2">
-                                    <input type="text" class="form-control col-span-4"   aria-label="default input inline 1" name="ID_" value="{{$user->ID_}}">
-                                    <label for="date" class="form-label col-span-4" style="text-align: left; margin-top:8px;">رقم الاهاتف</label>
+                                <label for="date" class="form-label sm:w-20" >رقم الهاتف</label>
+                               
                                     <input type="text" class="form-control col-span-4"   aria-label="default input inline 1" name="phone_" value="{{$user->phone_}}">
-                                </div>
+                               
                             </div>
-                            <div class="form-inline mt-3">
+                            {{-- <div class="form-inline mt-3">
                                 <label for="phone" class="form-label sm:w-20" >عنوان العميل</label>
-                                <input id="phone" type="text" class="form-control"  name="address_" value="{{$user->address_}}"/>
-                            </div>
+                                <input id="phone" type="text" class="form-control"  name="address_" value="{{$user->}}"/>
+                            </div> --}}
                             <div class="form-inline mt-3">
                                 <label for="mo7afaza" class="form-label sm:w-20">المحافظة</label>
                                 <select name="mo7afza" id='mo7afza' class="form-control mo7afza" name="mo7fza">
@@ -107,7 +105,7 @@
                                 <select name="branch" id='branch' class="form-control branch" name="branch">
                                     <option value=""></option>
                                     @foreach($branches as $branch)
-                                        <option value="{{$branch->code_}}" @if( $branch->name_== $user->Branch_name) selected @endif >{{$branch->name_}}</option>
+                                        <option value="{{$branch->code_}}" @if( $branch->name_== $user->branch) selected @endif >{{$branch->name_}}</option>
                                     @endforeach
                                 </select>
                                 <script>
@@ -166,6 +164,36 @@
 	labelField: 'title',
 	searchField: 'title',
 	create: false
+});
+
+$( document ).ready(function() {
+    // $('#data-error-mo7afza').hide();
+                  var mo7afza_id = $('#mo7afza').val();
+                      $("#manteka").html('');
+                      if(mo7afza_id == '') return;
+                      $.ajax({
+                          url:"{{url('getManateqByMa7afza')}}?mo7afza="+mo7afza_id+"&bycode=1",
+                          type: "get",
+                          data: {
+                          },
+                          dataType : 'json',
+                          success: function(result){
+                              console.log(result.all)
+                          $('#manteka').prop('disabled', false);
+                          //$('#manteka').html('<option value="">...</option>');
+                          manteka.clearOptions();
+                          var temp = ''; var f=0;
+                          $.each(result.all,function(key,value){
+                               
+                                manteka.addOption({
+                                    id: value.name,
+                                    title: value.name,
+                                    
+                                });
+                                manteka.setValue('{{$user->mantqa}}');
+                            });
+                          }
+                      });
 });
 $('#mo7afza').on('change', function() {
         $('#data-error-mo7afza').hide();

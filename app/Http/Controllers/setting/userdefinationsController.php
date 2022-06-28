@@ -25,7 +25,7 @@ class userdefinationsController extends Controller
                 $mo7afazat =Mohfza::where('branch',$user->branch)->get();
                 $Commercial_names =Commercial_name::groupBy('name_')->get();
                 $branches = BranchInfo::all();
-                $users =AddClientsMainComp::where('Branch_name',$user->branch)->get();
+                $users =User::where('branch',$user->branch)->where('type_',"عميل")->get();
                 $page_title='اضافة عميل';
          return view('users.addClient',compact('page_title','Commercial_names','mo7afazat','users','branches'));
         }
@@ -64,21 +64,21 @@ class userdefinationsController extends Controller
                     $user=auth()->user();
                     $branch_name= BranchInfo::where('code_',$request->branch)->first()->name_;
                 DB::beginTransaction();
-                    $created_client = new AddClientsMainComp();
-                    $created_client->name_  = $request->client_name  ;
-                    $created_client->USERNAME  = $request->username  ;
-                    $created_client->PASSWORD   = $request->password  ;
-                    $created_client->ID_  = $request->ID_  ;
-                    $created_client->address_  = $request->address_  ;
-                    $created_client->commercial_name  = $request->Commercial_name  ;
-                    $created_client->Branch_ID  =$request->branch ;
-                    $created_client->Branch_name  = $branch_name  ;
-                    $created_client->Special_prices  = $request->Special_prices  ;
-                    $created_client->mo7fza  = $mo7afzaa  ;
-                    $created_client->mantqa  = $request->manteka  ;
-                    $created_client->phone_  = $request->phone_  ;
-                //     $created_client->mantqa  = $request->mantqa  ;
-                    $created_client->save();
+                //     $created_client = new AddClientsMainComp();
+                //     $created_client->name_  = $request->client_name  ;
+                //     $created_client->USERNAME  = $request->username  ;
+                //     $created_client->PASSWORD   = $request->password  ;
+                //     $created_client->ID_  = $request->ID_  ;
+                //     $created_client->address_  = $request->address_  ;
+                //     $created_client->commercial_name  = $request->Commercial_name  ;
+                //     $created_client->Branch_ID  =$request->branch ;
+                //     $created_client->Branch_name  = $branch_name  ;
+                //     $created_client->Special_prices  = $request->Special_prices  ;
+                //     $created_client->mo7fza  = $mo7afzaa  ;
+                //     $created_client->mantqa  = $request->manteka  ;
+                //     $created_client->phone_  = $request->phone_  ;
+                // //     $created_client->mantqa  = $request->mantqa  ;
+                //     $created_client->save();
 
                     $created_user = new user();
                     $created_user->name_  = $request-> client_name ;
@@ -93,7 +93,7 @@ class userdefinationsController extends Controller
                     if($request->addshipment =='on'){
                         $created_user->addshipment  = 1  ;
                     }
-                    
+                    $created_user->Special_prices  = $request->Special_prices ;
 
                     
                     $created_user->save();
@@ -142,7 +142,7 @@ class userdefinationsController extends Controller
                 $user=auth()->user();
                 $mo7afazat =Mohfza::where('branch',$user->branch)->get();
                 $Commercial_names =Commercial_name::groupBy('name_')->get();
-                $user =AddClientsMainComp::where('code_',$code)->first();
+                $user =User::where('code_',$code)->where('type_',"عميل")->first();
                 $page_title='تعديل عميل';
             $branches = BranchInfo::all();
          return view('users.editClient',compact('page_title','Commercial_names','mo7afazat','user','branches'));
@@ -166,25 +166,7 @@ class userdefinationsController extends Controller
                     $branch_id= BranchInfo::where('name_',$user->branch)->first()->code_;
                      $branch_name= BranchInfo::where('code_',$request->branch)->first()->name_;
                 DB::beginTransaction();
-                    $created_client =  AddClientsMainComp::where('code_' , $request->code_)->first();
-                    $created_user =  user::where('name_',$created_client->name_)->where('username',$created_client->USERNAME)
-                     ->where('password',$created_client->PASSWORD)->first();
-                    $created_client->name_  = $request->client_name  ;
-                    $created_client->USERNAME  = $request->username  ;
-                    $created_client->PASSWORD   = $request->password  ;
-                    $created_client->ID_  = $request->ID_  ;
-                    $created_client->address_  = $request->address_  ;
-                    $created_client->commercial_name  = $request->Commercial_name  ;
-                    $created_client->Branch_ID  =$request->branch ;
-                    $created_client->Branch_name  = $branch_name  ;
-                    $created_client->Special_prices  = $request->Special_prices  ;
-                    $created_client->mo7fza  = $mo7afzaa  ;
-                    $created_client->mantqa  = $request->manteka  ;
-                    $created_client->phone_  = $request->phone_  ;
-                //     $created_client->mantqa  = $request->mantqa  ;
-                    $created_client->save();
-
-
+                    $created_user =  user::where('code_' , $request->code_)->first();
                     $created_user->name_  = $request-> client_name ;
                     $created_user->type_  = "عميل"  ;
                     //$created_user->status_  = 1  ;
@@ -199,6 +181,7 @@ class userdefinationsController extends Controller
                     }else{
                         $created_user->addshipment  = 0  ;
                     }
+                    $created_user->Special_prices  = $request->Special_prices ;
                     $created_user->save();
                 try {
 
@@ -216,7 +199,7 @@ class userdefinationsController extends Controller
                 }
                 $mo7afazat =Mohfza::where('branch',$user->branch)->get();
                 $Commercial_names =Commercial_name::groupBy('name_')->get();
-                $manadeeb =AddBranchUser::where('branch_name',$user->branch)->where('Job','مندوب تسليم')->orWhere('Job','مندوب استلام')->get();
+                $manadeeb =User::where('branch',$user->branch)->where('type_','مندوب تسليم')->orWhere('type_','مندوب استلام')->get();
 
                 $page_title='اضافة مندوب';
             $branches = BranchInfo::all();
@@ -296,7 +279,7 @@ class userdefinationsController extends Controller
                 $user=auth()->user();
                 $mo7afazat =Mohfza::where('branch',$user->branch)->get();
                 $Commercial_names =Commercial_name::groupBy('name_')->get();
-                $manadoub =AddBranchUser::where('code_',$code)->first();
+                $manadoub =User::where('code_',$code)->first();
                 // dd($manadoub);
                 $branches = BranchInfo::all();
                 $page_title='تعديل مندوب';
@@ -321,36 +304,23 @@ class userdefinationsController extends Controller
                     $branch_id= BranchInfo::where('name_',$user->branch)->first()->code_;
                     $branch_name= BranchInfo::where('code_',$request->branch)->first()->name_;
                 DB::beginTransaction();
-                    $created_client =  AddBranchUser::where('code_',$request->code_)->first();
-                    $created_user =  user::where('name_',$created_client->name_)->where('username',$created_client->USERNAME) ->where('password',$created_client->PASSWORD)->first();
+                //     $created_client =  AddBranchUser::where('code_',$request->code_)->first();
+                    $created_user =  user::where('code_',$request->code_)->first();
                     if($created_user == null){
                         return redirect()->back()->with('status', 'خطأ: لم يتم العثور على المستخدم');
                     }
-                    $created_client->name_  = $request->mandoub_name  ;
-                    $created_client->USERNAME  = $request->username  ;
-                    $created_client->PASSWORD   = $request->password  ;
-                    $created_client->ID_  = $request->ID_  ;
-                    $created_client->address_  = $request->address_  ;
-                    $created_client->Job  =$request->job ;
-                //     $created_client->commercial_name  = $request->Commercial_name  ;
-                    $created_client->branch_name  = $branch_name  ;
-                     $created_client->transport_kind  = ''  ;
-                    $created_client->mo7fza  = $mo7afzaa  ;
-                    $created_client->mantqa  = $request->manteka  ;
-                    $created_client->notes  = $request->notes  ;
-                    $created_client->phone_  = ''  ;
-                    $created_client->save();
+                  
 
 
                     $created_user->name_  = $request-> mandoub_name ;
                     $created_user->type_  = $request->job ;
-                    //$created_user->status_  = 0  ;
+                    //$created_user->status_  = 0  ;request   
                     $created_user->branch  = $branch_name;
                     $created_user->username  = $request->username ;
                     $created_user->password       = $request->password  ;
                     $created_user->mo7fza  = $mo7afzaa  ;
                     $created_user->mantqa  = $request->manteka  ;
-                    $created_user->phone_  = ''  ;
+                    $created_user->phone_  = $request->phone_  ;
                 //     $created_user->phone_  = ''  ;
                     $created_user->save();
                 try {
@@ -369,7 +339,7 @@ class userdefinationsController extends Controller
                 }
                 $mo7afazat =Mohfza::where('branch',$user->branch)->get();
                 $Commercial_names =Commercial_name::groupBy('name_')->get();
-                $users =AddBranchUser::where('branch_name',$user->branch)->where('Job','موظف')->get();
+                $users =User::where('branch',$user->branch)->where('type_','موظف')->get();
             $branches = BranchInfo::all();
                 $page_title='اضافة مستخدم';
          return view('users.adduser',compact('page_title','Commercial_names','mo7afazat','users','branches'));
@@ -406,21 +376,21 @@ class userdefinationsController extends Controller
                     $branch_id= BranchInfo::where('name_',$user->branch)->first()->code_;
                     $branch_name= BranchInfo::where('code_',$request->branch)->first()->name_;
                 DB::beginTransaction();
-                    $created_client = new AddBranchUser();
-                    $created_client->name_  = $request->mandoub_name  ;
-                    $created_client->USERNAME  = $request->username  ;
-                    $created_client->PASSWORD   = $request->password  ;
-                    $created_client->ID_  = $request->ID_  ;
-                    $created_client->address_  = $request->address_  ;
-                //     $created_client->commercial_name  = $request->Commercial_name  ;
-                    $created_client->Job  ='موظف';
-                    $created_client->branch_name  = $branch_name  ;
-                     $created_client->transport_kind  = ''  ;
-                    $created_client->mo7fza  = $mo7afzaa  ;
-                    $created_client->mantqa  = $request->manteka  ;
-                    $created_client->notes  = $request->notes  ;
-                    $created_client->phone_  = ''  ;
-                    $created_client->save();
+                //     $created_client = new AddBranchUser();
+                //     $created_client->name_  = $request->mandoub_name  ;
+                //     $created_client->USERNAME  = $request->username  ;
+                //     $created_client->PASSWORD   = $request->password  ;
+                //     $created_client->ID_  = $request->ID_  ;
+                //     $created_client->address_  = $request->address_  ;
+                // //     $created_client->commercial_name  = $request->Commercial_name  ;
+                //     $created_client->Job  ='موظف';
+                //     $created_client->branch_name  = $branch_name  ;
+                //      $created_client->transport_kind  = ''  ;
+                //     $created_client->mo7fza  = $mo7afzaa  ;
+                //     $created_client->mantqa  = $request->manteka  ;
+                //     $created_client->notes  = $request->notes  ;
+                //     $created_client->phone_  = ''  ;
+                //     $created_client->save();
 
                     $created_user = new user();
                     $created_user->name_  = $request-> mandoub_name ;
@@ -432,6 +402,7 @@ class userdefinationsController extends Controller
                     $created_user->mo7fza  = $mo7afzaa  ;
                     $created_user->mantqa  = $request->manteka  ;
                     $created_user->phone_  = ''  ;
+                    $created_user->Special_prices  = $request->Special_prices ;
                 //     $created_user->phone_  = ''  ;
                     $created_user->save();
                 try {
@@ -447,7 +418,7 @@ class userdefinationsController extends Controller
                 $user=auth()->user();
                 $mo7afazat =Mohfza::where('branch',$user->branch)->get();
                 $Commercial_names =Commercial_name::groupBy('name_')->get();
-                $manadoub =AddBranchUser::where('code_',$code)->first();
+                $manadoub =User::where('code_',$code)->first();
                 // dd($manadoub);
                 $branches = BranchInfo::all();
                 $page_title='تعديل مستخدم';
@@ -472,25 +443,25 @@ class userdefinationsController extends Controller
                     $branch_id= BranchInfo::where('name_',$user->branch)->first()->code_;
             $branch_name= BranchInfo::where('code_',$request->branch)->first()->name_;
                 DB::beginTransaction();
-                    $created_client =  AddBranchUser::where('code_',$request->code_)->first();
-                    $created_user =  user::where('name_',$created_client->name_)->where('username',$created_client->USERNAME) ->where('password',$created_client->PASSWORD)->first();
+                //     $created_client =  AddBranchUser::where('code_',$request->code_)->first();
+                    $created_user =  user::where('code_',$request->code_)->first();
                     if($created_user == null){
                         return redirect()->back()->with('status', 'خطأ: لم يتم العثور على المستخدم');
                     }
-                    $created_client->name_  = $request->mandoub_name  ;
-                    $created_client->USERNAME  = $request->username  ;
-                    $created_client->PASSWORD   = $request->password  ;
-                    $created_client->ID_  = $request->ID_  ;
-                    $created_client->address_  = $request->address_  ;
-                //     $created_client->commercial_name  = $request->Commercial_name  ;
-                    $created_client->Job  ='موظف';
-                    $created_client->branch_name  = $branch_name  ;
-                     $created_client->transport_kind  = ''  ;
-                    $created_client->mo7fza  = $mo7afzaa  ;
-                    $created_client->mantqa  = $request->manteka  ;
-                    $created_client->notes  = $request->notes  ;
-                    $created_client->phone_  = ''  ;
-                    $created_client->save();
+                //     $created_client->name_  = $request->mandoub_name  ;
+                //     $created_client->USERNAME  = $request->username  ;
+                //     $created_client->PASSWORD   = $request->password  ;
+                //     $created_client->ID_  = $request->ID_  ;
+                //     $created_client->address_  = $request->address_  ;
+                // //     $created_client->commercial_name  = $request->Commercial_name  ;
+                //     $created_client->Job  ='موظف';
+                //     $created_client->branch_name  = $branch_name  ;
+                //      $created_client->transport_kind  = ''  ;
+                //     $created_client->mo7fza  = $mo7afzaa  ;
+                //     $created_client->mantqa  = $request->manteka  ;
+                //     $created_client->notes  = $request->notes  ;
+                //     $created_client->phone_  = ''  ;
+                //     $created_client->save();
 
 
                     $created_user->name_  = $request-> mandoub_name ;

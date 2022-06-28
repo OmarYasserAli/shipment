@@ -287,23 +287,31 @@ var  manteka =new TomSelect("#manteka",{
                           }
                       });
     }); 
+    let first = -1;
     $('#manteka').on('change', function() {
                   
                     var manteka_id = this.value;
                     var client_id  = $('#client_id ').find(":selected").val();
                     var mo7afza_id  = $('#mo7afza ').find(":selected").val();
-                     
-                        $("#tawsil_cost").html('');
-                        $.ajax({ 
-                            url:"{{url('getTawsilByManteka')}}?bycode=0&client_id="+client_id+'&mo7afza_id='+ mo7afza_id+'&manteka_id='+manteka_id ,
-                            type: "get",
-                            success: function(result){
-                                console.log(result.all)
-                                  $('#tawsil_cost').val(result.all);
-                                  if($('#shipment_cost').val() !='')
-                                  $('#total').val( parseInt($('#shipment_cost').val()) - parseInt($('#tawsil_cost').val())   )
-                            }
+                    console.log(first);
+                        $("#tawsil_cost").html('');dd
+                        if(first >= 1)
+                        {
+                            console.log(first);
+                            $.ajax({ 
+                          
+                          url:"{{url('getTawsilByManteka')}}?bycode=0&client_id="+client_id+'&mo7afza_id='+ mo7afza_id+'&manteka_id='+manteka_id ,
+                          type: "get",
+                          success: function(result){
+                              console.log(result.all)
+                                $('#tawsil_cost').val(result.all);
+                                if($('#shipment_cost').val() !='')
+                                $('#total').val( parseInt($('#shipment_cost').val()) - parseInt($('#tawsil_cost').val())   )
+                          }
                         });
+                        }
+                        
+                    first++;
       }); 
     $('#shipment_cost').on('keyup',function(){
         

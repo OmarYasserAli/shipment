@@ -14,7 +14,7 @@ use App\Models\Commercial_name;
 use App\Models\Archive;
 use App\User;
 use App\Models\Branch_user;
-
+use QrCode;
 
 use Carbon\Carbon;
 use App\Setting;
@@ -135,9 +135,9 @@ class shipmentsController extends Controller
            
             
            
-            if(isset(request()->commercial_name)){
-                $shipments = $shipments->where('add_shipment_tb_.commercial_name_', request()->commercial_name);
-            }
+        if(isset(request()->commercial_name)){
+            $shipments = $shipments->where('add_shipment_tb_.commercial_name_', request()->commercial_name);
+        }
             
         if(isset($request->code)){
            $shipments = $shipments->where('code_', '=', $request->code);       
@@ -166,7 +166,12 @@ class shipmentsController extends Controller
             $shipments= $shipments->where('tarikh_el7ala' ,'>=',DATE( request()->hala_date_from) );
         if(isset( request()->hala_date_to))
             $shipments= $shipments->where('tarikh_el7ala' ,'<=',DATE( request()->hala_date_to) );
+
+        if(isset( request()->mandoub_taslim))
+            $shipments= $shipments->where('mandoub_taslim' ,request()->mandoub_taslim );
     
+        if(isset( $request->client_id))
+            $shipments= $shipments->where('mandoub_taslim' ,$request->client_id);
         if(request()->showAll == 'on'){
             $counter= $all_shipments->get();
             $count_all = $counter->count();
@@ -206,7 +211,17 @@ class shipmentsController extends Controller
         $page_title=Shipment_status::where('code_',$type)->first()->name_;
         $title=Shipment_status::where('code_',$type)->first()->name_;
         if(isset(request()->pdf)){
+            // dd('a');
+            $all = $all_shipments->skip(0)->limit($limit*$page);
             
+            if(isset(request()->codes))
+            { 
+                $codes= explode(',',request()->codes);
+                // dd(request()->pdf);
+                $all=$all->whereIn('code_',$codes);
+                // dd($all);
+            }
+            $all=$all->get();
             $data = [
                 'all'=>$all,
                 'title'=>$page_title
@@ -215,8 +230,10 @@ class shipmentsController extends Controller
             $mpdf = PDF::loadView('shipments.print',$data);
             return $mpdf->stream('document.pdf');
         }
+       
+        $mandoub_taslims = user::where('branch',$user->branch)->where('type_','مندوب تسليم')->get();
         return view('shipments.index',compact('all','type','mo7afazat','page_title','Commercial_names',
-        'clients','status_color','css_prop','sums' ,'t7weelTo','manadeb_taslim'));
+        'clients','status_color','css_prop','sums' ,'t7weelTo','mandoub_taslims','manadeb_taslim'));
            
            
 
@@ -1463,8 +1480,147 @@ class shipmentsController extends Controller
     public function status(){
 
     }
-    public function print(){
+    public function deleteShipment(int $code){
+        $user=auth()->user();
+        if(!$user->isAbleTo('update-shipment')){
+            return abort(403);
+        }
+        $shipment = Shipment::where('code_',$code)->first();
+        if (!$shipment) {
+            return redirect()->back()->with('status', 'يوجد خطاء ما!');
+        }else{
+            $shipment->delete();
+            return redirect()->back()->with('status', 'تم الحذف بنجاح');
 
+        }
+
+    }
+    public function print(Request $request){ 
+        $user=auth()->user();
+        if(!$user->isAbleTo('index-shipment')){
+            return abort(403); 
+        }
+            
+            $limit=Setting::get('items_per_page');
+             $page =0;
+             if(isset(request()->page)) $page= request()->page;
+           
+            $t7weelTo = $this->t7weelArray(2);
+            $shipments = Shipment::with(['Branch_user' => function ($query) {
+                $query->select('code_','phone_');
+            }]);
+            
+           
+            
+           
+            if(isset(request()->commercial_name)){
+                $shipments = $shipments->where('add_shipment_tb_.commercial_name_', request()->commercial_name);
+            }
+            
+        if(isset($request->code)){
+           $shipments = $shipments->where('code_', '=', $request->code);       
+        }
+        if(isset($request->reciver_phone)){
+            $shipments = $shipments->where('reciver_phone_', '=', $request->reciver_phone);       
+         }
+        
+        if(isset($request->mo7afza)){
+            $shipments = $shipments->where('mo7afaza_id', '=', $request->mo7afza);       
+         }
+       if(isset($request->branch_) && $request->branch_!='الكل'){
+        $shipments = $shipments->where('branch_', '=', $request->branch_);       
+        }
+        if(isset($request->Commercial_name)){
+            $shipments = $shipments->where('commercial_name_', '=', $request->Commercial_name);       
+            }
+        $all_shipments = $shipments;
+        
+        if(isset( request()->date_from))
+            $shipments= $shipments->where('date_' ,'>=',DATE($request->date_from) );
+        if(isset( request()->date_to))
+            $shipments= $shipments->where('date_' ,'<=' ,DATE($request->date_to) );
+       
+        if(isset( request()->hala_date_from))
+            $shipments= $shipments->where('tarikh_el7ala' ,'>=',DATE( request()->hala_date_from) );
+        if(isset( request()->hala_date_to))
+            $shipments= $shipments->where('tarikh_el7ala' ,'<=',DATE( request()->hala_date_to) );
+    
+        if(isset( request()->Status_))
+            $shipments= $shipments->where('Status_' ,( request()->Status_) );
+            
+        if(request()->showAll == 'on'){
+            $counter= $all_shipments->get();
+            $count_all = $counter->count();
+            request()->limit=$count_all;
+        }
+
+        //  dd($all_shipments->skip(0)->limit(40)->get()[20]);
+        $totalCost = $all_shipments->sum('shipment_coast_');
+        $tawsilCost = $all_shipments->sum('tawsil_coast_');
+        $allCount = $all_shipments->count();
+        $netCost =  $totalCost-$tawsilCost;
+        $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];
+        $all = $all_shipments->skip($limit*$page)->limit($limit)->get();
+        if(isset(request()->lodaMore)){
+            
+            return response()->json([
+                'status' => 200,
+                'data' => $all,
+                'message' => 'sucecss',
+                'sums'=>$sums
+            ], 200);
+        }
+        
+        
+        // $all->withPath("?mo7afza={$request->mo7afza}&showAll={$request->showAll}
+        // &client_id={$request->client_id}");
+        $manadeb_taslim= User::where('branch',auth()->user()->branch)->where('type_','مندوب تسليم')->get();
+        $mo7afazat =$this->getAllMo7afazat();
+        $filtered_clients = User::where('type_','عميل')->where('name_',$request->client_id)->pluck('code_')->toArray();
+        $Commercial_names =Commercial_name::whereIn('code_',$filtered_clients)->groupBy('name_')->get();
+            
+        
+        $clients =User::where('type_','عميل')->get();
+        $status_color=Setting::whereIN('name',['status_6_color','status_1_color','status_2_color','status_3_color'
+        ,'status_4_color','status_7_color','status_8_color','status_9_color'])->get()->keyBy('name')->pluck('val','name');
+        $css_prop = Setting::get('status_css_prop');
+        //  dd($status_color);
+        $page_title='طباعة الايصالات';
+        $title='طباعة الايصالات';
+        if(isset(request()->pdf)){
+
+
+            $qrcode=QrCode::encoding('UTF-8')->size(50)->generate('A basic example of QR code!');
+            $qrcode= str_replace('<?"xml version="1.0" encoding="UTF-8?>',"",$qrcode);
+            $qrcode= str_replace('<?xml version="1.0" encoding="UTF-8"?>',"",$qrcode);
+            // $qrcode=str_replace("\n","",$qrcode);
+            // $qrcode=str_replace("\"","",$qrcode);
+
+            // dd($qrcode);
+            if(!isset(request()->code)) return ;
+            $all = Shipment::where('code_',request()->code)->get()[0];
+            $data = [
+                'all'=>$all,
+                'title'=>$page_title,
+                'qrcode'  =>$qrcode
+            ];
+            
+            // return view('shipments.print2',compact('all','qrcode'));
+            //return view('shipments.print2' ,compact('all','title'));
+            // $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => [80, 236]]);
+            // $customPaper = array(0,0,567.00,283.80);
+            $mpdf = PDF::loadView('shipments.print2',$data);//->setPaper($customPaper, 'landscape');;
+            return $mpdf->stream('document.pdf');
+        }
+        $type = 2;
+        $statuses = Shipment_status::all();
+        return view('shipments.wals_print',compact('all','type','mo7afazat','page_title','Commercial_names',
+        'clients','status_color','css_prop','sums' ,'t7weelTo','manadeb_taslim','statuses'));
+           
+           
+
+            
+        
     }
     public function estlamGet(){
 

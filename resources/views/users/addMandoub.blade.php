@@ -143,7 +143,6 @@
                                         <th class="whitespace-nowrap">#</th>
                                         <th class="whitespace-nowrap">الاسم</th>
                                         <th class="whitespace-nowrap">اسم المستخدم</th>
-                                        <th class="whitespace-nowrap">الرقم التعريفى</th>
                                         <th class="whitespace-nowrap">الوظيقة</th>
                                         <th class="whitespace-nowrap">الفرع</th>
 
@@ -156,10 +155,9 @@
 
                                     <th class="whitespace-nowrap">{{$i}}</th>
                                     <th class="whitespace-nowrap">{{$mandoub->name_}}</th>
-                                    <th class="whitespace-nowrap">{{$mandoub->USERNAME}}</th>
-                                    <th class="whitespace-nowrap">{{$mandoub->ID_}}</th>
-                                    <th class="whitespace-nowrap">{{$mandoub->Job}}</th>
-                                    <th class="whitespace-nowrap">{{$mandoub->branch_name}}</th>
+                                    <th class="whitespace-nowrap">{{$mandoub->username}}</th>
+                                    <th class="whitespace-nowrap">{{$mandoub->type_}}</th>
+                                    <th class="whitespace-nowrap">{{$mandoub->branch}}</th>
 
 
                                     <th class="whitespace-nowrap">

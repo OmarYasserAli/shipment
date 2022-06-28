@@ -54,6 +54,8 @@
             </div>
         </div>
     </div>
+    <!-- END: Modal Toggle --> <!-- BEGIN: Modal Content --> 
+
 <!-- END: Modal Content -->
     
     <div class="intro-y  grid-cols-12 gap-5 mt-5">
@@ -75,27 +77,32 @@
                                 <label for="horizontal-form-1" class="form-label" style=" text-align:right!important; margin-right:3px; margin-left:5px; margin-top:8px;  ">الي</label>
                                 <input name='hala_date_to' type="date"  class="form-control form-select-sm "  aria-label="default input inline 1" style=""> 
                             </div>
-                            @if($type ==4 || $type ==6 || $type ==7)
-                            <div class="form-inline 3amil">
-                                <label for="horizontal-form-1" class="form-label " style=" text-align:left; margin-left:15px; margin-top:8px;  width:60px; ">مندوب التسليم</label>
+                           
+                            <div class="form-inline">
+                                <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:2px; margin-top:8px; width:30px; ;">اسم العميل </label>
 
-                                <select id="mandoub_taslim" name="mandoub_taslim" class="form-select form-select-sm " aria-label=".form-select-sm example" style=" width:244px">
+                                <select class=" form-select-lg sm:mt-2 sm:mr-2  tom-select  w-full" id='client_id' name="client_id" aria-label=".form-select-lg example">
                                     <option value="">...</option>
-                                    @foreach($mandoub_taslims as $mandoub_taslim)
-                                        <option value="{{$mandoub_taslim->name_}}" @if(request()->get('mandoub_taslim') ==$mandoub_taslim->name_) selected @endif>{{$mandoub_taslim->name_}}</option>
+                                    @foreach($clients as $Commercial_name)
+                                        <option value="{{$Commercial_name->name_}}" @if(request()->get('Commercial_name') ==$Commercial_name->name_) selected @endif>{{$Commercial_name->name_}}</option>
                                     @endforeach
-                                    
                                 </select>
-                               
+
                             </div>
-                            @endif
                             
+                                    
                         </div > 
                     </div>
                     <div class="form-inline">
-
-                        
-                    </div>
+                                <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:10px; margin-top:8px;  width:64px; ">الحالة</label>
+                                <select id="Status_" name="Status_" class="form-select form-select-sm " aria-label=".form-select-sm example" style=" width:244px">
+                                    <option value="">...</option>
+                                    @foreach($statuses as $status)
+                                        <option value="{{$status->code_}}" @if(request()->get('Status_') ==$status->name_) selected @endif>{{$status->name_}}</option>
+                                    @endforeach
+                                    
+                                </select>
+                            </div>
                 </div>
                     <div class="mt-1 grid  grid-cols-3">
                         <div class="col-span-2">
@@ -111,31 +118,21 @@
                                     <input name="date_to" type="date"  class="form-control form-select-sm "  aria-label="default input inline 1" style=""> 
                                 </div>
                                 <div class="form-inline">
-                                    <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:2px; margin-top:8px; width:30px; ;">اسم العميل </label>
-    
-                                    <select class=" form-select-lg sm:mt-2 sm:mr-2  tom-select  w-full" id='client_id' name="client_id" aria-label=".form-select-lg example">
+                                    <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:10px; margin-top:8px;  width:64px; ">الاسم التجاري</label>
+                                    <select id="Commercial_name" name="Commercial_name" class="form-select form-select-sm " aria-label=".form-select-sm example" style=" width:244px">
                                         <option value="">...</option>
-                                        @foreach($clients as $Commercial_name)
+                                        @foreach($Commercial_names as $Commercial_name)
                                             <option value="{{$Commercial_name->name_}}" @if(request()->get('Commercial_name') ==$Commercial_name->name_) selected @endif>{{$Commercial_name->name_}}</option>
                                         @endforeach
+                                        
                                     </select>
-    
                                 </div>
-                                
-                                
                                 
                             </div > 
                         </div>
                         
-                        <div class="form-inline">
-                            <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:10px; margin-top:8px;  width:64px; ">الاسم التجاري</label>
-                            <select id="Commercial_name" name="Commercial_name" class="form-select form-select-sm " aria-label=".form-select-sm example" style=" width:244px">
-                                <option value="">...</option>
-                                @foreach($Commercial_names as $Commercial_name)
-                                    <option value="{{$Commercial_name->name_}}" @if(request()->get('Commercial_name') ==$Commercial_name->name_) selected @endif>{{$Commercial_name->name_}}</option>
-                                @endforeach
-                                
-                            </select>
+                        <div class="col-span-1">
+                            
                         </div>
                     </div>
                     <div class="mt-1 grid  grid-cols-3">
@@ -162,18 +159,6 @@
                                 
                             </div > 
                         </div>
-                        <div class="form-inline">
-                            <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:10px; margin-top:8px; margin-right:3px ; width:250px">تحويل الشحنات الى</label>
-
-                            <select id="t7weel_to" name="t7weel_to" class="form-select form-select-sm align-left" aria-label=".form-select-sm example" style="margin-left:8px; width:244px ; direction: ltr">
-                                <option value="">...</option>
-                                @foreach($t7weelTo as $element)
-                                    <option value="{{$element}}"   >{{$element}}</option>
-                                @endforeach
-                                
-                            </select>
-                            <input type="button"  class="btn btn-success  align-left" style="direction: ltr"  value="تحويل المحدد" id='tasdid' >
-                        </div>
                     </div>
                 </div>
             </form>
@@ -187,9 +172,6 @@
                             <th class="whitespace-nowrap">هاتف المستلم</th>
                             <th class="whitespace-nowrap">الاسم التجارى</th>
                             <th class="whitespace-nowrap">اسم العميل</th>
-                            @if($type ==4 || $type ==6 || $type ==7)
-                                <th class="whitespace-nowrap">مندوب التسليم</th>
-                            @endif
                             <th class="whitespace-nowrap">تاريخ الشحنه</th>
                             <th class="whitespace-nowrap">الفرع</th>
                             <th class="whitespace-nowrap">الصافى</th>
@@ -209,9 +191,6 @@
                             <td class="whitespace-nowrap " >{{$shipment->reciver_phone_}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->commercial_name_}}</td>
                             <td class="whitespace-nowrap " >@if(isset($shipment->client)){{$shipment->client->name_}} @else {{$shipment->client_name_}}@endif</td>
-                            @if($type ==4 || $type ==6 || $type ==7)
-                                <th class="whitespace-nowrap">{{$shipment->mandoub_taslim}}</th>
-                            @endif
                             <td class="whitespace-nowrap " >{{$shipment->date_}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->branch_}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->total_}}</td>
@@ -279,8 +258,8 @@
                             codes.push($(this).data('code'));
                         }
                     });
-                window.open(window.location.href+'?pdf=1&codes='+codes);
-               // window.location.replace (); 
+                window.open(window.location.href+'?pdf=1&code='+codes);
+               codes=[];
             });
             
             let  shipments=[];
@@ -417,31 +396,31 @@
             });
 
                   
-            // $(document).on('change', '.check_count', function(){ 
+            $(document).on('change', '.check_count', function(){ 
                 
-            //         let total_cost=parseInt($('#total_cost').val());
-            //         let total_cnt=parseInt($('#total_cnt').val());
-            //         let total_tawsil=parseInt($('#total_tawsil').val());
-            //         let total_net= parseInt($('#total_net').val($('#total_cost').val()-$('#total_tawsil').val()));
-            //         if($(this).is(':checked'))
-            //         {
-            //             total_cnt++;
-            //             total_cost+= $(this).data('cost');
-            //             total_tawsil+= parseInt($(this).data('t7wel'));
-            //             total_net+= $(this).data('net');
-            //         }
-            //         else 
-            //         {
-            //             total_cnt--;
-            //             total_cost-= $(this).data('cost');
-            //             total_tawsil-= parseInt($(this).data('t7wel'));
-            //             total_net-= $(this).data('net');
-            //         }
-            //         $('#total_cost').val(total_cost);
-            //         $('#total_tawsil').val(total_tawsil);
-            //         $('#total_net').val($('#total_cost').val()-$('#total_tawsil').val());
-            //         $('#total_cnt').val(total_cnt);
-            // });
+                    let total_cost=parseInt($('#total_cost').val());
+                    let total_cnt=parseInt($('#total_cnt').val());
+                    let total_tawsil=parseInt($('#total_tawsil').val());
+                    let total_net= parseInt($('#total_net').val($('#total_cost').val()-$('#total_tawsil').val()));
+                    if($(this).is(':checked'))
+                    {
+                        total_cnt++;
+                        total_cost+= $(this).data('cost');
+                        total_tawsil+= parseInt($(this).data('t7wel'));
+                        total_net+= $(this).data('net');
+                    }
+                    else 
+                    {
+                        total_cnt--;
+                        total_cost-= $(this).data('cost');
+                        total_tawsil-= parseInt($(this).data('t7wel'));
+                        total_net-= $(this).data('net');
+                    }
+                    $('#total_cost').val(total_cost);
+                    $('#total_tawsil').val(total_tawsil);
+                    $('#total_net').val($('#total_cost').val()-$('#total_tawsil').val());
+                    $('#total_cnt').val(total_cnt);
+            });
                 
 
             $("#checkAll").click(function(){
@@ -545,8 +524,6 @@
                         console.log(value.client);
                         cont++;
                         var client = '';
-                        var mandoub='';
-                        if(value.Status_== 7|| value.Status_==6 || value.Status_ ==4) mandoub= '<td  class="whitespace-nowrap " >'+ value.mandoub_taslim+'</td>' 
                         if (typeof value.client != 'undefined' &&  value.client != null){client = (value.client)['name_'];}else{client =value.client_name_}
                         $('#dataTable   tr:last').after(`<tr  class='status_`+value.Status_+`_color'>
                             <td  class="whitespace-nowrap " >`+cont+`</td>
@@ -554,11 +531,6 @@
                             <td  class="whitespace-nowrap " >`+value.reciver_phone_+`</td>
                             <td  class="whitespace-nowrap " >`+value.commercial_name_+`</td>
                             <td  class="whitespace-nowrap " >`+ client+`</td>
-                            `+
-                            mandoub
-                            
-                            +
-                            `
                             <td  class="whitespace-nowrap " >`+value.date_+`</td>
                             <td  class="whitespace-nowrap " >`+value.branch_+`</td>
                             <td  class="whitespace-nowrap " >`+value.total_+`</td>

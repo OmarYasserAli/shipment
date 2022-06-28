@@ -179,7 +179,7 @@
                                         <th class="whitespace-nowrap">#</th>
                                         <th class="whitespace-nowrap">الاسم</th>
                                         <th class="whitespace-nowrap">اسم المستخدم</th>
-                                        <th class="whitespace-nowrap">الرقم التعريفى</th>
+                                       
 
                                         <th class="whitespace-nowrap">الفرع</th>
 
@@ -192,10 +192,10 @@
 
                                     <th class="whitespace-nowrap">{{$i}}</th>
                                     <th class="whitespace-nowrap">{{$user->name_}}</th>
-                                    <th class="whitespace-nowrap">{{$user->USERNAME}}</th>
-                                    <th class="whitespace-nowrap">{{$user->ID_}}</th>
+                                    <th class="whitespace-nowrap">{{$user->username}}</th>
+                                    
 
-                                    <th class="whitespace-nowrap">{{$user->Branch_name}}</th>
+                                    <th class="whitespace-nowrap">{{$user->branch}}</th>
 
 
                                     <th class="whitespace-nowrap">

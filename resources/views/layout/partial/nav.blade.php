@@ -1,7 +1,7 @@
 <nav class="side-nav">
     <a href="" class="intro-x flex items-center pl-5 pt-4">
 
-        <img alt="Midone - HTML Admin Template" class="w-10" src="{{asset('assets/'.\App\Models\CompanyInfo::where('branch_',Auth::user()->branch)->first()->image_data)}}">
+        <img alt="Midone - HTML Admin Template" class="w-6" src="{{asset('assets/'.\App\Models\CompanyInfo::where('branch_',Auth::user()->branch)->first()->image_data)}}">
         <span class="hidden xl:block text-white text-lg ml-3 mr-3"> {{\App\Models\CompanyInfo::where('branch_',Auth::user()->branch)->first()->name_}} </span>
     </a>
     <div class="side-nav__devider my-6"></div>
@@ -56,7 +56,7 @@
                     @endif --}}
                 @if(\Illuminate\Support\Facades\Auth::user()->isAbleTo('print-shipment'))
                 <li>
-                    <a href="side-menu-light-dashboard-overview-4.html" class="side-menu">
+                    <a href="{{route('shiments.print')}}" class="side-menu">
                         <div class="side-menu__icon"> <i data-lucide="activity"></i> </div>
                         <div class="side-menu__title"> طﺑﺎﻋﺔ اﻟﺷﺣﻧﺎت </div>
                     </a>
@@ -80,7 +80,7 @@
                     </a>
                 </li>
                     @endif --}}
-                    @if(\Illuminate\Support\Facades\Auth::user()->isAbleTo('t7weelQr-shipmentt'))
+                    @if(\Illuminate\Support\Facades\Auth::user()->isAbleTo('t7weelQr-shipment'))
 
                     <li>
                     <a href="{{route('shipment.t7wel_qr')}}" class="side-menu">

@@ -111,6 +111,7 @@
                             <th class="whitespace-nowrap">مبلغ الشحنه</th>
                                     <th class="whitespace-nowrap">الكود</th>
                                     <th class="whitespace-nowrap"></th>
+                                    <th class="whitespace-nowrap"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -134,6 +135,9 @@
                                 data-cost='{{$shipment->shipment_coast_}}'
                                 data-t7wel='{{$shipment->tawsil_coast_}}' data-net='{{$shipment->shipment_coast_}}' data-code='{{$shipment->code_}}' data-status='{{$shipment->Status_}}'></i></a>
                                 </td>
+                                          <td class="whitespace-nowrap " ><a href="{{route('shiments.deleteShipment',['code'=>$shipment->code_])}}"><i data-lucide="trash" class=""
+                                                                                                                               ></i></a>
+                            </td>
                         </tr>
                         @endforeach
                         
@@ -407,6 +411,11 @@
                         console.log(value.client);
                         cont++;
                         var client = '';
+                       
+                        var deleteurl = '{{ route("shiments.deleteShipment", ":code") }}';
+                        var  editeurl = '{{ route("shiments.edit", ":code") }}';
+                        deleteurl = deleteurl.replace(':code', value.code_);
+                        editeurl = editeurl.replace(':code', value.code_);
                         if (typeof value.client != 'undefined' &&  value.client != null){client = (value.client)['name_'];}else{client =value.client_name_}
                         $('#dataTable   tr:last').after(`<tr  class='status_`+value.Status_+`_color'>
                             <td  class="whitespace-nowrap " >`+cont+`</td>
@@ -421,9 +430,21 @@
                             <td  class="whitespace-nowrap " >`+value.tawsil_coast_+`</td>
                             <td  class="whitespace-nowrap " >`+value.shipment_coast_+`</td>
                             <td  class="whitespace-nowrap " >`+value.code_+`</td>
-                            <td class="whitespace-nowrap " ><input type="checkbox" class="check_count" data-cost='`+value.shipment_coast_+`'
-                                        data-t7wel='`+value.tawsil_coast_+`' data-net='`+value.shipment_coast_+`' data-code='`+value.code_+`' data-status='`+value.Status_+`'></td>                
-                                            </tr>`
+                                           
+                            <td class="whitespace-nowrap " >
+                                <a href=`+editeurl+`>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" icon-name="edit" data-lucide="edit" class="lucide lucide-edit block mx-auto"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                                    <i data-lucide="edit" class="check_count"
+                                   data-cost=`+value.shipment_coast_+`
+                                data-t7wel=`+value.tawsil_coast_+` data-net=`+value.shipment_coast_+` data-code=`+value.code_+` data-status=`+value.Status_+`></i></a>
+                                </td>
+
+                                        <td class="whitespace-nowrap " >
+                                            <a href=`+deleteurl+`>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" icon-name="trash" data-lucide="trash" class="lucide lucide-trash block mx-auto"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"></path></svg>
+                                                </a></td>
+                                        
+                                        </tr>`
                             );
 
                             
