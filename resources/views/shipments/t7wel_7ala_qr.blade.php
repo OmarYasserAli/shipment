@@ -253,7 +253,7 @@
                                     
                                     if(shipments.includes(qr)) return;
                                     shipments.push(qr);
-                                    console.log(data);
+                                    //console.log(data);
                                     var res = (data.data)[0];
                                     $('#rakam_tawsel').val(res.code_);
                                     $('#3amel_name').val(res.client_name_);
@@ -291,6 +291,7 @@
                                 alert("خطأ فى ادخال الشحنة");
                             }
                         });
+                        $(this).val('')
                     }
                 });
                 
