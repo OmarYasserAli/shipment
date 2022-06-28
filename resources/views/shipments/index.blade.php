@@ -256,10 +256,10 @@
             <div style="margin-right:auto; margin-left:10px; margin-bottom:5px;"  class="dropdown inline-block" data-tw-placement="top"> <button class="dropdown-toggle btn btn-primary w-26 mr-1  h-6" aria-expanded="false" data-tw-toggle="dropdown"> اجماليات</button>
                 <div class="dropdown-menu w-60">
                     <ul class="dropdown-content">
-                        <li> <a  class="dropdown-item"><span>{{$sums['totalCost']}}</span> <span style="margin-left:auto;">مبلغ الشحنات </span></a> </li>
-                        <li> <a  class="dropdown-item"><span>{{$sums['tawsilCost']}}</span>   <span style="margin-left:auto;">أجرة الشركة</span> </a> </li>
-                        <li> <a  class="dropdown-item"><span>{{$sums['netCost']}}</span>   <span style="margin-left:auto;">الصافى</span>   </a> </li>
-                        <li> <a  class="dropdown-item"><span>{{$sums['allCount']}}</span>   <span style="margin-left:auto;">عدد الشحنات</span> </a> </li>
+                        <li> <a  class="dropdown-item"><span>{{number_format($sums['totalCost'])}}</span> <span style="margin-left:auto;">مبلغ الشحنات </span></a> </li>
+                        <li> <a  class="dropdown-item"><span>{{number_format($sums['tawsilCost'])}}</span>   <span style="margin-left:auto;">أجرة الشركة</span> </a> </li>
+                        <li> <a  class="dropdown-item"><span>{{number_format($sums['netCost'])}}</span>   <span style="margin-left:auto;">الصافى</span>   </a> </li>
+                        <li> <a  class="dropdown-item"><span>{{number_format($sums['allCount'])}}</span>   <span style="margin-left:auto;">عدد الشحنات</span> </a> </li>
 
                         
                         
@@ -416,33 +416,6 @@
                 $('#total_cnt').val(total_cnt);
             });
 
-                  
-            // $(document).on('change', '.check_count', function(){ 
-                
-            //         let total_cost=parseInt($('#total_cost').val());
-            //         let total_cnt=parseInt($('#total_cnt').val());
-            //         let total_tawsil=parseInt($('#total_tawsil').val());
-            //         let total_net= parseInt($('#total_net').val($('#total_cost').val()-$('#total_tawsil').val()));
-            //         if($(this).is(':checked'))
-            //         {
-            //             total_cnt++;
-            //             total_cost+= $(this).data('cost');
-            //             total_tawsil+= parseInt($(this).data('t7wel'));
-            //             total_net+= $(this).data('net');
-            //         }
-            //         else 
-            //         {
-            //             total_cnt--;
-            //             total_cost-= $(this).data('cost');
-            //             total_tawsil-= parseInt($(this).data('t7wel'));
-            //             total_net-= $(this).data('net');
-            //         }
-            //         $('#total_cost').val(total_cost);
-            //         $('#total_tawsil').val(total_tawsil);
-            //         $('#total_net').val($('#total_cost').val()-$('#total_tawsil').val());
-            //         $('#total_cnt').val(total_cnt);
-            // });
-                
 
             $("#checkAll").click(function(){
                     $('.wasel_goz2y').css("background-color", "yellow");
