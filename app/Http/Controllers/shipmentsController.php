@@ -244,7 +244,7 @@ class shipmentsController extends Controller
             $printPage='shipments.print';
 
             if(request()->status == 4){
-                $printPage='accounting.mandoubtaslim.print';
+                $printPage='shipments.print_mandoub_taslim';
                 $tawsilCost = $all->sum('tas3ir_mandoub_taslim');
             }
             $alSafiCost = $all->sum('total_');
@@ -1680,7 +1680,7 @@ class shipmentsController extends Controller
             $totalCost = $all->sum('shipment_coast_');
             $tawsilCost = $all->sum('tawsil_coast_');
             $printPage='shipments.print';
-            
+
             $alSafiCost = $all->sum('total_');
 
                 $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'alSafiCost'=>$alSafiCost,'company'=>1];
@@ -1726,11 +1726,11 @@ class shipmentsController extends Controller
             $join->on('mandoub_taslim_tas3irtb.mo7afaza_id','=','add_shipment_tb_.mo7afaza_id');
            }) ->where('mandoub_taslim_tas3irtb.mandoub_ID', $mandob->code_)->get();
             $totalCost = $all->sum('shipment_coast_');
-           
-            
+
+
             $tawsilCost = $all->sum('tas3ir_mandoub_taslim');
             $alSafiCost = $totalCost - $tawsilCost ;
-            
+
             $printPage='accounting.mandoubtaslim.print';
                 $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'alSafiCost'=>$alSafiCost,'company'=>1];
             $data = [
