@@ -49,7 +49,12 @@
                                         @endforeach
                                     </select>
                                     <script>
-                                        let CommercialNameSelect = new TomSelect("#Commercial_name",{});
+                                        var CommercialNameSelect = new TomSelect("#Commercial_name",{
+                                            valueField: 'id',
+                                            labelField: 'title',
+                                            searchField: 'title',
+                                            create: false});
+                                        CommercialNameSelect.setValue("{{$name->name_}}");
                                     </script>
 
                             </div>
@@ -74,9 +79,9 @@
                             </div>
                             <div class="form-inline mt-3">
                                 <label for="date" class="form-label sm:w-20" >رقم الهاتف</label>
-                               
+
                                     <input type="text" class="form-control col-span-4"   aria-label="default input inline 1" name="phone_" value="{{$user->phone_}}">
-                               
+
                             </div>
                             {{-- <div class="form-inline mt-3">
                                 <label for="phone" class="form-label sm:w-20" >عنوان العميل</label>
@@ -184,11 +189,11 @@ $( document ).ready(function() {
                           manteka.clearOptions();
                           var temp = ''; var f=0;
                           $.each(result.all,function(key,value){
-                               
+
                                 manteka.addOption({
                                     id: value.name,
                                     title: value.name,
-                                    
+
                                 });
                                 manteka.setValue('{{$user->mantqa}}');
                             });

@@ -13,6 +13,8 @@ use App\Models\AddBranchUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
+
 class userdefinationsController extends Controller
 {
         public function addClient()
@@ -33,11 +35,11 @@ class userdefinationsController extends Controller
 
                 $comerName = (explode(",",$request->Commercial_name));
                 //dd($comerName);
-               
+
                 $validated = $request->validate([
-                        "client_name" => 'required',
-                        "Commercial_name" => 'required',
-                        "username" => 'required',
+                        "client_name" => 'required|unique:all_users,name_',
+                        "username" => 'required|unique:all_users',
+                    "Commercial_name" => 'required',
                         "password" => 'required',
                         "ID_" => 'required',
                         "phone_" => 'required',
@@ -95,7 +97,7 @@ class userdefinationsController extends Controller
                     }
                     $created_user->Special_prices  = $request->Special_prices ;
 
-                    
+
                     $created_user->save();
 
                     foreach($comerName as $com){
@@ -108,7 +110,7 @@ class userdefinationsController extends Controller
                                         'USER'=>$request-> client_name ,
                                         'GUID'=> ' ',
                                         'phone_'=> $request->phone_,
-                                        
+
                                 ]
                                 );
                                 DB::table('commercial_name_for_main_comp')->insert(
@@ -117,16 +119,16 @@ class userdefinationsController extends Controller
                                                 'code_client'=> $created_user->code_ ,
                                                 'name_client'=> $request-> client_name ,
                                                 'code_'=> $created_user->code_ ,
-                                                
-                                                
+
+
                                         ]
                                         );
                       }
-        
-        
-        
-        
-                                        
+
+
+
+
+
                         }
                 try {
 
@@ -147,20 +149,25 @@ class userdefinationsController extends Controller
             $branches = BranchInfo::all();
          return view('users.editClient',compact('page_title','Commercial_names','mo7afazat','user','branches'));
         }
-        public function updateClient(Request $request){
+        public function updateClient(Request $request)
+        {
+             $userData = User::where('code_', $request->code_)->get()[0];
+             $validated = '';
+            if ($userData->name_ == $request->client_name && $userData->username == $request->username){
+
                 $validated = $request->validate([
-                        "code_" => 'required',
-                        // "client_name" => 'required',
-                        // "Commercial_name" => 'required',
-                        // "username" => 'required',
-                        // "password" => 'required',
-                        // "ID_" => 'required',
-                        // "phone_" => 'required',
-                        // "address_" => 'required',
-                        // "mo7afza" => 'required',
-                        // "manteka" => 'required',
-                        // "Special_prices" => 'required',
-                    ]);
+                    "code_" => 'required',
+
+
+                ]);
+        }else{
+                $validated = $request->validate([
+                    "code_" => 'required',
+                    "client_name" => 'unique:all_users,name_',
+                    "username" => 'unique:all_users,username',
+
+                ]);
+            }
                     $mo7afzaa= Mohfza::where('code',$request->mo7afza)->first()->name;
                     $user=auth()->user();
                     $branch_id= BranchInfo::where('name_',$user->branch)->first()->code_;
@@ -207,10 +214,10 @@ class userdefinationsController extends Controller
         }
         public function storeMandoub(Request $request){
                 $validated = $request->validate([
-                        "mandoub_name" => 'required',
+                        "mandoub_name" => 'required|unique:all_users,name_',
                         "job" => 'required',
 
-                        "username" => 'required',
+                        "username" => 'required|unique:all_users',
                         "password" => 'required',
                         "ID_" => 'required',
                        "phone_"=>'required',
@@ -286,19 +293,24 @@ class userdefinationsController extends Controller
          return view('users.editMandoub',compact('page_title','branches','Commercial_names','mo7afazat','manadoub'));
         }
         public function updateMandoub(Request $request){
-                $validated = $request->validate([
-                        "code_" => 'required',
-                //         "job" => 'required',
+            $userData = User::where('code_', $request->code_)->get()[0];
+            $validated = '';
+            if ($userData->name_ == $request->mandoub_name && $userData->username == $request->username){
 
-                //         "username" => 'required',
-                //         "password" => 'required',
-                //         "ID_" => 'required',
-                //        "phone_"=>'required',
-                //         "address_" => 'required',
-                //         "mo7afza" => 'required',
-                //         "manteka" => 'required',
+                $validated = $request->validate([
+                    "code_" => 'required',
+
 
                 ]);
+            }else{
+                $validated = $request->validate([
+                    "code_" => 'required',
+                    "username" => 'unique:all_users',
+                    "mandoub_name" => 'unique:all_users,name_',
+
+                ]);
+            }
+
                 $user=auth()->user();
                     $mo7afzaa= Mohfza::where('code',$request->mo7afza)->first()->name;
                     $branch_id= BranchInfo::where('name_',$user->branch)->first()->code_;
@@ -309,12 +321,12 @@ class userdefinationsController extends Controller
                     if($created_user == null){
                         return redirect()->back()->with('status', 'خطأ: لم يتم العثور على المستخدم');
                     }
-                  
+
 
 
                     $created_user->name_  = $request-> mandoub_name ;
                     $created_user->type_  = $request->job ;
-                    //$created_user->status_  = 0  ;request   
+                    //$created_user->status_  = 0  ;request
                     $created_user->branch  = $branch_name;
                     $created_user->username  = $request->username ;
                     $created_user->password       = $request->password  ;
@@ -346,10 +358,10 @@ class userdefinationsController extends Controller
         }
         public function storeUser(Request $request){
                 $validated = $request->validate([
-                        "mandoub_name" => 'required',
+                        "mandoub_name" => 'required|unique:all_users,name_',
 
                     "branch" => 'required',
-                        "username" => 'required',
+                        "username" => 'required|unique:all_users',
                         "password" => 'required',
                         "ID_" => 'required',
                        //"phone_"=>'required',
@@ -425,19 +437,24 @@ class userdefinationsController extends Controller
          return view('users.editUser',compact('page_title','branches','Commercial_names','mo7afazat','manadoub'));
         }
         public function updateUser(Request $request){
-                $validated = $request->validate([
-                        "code_" => 'required',
-                //         "job" => 'required',
+            $userData = User::where('code_', $request->code_)->get()[0];
+            $validated = '';
+            if ($userData->name_ == $request->mandoub_name && $userData->username == $request->username){
 
-                //         "username" => 'required',
-                //         "password" => 'required',
-                //         "ID_" => 'required',
-                //        "phone_"=>'required',
-                //         "address_" => 'required',
-                //         "mo7afza" => 'required',
-                //         "manteka" => 'required',
+                $validated = $request->validate([
+                    "code_" => 'required',
+
 
                 ]);
+            }else{
+                $validated = $request->validate([
+                    "code_" => 'required',
+                    "username" => 'unique:all_users',
+                    "mandoub_name" => 'unique:all_users,name_',
+
+                ]);
+            }
+
                 $user=auth()->user();
                     $mo7afzaa= Mohfza::where('code',$request->mo7afza)->first()->name;
                     $branch_id= BranchInfo::where('name_',$user->branch)->first()->code_;
@@ -473,7 +490,7 @@ class userdefinationsController extends Controller
                     $created_user->mo7fza  = $mo7afzaa  ;
                     $created_user->mantqa  = $request->manteka  ;
                     $created_user->phone_  = $request->phone_  ;
-            
+
                     $created_user->save();
                 try {
 
@@ -485,11 +502,11 @@ class userdefinationsController extends Controller
 
         }
         public function registrationRequest(Request $request)
-        { 
-                
+        {
+
                 $user=auth()->user();
                 if(!$user->isAbleTo('registrationRequest-userDefinations')){
-                        return abort(403); 
+                        return abort(403);
                 }
                 $limit=Setting::get('items_per_page');
                 $page =0;
@@ -500,26 +517,26 @@ class userdefinationsController extends Controller
                 $shipments = $shipments->where(function ($query) use($request){
                         $query->where('branch_', '=', $request->branch)
                         ->orWhere('transfere_1', '=', $request->branch);
-                });        
+                });
                 }
                 if(isset($request->mo7afza)){
-                $shipments = $shipments->where('mo7afaza_id', '=', $request->mo7afza);       
+                $shipments = $shipments->where('mo7afaza_id', '=', $request->mo7afza);
                 }
 
                 $all_shipments = $shipments;
 
-                
-                
+
+
                 if(request()->showAll == 'on'){
                 $counter= $all_shipments->get();
                 $count_all = $counter->count();
                 request()->limit=$count_all;
                 }
                 //  dd($all_shipments->skip(0)->limit(40)->get()[20]);
-             
+
                 $all = $all_shipments->skip($limit*$page)->limit($limit)->get();
                 if(isset(request()->lodaMore)){
-                
+
                 return response()->json([
                         'status' => 200,
                         'data' => $all,
@@ -527,21 +544,21 @@ class userdefinationsController extends Controller
                         'sums'=>$sums
                 ], 200);
                 }
-                
+
                 $page_title='الموافقة على  طلبات التسجيل';
                 $branches =BranchInfo::all();
                 $mo7afazat =Mohfza::all();
                 return view('users.registrationRequest',compact('all','branches','mo7afazat'));
-        
+
         }
         public function registrationRequestSave (Request $request){
-               
+
                 $u = User::where('code_',$request->code)->first();
                 if(!isset($u)){
                         return response()->json([
                                 'status' => 404,
                                 'message' => 'fail',
-                                
+
                         ], 404);
                 }
                 if($request->type=='accept'){
@@ -553,7 +570,7 @@ class userdefinationsController extends Controller
                         return response()->json([
                                 'status' => 404,
                                 'message' => 'fail',
-                                
+
                         ], 404);
                 }
                 $u->save();
@@ -561,17 +578,17 @@ class userdefinationsController extends Controller
                 return response()->json([
                         'status' => 200,
                         'message' => 'sucecss',
-                        
+
                 ], 200);
         }
         public function commercialNames()
         {
                 $user=auth()->user();
                 if(!$user->isAbleTo('commertialName-userDefinations')){
-                        return abort(403); 
+                        return abort(403);
                 }
                 return view('users.commercialNames');
         }
 
-        
+
 }
