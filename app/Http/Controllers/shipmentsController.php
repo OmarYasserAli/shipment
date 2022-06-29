@@ -244,7 +244,7 @@ class shipmentsController extends Controller
             $printPage='shipments.print';
 
             if(request()->status == 4){
-                $printPage='shipments.print_mandoub_taslim';
+                $printPage='accounting.mandoubtaslim.print';
                 $tawsilCost = $all->sum('tas3ir_mandoub_taslim');
             }
             $alSafiCost = $all->sum('total_');
@@ -1739,7 +1739,7 @@ class shipmentsController extends Controller
                 'sum'=>$sums
             ];
 
-            $mpdf = PDF::loadView('accounting.mandoubtaslim.print',$data);
+            $mpdf = PDF::loadView('shipments.print_mandoub_taslim',$data);
             return $mpdf->stream('document.pdf');
         }
 
@@ -1788,7 +1788,7 @@ class shipmentsController extends Controller
                 $filter_field = 'Ship_area_';
             }
         }elseif($request->case=='taslim_qr'){
-            $status=array(1);
+            $status=array(1,4);
             $filter_field = 'Ship_area_';
         }elseif($request->case=='frou3_t7wel_sho7nat_qr'){
             $status=array(1);
