@@ -222,16 +222,13 @@
         <tr>
             <th>#</th>
             <th >الكود </th>
+            <th> مبلغ الشحنة</th>
             <th>الاسم التجارى</th>
+            <th >التاريخ </th>
             <th >المحافظة</th>
             <th >العنوان</th>
-            <th >اسم المندوب</th>
-            <th >التاريخ </th>
             <th>هاتف المستلم</th>
-            <th>الفرع</th>
-            <th> مبلغ الشحنة</th>
-
-
+            <th>الملاحظات</th>
         </tr>
         @php $i=1; @endphp
         @foreach($all as $shipment)
@@ -239,14 +236,14 @@
             <tr >
                 <td><?php echo $i; $i++?></td>
                 <td  >{{$shipment->code_}}</td>
+                <td  >{{number_format($shipment->shipment_coast_, 2)}}</td>
                 <td >{{$shipment->commercial_name_}}</td>
+                <td  >{{$shipment->date_}}</td>
                 <td  >{{$shipment->mo7afza_}}</td>
                 <td  >{{$shipment->el3nwan}}</td>
-                <td  >{{$shipment->mandoub_taslim}}</td>
-                <td  >{{$shipment->date_}}</td>
                 <td  >{{$shipment->reciver_phone_}}</td>
-                <td  >{{$shipment->branch_}}</td>
-                <td  >{{number_format($shipment->shipment_coast_, 2)}}</td>
+                <td  >{{$shipment->notes_}}</td>
+
 
             </tr>
         @endforeach
