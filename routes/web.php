@@ -75,9 +75,9 @@ Route::post('shiment/t7weel_manual', 'shipmentsController@t7weel_manual')->name(
 
 Route::get('getShipmentsByCode', 'shipmentsController@getShipmentsByCode')->name('getShipmentsByCode');
 Route::get('shipment/t7wel_qr', 'shipmentsController@t7wel_qr')->name('shipment.t7wel_qr');
-Route::post('shipment/t7wel_qr', 'shipmentsController@t7wel_qr_save')->name('shipment.t7wel_qr_save');
+Route::any('shipment/t7wel_qr_save', 'shipmentsController@t7wel_qr_save')->name('shipment.t7wel_qr_save');
 Route::get('shipment/taslim_qr', 'shipmentsController@taslim_qr')->name('shipment.taslim_qr');
-Route::post('shipment/taslim_qr', 'shipmentsController@taslim_qr_save')->name('shipment.taslim_qr_save');
+Route::any('shipment/taslim_qr_save', 'shipmentsController@taslim_qr_save')->name('shipment.taslim_qr_save');
 
 
 Route::get('shipment/shipment_search', 'shipmentsController@shipment_bar_search')->name('shipment_bar_search');

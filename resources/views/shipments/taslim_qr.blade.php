@@ -167,15 +167,16 @@
 
         <script type="text/javascript">
         $('#print').on('click', function(){
-                    $.ajax({
-                        url: "{{route('shipment.taslim_qr_save')}}?pdf=1" ,
-                        type: 'post',
-                        data:{ code:shipments, status:current_status, _token: "{{ csrf_token() }}"},
-                        error: function(e){
-                        },
-                        success: function(res) {
-                        }
-                    });
+            window.open("{{route('shipment.t7wel_qr_save')}}"+'?pdf=1&codes='+shipments);
+                    // $.ajax({
+                    //     url: "{{route('shipment.taslim_qr_save')}}?pdf=1" ,
+                    //     type: 'post',
+                    //     data:{ code:shipments, status:current_status, _token: "{{ csrf_token() }}"},
+                    //     error: function(e){
+                    //     },
+                    //     success: function(res) {
+                    //     }
+                    // });
             });
             let  shipments=[];
             let  selected=[];

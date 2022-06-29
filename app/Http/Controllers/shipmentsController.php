@@ -1674,9 +1674,9 @@ class shipmentsController extends Controller
 
 
         if(isset(request()->pdf)){
+            $codes= explode(',',$request->codes);
             $all = DB::table('add_shipment_tb_')
-              ->whereIn('code_', $request->code)
-              ->whereIn('status_', $status)->get();
+              ->whereIn('code_', $codes)->get();
             $totalCost = $all->sum('shipment_coast_');
             $tawsilCost = $all->sum('tawsil_coast_');
             $printPage='shipments.print';
@@ -1714,17 +1714,14 @@ class shipmentsController extends Controller
     public function taslim_qr_save(Request $request)
     {
         $status=array(1);
-
-        $mandob = User::findorfail($request->status);
         $user = $user = auth()->user();
+        $codes= explode(',',$request->codes);
+        
         if(isset(request()->pdf)){
             $all =  DB::table('add_shipment_tb_')
-            ->whereIn('add_shipment_tb_.code_', $request->code)
-            ->where('add_shipment_tb_.status_', 1)
-            ->leftjoin('mandoub_taslim_tas3irtb', function($join){
-            $join->on('mandoub_taslim_tas3irtb.mantika_id', '=', 'add_shipment_tb_.mantika_id');
-            $join->on('mandoub_taslim_tas3irtb.mo7afaza_id','=','add_shipment_tb_.mo7afaza_id');
-           }) ->where('mandoub_taslim_tas3irtb.mandoub_ID', $mandob->code_)->get();
+            ->whereIn('add_shipment_tb_.code_', $codes)
+            ->whereIN('add_shipment_tb_.status_',[ 1,4])
+            ->get();
             $totalCost = $all->sum('shipment_coast_');
 
 
@@ -1742,11 +1739,12 @@ class shipmentsController extends Controller
             $mpdf = PDF::loadView('shipments.print_mandoub_taslim',$data);
             return $mpdf->stream('document.pdf');
         }
-
-         DB::table('add_shipment_tb_')
+        $mandob = User::findorfail($request->status);
+       
+        $u =  DB::table('add_shipment_tb_')
          ->whereIn('add_shipment_tb_.code_', $request->code)
 
-          ->where('add_shipment_tb_.status_', 1)
+          ->whereIn('add_shipment_tb_.status_', [1,4])
         ->leftjoin('mandoub_taslim_tas3irtb', function($join){
             $join->on('mandoub_taslim_tas3irtb.mantika_id', '=', 'add_shipment_tb_.mantika_id');
             $join->on('mandoub_taslim_tas3irtb.mo7afaza_id','=','add_shipment_tb_.mo7afaza_id');

@@ -395,14 +395,7 @@
 
                                             
                                     
-                                    // <td class="whitespace-nowrap">{{$shipment->shipment_coast_}}</td>
-                                    // <td class="whitespace-nowrap">{{$shipment->mo7afza_}}</td>
-                                    // <td class="whitespace-nowrap">{{$shipment->reciver_phone_}}</td>
-                                    // <td class="whitespace-nowrap">{{$shipment->commercial_name_}}</td>
-                                    // <td class="whitespace-nowrap">{{$shipment->tarikh_el7ala}}</td>
-                                    // <td class="whitespace-nowrap">{{$shipment->branch_}}</td>
-                                    // <td class="whitespace-nowrap">{{$shipment->code_}}</td>
-                            //rows_counter()
+                                   
                     });
                 })
                 .fail(function (jqXHR, ajaxOptions, thrownError) {

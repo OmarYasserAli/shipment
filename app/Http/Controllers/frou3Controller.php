@@ -575,6 +575,7 @@ class frou3Controller extends Controller
         $mpdf = PDF::loadView('shipments.print',$data);
         return $mpdf->stream('document.pdf');
     }
+    
          return view('frou3.t7wel_sho7nat.accept',compact('all','branches','mo7afazat'));
 
     }
