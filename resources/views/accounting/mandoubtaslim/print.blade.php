@@ -198,6 +198,7 @@
             <tr>
 
                 <th >عدد الشحنات</th>
+                <th >اجمالي مبلغ الشحنة</th>
                 @if(isset($sum['mandoub']))
                 <th >اجمالي مبلغ الشحنة</th>
 
@@ -213,8 +214,8 @@
 
                 <tr >
                     <td>{{count($all)}}</td>
-                    @if(isset($sum['mandoub']))
                     <td>{{number_format($sum['totalCost'], 2)}}</td>
+                    @if(isset($sum['mandoub']))
                     <td>{{number_format($sum['tawsilCost'], 2)}}</td>
                     <td>{{number_format($sum['alSafiCost'], 2)}}</td>
                     @endif
@@ -239,8 +240,6 @@
             <th >الفرع</th>
             @if(isset($sum['mandoub']))
             <th >الصافى</th>
-
-
                 <th > اجرة المندوب</th>
             @endif
             <th >مبلغ الشحنه</th>
@@ -259,7 +258,7 @@
                 <td  >{{$shipment->date_}}</td>
                 <td  >{{$shipment->branch_}}</td>
                 @if(isset($sum['mandoub']))
-                <td >{{number_format($shipment->total_, 2)}}</td>
+                <td >{{number_format($shipment->shipment_coast_ - $shipment->tas3ir_mandoub_taslim , 2)}}</td>
                 <td  >{{number_format($shipment->tas3ir_mandoub_taslim, 2)}}</td>
                 @endif
                 <td  >{{number_format($shipment->shipment_coast_, 2)}}</td>
