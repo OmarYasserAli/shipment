@@ -165,19 +165,7 @@
         <script type="text/javascript">
         $('#print').on('click', function(){
             window.open("{{route('shipment.t7wel_qr_save')}}"+'?pdf=1&codes='+shipments);
-            // $.ajax({
-            //             url: "{{route('shipment.t7wel_qr_save')}}?pdf=1" ,
-            //             type: 'post',
-            //             data:{ code:shipments, status:current_status, _token: "{{ csrf_token() }}"},
-            //             error: function(e){
-            //                // console.log(e);
-            //             },
-            //             success: function(res) {
-                           
-            //             }
-            //         });
-                //window.open(window.location.href+'?pdf=1');
-               // window.location.replace (); 
+            
             });
             let  shipments=[];
             let  selected=[];

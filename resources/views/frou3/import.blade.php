@@ -256,7 +256,13 @@
 
         <script type="text/javascript">
             $('#print').on('click', function(){
-                window.open(window.location.href+'?pdf=1');
+                var codes=[];
+                $('.check_count').each(function() {
+                        if($(this).is(':checked')){
+                            codes.push($(this).data('code'));
+                        }
+                    });
+                    window.open(window.location.href.split('?')[0]+'?pdf=1&codes='+codes);
                // window.location.replace (); 
             });
             let  shipments=[];

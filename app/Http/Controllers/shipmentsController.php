@@ -228,17 +228,14 @@ class shipmentsController extends Controller
         $page_title=Shipment_status::where('code_',$type)->first()->name_;
         $title=Shipment_status::where('code_',$type)->first()->name_;
         if(isset(request()->pdf)){
-            // dd('a');
 
             if(isset(request()->codes))
             {
                 $codes= explode(',',request()->codes);
                 $all=Shipment::whereIn('code_',$codes);
-                // dd($all);
             }
 
             $all=$all->get();
-//            return count($all);
             $totalCost = $all->sum('shipment_coast_');
             $tawsilCost = $all->sum('tawsil_coast_');
             $printPage='shipments.print';

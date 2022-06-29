@@ -164,18 +164,9 @@
             </div>
 
         <script type="text/javascript">
-            $('#print').on('click', function(){
-                $.ajax({
-                        url: "{{route('frou3_t7wel_sho7nat_qr_save')}}?pdf=1" ,
-                        type: 'post',
-                        data:{ code:shipments, status:current_status, _token: "{{ csrf_token() }}"},
-                        error: function(e){
-                            console.log(e);
-                        },
-                        success: function(res) {
-                           
-                        }
-                    });
+           $('#print').on('click', function(){
+            window.open("{{route('frou3_t7wel_sho7nat_qr_save')}}"+'?pdf=1&codes='+shipments);
+            
             });
             let  shipments=[];
             let  selected=[];
