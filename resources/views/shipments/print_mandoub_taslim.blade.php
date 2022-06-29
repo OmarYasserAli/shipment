@@ -228,6 +228,7 @@
             <th >المحافظة</th>
             <th >العنوان</th>
             <th>هاتف المستلم</th>
+            <th>اسم المندوب</th>
             <th>الملاحظات</th>
         </tr>
         @php $i=1; @endphp
@@ -242,6 +243,7 @@
                 <td  >{{$shipment->mo7afza_}}</td>
                 <td  >{{$shipment->el3nwan}}</td>
                 <td  >{{$shipment->reciver_phone_}}</td>
+                <td  >{{$shipment->mandoub_taslim}}</td>
                 <td  >{{$shipment->notes_}}</td>
 
 
