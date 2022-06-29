@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <title>A simple, clean, and responsive HTML invoice template</title>
+
     <style>
         body{
             font-family: 'XBRiyaz' , Sans-Serif;
@@ -201,11 +202,6 @@
                 <th >عدد الشحنات</th>
                 <th >اجمالي مبلغ الشحنة</th>
 
-                @if(isset($sum['alfer3']))
-                    <th >اجمالي اجرة الفرع</th>
-                @endif
-
-                <th >اجمالي الصافي</th>
                 <th >التاريخ</th>
 
             </tr>
@@ -214,8 +210,7 @@
                 <tr >
                     <td>{{count($all)}}</td>
                     <td>{{number_format($sum['totalCost'], 2)}}</td>
-                    <td>{{number_format($sum['tawsilCost'], 2)}}</td>
-                    <td>{{number_format($sum['alSafiCost'], 2)}}</td>
+
                     <td>{{Carbon\Carbon::now()->format('Y-m-d  g:i:s A')}}</td>
                 </tr>
 
@@ -226,42 +221,32 @@
     <table class="tabel_data" align="center">
         <tr>
             <th>#</th>
-            <th >المحافظة</th>
-            <th >هاتف المستلم</th>
+            <th >الكود </th>
             <th>الاسم التجارى</th>
-
-            <th >اسم العميل</th>
-
-
-            <th >تاريخ الشحنه</th>
-            <th >الفرع</th>
-            <th >الصافى</th>
-
-
-                <th > اجرة الفرع</th>
+            <th >المحافظة</th>
+            <th >العنوان</th>
+            <th >اسم المندوب</th>
+            <th >التاريخ </th>
+            <th>هاتف المستلم</th>
+            <th>الفرع</th>
+            <th> مبلغ الشحنة</th>
 
 
-            <th >مبلغ الشحنه</th>
-            <th>الكود</th>
         </tr>
         @php $i=1; @endphp
         @foreach($all as $shipment)
 
             <tr >
                 <td><?php echo $i; $i++?></td>
-                <td  >{{$shipment->mo7afza_}}</td>
-                <td  >{{$shipment->reciver_phone_}}</td>
-                <td >{{$shipment->commercial_name_}}</td>
-                <td >@if(isset($shipment->client)){{$shipment->client->name_}} @else {{$shipment->client_name_}}@endif</td>
-                <td  >{{$shipment->date_}}</td>
-                <td  >{{$shipment->branch_}}</td>
-                <td >{{number_format($shipment->total_, 2)}}</td>
-
-                <td  >{{number_format($shipment->tawsil_coast_, 2)}}</td>
-
-
-                <td  >{{number_format($shipment->shipment_coast_, 2)}}</td>
                 <td  >{{$shipment->code_}}</td>
+                <td >{{$shipment->commercial_name_}}</td>
+                <td  >{{$shipment->mo7afza_}}</td>
+                <td  >{{$shipment->el3nwan}}</td>
+                <td  >{{$shipment->mandoub_taslim}}</td>
+                <td  >{{$shipment->date_}}</td>
+                <td  >{{$shipment->reciver_phone_}}</td>
+                <td  >{{$shipment->branch_}}</td>
+                <td  >{{number_format($shipment->shipment_coast_, 2)}}</td>
 
             </tr>
         @endforeach

@@ -9,7 +9,7 @@
             font-family: 'XBRiyaz' , Sans-Serif;
         }
         table.tabel_data, .tabel_data td,.tabel_data th {
-            border: 1px solid #ddd;
+            border: 2px solid #00000099;
             text-align: center;
         }
 
@@ -34,6 +34,8 @@
         }
         .tabel_data th,.tabel_data  td {
             padding: 15px;
+            font-weight: bold;
+            font-size: 19px !important;
         }
         .data_of_title{
             text-align: center;
