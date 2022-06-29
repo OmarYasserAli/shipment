@@ -1739,7 +1739,7 @@ class shipmentsController extends Controller
                 'sum'=>$sums
             ];
 
-            $mpdf = PDF::loadView('shipments.print',$data);
+            $mpdf = PDF::loadView('accounting.mandoubtaslim.print',$data);
             return $mpdf->stream('document.pdf');
         }
 

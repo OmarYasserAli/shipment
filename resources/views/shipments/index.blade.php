@@ -189,9 +189,8 @@
                             <th class="whitespace-nowrap">اسم العميل</th>
                             @if($type ==4 || $type ==6 || $type ==7)
                                 <th class="whitespace-nowrap">مندوب التسليم</th>
-                            @elseif($type ==1)
-                                <th class="whitespace-nowrap">العنوان</th>
                             @endif
+                            <th class="whitespace-nowrap">العنوان</th>
                             <th class="whitespace-nowrap">تاريخ الشحنه</th>
                             <th class="whitespace-nowrap">الفرع</th>
                             <th class="whitespace-nowrap">الصافى</th>
@@ -223,9 +222,8 @@
                             <td class="whitespace-nowrap " >@if(isset($shipment->client)){{$shipment->client->name_}} @else {{$shipment->client_name_}}@endif</td>
                             @if($type ==4 || $type ==6 || $type ==7)
                                 <th class="whitespace-nowrap">{{$shipment->mandoub_taslim}}</th>
-                            @elseif($type ==1)
-                                <th class="whitespace-nowrap">{{$shipment->el3nwan}}</th>
                             @endif
+                            <th class="whitespace-nowrap">{{$shipment->el3nwan}}</th>
                             <td class="whitespace-nowrap " >{{$shipment->date_}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->branch_}}</td>
                             <td class="whitespace-nowrap " >{{number_format($shipment->shipment_coast_-$ogra , 0)}}</td>
@@ -537,9 +535,6 @@
                             else  var ogra= value.tawsil_coast_;
                         if(value.Status_== 7|| value.Status_==6 || value.Status_ ==4)
                          mandoub= '<td  class="whitespace-nowrap " >'+ value.mandoub_taslim+'</td>'
-                         else if(value.Status_ ==1)
-                         mandoub= '<td  class="whitespace-nowrap " >'+ value.el3nwan+'</td>'
-
 
                         if (typeof value.client != 'undefined' &&  value.client != null){client = (value.client)['name_'];}else{client =value.client_name_}
                         $('#dataTable   tr:last').after(`<tr  class='status_`+value.Status_+`_color'>
@@ -553,6 +548,7 @@
 
                             +
                             `
+                            <td  class="whitespace-nowrap " >`+value.el3nwan+`</td>
                             <td  class="whitespace-nowrap " >`+value.date_+`</td>
                             <td  class="whitespace-nowrap " >`+value.branch_+`</td>
                             <td  class="whitespace-nowrap " >`+(value.shipment_coast_ - ogra).toLocaleString('en-US')+`</td>

@@ -37,11 +37,12 @@
                     </div>
                     <div class="p-5 border-t border-slate-200/60 dark:border-darkmode-400">
                         <table style="font-size: 16px;">
-                            <tr><td>&nbsp;&nbsp; <span>مبلغ الشحنة :</span></td><td><span>{{$shipment->shipment_coast_}}</span></td></tr>
+                            <tr><td style="width: 45%">&nbsp;&nbsp; <span>مبلغ الشحنة :</span></td><td><span>{{$shipment->shipment_coast_}}</span></td></tr>
                             <tr><td>&nbsp;&nbsp;<span>هاتف المستلم :</span></td><td><span>{{$shipment->reciver_phone_}}</span></td></tr>
                             <tr><td>&nbsp;&nbsp;<span>المحافظة :</span></td><td><span>{{$shipment->mo7afza_}}</span></td></tr>
                             <tr><td>&nbsp;&nbsp;<span>العنوان : </span></td><td><span>{{$shipment->el3nwan}}</span></td></tr>
                             <tr><td>&nbsp;&nbsp;<span>الفرع :</span></td><td><span>{{$shipment->branch_	}}</span></td></tr>
+                            <tr><td>&nbsp;&nbsp;<span>مندوب التسليم :</span></td><td><span>{{$shipment->mandoub_taslim	}}</span></td></tr>
                             <tr><td>&nbsp;&nbsp;<span>الحالة :</span></td><td><span>{{$shipment->Shipment_status->name_	}}</span></td></tr>
                             <tr><td>&nbsp;&nbsp;<span>التاريخ : </span></td><td><span>{{$shipment->date_}}</span></td></tr>
                             <tr><td>&nbsp;&nbsp;<span>الملاحظات : </span></td><td><span>{{$shipment->notes_}}</span></td></tr>
@@ -50,7 +51,7 @@
                     </div>
                     <div class="p-5 border-t border-slate-200/60 dark:border-darkmode-400">
                     <table style="font-size: 16px;">
-                        <tr><td>&nbsp;&nbsp; <span>مكان الشحنة : </span></td><td><span>{{$shipment->Ship_area_}}</span></td></tr>
+                        <tr><td style="width: 45%">&nbsp;&nbsp; <span>مكان الشحنة : </span></td><td><span>{{$shipment->Ship_area_}}</span></td></tr>
                         <tr><td>&nbsp;&nbsp;<span>تسديد العميل :</span></td><td><span>{{$shipment->el3amil_elmosadad}}</span></td></tr>
                         <tr><td>&nbsp;&nbsp;<span>تسديد المندوب :</span></td><td><span>{{$shipment->elmandoub_elmosadad_taslim}}</span></td></tr>
                         <tr><td>&nbsp;&nbsp;<span>تسديد الفرع الاول : </span></td><td><span>{{$shipment->elfar3_elmosadad_mno}}</span></td></tr>
