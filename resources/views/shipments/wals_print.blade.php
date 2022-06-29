@@ -258,7 +258,7 @@
                             codes.push($(this).data('code'));
                         }
                     });
-                window.open(window.location.href+'?pdf=1&code='+codes);
+                    window.open(window.location.href.split('?')[0]+'?pdf=1&code='+codes);
                codes=[];
             });
             

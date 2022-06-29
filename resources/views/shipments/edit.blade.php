@@ -33,7 +33,7 @@
                            
                             <div class="post__content tab-content">
                                 <form action="{{route('shiments.update')}}" method="POST" id="shipment_form">
-                                    @csrf;
+                                    @csrf
                                     <div id="content" class="tab-pane p-5 active" role="tabpanel" aria-labelledby=  "content-tab">
                                     <div class="form-inline">
                                         <label for="date" class="form-label sm:w-20">التاريخ</label>

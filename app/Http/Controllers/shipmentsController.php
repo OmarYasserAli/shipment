@@ -1443,7 +1443,7 @@ class shipmentsController extends Controller
     public function update(Request $request){
 
         $validated = $request->validate([
-            'reciver_name_' => 'required',
+            // 'reciver_name_' => 'required',
             'client_id' => 'required',
             'mo7afza' => 'required',
             //'manteka' => 'required',
