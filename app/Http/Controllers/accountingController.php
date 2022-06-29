@@ -433,7 +433,8 @@ class accountingController extends Controller
             $all=$all->get();
          $totalCost = $all->sum('shipment_coast_');
         $tawsilCost = $all->sum('tas3ir_mandoub_taslim');
-        $alSafiCost = $all->sum('total_');
+        $alSafiCost = $totalCost - $tawsilCost;
+
 
         $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'alSafiCost'=>$alSafiCost,'mandoub' => 1,];
          $data = [
@@ -576,7 +577,7 @@ class accountingController extends Controller
             $all=$all->get();
          $totalCost = $all->sum('shipment_coast_');
         $tawsilCost = $all->sum('tas3ir_mandoub_taslim');
-        $alSafiCost = $all->sum('total_');
+            $alSafiCost = $totalCost - $tawsilCost;
 
         $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'alSafiCost'=>$alSafiCost,'mandoub' => 1];
          $data = [
