@@ -164,15 +164,33 @@ class frou3Controller extends Controller
             if(isset(request()->codes))
             {
                 $codes= explode(',',request()->codes);
-                $all=Shipment::whereIn('code_',$codes);
+                if( $brach_filter != '')
+                {
+                    $all=Shipment::whereIn('code_',$codes)->select('*',DB::raw("(CASE
+                                    WHEN ( branch_ = '{$user->branch}' and  transfere_1 = '{$brach_filter}' and elfar3_elmosadad_mno = '') THEN  transfer_coast_1
+                                    WHEN ( transfere_1 = '{$user->branch}' and  transfere_2 = '{$brach_filter}' and elfar3_elmosadad_mno_2 = '') THEN transfer_coast_2
+                                    END) AS t7weel_cost"));
+                }
+                else
+                {     $all=Shipment::whereIn('code_',$codes)->select('*',DB::raw("(CASE
+                                    WHEN ( branch_ = '{$user->branch}' and  transfere_1 !=  '' and elfar3_elmosadad_mno = '') THEN  transfer_coast_1
+                                    WHEN ( transfere_1 = '{$user->branch}' and  transfere_2 != '' and elfar3_elmosadad_mno_2 = '') THEN transfer_coast_2
+                                    END) AS t7weel_cost"));
+
+                }
+
             }
 
             $all=$all->get();
+            $ta7weel=0;
+            foreach($all as $ship){
+                $ta7weel += $ship->t7weel_cost ;
+            }
             $totalCost = $all->sum('shipment_coast_');
-            $tawsilCost = $all->sum('tawsil_coast_');
-            $printPage='shipments.print';
+            $tawsilCost = $ta7weel;
+            $printPage='frou3.accounting.print';
 
-            $alSafiCost = $all->sum('total_');
+            $alSafiCost = $totalCost - $tawsilCost;
 
                 $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'alSafiCost'=>$alSafiCost,'company'=>1];
 
@@ -1275,7 +1293,7 @@ class frou3Controller extends Controller
             //return view('shipments.print' , compact('all'));
             $totalCost = $all->sum('shipment_coast_');
             $tawsilCost = $ta7weel;
-            $alSafiCost = $all->sum('total_');
+            $alSafiCost = $totalCost - $tawsilCost;
 
             $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'alSafiCost'=>$alSafiCost,'alfer3' => 1];
             $data = [
@@ -1457,12 +1475,26 @@ class frou3Controller extends Controller
             {
                 $codes= explode(',',request()->codes);
 
-                // dd(request()->pdf);
-                $all=Shipment::whereIn('code_',$codes);
+                if($brach_filter != '')
+                {
+                    $all=Shipment::whereIn('code_',$codes)->select('*',DB::raw("(CASE
+                                    WHEN ( branch_ = '{$user->branch}' and  transfere_1 = '{$brach_filter}' and elfar3_elmosadad_mno != '') THEN  transfer_coast_1
+                                    WHEN ( transfere_1 = '{$user->branch}' and  transfere_2 = '{$brach_filter}' and elfar3_elmosadad_mno_2 != '') THEN transfer_coast_2
+                                    END) AS t7weel_cost"));
+
+                }
+                else{
+                    $all=Shipment::whereIn('code_',$codes)->select('*',DB::raw("(CASE
+                                    WHEN ( branch_ = '{$user->branch}' and  transfere_1 != '' and elfar3_elmosadad_mno != '') THEN  transfer_coast_1
+                                    WHEN ( transfere_1 = '{$user->branch}' and  transfere_2 != '' and elfar3_elmosadad_mno_2 != '') THEN transfer_coast_2
+                                    END) AS t7weel_cost"));
+                }
+
                 // dd($all);
 
 
             }
+
             $all=$all->get();
                  $ta7weel=0;
             foreach($all as $ship){
@@ -1474,7 +1506,7 @@ class frou3Controller extends Controller
             //return view('shipments.print' , compact('all'));
             $totalCost = $all->sum('shipment_coast_');
             $tawsilCost = $ta7weel;
-            $alSafiCost = $all->sum('total_');
+            $alSafiCost = $totalCost -  $tawsilCost;
 
             $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'alSafiCost'=>$alSafiCost,'alfer3' => 1];
             $data = [
