@@ -180,7 +180,7 @@
                             <th class="whitespace-nowrap">الفرع</th>
                             <th class="whitespace-nowrap">مكان الشحنة</th>
                             <th class="whitespace-nowrap">الصافى</th>
-                            <th class="whitespace-nowrap">اجره الشركه</th>
+                            <th class="whitespace-nowrap">اجره الفرع</th>
                             <th class="whitespace-nowrap">مبلغ الشحنه</th>
                                     <th class="whitespace-nowrap">الكود</th>
                                     <th class="whitespace-nowrap"><input type="checkbox" id="checkAll"></th>
@@ -200,7 +200,7 @@
                             <td class="whitespace-nowrap " >{{$shipment->tarikh_tasdid_far3}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->branch_}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->Ship_area_}}</td>
-                            <td class="whitespace-nowrap " >{{$shipment->total_}}</td>
+                            <td class="whitespace-nowrap " >{{($shipment->shipment_coast_ -  $shipment->t7weel_cost)}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->t7weel_cost}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->shipment_coast_}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->code_}}</td>
@@ -593,10 +593,11 @@
                             <td  class="whitespace-nowrap " >`+value.reciver_phone_+`</td>
                             <td  class="whitespace-nowrap " >`+value.commercial_name_+`</td>
                             <td  class="whitespace-nowrap " >`+ client+`</td>
-                            <td  class="whitespace-nowrap " >`+value.date_+`</td> 
-                            <td  class="whitespace-nowrap " >`+value.tarikh_tasdid_far3s+`</td> 
+                            <td  class="whitespace-nowrap " >`+value.date_ +`</td> 
+                            <td  class="whitespace-nowrap " >`+value.tarikh_tasdid_far3+`</td> 
                             <td  class="whitespace-nowrap " >`+value.branch_+`</td>
-                            <td  class="whitespace-nowrap " >`+value.total_+`</td>
+                            <td  class="whitespace-nowrap " >`+value.Ship_area_+`</td>
+                            <td  class="whitespace-nowrap " >`+(value.shipment_coast_-value.t7weel_cost) +`</td>
                             <td  class="whitespace-nowrap " >`+value.t7weel_cost+`</td>
                             <td  class="whitespace-nowrap " >`+value.shipment_coast_+`</td>
                             <td  class="whitespace-nowrap " >`+value.code_+`</td>

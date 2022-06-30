@@ -199,7 +199,7 @@
                             <td class="whitespace-nowrap " >{{$shipment->tarikh_tasdid_far3}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->branch_}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->Ship_area_}}</td>
-                            <td class="whitespace-nowrap " >{{number_format($shipment->total_ , 0)}}</td>
+                            <td class="whitespace-nowrap " >{{number_format($shipment->shipment_coast_ - $shipment->t7weel_cost , 0)}}</td>
                             <td class="whitespace-nowrap " >{{number_format($shipment->t7weel_cost , 0)}}</td>
                             <td class="whitespace-nowrap " >{{number_format($shipment->shipment_coast_ , 0)}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->code_}}</td>
@@ -596,7 +596,7 @@
                             <td  class="whitespace-nowrap " >`+value.tarikh_tasdid_far3+`</td> 
                             <td  class="whitespace-nowrap " >`+value.branch_+`</td>
                             <td  class="whitespace-nowrap " >`+value.Ship_area_+`</td>
-                            <td  class="whitespace-nowrap " >`+value.total_.toLocaleString('en-US')+`</td>
+                            <td  class="whitespace-nowrap " >`+(value.shipment_coast_ - value.t7weel_cost).toLocaleString('en-US')+`</td>
                             <td  class="whitespace-nowrap " >`+parseInt(value.t7weel_cost).toLocaleString('en-US')+`</td>
                             <td  class="whitespace-nowrap " >`+value.shipment_coast_.toLocaleString('en-US')+`</td>
                             <td  class="whitespace-nowrap " >`+value.code_+`</td>
