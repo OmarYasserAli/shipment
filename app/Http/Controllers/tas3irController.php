@@ -81,7 +81,7 @@ class tas3irController extends Controller
             if ($request->serial == 0){
                 $mandobe_name = User::where('code_',$request->mandobe)->get();
                 $branch = Auth::user()->branch;
-                MandoubEstlam::create([
+             $mandoub=   MandoubEstlam::create([
                     'code_'=>15,
                     'area_name_'=>$request->manteqa,
                     'city_name_'=>$request->mo7afza,
@@ -94,6 +94,7 @@ class tas3irController extends Controller
                 return response()->json([
                     'status' => 200,
                     'message' => 'success',
+                    'mandoubSerial' => $mandoub->serial_,
                 ], 200);
             }else {
 

@@ -35,14 +35,14 @@ Route::get('/getManateqByMa7afza', 'generalController@getManateqByMa7afza')
 Route::get('/getCommertialnameBy3amil', 'generalController@getCommertialnameBy3amil')
     ->name('getCommertialnameBy3amil');
 Route::get('/getTawsilByManteka', 'generalController@getTawsilByManteka')
-    ->name('getTawsilByManteka');   
-    
+    ->name('getTawsilByManteka');
+
 
     Route::get('/tas3ir/3amil-5as', 'tas3irController@tas3ir_3amil_5as')->name('tas3ir.3amil_5as');
 Route::post('/tas3ir/save-3amel', 'tas3irController@save_3amel')->name('save_tas3ir_3amel');
 Route::post('/tas3ir/save-ta7wel', 'tas3irController@save_ta7wel')->name('save_tas3ir_ta7wel');
 Route::post('/tas3ir/save-3amel-5as', 'tas3irController@save_3amel_5as')->name('save_3amel_5as');
-    
+
 Route::get('/tas3ir/mandouben', 'tas3irController@tas3ir_mandouben')->name('tas3ir.mandouben');
 Route::get('/tas3ir/getNameByType/', 'tas3irController@getNameByType')->name('tas3ir.mandouben.getNameByType');
 Route::post('/tas3ir/save-mandouben', 'tas3irController@saveMandobe')->name('save_tas3ir_mandouben');
@@ -103,7 +103,7 @@ Route::post('/frou3_t7wel_sho7nat_manual', 'frou3Controller@frou3_t7wel_sho7nat_
 
 
  //end t7wel sho7nat
- 
+
 
 //t7wel rag3
 Route::get('/frou3_t7wel_rag3_qr', 'frou3Controller@frou3_t7wel_rag3_qr')->name('frou3_t7wel_rag3_qr');
@@ -162,7 +162,7 @@ Route::post('/accounting/mandoubestlam/tasdid', 'accountingController@mandoubest
     //loadmore
 Route::get('/accounting/loadMore', 'accountingController@loadMore')->name('accounting.loadMore');
 
-    
+
 //end Accounting
 
 
@@ -256,10 +256,10 @@ Route::group(
         //     Route::delete('/emergencchildren/bulk_delete', 'EmergencChildController@bulkDelete')->name('emergencchildren.bulk_delete');
         //     Route::resource('emergencchildren', 'EmergencChildController')->except('show');
         //     Route::get('/emergencchildren/data','EmergencChildController@data')->name('emergencchildren.data');
-        //     //profile 
+        //     //profile
         //     Route::resource('profiles','ProfileController');
 
-           
+
         // });
 
     });

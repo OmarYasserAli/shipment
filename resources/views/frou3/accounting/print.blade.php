@@ -257,7 +257,7 @@
                 <td  >{{$shipment->branch_}}</td>
                 <td >{{number_format($shipment->total_, 2)}}</td>
 
-                <td  >{{number_format($shipment->tawsil_coast_, 2)}}</td>
+                <td  >{{number_format($shipment->t7weel_cost, 2)}}</td>
 
 
                 <td  >{{number_format($shipment->shipment_coast_, 2)}}</td>
