@@ -34,7 +34,7 @@ class userdefinationsController extends Controller
         public function storeClient(Request $request){
 
                 $comerName = (explode(",",$request->Commercial_name));
-                
+
 
                 $validated = $request->validate([
                         "client_name" => 'required|unique:all_users,name_',
@@ -66,7 +66,7 @@ class userdefinationsController extends Controller
                     $user=auth()->user();
                     $branch_name= BranchInfo::where('code_',$request->branch)->first()->name_;
                 DB::beginTransaction();
-         
+
                     $created_user = new user();
                     $created_user->name_  = $request-> client_name ;
                     $created_user->type_  = "عميل"  ;
@@ -121,14 +121,14 @@ class userdefinationsController extends Controller
                 $user=auth()->user();
                 $mo7afazat =Mohfza::where('branch',$user->branch)->get();
                 // $Commercial_names =Commercial_name::groupBy('name_')->get();
-                
+
                 $cn = DB::table('commercial_name_for_main_comp')->where('code_',$code)->get()->pluck('name_')->toArray();
                 $Commercial_names='';
                 foreach($cn as $nn){
                         $Commercial_names.=$nn.',';
                 }
                 $Commercial_names = rtrim($Commercial_names, ",");
-                
+
                 $user =User::where('code_',$code)->where('type_',"عميل")->first();
                 $page_title='تعديل عميل';
             $branches = BranchInfo::all();
@@ -147,11 +147,26 @@ class userdefinationsController extends Controller
 
 
                 ]);
-        }else{
+            }elseif ($userData->name_ != $request->client_name && $userData->username == $request->username){
                 $validated = $request->validate([
                     "code_" => 'required',
                     "client_name" => 'unique:all_users,name_',
-                    "username" => 'unique:all_users,username',
+
+                ]);
+            }elseif ($userData->name_ == $request->client_name && $userData->username != $request->username){
+                $validated = $request->validate([
+                    "code_" => 'required',
+                    "username" => 'unique:all_users',
+
+
+                ]);
+            }
+            else{
+                $validated = $request->validate([
+                    "code_" => 'required',
+                    "username" => 'unique:all_users',
+                    "client_name" => 'unique:all_users,name_',
+
                 ]);
             }
                     $mo7afzaa= Mohfza::where('code',$request->mo7afza)->first()->name;
@@ -188,7 +203,7 @@ class userdefinationsController extends Controller
                                           'USER'=>$request-> client_name ,
                                           'GUID'=> ' ',
                                           'phone_'=> $request->phone_,
-  
+
                                   ]
                                   );
                                   DB::table('commercial_name_for_main_comp')->insert(
@@ -200,7 +215,7 @@ class userdefinationsController extends Controller
                                           ]
                                           );
                         }
-  
+
                           }
                 try {
 
@@ -315,7 +330,21 @@ class userdefinationsController extends Controller
 
 
                 ]);
-            }else{
+            }elseif ($userData->name_ != $request->mandoub_name && $userData->username == $request->username){
+                $validated = $request->validate([
+                    "code_" => 'required',
+                    "mandoub_name" => 'unique:all_users,name_',
+
+                ]);
+            }elseif ($userData->name_ == $request->mandoub_name && $userData->username != $request->username){
+                $validated = $request->validate([
+                    "code_" => 'required',
+                    "username" => 'unique:all_users',
+
+
+                ]);
+            }
+            else{
                 $validated = $request->validate([
                     "code_" => 'required',
                     "username" => 'unique:all_users',
@@ -459,7 +488,21 @@ class userdefinationsController extends Controller
 
 
                 ]);
-            }else{
+            }elseif ($userData->name_ != $request->mandoub_name && $userData->username == $request->username){
+                $validated = $request->validate([
+                    "code_" => 'required',
+                    "mandoub_name" => 'unique:all_users,name_',
+
+                ]);
+            }elseif ($userData->name_ == $request->mandoub_name && $userData->username != $request->username){
+                $validated = $request->validate([
+                    "code_" => 'required',
+                    "username" => 'unique:all_users',
+
+
+                ]);
+            }
+            else{
                 $validated = $request->validate([
                     "code_" => 'required',
                     "username" => 'unique:all_users',
