@@ -140,6 +140,7 @@ class userdefinationsController extends Controller
                 $comerName = (explode(",",$request->Commercial_name));
              $userData = User::where('code_', $request->code_)->get()[0];
              $validated = '';
+        //      dd($userData->name_ == $request->client_name && $userData->username == $request->username);
             if ($userData->name_ == $request->client_name && $userData->username == $request->username){
 
                 $validated = $request->validate([

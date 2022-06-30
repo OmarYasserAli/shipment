@@ -29,12 +29,7 @@ class AllUser extends Authenticatable implements JWTSubject
         return $this->PASSWORD;
     }
     public function userPhone() {
-        if($this->type_=='عميل'){
-            return AddClientsMainComp::where('USERNAME', $this->username)->first()->phone_;
-        }
-        else{
-            return AddBranchUser::where('USERNAME', $this->username)->first()->phone_;
-        }
+        
        
     }
 

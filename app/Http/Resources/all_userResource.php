@@ -24,7 +24,7 @@ class all_userResource extends JsonResource
            'mo7fza'=>$this->mo7fza,
            'mantqa'=>$this->mantqa,
            'whatAppMsg'=>$this->whats_msg,
-           'phone'=>$this->userPhone(),
+           'phone'=>$this->phone_,
         ];
     }
 }
