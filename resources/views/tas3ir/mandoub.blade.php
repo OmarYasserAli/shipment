@@ -173,72 +173,75 @@
                                 var mandobe = $('#name_ofmandobe').val();
 
                                 if(data.manbobeType === 1) {
-                                    if (data.mandobe.length === 0) {
+
                                         for (i = 0; i < data.sum; i++) {
-                                            $('#manteka-table tbody ').after(`<tr class='mantika-row' >
-                                        <td>` + data.all[i].name + `</td>
+                                            if (data.all[i].tas3ir__mandobe__estilam == null) {
+                                                $('#manteka-table tbody ').after(`<tr class='mantika-row' >
+                                        <td>` + data.manatekEmpty[i].name + `</td>
 
                                         <td class='editable' data-type='mandobe'
-                                         data-code='0' data-mo7afaza='` + mo7afza + `' data-manteqa='` + data.all[i].name + `'>
+                                         data-code='0' data-mo7afaza='` + mo7afza + `' data-manteqa='` + data.manatekEmpty[i].name + `'>
                                                 0
                                         </td>
 
                                         </tr>`
-                                            );
-                                        }
-                                    }else {
+                                                );
+                                            }
+                                            else {
+
+
+                                                // console.log(data.all[i]);
+                                                $('#manteka-table tbody ').after(`<tr class='mantika-row' >
+                                        <td>` + data.all[i].name + `</td>
+
+                                        <td class='editable' data-type='mandobe'
+                                         data-code='` + data.all[i].tas3ir__mandobe__estilam.serial_ + `'
+                                         data-mo7afaza='` + mo7afza + `' data-manteqa='` + data.all[i].name + `'>`
+                                                    + data.all[i].tas3ir__mandobe__estilam.price_ + `
+                                        </td>
+
+                                        </tr>`
+                                                );
+
+                                            }
+                                        }}if(data.manbobeType  === 2){
 
                                         for (i = 0; i < data.sum; i++) {
+                                            if (data.all[i].tas3ir__mandobe__taslim == null) {
+                                                console.log(true);
+                                                $('#manteka-table tbody ').after(`<tr class='mantika-row' >
+                                        <td>` + data.manatekEmpty[i].name + `</td>
+
+                                        <td class='editable' data-type='mandobe'
+                                         data-code='0' data-mo7afaza='` + mo7afza + `' data-manteqa='` + data.manatekEmpty[i].name + `'>
+                                                0
+                                        </td>
+
+                                        </tr>`
+                                                );
+                                            }
+                                            else {
                                             // console.log(data.all[i]);
-                                            $('#manteka-table tbody ').after(`<tr class='mantika-row' >
+                                                $('#manteka-table tbody ').after(`<tr class='mantika-row' >
                                         <td>` + data.all[i].name + `</td>
+
                                         <td class='editable' data-type='mandobe'
-                                         data-code='` + (data.mandobe[i]).serial_ + `'
+                                         data-code='` + data.all[i].tas3ir__mandobe__taslim.serial_ + `'
                                          data-mo7afaza='` + mo7afza + `' data-manteqa='` + data.all[i].name + `'>`
-                                                + (data.mandobe[i]).price_ + `
+                                                    + data.all[i].tas3ir__mandobe__taslim.price_ + `
                                         </td>
 
                                         </tr>`
-                                            );
-                                        }
-                                    }
-                                }if(data.manbobeType  === 2){
-                                    if (data.mandobe.length === 0) {
-                                        for (i = 0; i < data.sum; i++) {
-                                            $('#manteka-table tbody ').after(`<tr class='mantika-row' >
-                                        <td>` + data.all[i].name + `</td>
+                                                );
 
-                                        <td class='editable' data-type='mandobe'
-                                         data-code='0' data-mo7afaza='` + mo7afza + `' data-manteqa='` + data.all[i].name + `'>
-                                                0
-                                        </td>
-
-                                        </tr>`
-                                            );
-                                        }
-                                    }else {
-                                        for (i = 0; i < data.sum; i++) {
-                                            console.log(data.all[i]);
-                                            $('#manteka-table tbody ').after(`<tr class='mantika-row' >
-                                        <td>` + data.all[i].name + `</td>
-
-                                        <td class='editable' data-type='mandobe'
-                                         data-code='` + (data.mandobe[i]).serial_ + `'
-                                         data-mo7afaza='` + mo7afza + `' data-manteqa='` + data.all[i].name + `'>`
-                                                + (data.mandobe[i]).price_ + `
-                                        </td>
-
-                                        </tr>`
-                                            );
-                                        }
-                                    }
+                                            }                                    }
                                 }
                         }
                     });
                   $('#mo7afa-table tr').removeClass('selected');
                  $(this).addClass('selected');
                 });
-                 ;
+
 
             $('#manteka-table').on('dblclick', 'td', function(){
 
