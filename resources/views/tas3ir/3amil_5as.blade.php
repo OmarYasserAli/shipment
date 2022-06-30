@@ -377,36 +377,40 @@
                  $.ajax("{{route('getManateqAndTas3ir5asByMa7afza')}}"+"?mo7afza="+mo7afza+"&specialClient="+specialClient,   // request url
                         {
                             success: function (data, status, xhr) {// success callback function
-                                $('#manteka-table tr').not(function(){ return !!$(this).has('th').length; }).remove();
-                                if (data.mandobe.length === 0) {
-                                    for (i = 0; i < data.sum; i++) {
+                                $('#manteka-table tr').not(function () {
+                                    return !!$(this).has('th').length;
+                                }).remove();
+
+                                for (i = 0; i < data.sum; i++) {
+                                    if (data.all[i].tas3ir_3amil_5as == null) {
                                         $('#manteka-table tbody ').after(`<tr class='mantika-row' >
-                                        <td>` + data.all[i].name + `</td>
+                                        <td>` + data.mandobeEmpty[i].name + `</td>
 
                                         <td class='editable' data-type='mandobe'
-                                         data-code='0' data-mo7afaza='` + mo7afza + `' data-manteqa='` + data.all[i].name + `'>
+                                         data-code='0' data-mo7afaza='` + mo7afza + `' data-manteqa='` + data.mandobeEmpty[i].name + `'>
                                                 0
                                         </td>
 
                                         </tr>`
                                         );
                                     }
-                                }else {
-
-                                    for (i = 0; i < data.sum; i++) {
+                                    else {
                                         // console.log(data.all[i]);
                                         $('#manteka-table tbody ').after(`<tr class='mantika-row' >
                                         <td>` + data.all[i].name + `</td>
+
                                         <td class='editable' data-type='mandobe'
-                                         data-code='` + (data.mandobe[i]).code_ + `'data-mo7afaza='` + mo7afza + `' data-manteqa='` + data.all[i].name + `'>`
-                                            + (data.mandobe[i]).price_ + `
+                                         data-code='` + data.all[i].tas3ir_3amil_5as.code_ + `'
+                                         data-mo7afaza='` + mo7afza + `' data-manteqa='` + data.all[i].name + `'>`
+                                            + data.all[i].tas3ir_3amil_5as.price_ + `
                                         </td>
 
                                         </tr>`
                                         );
+
                                     }
                                 }
-                        }
+                            }
                     });
                   $('#mo7afa-table tr').removeClass('selected');
                  $(this).addClass('selected');

@@ -1450,8 +1450,8 @@ class shipmentsController extends Controller
         // dd($request->all());
         $user= auth()->user();
         $shipment = Shipment::where('code_',$request->code)->first();
-        $shipment->date_   = $request->date;
-        $shipment->tarikh_el7ala   = $request->date;
+//        $shipment->date_   = $request->date;
+//        $shipment->tarikh_el7ala   = $request->date;
         // $shipment->date_   = $request->date;
 
         $shipment->client_ID_   = $request->client_id;
@@ -1714,7 +1714,7 @@ class shipmentsController extends Controller
         $status=array(1);
         $user = $user = auth()->user();
         $codes= explode(',',$request->codes);
-        
+
         if(isset(request()->pdf)){
             $all =  DB::table('add_shipment_tb_')
             ->whereIn('add_shipment_tb_.code_', $codes)
@@ -1738,7 +1738,7 @@ class shipmentsController extends Controller
             return $mpdf->stream('document.pdf');
         }
         $mandob = User::findorfail($request->status);
-       
+
         $u =  DB::table('add_shipment_tb_')
          ->whereIn('add_shipment_tb_.code_', $request->code)
 

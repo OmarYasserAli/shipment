@@ -76,11 +76,11 @@ class tas3irController extends Controller
     {
 
 
-        
+
         if ($request->mandobeType == 1){
             $tas3ir = MandoubEstlam::where('city_name_',$request->mo7afza)->where('area_name_',$request->manteqa)
             ->where('mandoub_ID',$request->mandobe)->first();
-           
+
             if (!isset($tas3ir)){
                 $mandobe_name = User::where('code_',$request->mandobe)->get();
                 $branch = Auth::user()->branch;
@@ -109,7 +109,7 @@ class tas3irController extends Controller
                 ], 200);
             }
         } elseif ($request->mandobeType == 2){
-           
+
             $tas3ir = MandoubTaslim::where('city_name_',$request->mo7afza)->where('area_name_',$request->manteqa)
             ->where('mandoub_ID',$request->mandobe)->first();
             if (!isset($tas3ir)){
@@ -127,7 +127,7 @@ class tas3irController extends Controller
                     'mandoub_ID'=>$request->mandobe,
                     'mo7afaza_id'=> $mo7afaza_id,
 
-                    
+
                     'mantika_id'=>$matika_id
                 ]);
                 return response()->json([
@@ -135,7 +135,7 @@ class tas3irController extends Controller
                     'message' => 'success',
                 ], 200);
             }else{
-            
+
             $tas3ir->update([
                 'price_' => $request->value,
             ]);
@@ -189,26 +189,29 @@ class tas3irController extends Controller
         $mandobe = request()->mandobe;
         $mandobeType = request()->mandobeType;
         if ($mandobeType == 1){
-            $manatek =Mantikqa::where('mo7afza',$mo7afza)->where('branch',$branch)->get();
-            $mandobeEstilam =MandoubEstlam::where('city_name_',$mo7afza)->where('mandoub_ID',$mandobe)->where('branch',$branch)->get();
+            $manatek =Mantikqa::with(['Tas3ir_Mandobe_Estilam'=> function ($query) use($mandobe) {
+           $query->where('mandoub_ID' ,$mandobe);
+       }])->where('mo7afza',$mo7afza)->where('branch',$branch)->get();
+                 $manatekEmpty =Mantikqa::where('mo7afza',$mo7afza)->where('branch',$branch)->get();
 
             return response()->json([
                 'status' => 200,
                 'message' => 'success',
                 'all' => $manatek,
-                'mandobe'=>$mandobeEstilam,
+                'manatekEmpty'=>$manatekEmpty,
                 'sum' => count($manatek),
                 'manbobeType'=>1
             ], 200);
         }elseif ($mandobeType == 2){
-            $manatek =Mantikqa::where('mo7afza',$mo7afza)->where('branch',$branch)->get();
-            $mandobeTaslim =MandoubTaslim::where('city_name_',$mo7afza)->where('mandoub_ID',$mandobe)->where('branch',$branch)->get();
-
+          $manatek =Mantikqa::with(['Tas3ir_Mandobe_Taslim'=> function ($query) use($mandobe) {
+                $query->where('mandoub_ID' ,$mandobe);
+            }])->where('mo7afza',$mo7afza)->where('branch',$branch)->get();
+            $manatekEmpty =Mantikqa::where('mo7afza',$mo7afza)->where('branch',$branch)->get();
             return response()->json([
                 'status' => 200,
                 'message' => 'success',
                 'all' => $manatek,
-                'mandobe'=>$mandobeTaslim,
+                'manatekEmpty'=>$manatekEmpty,
                 'sum' => count($manatek),
                 'manbobeType'=>2
             ], 200);
@@ -227,15 +230,15 @@ class tas3irController extends Controller
                 $specialClientRequest = request()->specialClient;
                   $specialClientsBranch = User::where('code_',$specialClientRequest )->first();
                 $branch = Auth::user()->branch;
-                $manatek =Mantikqa::where('mo7afza',$mo7afza)->where('branch',$branch)->get();
-
-                $specialClient =Tas3ir_3amil_5as::where('city_name_',$mo7afza)->where('mandoub_ID',$specialClientRequest)->where('branch',$branch)->get();
-
+             $manatek =Mantikqa::with(['Tas3ir_3amil_5as'=> function ($query) use($specialClientRequest) {
+                $query->where('mandoub_ID' ,$specialClientRequest);
+            }])->where('mo7afza',$mo7afza)->where('branch',$branch)->get();
+            $manatekEmpty =Mantikqa::where('mo7afza',$mo7afza)->where('branch',$branch)->get();
                 return response()->json([
                 'status' => 200,
                 'message' => 'success',
                 'all' => $manatek,
-                'mandobe'=>$specialClient,
+                'mandobeEmpty'=>$manatekEmpty,
                 'sum' => count($manatek)
                 ], 200);
 
