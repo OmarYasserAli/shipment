@@ -13,7 +13,7 @@ use App\Models\Tas3ir_3amil_5as;
 use App\Models\Tas3ir_ta7wel;
 use App\Models\AddClientsMainComp;
 
-
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -76,12 +76,15 @@ class tas3irController extends Controller
     {
 
 
-
+        
         if ($request->mandobeType == 1){
-            if ($request->serial == 0){
+            $tas3ir = MandoubEstlam::where('city_name_',$request->mo7afza)->where('area_name_',$request->manteqa)
+            ->where('mandoub_ID',$request->mandobe)->first();
+           
+            if (!isset($tas3ir)){
                 $mandobe_name = User::where('code_',$request->mandobe)->get();
                 $branch = Auth::user()->branch;
-             $mandoub=   MandoubEstlam::create([
+                $mandoub=   MandoubEstlam::create([
                     'code_'=>15,
                     'area_name_'=>$request->manteqa,
                     'city_name_'=>$request->mo7afza,
@@ -97,9 +100,6 @@ class tas3irController extends Controller
                     'mandoubSerial' => $mandoub->serial_,
                 ], 200);
             }else {
-
-            $tas3ir = MandoubEstlam::where('serial_',$request->serial)->where('mandoub_ID',$request->mandobe)->get()[0];
-
                 $tas3ir->update([
                     'price_' => $request->value,
                 ]);
@@ -109,9 +109,14 @@ class tas3irController extends Controller
                 ], 200);
             }
         } elseif ($request->mandobeType == 2){
-            if ($request->serial == 0){
+           
+            $tas3ir = MandoubTaslim::where('city_name_',$request->mo7afza)->where('area_name_',$request->manteqa)
+            ->where('mandoub_ID',$request->mandobe)->first();
+            if (!isset($tas3ir)){
                 $mandobe_name = User::where('code_',$request->mandobe)->get();
-
+                $matika_id = 652;
+                if( $request->manteqa  =='اطراف')  $matika_id = 4;
+                $mo7afaza_id = DB::table('edaft_mo7afzat_iraq_tb')->where('name',$request->mo7afza)->first()->code;
                 MandoubTaslim::create([
                     'code_'=>15,
                     'area_name_'=>$request->manteqa,
@@ -120,15 +125,17 @@ class tas3irController extends Controller
                     'branch'=>'الفرع الرئيسى',
                     'mandoub_name_'=>$mandobe_name[0]['name_'],
                     'mandoub_ID'=>$request->mandobe,
-                    'mo7afaza_id'=> 10,
-                    'mantika_id'=>10
+                    'mo7afaza_id'=> $mo7afaza_id,
+
+                    
+                    'mantika_id'=>$matika_id
                 ]);
                 return response()->json([
                     'status' => 200,
                     'message' => 'success',
                 ], 200);
             }else{
-            $tas3ir = MandoubTaslim::where('serial_',$request->serial)->where('mandoub_ID',$request->mandobe)->get()[0];
+            
             $tas3ir->update([
                 'price_' => $request->value,
             ]);
@@ -141,11 +148,8 @@ class tas3irController extends Controller
         }
 
     }
-
-
-
     public function save_3amel_5as(Request $request){
-//return  $request;
+
         if ($request->serial == 0){
              $specialClient = User::where('code_',$request->specialClient)->first();
              $branch = Auth::user()->branch;

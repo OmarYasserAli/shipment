@@ -152,7 +152,6 @@ class userdefinationsController extends Controller
                     "code_" => 'required',
                     "client_name" => 'unique:all_users,name_',
                     "username" => 'unique:all_users,username',
-
                 ]);
             }
                     $mo7afzaa= Mohfza::where('code',$request->mo7afza)->first()->name;
