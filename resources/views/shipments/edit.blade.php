@@ -41,15 +41,16 @@
                                         <input type="hidden" name="date" class="form-control"   value="{{$now}}" >
 
                                     </div>
-                                    <input id="rakam-wasl" type="hidden" class="form-control"  name="code" value="{{$shipment->code_}}"/>
                                     @if(!$code_ai)
                                     <div class="form-inline mt-3">
                                         <label for="rakam-wasl" class="form-label sm:w-20">رقم الوصل</label>
-                                        <input id="rakam-wasl" type="text" class="form-control"  name="code" disabled value="{{$shipment->code_}}"/>
+                                        <input id="rakam-wasl" type="text" class="form-control"  name="code"  value="{{$shipment->code_}}"/>
 
 
                                     </div>
                                     <small class="warring " style="margin-right: 100px;"></small>
+                                    @else
+                                        <input id="rakam-wasl" type="hidden" class="form-control"  name="code" value="{{$shipment->code_}}"/>
                                     @endif
                                     <div class="form-inline mt-3">
                                         <label for="3amil-name" class="form-label sm:w-20">اسم العميل</label>
@@ -304,7 +305,7 @@ var  manteka =new TomSelect("#manteka",{
                     var client_id  = $('#client_id ').find(":selected").val();
                     var mo7afza_id  = $('#mo7afza ').find(":selected").val();
                     console.log(first);
-                        $("#tawsil_cost").html('');dd
+                        $("#tawsil_cost").html('');
                         if(first >= 1)
                         {
                             console.log(first);
@@ -329,10 +330,10 @@ var  manteka =new TomSelect("#manteka",{
     })
 
 
-    // $('#shipment_form').on("submit",function(e){
-    //     e.preventDefault();
-    //     save_shipment()
-    // } );
+    $('#shipment_form').on("submit",function(e){
+        e.preventDefault();
+        save_shipment()
+    } );
     // $('#shipment_cost').on("keyup",function(e){
     //     if(e.keyCode == 13){
     //         save_shipment()
@@ -340,9 +341,10 @@ var  manteka =new TomSelect("#manteka",{
     // } )
 
     $('#rakam-wasl').on("keyup",function(e){
+        
         let code= $(this).val();
         $.ajax({
-        url:"{{route('shiments.isCodeUsed')}}?code="+code,
+        url:"{{route('shiments.isCodeUsed')}}?code="+code +'&originalCode='+'{{$shipment->code_}}',
         type: "get",
         success: function(result){
            if(result.data == true)
@@ -350,45 +352,66 @@ var  manteka =new TomSelect("#manteka",{
             else
             $('.warring').css('color','green').text('هذا الرقم  متاح');
 
-        }
-    });
+            }
+        });
 
     } )
 
     function save_shipment() {
+        $("#cerror").text('');
         // var formData = new FormData($('#shipment_form')[0]);
         var formData = $('#shipment_form').serializeArray();
         var data={}
         var flg=0;
         formData.forEach(element =>
         {   data[element['name']]= element['value'] ;
+        if(element['name']!='notes_' && element['name']!='reciver_name_' && element['name']!='code'
+        && element['name']!='transfere_1' &&  element['name']!='transfere_2' && element['name']!='transfer_coast_' && element['name']!='transfer_coast_2'    ){
             if(element['value'] =='' || element['value'] == null)
-            {flg=1; $("#cerror").append('<li>'+element['name'] +' is required</li>');}
-            //console.log(element);
+            {
+                flg=1; $("#cerror").append('<li>'+element['name'] +' is required</li>');
+            }
+        }
         });
        if(flg) {
         $('msgs').addClass( "alert alert-danger" );
         return;
     };
-        $.ajax({
-                    url:"{{route('shiments.store')}}",
-                    type: "post",
-                    data: data,
+    $.ajax({
+        
+        url:"{{route('shiments.isCodeUsed')}}?code="+$('#rakam-wasl').val()+'&originalCode='+'{{$shipment->code_}}',
+        type: "get",
+        success: function(result){
+           if(result.data == true){
+            
+                $("#cerror").append('<li>رقم الوصل غير متاح</li>');
+                $('msgs').addClass( "alert alert-danger" );
+           }
+            else
+            
+            $('#shipment_form').submit();
+            }
+        });
+       
+        // $.ajax({
+        //             url:"{{route('shiments.update')}}",
+        //             type: "post",
+        //             data: data,
 
-                    success: function(result){
-                        console.log(result)
-                        $('#rakam-wasl').val('');
-                        document.getElementById("rakam-wasl").focus();
-                        $('.warring').text('');
+        //             success: function(result){
+                        
+        //                 $('#rakam-wasl').val('');
+        //                 document.getElementById("rakam-wasl").focus();
+        //                 $('.warring').text('');
 
-                    },
-                    fail: function(result){
-                        alert('f');
-                        result.errors.forEach(element => {
-                            console.log(element)
-                        });
-                    }
-                });
+        //             },
+        //             fail: function(result){
+        //                 alert('f');
+        //                 result.errors.forEach(element => {
+        //                     console.log(element)
+        //                 });
+        //             }
+        //         });
     }
 </script>
 @endsection

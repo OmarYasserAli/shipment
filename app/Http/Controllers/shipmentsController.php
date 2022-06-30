@@ -1319,10 +1319,11 @@ class shipmentsController extends Controller
     public function isCodeUsed(Request $request){
 
         if(Shipment::where('code_',$request->code)->get()->count() >0 ){
-            return response()->json([
-                'status' => 200,
-                'data' => true,
-            ], 200);
+            if(request()->code != request()->originalCode )
+                return response()->json([
+                    'status' => 200,
+                    'data' => true,
+                ], 200);
         }
         return response()->json([
             'status' => 200,
@@ -1343,8 +1344,8 @@ class shipmentsController extends Controller
 
         if(isset(request()->limit ))   $limit =request()->limit;
         $shipments = Shipment::select('*')
-
-                                    ->where('branch_', '=', $user->branch)->with(['client']);
+        //->where('branch_', '=', $user->branch)
+        ->with(['client']);
 
         if($waselOnly)
             $shipments = $shipments->where('status_' ,'=',7) ;
@@ -1440,7 +1441,7 @@ class shipmentsController extends Controller
     public function update(Request $request){
 
         $validated = $request->validate([
-            // 'reciver_name_' => 'required',
+             'code' => 'required',
             'client_id' => 'required',
             'mo7afza' => 'required',
             //'manteka' => 'required',

@@ -123,7 +123,7 @@ class accountingController extends Controller
         $Commercial_names =Commercial_name::whereIn('code_',$filtered_clients)->groupBy('name_')->get();
 
 
-        $clients =User::where('type_','عميل')->get();
+        $clients =User::where('type_','عميل')->where('branch',$user->branch)->get();
         $status_color=Setting::whereIN('name',['status_6_color','status_1_color','status_2_color','status_3_color'
         ,'status_4_color','status_7_color','status_8_color','status_9_color'])->get()->keyBy('name')->pluck('val','name');
         $css_prop = Setting::get('status_css_prop');
@@ -264,7 +264,7 @@ class accountingController extends Controller
             ], 200);
         }
         $mo7afazat =$this->getAllMo7afazat();
-        $clients =User::where('type_','عميل')->get();
+        $clients =User::where('type_','عميل')->where('branch',$user->branch)->get();
         $filtered_clients = User::where('type_','عميل')->where('name_',$request->client_id)->pluck('code_')->toArray();
         $Commercial_names =Commercial_name::whereIn('code_',$filtered_clients)->groupBy('name_')->get();
         // dd($counter);
@@ -979,22 +979,6 @@ class accountingController extends Controller
             'message' => 'sucecss',
         ], 200);
 
-        // $all = $all_shipments->paginate($limit ?? 10);
-
-        // $all->withPath("?mo7afza={$request->mo7afza}&showAll={$request->showAll}
-        // &client_id={$request->client_id}");
-
-        // $mo7afazat =$this->getAllMo7afazat();
-        // $filtered_clients = User::where('type_','عميل')->where('name_',$request->client_id)->pluck('code_')->toArray();
-        // $Commercial_names =Commercial_name::whereIn('code_',$filtered_clients)->groupBy('name_')->get();
-
-
-        // $clients =User::where('type_','عميل')->get();
-        // $status_color=Setting::whereIN('name',['status_6_color','status_1_color','status_2_color','status_3_color'
-        // ,'status_4_color','status_7_color','status_8_color','status_9_color'])->get()->keyBy('name')->pluck('val','name');
-        // $css_prop = Setting::get('status_css_prop');
-        //  dd($status_color);
-        // $page_title='الشحنات الغير مسددة للعميل';
-        //return view('accounting.3amil.notmosadad',compact('all','mo7afazat','waselOnly','page_title','Commercial_names','clients','status_color','css_prop'));
+        
     }
 }
