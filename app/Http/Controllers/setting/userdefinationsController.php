@@ -34,7 +34,7 @@ class userdefinationsController extends Controller
         public function storeClient(Request $request){
 
                 $comerName = (explode(",",$request->Commercial_name));
-                //dd($comerName);
+                
 
                 $validated = $request->validate([
                         "client_name" => 'required|unique:all_users,name_',
@@ -66,22 +66,7 @@ class userdefinationsController extends Controller
                     $user=auth()->user();
                     $branch_name= BranchInfo::where('code_',$request->branch)->first()->name_;
                 DB::beginTransaction();
-                //     $created_client = new AddClientsMainComp();
-                //     $created_client->name_  = $request->client_name  ;
-                //     $created_client->USERNAME  = $request->username  ;
-                //     $created_client->PASSWORD   = $request->password  ;
-                //     $created_client->ID_  = $request->ID_  ;
-                //     $created_client->address_  = $request->address_  ;
-                //     $created_client->commercial_name  = $request->Commercial_name  ;
-                //     $created_client->Branch_ID  =$request->branch ;
-                //     $created_client->Branch_name  = $branch_name  ;
-                //     $created_client->Special_prices  = $request->Special_prices  ;
-                //     $created_client->mo7fza  = $mo7afzaa  ;
-                //     $created_client->mantqa  = $request->manteka  ;
-                //     $created_client->phone_  = $request->phone_  ;
-                // //     $created_client->mantqa  = $request->mantqa  ;
-                //     $created_client->save();
-
+         
                     $created_user = new user();
                     $created_user->name_  = $request-> client_name ;
                     $created_user->type_  = "عميل"  ;
@@ -96,8 +81,6 @@ class userdefinationsController extends Controller
                         $created_user->addshipment  = 1  ;
                     }
                     $created_user->Special_prices  = $request->Special_prices ;
-
-
                     $created_user->save();
 
                     foreach($comerName as $com){
@@ -119,15 +102,9 @@ class userdefinationsController extends Controller
                                                 'code_client'=> $created_user->code_ ,
                                                 'name_client'=> $request-> client_name ,
                                                 'code_'=> $created_user->code_ ,
-
-
                                         ]
                                         );
                       }
-
-
-
-
 
                         }
                 try {
@@ -143,7 +120,15 @@ class userdefinationsController extends Controller
         public function editclient(int $code){
                 $user=auth()->user();
                 $mo7afazat =Mohfza::where('branch',$user->branch)->get();
-                $Commercial_names =Commercial_name::groupBy('name_')->get();
+                // $Commercial_names =Commercial_name::groupBy('name_')->get();
+                
+                $cn = DB::table('commercial_name_for_main_comp')->where('code_',$code)->get()->pluck('name_')->toArray();
+                $Commercial_names='';
+                foreach($cn as $nn){
+                        $Commercial_names.=$nn.',';
+                }
+                $Commercial_names = rtrim($Commercial_names, ",");
+                
                 $user =User::where('code_',$code)->where('type_',"عميل")->first();
                 $page_title='تعديل عميل';
             $branches = BranchInfo::all();
@@ -151,6 +136,8 @@ class userdefinationsController extends Controller
         }
         public function updateClient(Request $request)
         {
+                // dd($request->all());
+                $comerName = (explode(",",$request->Commercial_name));
              $userData = User::where('code_', $request->code_)->get()[0];
              $validated = '';
             if ($userData->name_ == $request->client_name && $userData->username == $request->username){
@@ -190,6 +177,32 @@ class userdefinationsController extends Controller
                     }
                     $created_user->Special_prices  = $request->Special_prices ;
                     $created_user->save();
+                    $cn = DB::table('commercial_name_for_main_comp')->where('code_',$created_user->code_)->delete();
+                    $cn = DB::table('add_commercial_names_tb')->where('USER',$created_user-> name_)->delete();
+                    foreach($comerName as $com){
+                        if($com != ''){
+                          DB::table('add_commercial_names_tb')->insert(
+                                  [
+                                          'name'=> $com ,
+                                          'branch'=> $branch_name ,
+                                          'elmola7zat'=> ' ',
+                                          'USER'=>$request-> client_name ,
+                                          'GUID'=> ' ',
+                                          'phone_'=> $request->phone_,
+  
+                                  ]
+                                  );
+                                  DB::table('commercial_name_for_main_comp')->insert(
+                                          [
+                                                  'name_'=> $com ,
+                                                  'code_client'=> $created_user->code_ ,
+                                                  'name_client'=> $request-> client_name ,
+                                                  'code_'=> $created_user->code_ ,
+                                          ]
+                                          );
+                        }
+  
+                          }
                 try {
 
                         DB::commit();
@@ -293,6 +306,7 @@ class userdefinationsController extends Controller
          return view('users.editMandoub',compact('page_title','branches','Commercial_names','mo7afazat','manadoub'));
         }
         public function updateMandoub(Request $request){
+
             $userData = User::where('code_', $request->code_)->get()[0];
             $validated = '';
             if ($userData->name_ == $request->mandoub_name && $userData->username == $request->username){

@@ -19,7 +19,7 @@
             @endforeach
              </div>
         @endif
-
+ 
 
 
         <div class="pos intro-y grid grid-cols-12 gap-5 mt-5">
@@ -41,21 +41,35 @@
                             <div class="form-inline mt-3 mb-2">
                                 <label for="date" class="form-label sm:w-20">الاسم التجارى</label>
                                 <input type="hidden" value="{{$user ->code_}}" name="code_">
-
-                                    <select class="Commercial_name  " id='Commercial_name' name="Commercial_name" style="width: 350px;">
+                                <input type="hidden" name='Commercial_name' value="{{$Commercial_names}}" id=Hcomname>
+                                    {{-- <select >
                                         <option value="">...</option>
                                         @foreach($Commercial_names as $name)
-                                            <option value="{{$name->name_}}" @if( $name->name_ == $user->commercial_name) selected @endif>{{$name->name_}}</option>
+                                            <option value="{{$name}}" >{{$name}}</option>
                                         @endforeach
-                                    </select>
+                                    </select> --}}
+
+                                    <input class="Commercial_name  " id='Commercial_name' name="Commercial_name" style="width: 350px;" value="{{$Commercial_names}}" >
+
                                     <script>
-                                        var CommercialNameSelect = new TomSelect("#Commercial_name",{
-                                            valueField: 'id',
-                                            labelField: 'title',
-                                            searchField: 'title',
-                                            create: false});
-                                        CommercialNameSelect.setValue("{{$name->name_}}");
+                                        let CommercialNameSelect = new TomSelect("#Commercial_name",{
+                                            maxItems: null,
+                                            create: true,
+                                            onDelete: function(values) {
+                                                $('#Hcomname').val($('#Hcomname').val().replace(','+values, ''));
+                                                // return confirm(values.length > 1 ? "Are you sure you want to remove these " + values.length + " items?" : "Are you sure you want to remove " + values[0] + "?");
+                                            },
+                                            onItemAdd: function(values) {
+                                                $('#Hcomname').val($('#Hcomname').val()+','+values);
+                                                // return confirm(values.length > 1 ? "Are you sure you want to remove these " + values.length + " items?" : "Are you sure you want to remove " + values[0] + "?");
+                                            },
+                                            
+                                                   
+                                        });
+                                        
+                                       
                                     </script>
+                                    
 
                             </div>
                          <hr>
