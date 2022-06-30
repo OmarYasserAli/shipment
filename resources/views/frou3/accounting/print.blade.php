@@ -255,7 +255,7 @@
                 <td >@if(isset($shipment->client)){{$shipment->client->name_}} @else {{$shipment->client_name_}}@endif</td>
                 <td  >{{$shipment->date_}}</td>
                 <td  >{{$shipment->branch_}}</td>
-                <td >{{number_format($shipment->total_, 2)}}</td>
+                <td >{{number_format($shipment->shipment_coast_ - $shipment->t7weel_cost , 2)}}</td>
 
                 <td  >{{number_format($shipment->t7weel_cost, 2)}}</td>
 
