@@ -698,6 +698,7 @@ class frou3Controller extends Controller
             $shipment->save();
         }
         elseif($request->type=='cancel'){
+            $shipment->first()->delete();
             if(isset($t2))
             Shipment::insert(json_decode(json_encode($t2), true));
             else{
@@ -705,7 +706,7 @@ class frou3Controller extends Controller
                     'status' => 404,
                 ], 404);
             }
-            $shipment->first()->delete();
+            
         }
         if(isset($t2))
          $t2->delete();
@@ -1079,6 +1080,7 @@ class frou3Controller extends Controller
         }
 
         elseif($request->type=='cancel'){
+            $shipment->first()->delete();
             if(isset($t2))
                 Shipment::insert(json_decode(json_encode($t2), true));
             else{
@@ -1086,7 +1088,7 @@ class frou3Controller extends Controller
                     'status' => 404,
                 ], 404);
             }
-            $shipment->first()->delete();
+            
         }
         if(isset($t2))
             $t2->delete();
