@@ -213,9 +213,9 @@
 
                 <tr >
                     <td>{{count($all)}}</td>
-                    <td>{{number_format($sum['totalCost'], 2)}}</td>
-                    <td>{{number_format($sum['tawsilCost'], 2)}}</td>
-                    <td>{{number_format($sum['alSafiCost'], 2)}}</td>
+                    <td>{{number_format($sum['totalCost'], 0)}}</td>
+                    <td>{{number_format($sum['tawsilCost'], 0)}}</td>
+                    <td>{{number_format($sum['alSafiCost'], 0)}}</td>
                     <td>{{Carbon\Carbon::now()->format('Y-m-d  g:i:s A')}}</td>
                 </tr>
 
@@ -255,12 +255,12 @@
                 <td  >{{$shipment->el3nwan}}</td>
                 <td  >{{$shipment->date_}}</td>
                 <td  >{{$shipment->branch_}}</td>
-                <td >{{number_format($shipment->total_, 2)}}</td>
+                <td >{{number_format($shipment->total_, 0)}}</td>
 
-                <td  >{{number_format($shipment->tawsil_coast_, 2)}}</td>
+                <td  >{{number_format($shipment->tawsil_coast_, 0)}}</td>
 
 
-                <td  >{{number_format($shipment->shipment_coast_, 2)}}</td>
+                <td  >{{number_format($shipment->shipment_coast_, 0)}}</td>
                 <td  >{{$shipment->code_}}</td>
 
             </tr>

@@ -89,7 +89,7 @@
                                        
                                        @endif
                                        @if(request()->get('branch_') == null)الكل@endif
-                                        <button type="button" class="btn-close" data-tw-dismiss="alert" aria-label="Close" onclick="window.location.replace('{{route('accounting.mosadad')}}')">
+                                        <button type="button" class="btn-close" data-tw-dismiss="alert" aria-label="Close" onclick="window.location.replace('{{route('frou3.export')}}')">
                                             <i data-lucide="x" class="w-4 h-4"></i> </button> 
                                     </div>
                             </div>
@@ -290,25 +290,9 @@
 
                
                         $("#Commercial_name").html('');
-                        // $.ajax({
-                        //     url:"{{url('getCommertialnameBy3amil')}}?branch_="+branch_,
-                        //     type: "get",
-                        //     data: {
-                        //         'from':'modal'
-                        //     },
-                        //     dataType : 'json',
-                        //     success: function(result){
-                        //     $('#Commercial_name').prop('disabled', false);
-                        //     $('#Commercial_name').html('<option value="">...</option>');
-                            
-                        //     $.each(result.all,function(key,value){
-                        //         $("#Commercial_name").append('<option value="'+value.name_+'">'+value.name_+'</option>');
-                        //     });
-                        //     //$('#city_id').html('<option value="">Select city</option>'); 
-                        //     }
-                        // });
+                       
                     }else{
-                        window.location.href = "{{route('accounting.mosadad')}}?branch_="+branch_;
+                        window.location.href = "{{route('frou3.export')}}?branch_="+branch_;
                     }
             });
             $( "#msg_modal_close" ).click(function() {
@@ -570,7 +554,7 @@
             });
             function infinteLoadMore(page) {
                 $.ajax({
-                    url: "{{route('accounting.mosadad')}}"+ "?lodaMore=1&page=" + page+'&'+window.location.search.substr(1),
+                    url: "{{route('frou3.export')}}"+ "?lodaMore=1&page=" + page+'&'+window.location.search.substr(1),
                 
                     type: "get",
                     beforeSend: function () {

@@ -89,7 +89,7 @@
                                        
                                        @endif
                                        @if(request()->get('branch_') == null)الكل@endif
-                                        <button type="button" class="btn-close" data-tw-dismiss="alert" aria-label="Close" onclick="window.location.replace('{{route('accounting.mosadad')}}')">
+                                        <button type="button" class="btn-close" data-tw-dismiss="alert" aria-label="Close" onclick="window.location.replace('{{route('frou3.import')}}')">
                                             <i data-lucide="x" class="w-4 h-4"></i> </button> 
                                     </div>
                             </div>
@@ -180,7 +180,7 @@
                             <th class="whitespace-nowrap">الفرع</th>
                             <th class="whitespace-nowrap">مكان الشحنة</th>
                             <th class="whitespace-nowrap">الصافى</th>
-                            <th class="whitespace-nowrap">اجره الشركه</th>
+                            <th class="whitespace-nowrap">اجره الفرع</th>
                             <th class="whitespace-nowrap">مبلغ الشحنه</th>
                                     <th class="whitespace-nowrap">الكود</th>
                                     <th class="whitespace-nowrap"><input type="checkbox" id="checkAll"></th>
@@ -308,7 +308,7 @@
                         //     }
                         // });
                     }else{
-                        window.location.href = "{{route('accounting.mosadad')}}?branch_="+branch_;
+                        window.location.href = "{{route('frou3.import')}}?branch_="+branch_;
                     }
             });
             $( "#msg_modal_close" ).click(function() {
@@ -570,7 +570,7 @@
             });
             function infinteLoadMore(page) {
                 $.ajax({
-                    url: "{{route('accounting.mosadad')}}"+ "?lodaMore=1&page=" + page+'&'+window.location.search.substr(1),
+                    url: "{{route('frou3.import')}}"+ "?lodaMore=1&page=" + page+'&'+window.location.search.substr(1),
                 
                     type: "get",
                     beforeSend: function () {

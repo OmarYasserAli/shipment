@@ -209,7 +209,7 @@
 
                 <tr >
                     <td>{{count($all)}}</td>
-                    <td>{{number_format($sum['totalCost'], 2)}}</td>
+                    <td>{{number_format($sum['totalCost'], 0)}}</td>
 
                     <td>{{Carbon\Carbon::now()->format('Y-m-d  g:i:s A')}}</td>
                 </tr>
@@ -237,7 +237,7 @@
             <tr >
                 <td><?php echo $i; $i++?></td>
                 <td  >{{$shipment->code_}}</td>
-                <td  >{{number_format($shipment->shipment_coast_, 2)}}</td>
+                <td  >{{number_format($shipment->shipment_coast_, 0)}}</td>
                 <td >{{$shipment->commercial_name_}}</td>
                 <td  >{{$shipment->date_}}</td>
                 <td  >{{$shipment->mo7afza_}}</td>

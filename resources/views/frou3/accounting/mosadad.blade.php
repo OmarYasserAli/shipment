@@ -179,7 +179,7 @@
                             <th class="whitespace-nowrap">الفرع</th>
                             <th class="whitespace-nowrap">مكان الشحنة</th>
                             <th class="whitespace-nowrap">الصافى</th>
-                            <th class="whitespace-nowrap">اجره الشركه</th>
+                            <th class="whitespace-nowrap">اجره الفرع</th>
                             <th class="whitespace-nowrap">مبلغ الشحنه</th>
                                     <th class="whitespace-nowrap">الكود</th>
                                     <th class="whitespace-nowrap"><input type="checkbox" id="checkAll"></th>
