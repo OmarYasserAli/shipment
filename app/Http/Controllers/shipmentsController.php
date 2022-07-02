@@ -255,7 +255,9 @@ class shipmentsController extends Controller
                 'sum'=>$sums
             ];
             //return view('shipments.print' ,compact('all','title'));
+
             $mpdf = PDF::loadView($printPage,$data);
+            $mpdf->showImageErrors = true;
             return $mpdf->stream('document.pdf');
         }
         $mandoub_taslims = user::where('branch',$user->branch)->where('type_','مندوب تسليم')->get();
