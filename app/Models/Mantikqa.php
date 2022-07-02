@@ -13,11 +13,11 @@ class Mantikqa extends Model
     
     public function Tas3ir_3amil()
     {
-        return $this->hasOne(Tas3ir_3amil::class,  ['area_name_' ,'city_name_'],['name', 'mo7afza']);
+        return $this->hasOne(Tas3ir_3amil::class,  ['area_name_' ,'city_name_','branch'],['name', 'mo7afza','branch']);
     }
     public function Tas3ir_ta7wel()
     {
-        return $this->hasOne(Tas3ir_ta7wel::class,  ['area_name_' ,'city_name_'],['name', 'mo7afza']);
+        return $this->hasOne(Tas3ir_ta7wel::class,  ['area_name_' ,'city_name_','branch'],['name', 'mo7afza','branch']);
     }
     public function Tas3ir_3amil_5as()
     {
