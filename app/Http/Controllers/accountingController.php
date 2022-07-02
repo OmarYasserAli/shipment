@@ -410,7 +410,7 @@ class accountingController extends Controller
             ], 200);
         }
         $mo7afazat =$this->getAllMo7afazat();
-        $clients =User::where('type_','مندوب تسليم')->get();
+        $clients =User::where('type_','مندوب تسليم')->where('branch',$user->branch)->get();
         $filtered_clients = User::where('type_','عميل')->where('name_',$request->client_id)->pluck('code_')->toArray();
         $Commercial_names =Commercial_name::whereIn('code_',$filtered_clients)->groupBy('name_')->get();
         // dd($counter);
@@ -554,7 +554,7 @@ class accountingController extends Controller
             ], 200);
         }
         $mo7afazat =$this->getAllMo7afazat();
-        $clients =User::where('type_','مندوب تسليم')->get();
+        $clients =User::where('type_','مندوب تسليم')->where('branch',$user->branch)->get();
         $filtered_clients = User::where('type_','مندوب تسليم')->where('name_',$request->client_id)->pluck('code_')->toArray();
         $Commercial_names =Commercial_name::whereIn('code_',$filtered_clients)->groupBy('name_')->get();
         // dd($counter);
@@ -701,7 +701,7 @@ class accountingController extends Controller
             ], 200);
         }
         $mo7afazat =$this->getAllMo7afazat();
-        $clients =User::where('type_','مندوب استلام')->get();
+        $clients =User::where('type_','مندوب استلام')->where('branch',$user->branch)->get();
         $filtered_clients = User::where('type_','مندوب استلام')->where('name_',$request->client_id)->pluck('code_')->toArray();
         $Commercial_names =Commercial_name::whereIn('code_',$filtered_clients)->groupBy('name_')->get();
         // dd($counter);
@@ -848,7 +848,7 @@ class accountingController extends Controller
             ], 200);
         }
         $mo7afazat =$this->getAllMo7afazat();
-        $clients =User::where('type_','مندوب استلام')->get();
+        $clients =User::where('type_','مندوب استلام')->where('branch',$user->branch)->get();
         $filtered_clients = User::where('type_','مندوب استلام')->where('name_',$request->client_id)->pluck('code_')->toArray();
         $Commercial_names =Commercial_name::whereIn('code_',$filtered_clients)->groupBy('name_')->get();
         // dd($counter);
