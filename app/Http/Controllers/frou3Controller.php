@@ -676,8 +676,8 @@ class frou3Controller extends Controller
         $mpdf = PDF::loadView('shipments.print',$data);
         return $mpdf->stream('document.pdf');
     }
-
-         return view('frou3.t7wel_sho7nat.accept',compact('all','branches','mo7afazat'));
+    $page_title='الموافقة على تحويل رواجع الفروع';
+         return view('frou3.t7wel_sho7nat.accept',compact('all','branches','mo7afazat','page_title'));
 
     }
     public function accept_frou3_t7wel_save(Request $request){
@@ -863,7 +863,8 @@ class frou3Controller extends Controller
         $branches=DB::table('branch_info_tb')
         ->select('serial_','name_')
         ->get();
-        return view('frou3.t7wel_rag3.qr',compact('branches'));
+        $page_title=' تحويل رواجع الفروع باستخدام qr';
+        return view('frou3.t7wel_rag3.qr',compact('branches','page_title'));
     }
     public function frou3_t7wel_rag3_qr_save(Request $request){
         $status=array(1);
@@ -1006,14 +1007,6 @@ class frou3Controller extends Controller
                 $all_shipments= $all_shipments->where('tarikh_el7ala' ,'<=',DATE( request()->date_to) );
         }
 
-        // $totalCost = $counter->sum('shipment_coast_');
-        // if($user->type_=='عميل')
-        //     $tawsilCost = $counter->sum('tawsil_coast_');
-        // if($user->type_=='مندوب استلام')
-        //     $tawsilCost = $counter->sum('tas3ir_mandoub_estlam');
-        // if($user->type_=='مندوب تسليم')
-        //     $tawsilCost = $counter->sum('tas3ir_mandoub_taslim');
-
         if(request()->showAll == 'on'){
             $counter= $all_shipments->get();
             $count_all = $counter->count();
@@ -1057,7 +1050,8 @@ class frou3Controller extends Controller
             $mpdf = PDF::loadView('shipments.print',$data);
             return $mpdf->stream('document.pdf');
         }
-        return view('frou3.t7wel_rag3.accept',compact('all','branches','mo7afazat'));
+        $page_title='الموافقة على تحويل رواجع الفروع';
+        return view('frou3.t7wel_rag3.accept',compact('all','branches','mo7afazat','page_title'));
     }
     public function accept_frou3_rag3_save(Request $request){
         $user=auth()->user();

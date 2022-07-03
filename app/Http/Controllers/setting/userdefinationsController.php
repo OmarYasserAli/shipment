@@ -605,7 +605,8 @@ class userdefinationsController extends Controller
                 $page_title='الموافقة على  طلبات التسجيل';
                 $branches =BranchInfo::all();
                 $mo7afazat =Mohfza::all();
-                return view('users.registrationRequest',compact('all','branches','mo7afazat'));
+                $page_title='طلبات التسجيل';
+                return view('users.registrationRequest',compact('all','branches','mo7afazat','page_title'));
 
         }
         public function registrationRequestSave (Request $request){
