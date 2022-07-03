@@ -23,6 +23,7 @@ class all_userResource extends JsonResource
            'USERNAME'=>$this->username,
            'mo7fza'=>$this->mo7fza,
            'mantqa'=>$this->mantqa,
+           
            'whatAppMsg'=>$this->whats_msg,
            'phone'=>$this->phone_,
         ];

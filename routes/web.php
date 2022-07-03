@@ -89,6 +89,7 @@ Route::get('/frou3/export', 'frou3Controller@export')->name('frou3.export');
 Route::get('/frou3/import', 'frou3Controller@import')->name('frou3.import');
 
  //t7wel sho7nat
+
 Route::get('/frou3/frou3_t7wel_sho7nat_qr', 'frou3Controller@frou3_t7wel_sho7nat_qr')->name('frou3_t7wel_sho7nat_qr');
 Route::get('/frou3/frou3_t7wel_sho7nat_qr', 'frou3Controller@frou3_t7wel_sho7nat_qr')->name('frou3_t7wel_sho7nat_qr');
 Route::any('/frou3/frou3_t7wel_sho7nat_qr_save', 'frou3Controller@frou3_t7wel_sho7nat_qr_save')->name('frou3_t7wel_sho7nat_qr_save');
@@ -96,6 +97,7 @@ Route::get('/frou3/accept_frou3_t7wel', 'frou3Controller@accept_frou3_t7wel')->n
 Route::post('/frou3/accept_frou3_t7wel', 'frou3Controller@accept_frou3_t7wel_save')->name('accept_frou3_t7wel_save');
 Route::get('/frou3/accept_t7wel_get', 'frou3Controller@accept_t7wel_get')->name('accept_t7wel_get');
 Route::post('/frou3/accept_frou3_t7wel_qr_save', 'frou3Controller@accept_frou3_t7wel_save')->name('accept_frou3_t7wel_qr_save');
+
 
 
 Route::get('/frou3/frou3_t7wel_sho7nat_manual', 'frou3Controller@frou3_t7wel_sho7nat_manual')->name('frou3_t7wel_sho7nat_manual');
@@ -110,10 +112,12 @@ Route::get('/frou3/frou3_t7wel_rag3_qr', 'frou3Controller@frou3_t7wel_rag3_qr')-
 Route::any('/frou3/frou3_t7wel_rag3_qr_save', 'frou3Controller@frou3_t7wel_rag3_qr_save')->name('frou3_t7wel_rag3_qr_save');
 
 //endt7wel rag3
+
 Route::get('/frou3/accept_frou3_rag3', 'frou3Controller@accept_frou3_rag3')->name('accept_frou3_rag3');
 Route::post('/frou3/accept_frou3_rag3', 'frou3Controller@accept_frou3_rag3_save')->name('accept_frou3_rag3_save');
 Route::get('/frou3/accept_rag3_get', 'frou3Controller@accept_rag3_get')->name('accept_rag3_get');
 Route::post('/frou3/accept_frou3_rag3_qr_save', 'frou3Controller@accept_frou3_rag3_save')->name('accept_frou3_rag3_qr_save');
+
 
 Route::get('/frou3/frou3_t7wel_rag3_manual', 'frou3Controller@frou3_t7wel_rag3_manual')->name('frou3_t7wel_rag3_manual');
 Route::post('/frou3/frou3_t7wel_rag3_manual', 'frou3Controller@frou3_t7wel_rag3_manual_save')->name('frou3_t7wel_rag3_manual_save');

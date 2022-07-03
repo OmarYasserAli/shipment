@@ -712,7 +712,7 @@ class frou3Controller extends Controller
          $t2->delete();
     }
     public function accept_frou3_t7wel_qr_save(Request $request){
-       // dd($request->all());
+        //dd($request->all());
         $user = auth()->user();
         DB::table('add_shipment_tb_')
         ->whereIN('code_',$request->code)
