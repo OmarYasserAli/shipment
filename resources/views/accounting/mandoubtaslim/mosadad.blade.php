@@ -298,7 +298,7 @@
                             success: function(result){
                                 $('#Commercial_name').prop('disabled', false);
                                 $('#Commercial_name').html('<option value="">...</option>');
-                                console.log(result); 
+                                 
                                 $.each(result.all,function(key,value){
                                     $("#Commercial_name").append('<option value="'+value.name_+'">'+value.name_+'</option>');
                                 });
@@ -359,7 +359,7 @@
                                     
                                     if(shipments.includes(qr)) return;
                                     shipments.push(qr);
-                                    //sconsole.log(shipments.includes(qr) ,shipments);
+                                   
                                     var res = (data.data)[0];
                                     $('#rakam_tawsel').val(res.code_);
                                     $('#3amel_name').val(res.client_name_);
@@ -376,7 +376,7 @@
                                     // success callback function
                                     //$('#manteka-table tr').not(function(){ return !!$(this).has('th').length; }).remove();
                                     
-                                    console.log((data.data)[0]);
+                                    
                                         $('#manteka-table   tr:last').after(`<tr class='' >
                                             <td>`+cnt+`</td>
                                             <td>`+res.code_+`</td>
@@ -409,7 +409,7 @@
                         codes.push($(this).data('code'));
                     }
                 });
-                console.log(codes)
+                
                  $.ajax({
                      url: "{{route('accounting.mandoubtaslim.canceltasdid')}}" ,
                      type: 'post',
@@ -418,7 +418,7 @@
                          console.log(e);
                      },
                      success: function(res) {
-                         console.log(res)
+                        
                          rowsAffected =  codes.length - res['count']
                          msg =" تم تسديد " +res['count']+   " شحنة  "  +" تم رفض " + rowsAffected + " شحنة ";
                          let msg_modal = tailwind.Modal.getOrCreateInstance(document.querySelector("#msg_modal"));
@@ -432,7 +432,7 @@
                         $('.check_count').each(function() {
                             
                             if($(this).is(':checked') && $(this).data('status')==7){
-                                console.log($(this).data('status'));
+                               
                                 total_cnt--;
                                 total_cost-= $(this).data('cost');
                                 total_tawsil-= parseInt($(this).data('t7wel'));
@@ -498,7 +498,7 @@
                         else
                             var items= $('table tbody input:checkbox:checked') 
                             items.each(function(){
-                                console.log($(this))
+                               
                             
                         if(!$(this).is(':checked'))
                         {
@@ -546,7 +546,7 @@
                             success: function(result){
                             $('#Commercial_name').prop('disabled', false);
                             $('#Commercial_name').html('<option value="">...</option>');
-                            console.log(result); 
+                             
                             $.each(result.all,function(key,value){
                                 $("#Commercial_name").append('<option value="'+value.name_+'">'+value.name_+'</option>');
                             });
@@ -579,7 +579,7 @@
                         return;
                     }
                     $.each(response.data,function(key,value){
-                        console.log(value.client);
+                       
                         cont++;
                         var client = '';
                         if (typeof value.client != 'undefined' &&  value.client != null){client = (value.client)['name_'];}else{client =value.client_name_}

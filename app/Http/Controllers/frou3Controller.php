@@ -566,7 +566,7 @@ class frou3Controller extends Controller
             $q2 =  $q2->update(['add_shipment_tb_.transfere_2'=>$branch->name_,
             'add_shipment_tb_.transfer_coast_2' =>DB::raw("`transfer_prices_main_tb`.`price_`"),
             'TRANSFERE_ACCEPT_REFUSE'=>2,
-            'tarikh_el7ala'=>Carbon::now()->format('Y-m-d'),
+            'tarikh_el7ala'=>Carbon::now()->format('Y-m-d  g:i:s A'),
             'Ship_area_'=>$branch->name_
             ]);
 
@@ -575,7 +575,7 @@ class frou3Controller extends Controller
             $q1=$q1->update(['add_shipment_tb_.transfere_1'=>$branch->name_,
             'add_shipment_tb_.transfer_coast_1' =>DB::raw("`transfer_prices_main_tb`.`price_`") ,
             'TRANSFERE_ACCEPT_REFUSE'=>2,
-            'tarikh_el7ala'=>Carbon::now()->format('Y-m-d'),
+            'tarikh_el7ala'=>Carbon::now()->format('Y-m-d  g:i:s A'),
             'Ship_area_'=>$branch->name_]);
 
 
@@ -947,7 +947,7 @@ class frou3Controller extends Controller
             $u1=$u1->update(['add_shipment_tb_.transfere_1'=>'',
                 'add_shipment_tb_.transfer_coast_1' =>'',
                 'add_shipment_tb_.TRANSFERE_ACCEPT_REFUSE'=>3,
-                'tarikh_el7ala'=>Carbon::now()->format('Y-m-d'),
+                'tarikh_el7ala'=>Carbon::now()->format('Y-m-d  g:i:s A'),
                 'Ship_area_'=>$branch->name_ ]);
 
 
@@ -955,7 +955,7 @@ class frou3Controller extends Controller
                $u2=$u2->update(['add_shipment_tb_.transfere_2'=>'',
                   'add_shipment_tb_.transfer_coast_2' =>'',
                   'add_shipment_tb_.TRANSFERE_ACCEPT_REFUSE'=>3,
-                  'tarikh_el7ala'=>Carbon::now()->format('Y-m-d'),
+                  'tarikh_el7ala'=>Carbon::now()->format('Y-m-d  g:i:s A'),
                   'Ship_area_'=>$branch->name_ ]);
 
 

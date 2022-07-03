@@ -421,7 +421,7 @@
                          console.log(e);
                      },
                      success: function(res) {
-                         console.log(res)
+                        
                          rowsAffected =  codes.length - res['count']
                          msg =" تم تسديد " +res['count']+   " شحنة  "  +" تم رفض " + rowsAffected + " شحنة ";
                          let msg_modal = tailwind.Modal.getOrCreateInstance(document.querySelector("#msg_modal"));
@@ -501,7 +501,7 @@
                         else
                             var items= $('table tbody input:checkbox:checked') 
                             items.each(function(){
-                                console.log($(this))
+                                
                             
                         if(!$(this).is(':checked'))
                         {
@@ -549,7 +549,7 @@
                             success: function(result){
                             $('#Commercial_name').prop('disabled', false);
                             $('#Commercial_name').html('<option value="">...</option>');
-                            console.log(result); 
+                            
                             $.each(result.all,function(key,value){
                                 $("#Commercial_name").append('<option value="'+value.name_+'">'+value.name_+'</option>');
                             });
@@ -583,7 +583,7 @@
                         return;
                     }
                     $.each(response.data,function(key,value){
-                        console.log(value.client);
+                        
                         cont++;
                         var client = '';
                         if (typeof value.client != 'undefined' &&  value.client != null){client = (value.client)['name_'];}else{client =value.client_name_}

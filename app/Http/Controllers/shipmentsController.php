@@ -377,15 +377,15 @@ class shipmentsController extends Controller
         //dd($request->all());
         if($request->t7weel_to=='الشحنات فى المخزن'){  //ta7wel sh7nat fel m5zn
             $status=[3,2,9];
-            $updated_array = ['status_'=>1,'tarikh_el7ala'=>Carbon::now()->format('Y-m-d')];
+            $updated_array = ['status_'=>1,'tarikh_el7ala'=>Carbon::now()->format('Y-m-d  g:i:s A')];
         }
         if($request->t7weel_to == 'شحنات واصل جزئى'){  //ta7wel sh7nat fel m5zn
             $status=[1,4];
-            $updated_array = ['status_'=>6,'tarikh_el7ala'=>Carbon::now()->format('Y-m-d')];
+            $updated_array = ['status_'=>6,'tarikh_el7ala'=>Carbon::now()->format('Y-m-d  g:i:s A')];
         }
         if($request->t7weel_to == 'شحنات الواصل'){
             $status=[1,4,6];
-            $updated_array = ['status_'=>7,'tarikh_el7ala'=>Carbon::now()->format('Y-m-d')];
+            $updated_array = ['status_'=>7,'tarikh_el7ala'=>Carbon::now()->format('Y-m-d  g:i:s A')];
         }
         if($request->t7weel_to == 'الشحنات لدى مندوب التسليم'){
 
@@ -406,7 +406,7 @@ class shipmentsController extends Controller
               ->where('mandoub_taslim_tas3irtb.mandoub_ID', $mandob->code_)
               //->get();
               ->update(['add_shipment_tb_.tas3ir_mandoub_taslim'=> DB::raw("`mandoub_taslim_tas3irtb`.`price_`") ,
-              'tarikh_el7ala'=>Carbon::now()->format('Y-m-d') ,
+              'tarikh_el7ala'=>Carbon::now()->format('Y-m-d  g:i:s A') ,
               'Delivery_Delivered_Shipment_ID'=> $mandob->code_ ,
               'mandoub_taslim' =>$mandob->name_,
               'add_shipment_tb_.status_' => 4
@@ -421,12 +421,12 @@ class shipmentsController extends Controller
         }
         if($request->t7weel_to=='شحنات الراجع لدى العميل'){   //t7wel rag3 lada 3amel
             $status=array(9);
-            $updated_array = ['status_'=>8, 'tarikh_el7ala'=>Carbon::now()->format('Y-m-d'),
+            $updated_array = ['status_'=>8, 'tarikh_el7ala'=>Carbon::now()->format('Y-m-d  g:i:s A'),
                                 'shipment_coast_'=>0 , 'tawsil_coast_'=>0 , 'total_'=>0  ];
         }
         if($request->t7weel_to=='الشحنات الراجعه فى المخزن'){   //t7wel rag3 lada m5zn
             $status=array(1,3,4);
-            $updated_array = ['status_'=>9, 'tarikh_el7ala'=>Carbon::now()->format('Y-m-d'),
+            $updated_array = ['status_'=>9, 'tarikh_el7ala'=>Carbon::now()->format('Y-m-d  g:i:s A'),
                                 'Delivery_Delivered_Shipment_ID'=>"" , 'mandoub_taslim'=>"" , 'tas3ir_mandoub_taslim'=>0 ];
         }
         $row = DB::table('add_shipment_tb_')
@@ -835,7 +835,7 @@ class shipmentsController extends Controller
                     $shipment->Status_= 8 ;
                     $shipment->shipment_coast_=0 ;
                     $shipment->total_=0;
-                    $shipment->tarikh_el7ala   = Carbon::now()->format('Y-m-d') ;
+                    $shipment->tarikh_el7ala   = Carbon::now()->format('Y-m-d  g:i:s A');
                     $shipment->save();
                 }
 
@@ -866,7 +866,7 @@ class shipmentsController extends Controller
                 foreach($shipments as $shipment)
             {
                 $shipment->Status_=2;
-                $shipment->tarikh_el7ala  = Carbon::now()->format('Y-m-d');
+                $shipment->tarikh_el7ala  = Carbon::now()->format('Y-m-d  g:i:s A');
                 $shipment->mandoub_estlam = $user->name_;
                 $shipment->Delivery_take_shipment_ID = request()->user_id;
 
@@ -925,7 +925,7 @@ class shipmentsController extends Controller
             foreach($shipments as $shipment)
             {
                 $shipment->Status_=4;
-                $shipment->tarikh_el7ala  = Carbon::now()->format('Y-m-d');
+                $shipment->tarikh_el7ala  =Carbon::now()->format('Y-m-d  g:i:s A');
                 $shipment->mandoub_taslim = $user->name_;
                 $shipment->Delivery_Delivered_Shipment_ID = $request->user_id;
 
@@ -980,7 +980,7 @@ class shipmentsController extends Controller
             foreach($shipments as $shipment)
             {
                 $shipment->Status_= 7 ;
-                $shipment->tarikh_el7ala   = Carbon::now()->format('Y-m-d') ;
+                $shipment->tarikh_el7ala   =Carbon::now()->format('Y-m-d  g:i:s A') ;
                 $shipment->save();
             }
             return  $this->handleMultiShipmentelequent( $all, $user, $request);
@@ -996,7 +996,7 @@ class shipmentsController extends Controller
             foreach($shipments as $shipment)
             {
                 $shipment->Status_= 6 ;
-                $shipment->tarikh_el7ala   = Carbon::now()->format('Y-m-d') ;
+                $shipment->tarikh_el7ala   =Carbon::now()->format('Y-m-d  g:i:s A') ;
                 $shipment->save();
             }
             return  $this->handleMultiShipmentelequent( $all, $user, $request);
@@ -1659,16 +1659,16 @@ class shipmentsController extends Controller
         //dd($request->all());
         if($request->status==1){  //ta7wel sh7nat fel m5zn
             $status=[3,2,9];
-            $updated_array = ['status_'=>1,'tarikh_el7ala'=>Carbon::now()->format('Y-m-d')];
+            $updated_array = ['status_'=>1,'tarikh_el7ala'=>Carbon::now()->format('Y-m-d  g:i:s A')];
         }
         if($request->status==8){   //t7wel rag3 lada 3amel
             $status=array(9);
-            $updated_array = ['status_'=>8, 'tarikh_el7ala'=>Carbon::now()->format('Y-m-d'),
+            $updated_array = ['status_'=>8, 'tarikh_el7ala'=>Carbon::now()->format('Y-m-d  g:i:s A'),
                                 'shipment_coast_'=>0 , 'tawsil_coast_'=>0 , 'total_'=>0  ];
         }
         if($request->status==9){   //t7wel rag3 lada m5zn
             $status=array(1,4);
-            $updated_array = ['status_'=>9, 'tarikh_el7ala'=>Carbon::now()->format('Y-m-d'),
+            $updated_array = ['status_'=>9, 'tarikh_el7ala'=>Carbon::now()->format('Y-m-d  g:i:s A'),
                                 'Delivery_Delivered_Shipment_ID'=>"" , 'mandoub_taslim'=>"" , 'tas3ir_mandoub_taslim'=>0 ];
         }
 
@@ -1754,7 +1754,7 @@ class shipmentsController extends Controller
               ->where('mandoub_taslim_tas3irtb.mandoub_ID', $mandob->code_)
               //->get();
               ->update(['add_shipment_tb_.tas3ir_mandoub_taslim'=> DB::raw("`mandoub_taslim_tas3irtb`.`price_`") ,
-              'tarikh_el7ala'=>Carbon::now()->format('Y-m-d') ,
+              'tarikh_el7ala'=>Carbon::now()->format('Y-m-d  g:i:s A') ,
               'Delivery_Delivered_Shipment_ID'=> $mandob->code_ ,
               'mandoub_taslim' =>$mandob->name_,
               'add_shipment_tb_.status_' => 4

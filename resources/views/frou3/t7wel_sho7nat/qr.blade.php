@@ -220,7 +220,7 @@
                             $( this ).remove();
                             var code=$(this).data('code')
                             shipments.splice(shipments.indexOf(code)-1, 1)
-                            console.log(shipments);
+                            
                          }else{
                             $( this ).find("td:first").text(cnt);
                             cnt++;

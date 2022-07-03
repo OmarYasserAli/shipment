@@ -220,7 +220,7 @@
                             $( this ).remove();
                             var code=$(this).data('code')
                             shipments.splice(shipments.indexOf(code)-1, 1)
-                            console.log(shipments);
+                            
                          }else{
                             $( this ).find("td:first").text(cnt);
                             cnt++;
@@ -243,7 +243,7 @@
                                     
                                     if(shipments.includes(qr)) return;
                                     shipments.push(qr);
-                                    console.log(data);
+                                   
                                     var res = (data.data)[0];
                                     $('#rakam_tawsel').val(res.code_);
                                     $('#3amel_name').val(res.client_name_);
