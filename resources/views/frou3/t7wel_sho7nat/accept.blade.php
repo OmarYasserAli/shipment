@@ -279,7 +279,7 @@
                     cnt=1;
                     shipments=[];
                 });
-                
+                 
                 $( "#QR" ).keyup(function(e){
                     if(e.keyCode == 13)
                     {
@@ -327,6 +327,7 @@
                                 alert("خطأ فى ادخال الشحنة");
                             }
                         });
+                        $(this).val('')
                     }
                 });
 

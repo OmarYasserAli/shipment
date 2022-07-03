@@ -1416,7 +1416,7 @@ class shipmentsController extends Controller
         ,'status_4_color','status_7_color','status_8_color','status_9_color'])->get()->keyBy('name')->pluck('val','name');
         $css_prop = Setting::get('status_css_prop');
         //  dd($status_color);
-        $page_title='الشحنات الغير مسددة للعميل';
+        $page_title='تعديل الشحنات';
         return view('shipments.editview',compact('all','mo7afazat','waselOnly','page_title','Commercial_names',
         'clients','status_color','css_prop','sums'));
     }
@@ -1709,7 +1709,8 @@ class shipmentsController extends Controller
     public function taslim_qr()
     {
         $manadeb_taslim= User::where('branch',auth()->user()->branch)->where('type_','مندوب تسليم')->get();
-        return view('shipments.taslim_qr',compact('manadeb_taslim'));
+        $page_title='تسليم الشحنت الى مندوب تسليم';
+        return view('shipments.taslim_qr',compact('manadeb_taslim','page_title'));
     }
     public function taslim_qr_save(Request $request)
     {

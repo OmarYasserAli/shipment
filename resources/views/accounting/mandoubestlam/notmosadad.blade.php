@@ -89,7 +89,7 @@
                                        
                                        @endif
                                        @if(request()->get('client_id') == null)الكل@endif
-                                        <button type="button" class="btn-close" data-tw-dismiss="alert" aria-label="Close" onclick="window.location.replace('{{route('accounting.3amil.notmosadad')}}')">
+                                        <button type="button" class="btn-close" data-tw-dismiss="alert" aria-label="Close" onclick="window.location.replace('{{route('accounting.mandoubestlam.notmosadad')}}')">
                                             <i data-lucide="x" class="w-4 h-4"></i> </button> 
                                     </div>
                             </div>
