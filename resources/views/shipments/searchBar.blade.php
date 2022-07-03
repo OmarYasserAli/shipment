@@ -76,6 +76,8 @@
                             <tr><td>&nbsp;&nbsp;<span>مندوب التسليم :</span></td><td><span>{{$shipment->mandoub_taslim	}}</span></td></tr>
                             <tr><td>&nbsp;&nbsp;<span>الحالة :</span></td><td><span>{{$shipment->Shipment_status->name_	}}</span></td></tr>
                             <tr><td>&nbsp;&nbsp;<span>التاريخ : </span></td><td><span>{{$shipment->date_}}</span></td></tr>
+                            <tr><td>&nbsp;&nbsp;<span>تاريخ الحالة : </span></td><td><span>{{$shipment->tarikh_el7ala}}</span></td></tr>
+
                             <tr><td>&nbsp;&nbsp;<span>الملاحظات : </span></td><td><span>{{$shipment->notes_}}</span></td></tr>
                         </table>
 
