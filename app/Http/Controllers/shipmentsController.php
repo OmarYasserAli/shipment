@@ -1549,6 +1549,8 @@ class shipmentsController extends Controller
         if(isset($request->Commercial_name)){
             $shipments = $shipments->where('commercial_name_', '=', $request->Commercial_name);
         }
+        if(isset( $request->client_id))
+            $shipments= $shipments->where('client_name_' ,$request->client_id);
         $all_shipments = $shipments;
 
         if(isset( request()->date_from))
