@@ -85,10 +85,10 @@
                     <div class="p-5 border-t border-slate-200/60 dark:border-darkmode-400">
                     <table style="font-size: 16px;">
                         <tr><td style="width: 45%">&nbsp;&nbsp; <span>مكان الشحنة : </span></td><td><span>{{$shipment->Ship_area_}}</span></td></tr>
-                        <tr><td>&nbsp;&nbsp;<span>تسديد العميل :</span></td><td><span>{{$shipment->el3amil_elmosadad}}</span></td></tr>
-                        <tr><td>&nbsp;&nbsp;<span>تسديد المندوب :</span></td><td><span>{{$shipment->elmandoub_elmosadad_taslim}}</span></td></tr>
-                        <tr><td>&nbsp;&nbsp;<span>تسديد الفرع الاول : </span></td><td><span>{{$shipment->elfar3_elmosadad_mno}}</span></td></tr>
-                        <tr><td>&nbsp;&nbsp;<span>تسديد الفرع الثاني :</span></td><td><span>{{$shipment->elfar3_elmosadad_mno_2}}</span></td></tr>
+                        <tr><td>&nbsp;&nbsp;<span>تسديد العميل :</span><span>{{$shipment->el3amil_elmosadad}}</span></td><td>&nbsp;&nbsp;<span>تاريخ التسديد العميل:</span><span>{{$shipment->tarikh_tasdid_el3amil}}</span></td></tr>
+                        <tr><td>&nbsp;&nbsp;<span>تسديد المندوب :</span><span>{{$shipment->elmandoub_elmosadad_taslim}}</span></td><td>&nbsp;&nbsp;<span>تاريخ التسديد المندوب:</span><span>@if(isset($shipment->tarikh_tasdid_mandoub_eltaslim)){{$shipment->tarikh_tasdid_mandoub_eltaslim}} @elseif(isset($shipment->tarikh_tasdid_mandoub_eltaslim)){{$shipment->tarikh_tasdid_mandoub_eltaslim}}@endif</span></td></tr>
+                        <tr><td>&nbsp;&nbsp;<span>تسديد الفرع الاول : </span><span>{{$shipment->elfar3_elmosadad_mno}}</span></td><td>&nbsp;&nbsp;<span>تاريخ التسديد الفرع الاول:</span><span>{{$shipment->tarikh_tasdid_far3}}</span></td></tr>
+                        <tr><td>&nbsp;&nbsp;<span>تسديد الفرع الثاني :</span><span>{{$shipment->elfar3_elmosadad_mno_2}}</span></td><td>&nbsp;&nbsp;<span>تاريخ التسديد الفرع الثاني:</span><span>{{$shipment->tarikh_tasdid_far3_2}}</span></td></tr>
 
                     </table>
                     <div class="qr" style="margin-top: 50px; text-align: center">
@@ -130,7 +130,7 @@ $('#mo7afza').on('change', function() {
                           },
                           dataType : 'json',
                           success: function(result){
-                              console.log(result.all)
+
                           $('#manteka').prop('disabled', false);
                           //$('#manteka').html('<option value="">...</option>');
                           manteka.clearOptions();
