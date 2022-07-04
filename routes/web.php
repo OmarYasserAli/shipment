@@ -199,6 +199,8 @@ Route::get('/users/commercialNames', 'setting\userdefinationsController@commerci
 Route::get('/settings/Khazna', 'KhaznaController@create')->name('Khazna.create');
 Route::post('/settings/Khazna/store', 'KhaznaController@store')->name('Khazna.store');
 
+Route::get('/settings/addUserTo5azma', 'KhaznaController@addUserTo5azma')->name('Khazna.adduser');
+
 
 
 Route::get('/permissions', 'permissionController@index')->name('permissions');

@@ -532,7 +532,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="side-menu-light-tabulator.html" class="side-menu">
+                            <a href="{{route('Khazna.adduser')}}" class="side-menu">
                                 <div class="side-menu__icon"> <i data-lucide="zap"></i> </div>
                                 <div class="side-menu__title">
                                     رﺑط ﻣﺳﺗﺧدم ﻣﻊ ﺧزﯾﻧﺔ</div>

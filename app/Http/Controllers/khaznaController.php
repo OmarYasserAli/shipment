@@ -30,7 +30,8 @@ class khaznaController extends Controller
 {
     public function create(){
         $branches = BranchInfo::all();
-        return view( 'setting.khazna',compact('branches'));
+        $page_title='اضافة خزنة';
+        return view( 'setting.khazna',compact('branches','page_title'));
     }
     public function store(Request $request){
         
@@ -42,5 +43,17 @@ class khaznaController extends Controller
         ]);
         Khazna::create($request->all());
         return back();
+    }
+    public function addUserTo5azma(Request $request){
+
+        $users = User::all();
+        $khaznat = Khazna::all();
+
+        return view('setting.addUser5azna' ,compact('users', 'khaznat'));
+    }
+    public function addUserTo5azma_save(Request $request){
+
+        $user = User::where('code_' ,$request->code)->first();
+        $user->Khazna()->sync($request->khazna_ids);
     }
 }

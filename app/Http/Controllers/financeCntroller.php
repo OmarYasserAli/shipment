@@ -28,5 +28,5 @@ use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 use PDF;
 class financeCntroller extends Controller
 {
-
+    
 }
