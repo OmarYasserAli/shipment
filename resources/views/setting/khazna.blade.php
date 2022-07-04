@@ -1,5 +1,9 @@
 @extends('layout.app')
-
+<style>
+    .ts-dropdown{
+        position: relative !important;
+    }
+</style>
 @section('content')
 
 <div class="content">
@@ -8,13 +12,24 @@
     <!-- END: Top Bar -->
 
 
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-12 col-md-offset-2">
 
             @if (session('status'))
                 <div class="alert alert-success">
                     {{ session('status') }}
                 </div>
             @endif
+
+                <div id='msgs' class="">
+                    <p></p>
+                    <ul class="cerror" id='cerror'>
+                        @if($errors->any())
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        @endif
+                    </ul>
+                </div>
 
 
             {{-- <form method="post" action="{{ route('settings.store') }}" class="form-horizontal" role="form">
