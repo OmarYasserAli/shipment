@@ -144,7 +144,7 @@ class shipmentsController extends Controller
             $t7weelTo = $this->t7weelArray( $type);
             $shipments = Shipment::with(['Branch_user' => function ($query) {
                 $query->select('code_','phone_');
-            }])->whereIn('TRANSFERE_ACCEPT_REFUSE',[1,0])->where('Ship_area_',$user->branch)
+            }])->whereIn('TRANSFERE_ACCEPT_REFUSE',[1,0])->where('branch_',$user->branch)
             ->where('status_',$status);
 
 
