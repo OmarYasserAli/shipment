@@ -31,6 +31,7 @@
             <div class="modal-body px-5 py-10">
                 <div class="text-center">
                     <div class="mb-5" style="font-size: 25px">اسم العميل</div>
+
                     <div class="form-inline">    
                         <select class=" form-select-lg sm:mt-2 sm:mr-2 mb-5   w-full" id='select_type' aria-label=".form-select-lg example">
                            
@@ -245,9 +246,11 @@
                 const myModal = tailwind.Modal.getOrCreateInstance(document.querySelector("#type_modal"));
                 var noClientFilter = $('#noClientFilter').is(':checked');
                 let client_id = current_status;
+
                 window.location.href = "{{route('Khazna.adduser')}}?client_id="+client_id;
                     
                    
+
 
 
             });
@@ -350,10 +353,12 @@
                     codes.push($(this).data('code'));
                 }
                 });
+
  
                 const queryString = window.location.search;
                 const urlParams = new URLSearchParams(queryString);
                 const client_id = urlParams.get('client_id')
+
 
                 $.ajax({
                     url: "{{route('Khazna.adduserSave')}}" ,
@@ -369,6 +374,7 @@
                         let msg_modal = tailwind.Modal.getOrCreateInstance(document.querySelector("#msg_modal"));
                     $('#msg_modal_text').text(msg)
                         msg_modal.show();
+
 
 
                     }
@@ -405,37 +411,7 @@
             // });
 
 
-            $("#checkAll").click(function(){
-                       
-                        // $('table tbody input:checkbox').not(this).prop('checked', this.checked);
-                     
 
-
-                    if($(this).is(':checked'))
-                        var items=$('table tbody input:checkbox:not(:checked)')  
-                    else
-                        var items= $('table tbody input:checkbox:checked') 
-                        items.each(function(){
-                            
-                        
-                    if(!$(this).is(':checked'))
-                    {
-                        
-                        $(this).prop('checked', 1);
-                    }
-                    else 
-                    {
-                       
-                        $(this).prop('checked', 0);
-                    }
-                    
-
-                    });
-                    
-            });
-                        
-
- 
             $( ".filterByEnter" ).keyup(function(e){
                 if(e.keyCode == 13)
                 {
