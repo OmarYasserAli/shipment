@@ -31,20 +31,18 @@
             <div class="modal-body px-5 py-10">
                 <div class="text-center">
                     <div class="mb-5" style="font-size: 25px">اسم العميل</div>
-                    <div class="form-inline">
 
-                        <select class=" form-select-lg sm:mt-2 sm:mr-2 mb-5 tom-select  w-full" id='select_type' aria-label=".form-select-lg example">
+                    <div class="form-inline">    
+                        <select class=" form-select-lg sm:mt-2 sm:mr-2 mb-5   w-full" id='select_type' aria-label=".form-select-lg example">
+                           
+
                             @foreach ($users as $user)
                              <option value="{{$user->code_}}">{{$user->name_}}</option>
                              @endforeach
                         </select>
 
                       </div>
-                      <div class="form-inline" style="font-size: 24px;">
-                        <label for="horizontal-form-1" class="form-label" style=" text-align:right; margin-left:15px; margin-top:1px; width:320px; ">اظهار الكل</label>
-                        <input type="checkbox" class="" id='noClientFilter'>
-
-                      </div>
+                      
                      <button type="button" data-tw-dismiss="" id='modal_close' class="btn btn-primary w-24 mt-5">استمرار</button>
                 </div>
             </div>
@@ -166,6 +164,12 @@
                     </div>
                 </div>
             </form> --}}
+            <div class="form-inline align-left">
+                <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:10px; margin-top:8px;  width:400px; "> </label>
+                <input type="button"  class="btn btn-success  " style="direction: ltr; margin-right:auto;"  value="ربط" id='tasdid' >
+
+            
+            </div>
             <div class="overflow-x-auto mt-5">
                 <table class="table table-striped" id="dataTable">
                     <thead class="table-light">
@@ -183,9 +187,10 @@
 
                         <tr   >
                             <td  class="whitespace-nowrap " ><?php echo $i; $i++?></td>
-                            <td  class="whitespace-nowrap " >{{$khazna->mo7afza_}}</td>
-                            <td class="whitespace-nowrap " >{{$khazna->reciver_phone_}}</td>
-                            <td class="whitespace-nowrap " ><input type="checkbox" class="check_count" data-cost='{{$khazna->id}}'></td>
+                            <td  class="whitespace-nowrap " >{{$khazna->name}}</td>
+                            <td  class="whitespace-nowrap " >{{$khazna->name}}</td>
+                            
+                            <td class="whitespace-nowrap " ><input type="checkbox" class="check_count" data-code='{{$khazna->id}}'></td>
                         </tr>
                         @endforeach
 
@@ -220,7 +225,7 @@
                         }
                     });
                     window.open(window.location.href.split('?')[0]+'?pdf=1&codes='+codes);
-                // window.location.replace ();
+
                 });
             let  shipments=[];
             let cnt=1;
@@ -241,7 +246,11 @@
                 const myModal = tailwind.Modal.getOrCreateInstance(document.querySelector("#type_modal"));
                 var noClientFilter = $('#noClientFilter').is(':checked');
                 let client_id = current_status;
-                window.location.href = "{{route('accounting.3amil.notmosadad')}}?client_id="+client_id;
+
+                window.location.href = "{{route('Khazna.adduser')}}?client_id="+client_id;
+                    
+                   
+
 
 
             });
@@ -345,48 +354,29 @@
                 }
                 });
 
+ 
+                const queryString = window.location.search;
+                const urlParams = new URLSearchParams(queryString);
+                const client_id = urlParams.get('client_id')
+
+
                 $.ajax({
-                    url: "{{route('accounting.3amil.tasdid')}}" ,
+                    url: "{{route('Khazna.adduserSave')}}" ,
                     type: 'post',
-                    data:{ code:codes,  _token: "{{ csrf_token() }}"},
+                    data:{ khazna_ids:codes,user_id:client_id ,  _token: "{{ csrf_token() }}"},
                     error: function(e){
                         console.log(e);
                     },
                     success: function(res) {
 
                         rowsAffected =  codes.length - res['count']
-                        msg =" تم تسديد " +res['count']+   " شحنة  "  +" تم رفض " + rowsAffected + " شحنة ";
+                        msg =" تم التنفيذ " ;
                         let msg_modal = tailwind.Modal.getOrCreateInstance(document.querySelector("#msg_modal"));
                     $('#msg_modal_text').text(msg)
                         msg_modal.show();
-                    let total_cost=parseInt($('#total_cost').val());
-                    let total_cnt=parseInt($('#total_cnt').val());
-                    let total_tawsil=parseInt($('#total_tawsil').val());
-                    let total_net= parseInt($('#total_net').val($('#total_cost').val()-$('#total_tawsil').val()));
-                    var i=1;
-                    $('.check_count').each(function() {
-
-                        if($(this).is(':checked') && $(this).data('status')==7){
-
-                            total_cnt--;
-                            total_cost-= $(this).data('cost');
-                            total_tawsil-= parseInt($(this).data('t7wel'));
-                            total_net-= $(this).data('net');
-                            $('#total_cost').val(total_cost);
-                            $('#total_tawsil').val(total_tawsil);
-                            $('#total_net').val($('#total_cost').val()-$('#total_tawsil').val());
-                            $('#total_cnt').val(total_cnt);
-
-                            $(this).parent().parent().remove();
 
 
-                        }else{
-                            $(this).parent().parent().children('td:first').text(i)
-                            i++;
 
-                        }
-                        // rows_counter()
-                    });
                     }
                 });
 
@@ -421,45 +411,6 @@
             // });
 
 
-            // $("#checkAll").click(function(){
-            //         $('.wasel_goz2y').css("background-color", "yellow");
-            //         // $('table tbody input:checkbox').not(this).prop('checked', this.checked);
-            //         let total_cost=parseInt($('#total_cost').val());
-            //         let total_cnt=parseInt($('#total_cnt').val());
-            //         let total_tawsil=parseInt($('#total_tawsil').val());
-            //         let total_net= parseInt($('#total_net').val($('#total_cost').val()-$('#total_tawsil').val()));
-
-            //         if($(this).is(':checked'))
-            //             var items=$('table tbody input:checkbox:not(:checked)')
-            //         else
-            //             var items= $('table tbody input:checkbox:checked')
-            //             items.each(function(){
-
-
-            //         if(!$(this).is(':checked'))
-            //         {
-            //             total_cnt++;
-            //             total_cost+= parseInt($(this).data('cost'));
-            //             total_tawsil+= parseInt($(this).data('t7wel'));
-            //             total_net+= parseInt($(this).data('net'));
-            //             $(this).prop('checked', 1);
-            //         }
-            //         else
-            //         {
-            //             total_cnt--;
-            //             total_cost-= $(this).data('cost');
-            //             total_tawsil-= parseInt($(this).data('t7wel'));
-            //             total_net-= $(this).data('net');
-            //             $(this).prop('checked', 0);
-            //         }
-
-
-            //         });
-            //         $('#total_cost').val(total_cost);
-            //         $('#total_tawsil').val(total_tawsil);
-            //         $('#total_net').val($('#total_cost').val()-$('#total_tawsil').val());
-            //         $('#total_cnt').val(total_cnt);
-            // });
 
             $( ".filterByEnter" ).keyup(function(e){
                 if(e.keyCode == 13)

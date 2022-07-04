@@ -45,15 +45,15 @@ class khaznaController extends Controller
         return back()->with(['status' => 'تم اضافة الخزنة بنجاح']);
     }
     public function addUserTo5azma(Request $request){
-
-        $users = User::all();
+        $users = User::where('type_','موظف')->get();
         $khaznat = Khazna::all();
-
+        // dd($users);
         return view('setting.addUser5azna' ,compact('users', 'khaznat'));
     }
     public function addUserTo5azma_save(Request $request){
+        // dd($request->all());
 
-        $user = User::where('code_' ,$request->code)->first();
+        $user = User::where('code_' ,$request->user_id)->first();
         $user->Khazna()->sync($request->khazna_ids);
     }
 }

@@ -200,6 +200,7 @@ Route::get('/settings/Khazna', 'KhaznaController@create')->name('Khazna.create')
 Route::post('/settings/Khazna/store', 'KhaznaController@store')->name('Khazna.store');
 
 Route::get('/settings/addUserTo5azma', 'KhaznaController@addUserTo5azma')->name('Khazna.adduser');
+Route::post('/settings/addUserTo5azmasave', 'KhaznaController@addUserTo5azma_save')->name('Khazna.adduserSave');
 
 
 
