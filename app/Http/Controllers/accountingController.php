@@ -345,7 +345,6 @@ class accountingController extends Controller
         if(isset(request()->limit ))   $limit =request()->limit;
         $shipments = Shipment::select('*')
             ->where('elmandoub_elmosadad_taslim','')
-
             ->where('Delivery_Delivered_Shipment_ID', '!=',null)    // مسدد
             ->where('Delivery_Delivered_Shipment_ID', '!=',0)    // مسدد
             //->where('branch_', '=', $user->branch)
@@ -463,7 +462,7 @@ class accountingController extends Controller
         ->whereIn('add_shipment_tb_.code_', $request->code)
         ->where('add_shipment_tb_.elmandoub_elmosadad_taslim','')
         ->where('add_shipment_tb_.status_', '=',7)
-        ->where('branch_', '=', $user->branch)
+        ->where('Ship_area_', '=', $user->branch)
          ->update(['tarikh_tasdid_mandoub_eltaslim'=>Carbon::now(),
             'add_shipment_tb_.elmandoub_elmosadad_taslim' =>'مسدد'
             ]);
