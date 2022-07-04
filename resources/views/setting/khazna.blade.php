@@ -64,7 +64,7 @@
 
                             <div class="post__content tab-content">
                                 <div id="content" class="tab-pane p-5 active" role="tabpanel" aria-labelledby=	"content-tab">
-                                    <form method="post" action="{{ route('settings.store') }}" role="form">
+                                    <form method="post" action="{{ route('Khazna.store') }}" role="form">
                                {!! csrf_field() !!}
                                         <div class="mt-3">
                                             <label for="regular-form-2" class="form-label">اسم الخزنة</label>
@@ -72,15 +72,13 @@
                                         </div>
                                         <div class="mt-3">
                                             <label for="regular-form-2" class="form-label">الفرع</label>
-                                            <select  id='branch' class="form-control branch" name="branch_id">
+                                            <select  id='branch' class="form-control branch tom-select" name="branch_id">
                                                 <option value=""></option>
                                                 @foreach($branches as $branch)
                                                     <option value="{{$branch->code_}}"  >{{$branch->name_}}</option>
                                                 @endforeach
                                             </select>
-                                            <script>
-                                                let branch = new TomSelect("#branch",{});
-                                            </script>
+
                                         </div>
                                 <button class="btn btn-primary mt-5">Save</button>
                             </form>
