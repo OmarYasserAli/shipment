@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\khazna;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -17,8 +18,11 @@ class User extends Authenticatable
     protected $table = 'all_users';
     public $timestamps = false;
     protected $primaryKey = 'code_';
-    
 
+    public function Khazna()
+    {
+        return $this->belongsToMany(khazna::class,'5azna_user','5azna_id','user_id');
+    }
     /**
      * The attributes that are mass assignable.
      *
@@ -54,6 +58,6 @@ class User extends Authenticatable
     }
 
 
-  
+
 
 }
