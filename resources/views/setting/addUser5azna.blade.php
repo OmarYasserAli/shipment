@@ -189,7 +189,9 @@
                             <td  class="whitespace-nowrap " >{{$khazna->name}}</td>
                             <td  class="whitespace-nowrap " >{{$khazna->name}}</td>
                             
-                            <td class="whitespace-nowrap " ><input type="checkbox" class="check_count" data-code='{{$khazna->id}}'></td>
+                            <td class="whitespace-nowrap " >
+                                <input type="checkbox" class="check_count" data-code='{{$khazna->id}}' 
+                                @if($attachedTo != []  && in_array( $khazna->id, $attachedTo)) checked @endif></td>
                         </tr>
                         @endforeach
 
