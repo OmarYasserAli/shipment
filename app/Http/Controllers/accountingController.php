@@ -394,7 +394,7 @@ class accountingController extends Controller
             request()->limit=$count_all;
         }
         $totalCost = $all_shipments->sum('shipment_coast_');
-        $tawsilCost = $all_shipments->sum('tawsil_coast_');
+        $tawsilCost = $all_shipments->sum('tas3ir_mandoub_taslim');
         $allCount = $all_shipments->count();
         $netCost =  $totalCost-$tawsilCost;
         $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];
@@ -538,7 +538,7 @@ class accountingController extends Controller
             request()->limit=$count_all;
         }
         $totalCost = $all_shipments->sum('shipment_coast_');
-        $tawsilCost = $all_shipments->sum('tawsil_coast_');
+        $tawsilCost = $all_shipments->sum('tas3ir_mandoub_taslim');
         $allCount = $all_shipments->count();
         $netCost =  $totalCost-$tawsilCost;
         $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];
@@ -606,7 +606,7 @@ class accountingController extends Controller
         //->where('add_shipment_tb_.status_', '!=',8)
         ->where('add_shipment_tb_.status_', '=',7)
         ->where('add_shipment_tb_.elmandoub_elmosadad_taslim','مسدد')
-        ->where('branch_', '=', $user->branch)
+        ->where('Ship_area_', '=', $user->branch)
          ->update(['tarikh_tasdid_mandoub_eltaslim'=>'',
             'add_shipment_tb_.elmandoub_elmosadad_taslim' =>''
             ]);
@@ -640,7 +640,7 @@ class accountingController extends Controller
             ->where('elmandoub_elmosadad_estlam','')
             ->where('Delivery_take_shipment_ID', '!=',null)    // مسدد
             ->where('Delivery_take_shipment_ID', '!=',0)
-            ->where('branch_', '=', $user->branch)->with(['client']);
+            ->where('Ship_area_', '=', $user->branch)->with(['client']);
             $shipments = $shipments->where('status_' ,'!=',8) ;
             //saif = shipmnt_cost  - t7weel
 
@@ -685,7 +685,7 @@ class accountingController extends Controller
         }
 
         $totalCost = $all_shipments->sum('shipment_coast_');
-        $tawsilCost = $all_shipments->sum('tawsil_coast_');
+        $tawsilCost = $all_shipments->sum('tas3ir_mandoub_estlam');
         $allCount = $all_shipments->count();
         $netCost =  $totalCost-$tawsilCost;
         $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];
@@ -752,7 +752,7 @@ class accountingController extends Controller
         //->where('add_shipment_tb_.status_', '!=',8)
         ->where('add_shipment_tb_.status_', '=',7)
         ->where('add_shipment_tb_.elmandoub_elmosadad_estlam','')
-        ->where('branch_', '=', $user->branch)
+        ->where('Ship_area_', '=', $user->branch)
          ->update(['tarikh_tasdid_mandoub_elestlam'=>Carbon::now(),
             'add_shipment_tb_.elmandoub_elmosadad_estlam' =>'مسدد'
             ]);
@@ -785,7 +785,7 @@ class accountingController extends Controller
             ->where('elmandoub_elmosadad_estlam','مسدد')
             ->where('Delivery_take_shipment_ID', '!=',null)
             ->where('Delivery_take_shipment_ID', '!=',0)
-            ->where('branch_', '=', $user->branch)->with(['client']);
+            ->where('Ship_area_', '=', $user->branch)->with(['client']);
             $shipments = $shipments->where('status_' ,'!=',8) ;
             //saif = shipmnt_cost  - t7weel
 
@@ -831,7 +831,7 @@ class accountingController extends Controller
             request()->limit=$count_all;
         }
         $totalCost = $all_shipments->sum('shipment_coast_');
-        $tawsilCost = $all_shipments->sum('tawsil_coast_');
+        $tawsilCost = $all_shipments->sum('tas3ir_mandoub_estlam');
         $allCount = $all_shipments->count();
         $netCost =  $totalCost-$tawsilCost;
         $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];
@@ -903,7 +903,7 @@ class accountingController extends Controller
         //->where('add_shipment_tb_.status_', '!=',8)
         ->where('add_shipment_tb_.status_', '=',7)
         ->where('add_shipment_tb_.elmandoub_elmosadad_estlam','مسدد')
-        ->where('branch_', '=', $user->branch)
+        ->where('Ship_area_', '=', $user->branch)
          ->update(['tarikh_tasdid_mandoub_elestlam'=>'',
             'add_shipment_tb_.elmandoub_elmosadad_estlam' =>''
             ]);
