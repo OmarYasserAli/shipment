@@ -1524,7 +1524,7 @@ class shipmentsController extends Controller
         $t7weelTo = $this->t7weelArray(2);
         $shipments = Shipment::with(['Branch_user' => function ($query) {
             $query->select('code_','phone_');
-        }]);
+        }])->where('branch_' ,$user->branch);
 
 
 

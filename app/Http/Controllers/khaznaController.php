@@ -34,15 +34,15 @@ class khaznaController extends Controller
         return view( 'setting.khazna',compact('branches','page_title'));
     }
     public function store(Request $request){
-        
+
         $validated = $request->validate([
             //'reciver_name_' => 'required',
             'name' => 'required|unique:5azna',
             'branch_id' => 'required',
-            
+
         ]);
         Khazna::create($request->all());
-        return back();
+        return back()->with(['status' => 'تم اضافة الخزنة بنجاح']);
     }
     public function addUserTo5azma(Request $request){
         $users = User::where('type_','موظف')->get();
