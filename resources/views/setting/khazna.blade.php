@@ -1,5 +1,9 @@
 @extends('layout.app')
-
+<style>
+    .ts-dropdown{
+        position: relative !important;
+    }
+</style>
 @section('content')
 
 <div class="content">
