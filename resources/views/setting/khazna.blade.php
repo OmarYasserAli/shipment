@@ -19,17 +19,13 @@
                     {{ session('status') }}
                 </div>
             @endif
-
-                <div id='msgs' class="">
-                    <p></p>
-                    <ul class="cerror" id='cerror'>
-                        @if($errors->any())
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        @endif
-                    </ul>
+            @if($errors->any())
+                <div class="alert alert-warning">
+                    @foreach ($errors->all() as $error)
+                        <div>{{ $error }}</div>
+                    @endforeach
                 </div>
+            @endif
 
 
             {{-- <form method="post" action="{{ route('settings.store') }}" class="form-horizontal" role="form">
