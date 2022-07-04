@@ -195,6 +195,10 @@ Route::get('/users/commercialNames', 'setting\userdefinationsController@commerci
 
 
 //end Definations
+//Statrt Khazna
+Route::get('/setting/Khazna', 'KhaznaController@create')->name('Khazna.create');
+Route::post('/setting/Khazna/store', 'KhaznaController@store')->name('Khazna.store');
+
 
 
 Route::get('/permissions', 'permissionController@index')->name('permissions');

@@ -526,7 +526,7 @@
                     </a>
                     <ul class="">
                         <li>
-                            <a href="side-menu-light-regular-table.html" class="side-menu">
+                            <a href="{{route('Khazna.create')}}" class="side-menu">
                                 <div class="side-menu__icon"> <i data-lucide="zap"></i> </div>
                                 <div class="side-menu__title"> اضافة خزينة</div>
                             </a>
