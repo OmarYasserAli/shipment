@@ -10,4 +10,10 @@ class Sanad extends Model
     protected $guarded = [];
     protected $filable = ['name','type','code','model_type','model_id','date'];
     public $timestamps = false;
+
+
+    public function sanadable()
+    {
+        return $this->morphTo();
+    }
 }

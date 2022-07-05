@@ -127,6 +127,8 @@ Route::post('/frou3/accounting/cancelTasdid', 'frou3Controller@cancelTasdid')->n
 
 Route::get('/frou3/accounting/notmosadad', 'frou3Controller@AccountingNotMosadad')->name('accounting.notmosadad');
 Route::post('/frou3/accounting/tasdid', 'frou3Controller@tasdid')->name('frou3.accounting.tasdid');
+
+
 //end accounting
 
 
@@ -138,6 +140,15 @@ Route::post('/frou3/accounting/tasdid', 'frou3Controller@tasdid')->name('frou3.a
 
 
 // accounting
+
+Route::get('/accounting/coppany/qabad', 'sanadatController@createQabad')->name('accounting.coppany.createQabad');
+Route::get('/accounting/coppany/sarf', 'sanadatController@createSarf')->name('accounting.coppany.createSarf');
+
+Route::post('/accounting/coppany/savesanad', 'sanadatController@store')->name('accounting.coppany.SaveSanad');
+Route::get('/accounting/coppany/getmostafedname', 'sanadatController@getMostafedBytype')->name('accounting.coppany.mostafed_name');
+
+
+
     //3amil
 Route::get('/accounting/3amil/mosadad', 'accountingController@amilMosadad')->name('accounting.3amil.mosadad');
 Route::post('/accounting/3amil/canselTasdid', 'accountingController@amilcanselTasdid')->name('accounting.3amil.canceltasdid');
