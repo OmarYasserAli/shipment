@@ -28,66 +28,37 @@
             @endif
 
 
-            {{-- <form method="post" action="{{ route('settings.store') }}" class="form-horizontal" role="form">
-                {!! csrf_field() !!}
 
-                @if(count(config('setting_fields', [])) )
-
-                    @foreach(config('setting_fields') as $section => $fields)
-                        <div class="panel panel-info">
-                            <div class="panel-heading">
-                                <i class="{{ Arr::get($fields, 'icon', 'glyphicon glyphicon-flash') }}"></i>
-                                {{ $fields['title'] }}
-                            </div>
-
-                            <div class="panel-body">
-                                <p class="text-muted">{{ $fields['desc'] }}</p>
-                            </div>
-
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-md-7  col-md-offset-2">
-                                        @foreach($fields['elements'] as $field)
-
-                                            @includeIf('setting.fields.' .'type' )
-                                        @endforeach
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <!-- end panel for {{ $fields['title'] }} -->
-                    @endforeach
-
-                @endif
-
-                <div class="row m-b-md">
-                    <div class="col-md-12">
-                        <button class="btn-primary btn">
-                            Save Settings
-                        </button>
-                    </div>
-                </div>
-            </form> --}}
             <div class="intro-y col-span-12 lg:col-span-8">
 
                         <div class="post intro-y overflow-hidden box mt-5">
 
                             <div class="post__content tab-content">
                                 <div id="content" class="tab-pane p-5 active" role="tabpanel" aria-labelledby=	"content-tab">
-                                    <form method="post" action="{{ route('Khazna.store') }}" role="form">
+                                    <form method="post" action="{{ route('accounting.coppany.SaveSanad') }}" role="form">
                                {!! csrf_field() !!}
+                                        <input type="hidden" value="abd" name="page_type">
                                         <div class="mt-3">
-                                            <label for="regular-form-2" class="form-label">اسم الخزنة</label>
-                                            <input id="regular-form-2"  name="name" type="text" class="form-control" >
+                                            <label for="regular-form-2" class="form-label">تاريخ السند</label>
+                                            <input id="regular-form-2" value="{{Carbon\Carbon::now()->format('Y-m-d  g:i:s A')}}"  type="text" class="form-control" disabled >
                                         </div>
                                         <div class="mt-3">
-                                            <label for="regular-form-2" class="form-label">الفرع</label>
-                                            <select  id='branch' class="form-control branch tom-select" name="branch_id">
+                                            <label for="regular-form-2" class="form-label">نوع المستفيد</label>
+                                            <select  id='branch' class="form-control branch tom-select" name="mostafed_type">
+                                                <option value="عميل">عميل</option>
+                                                <option value="مندوب">مندوب</option>
+                                                <option value="فرع">فرع</option>
+                                                <option value="مصاريف">مصاريف</option>
+                                                <option value="اخرى">اخرى</option>
+
+                                            </select>
+
+                                        </div>
+                                        <div class="mt-3">
+                                            <label for="regular-form-2" class="form-label">المستفيد</label>
+                                            <select  id='branch' class="form-control branch tom-select" name="mostafed_name">
                                                 <option value=""></option>
-                                                @foreach($branches as $branch)
-                                                    <option value="{{$branch->code_}}"  >{{$branch->name_}}</option>
-                                                @endforeach
+
                                             </select>
 
                                         </div>
@@ -106,6 +77,27 @@
 
     </div>
 
+<script type="text/javascript">
+    $('#mostafed_name').hide();
+    $('#mostafed_type').change(function () {
+        var selectedVal = $("#mostafed_type option:selected").val();
+        $('#mostafed_name').show();
+        // AJAX request
+        $.ajax({
+            url: "{{route('accounting.coppany.mostafed_name')}}"+"?mostafed_type="+selectedVal,
+            type: 'get',
+            data: "json",
+            success: function (data) {
+                $('select[name="mostafed_name"]').empty();
+                $('select[name="mostafed_name"]').append('<option value="">اختار اسم المندوب</option>')
+                $.each(data, function (key, value) {
+                    // console.log(value)
+                    $('select[name="mostafed_name"]').append('<option value="' + value.code_ + '">' + value.name_ + '</option>')
+                });
 
+            }
+        });
+    });
+</script>
 
 @endsection
