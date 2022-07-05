@@ -52,6 +52,13 @@ Route::get('/getManateqAndTas3irMandobByMa7afza', 'tas3irController@getManateqAn
 
 Route::get('/getManateqAndTas3ir5asByMa7afza', 'tas3irController@getManateqAndTas3ir5asByMa7afza')->name('getManateqAndTas3ir5asByMa7afza');
 
+
+
+
+
+//operation print
+Route::get('opretation-print', 'printController@opretationPrint')->name('opretation-print');
+
 //shipments
 
 Route::get('shiments', 'shipmentsController@HomePage')->name('home-page');
