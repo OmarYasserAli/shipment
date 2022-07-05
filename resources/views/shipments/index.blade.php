@@ -26,6 +26,7 @@
                             <p id='msg_modal_text' style="margin: auto;"></p>
                           </div>
                          <button type="button" data-tw-dismiss="" id='msg_modal_close' class="btn btn-primary w-24 mt-5">استمرار</button>
+                         <button type="button" data-tw-dismiss="" id='operation_print' class="btn btn-success w-24 mt-5">طباعه</button>
                     </div>
                 </div>
             </div>
@@ -283,7 +284,7 @@
 </div>
 
         <script type="text/javascript">
-
+             let opreation_codes=[];
             $('#print').on('click', function(){
                 var codes=[];
                 $('.check_count').each(function() {
@@ -294,6 +295,13 @@
                 window.open(window.location.href.split('?')[0]+'?pdf=1&codes='+codes+'&status={{$type}}');
                // window.location.replace ();
             });
+
+
+            $('#operation_print').on('click',function(){
+                window.open("{{route('opretation-print')}}"+'?codes='+opreation_codes+'&type=shipment&title='+'تحويل شحنات');
+
+            })
+            
 
             let  shipments=[];
             let cnt=1;
@@ -343,7 +351,7 @@
                 myModal.hide();
             });
 
-                $( "#tasdid" ).click(function() {
+            $( "#tasdid" ).click(function() {
 
                     var codes =[]
                     var t7weel_to = $('#t7weel_to').val();
@@ -354,6 +362,7 @@
                     });
                     if(t7weel_to =='' || t7weel_to== null) return;
                     //console.log(codes)
+                    opreation_codes= codes;
                     $.ajax({
                         url: "{{route('shiments.t7weel_manual')}}" ,
                         type: 'post',
