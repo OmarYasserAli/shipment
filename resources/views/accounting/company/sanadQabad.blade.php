@@ -44,7 +44,7 @@
                                         </div>
                                         <div class="mt-3">
                                             <label for="regular-form-2" class="form-label">نوع المستفيد</label>
-                                            <select  id='branch' class="form-control branch tom-select" name="mostafed_type">
+                                            <select  id='mostafed_type' class="form-control branch tom-select" name="mostafed_type">
                                                 <option value="عميل">عميل</option>
                                                 <option value="مندوب">مندوب</option>
                                                 <option value="فرع">فرع</option>
@@ -56,7 +56,7 @@
                                         </div>
                                         <div class="mt-3">
                                             <label for="regular-form-2" class="form-label">المستفيد</label>
-                                            <select  id='branch' class="form-control branch tom-select" name="mostafed_name">
+                                            <select  id='mostafed_name' class="form-control branch tom-select" name="mostafed_name">
                                                 <option value=""></option>
 
                                             </select>
@@ -78,10 +78,10 @@
     </div>
 
 <script type="text/javascript">
-    $('#mostafed_name').hide();
+
     $('#mostafed_type').change(function () {
         var selectedVal = $("#mostafed_type option:selected").val();
-        $('#mostafed_name').show();
+
         // AJAX request
         $.ajax({
             url: "{{route('accounting.coppany.mostafed_name')}}"+"?mostafed_type="+selectedVal,
@@ -89,7 +89,7 @@
             data: "json",
             success: function (data) {
                 $('select[name="mostafed_name"]').empty();
-                $('select[name="mostafed_name"]').append('<option value="">اختار اسم المندوب</option>')
+                $('select[name="mostafed_name"]').append('<option value="">اختار اسم المستفيد</option>')
                 $.each(data, function (key, value) {
                     // console.log(value)
                     $('select[name="mostafed_name"]').append('<option value="' + value.code_ + '">' + value.name_ + '</option>')
