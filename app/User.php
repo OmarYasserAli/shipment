@@ -57,11 +57,12 @@ class User extends Authenticatable
         return $this->image != null ? asset('uploads/user_images/'.$this->image) :  asset('uploads/user_images/default.png') ;
     }
 
-    public function comments()
+    public function sanadat()
     {
         return $this->morphMany(Sanad::class, 'sanadable');
         
     }
+   
 
 
 

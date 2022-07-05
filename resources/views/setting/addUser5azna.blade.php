@@ -187,7 +187,7 @@
                         <tr   >
                             <td  class="whitespace-nowrap " ><?php echo $i; $i++?></td>
                             <td  class="whitespace-nowrap " >{{$khazna->name}}</td>
-                            <td  class="whitespace-nowrap " >{{$khazna->branch->name_}}</td>
+                            <td  class="whitespace-nowrap " >{{$khazna->branches->name_}}</td>
                             
                             <td class="whitespace-nowrap " >
                                 <input type="checkbox" class="check_count" data-code='{{$khazna->id}}' 

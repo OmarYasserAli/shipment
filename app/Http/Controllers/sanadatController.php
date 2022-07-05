@@ -32,16 +32,23 @@ class sanadatController extends Controller
 {
     public function createQabad(){
         $page_title='سند قبض';
-        return view('accounting.company.sanadQabad',compact('page_title'));
+        $user=auth()->user();
+        $khaznat=$user->Khazna;
+       
+        return view('accounting.company.sanadQabad',compact('page_title','khaznat'));
     } 
     public function createSarf(){
         $page_title='سند صرف';
-        return view('accounting.company.sanadSarf',compact('page_title'));
+        $user=auth()->user();
+        $khaznat=$user->Khazna;
+        return view('accounting.company.sanadSarf',compact('page_title','khaznat'));
     }
     public function store(Request $request){
 
         $sanad= new Sanad();
-        //$sanad-> = $rquest->
+        // $sanad->code = $rquest->
+        // $sanad-> = $rquest->
+        // $sanad-> = $rquest->
     }
 
     public function getMostafedBytype(){

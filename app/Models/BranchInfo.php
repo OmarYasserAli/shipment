@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class BranchInfo extends Model
 {
-    protected $primaryKey = 'serial';
+    protected $primaryKey = 'code_';
     protected $table = 'branch_info_tb';
     protected $guarded = [];
     
