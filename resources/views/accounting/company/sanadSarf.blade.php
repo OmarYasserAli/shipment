@@ -5,7 +5,8 @@
     }
 </style>
 @section('content')
-
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.0.3/dist/css/tom-select.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.0.3/dist/js/tom-select.complete.min.js"></script>
     <div class="content">
         <!-- BEGIN: Top Bar -->
     @include('layout.partial.topbar')
@@ -44,7 +45,8 @@
                                 </div>
                                 <div class="mt-3">
                                     <label for="regular-form-2" class="form-label">نوع المستفيد</label>
-                                    <select  id='mostafed_type' class="form-control branch tom-select" name="mostafed_type">
+                                    <select  id='mostafed_type' class="form-control mostafed_type" name="mostafed_type">
+                                        <option value="">...</option>
                                         <option value="عميل">عميل</option>
                                         <option value="مندوب">مندوب</option>
                                         <option value="فرع">فرع</option>
@@ -56,7 +58,7 @@
                                 </div>
                                 <div class="mt-3">
                                     <label for="regular-form-2" class="form-label">المستفيد</label>
-                                    <select  id='mostafed_name' class="form-control branch" name="mostafed_name">
+                                    <select  id='mostafed_name' class="form-control mostafed_name" name="mostafed_name">
                                         <option value=""></option>
 
                                     </select>
@@ -78,9 +80,21 @@
     </div>
 
     <script type="text/javascript">
+        var mostafed_name =new TomSelect("#mostafed_name",{
+            valueField: 'id',
+            labelField: 'title',
+            searchField: 'title',
+            create: false
+        });
+        var mostafed_type =new TomSelect("#mostafed_type",{
+            valueField: 'id',
+            labelField: 'title',
+            searchField: 'title',
+            create: false
+        });
+
 
         $('#mostafed_type').change(function () {
-
             var selectedVal = $("#mostafed_type option:selected").val();
 
             // AJAX request
@@ -89,11 +103,18 @@
                 type: 'get',
                 data: "json",
                 success: function (data) {
-                    $('select[name="mostafed_name"]').empty();
-                    $('select[name="mostafed_name"]').append('<option value="">اختار اسم المستفيد</option>')
-                    $.each(data, function (key, value) {
-                        // console.log(value)
-                        $('select[name="mostafed_name"]').append('<option value="' + value.code_ + '">' + value.name_ + '</option>')
+                    // $('select[name="mostafed_name"]').empty();
+                    // $('select[name="mostafed_name"]').append('<option value="">اختار اسم المستفيد</option>')
+                    mostafed_name.clearOptions();
+
+
+                    $.each(data.data, function (key, value) {
+                        // console.log(value.code_);
+                        mostafed_name.addOption({
+                            id: value.code_,
+                            title: value.name_,
+
+                        });
                     });
 
                 }
