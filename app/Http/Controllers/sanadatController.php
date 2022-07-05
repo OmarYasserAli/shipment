@@ -31,10 +31,12 @@ use PDF;
 class sanadatController extends Controller
 {
     public function createQabad(){
-        return view('accounting.company.sanadQabad');
+        $page_title='سند قبض';
+        return view('accounting.company.sanadQabad',compact('page_title'));
     } 
     public function createSarf(){
-        return view('accounting.company.sanadSarf');
+        $page_title='سند صرف';
+        return view('accounting.company.sanadSarf',compact('page_title'));
     }
     public function store(Request $request){
 
@@ -45,14 +47,14 @@ class sanadatController extends Controller
     public function getMostafedBytype(){
         $data = '';
         $user = auth()->user();
-        if(requet()->mostafed_type =='عميل'){
-            $data =  User::where('type_','عميل')->where('branch_',$user->branch)->get();
+        if(request()->mostafed_type =='عميل'){
+            $data =  User::where('type_','عميل')->where('branch',$user->branch)->get();
         }
-        if(requet()->mostafed_type =='مندوب'){
-            $data =  User::where('branch_',$user->branch)->where('type_','مندوب استلام')->where('type_','مندوب تسليم')->get();
+        if(request()->mostafed_type =='مندوب'){
+            $data =  User::where('branch',$user->branch)->where('type_','مندوب استلام')->orWhere('type_','مندوب تسليم')->get();
             
         }
-        if(requet()->mostafed_type =='فرع'){
+        if(request()->mostafed_type =='فرع'){
             $data = BranchInfo::all();
         }
 

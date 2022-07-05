@@ -60,6 +60,7 @@ class User extends Authenticatable
     public function comments()
     {
         return $this->morphMany(Sanad::class, 'sanadable');
+        
     }
 
 
