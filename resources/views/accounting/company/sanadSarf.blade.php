@@ -1,6 +1,6 @@
 @extends('layout.app')
 <style>
-    .ts-dropdown{
+    .Khazna .ts-dropdown{
         position: relative !important;
     }
 </style>
@@ -63,6 +63,20 @@
 
                                     </select>
 
+                                </div>
+                                <div class="mt-3">
+                                    <label for="regular-form-2" class="form-label">الخزنة</label>
+                                    <select  id='khazna_id' class="form-control mostafed_name" name="khazna_id">
+                                        <option value=""></option>
+                                        @foreach($khaznat as $khazna)
+                                            <option value="{{$khazna->id}}"  >{{$khazna->name}}</option>
+                                        @endforeach
+                                    </select>
+
+                                </div>
+                                <div class="mt-3">
+                                    <label for="regular-form-2" class="form-label">المبلغ</label>
+                                    <input id="regular-form-2"  type="text" class="form-control" name="amount" >
                                 </div>
                                 <button class="btn btn-primary mt-5">Save</button>
                             </form>
