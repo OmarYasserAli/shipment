@@ -1,6 +1,6 @@
 @extends('layout.app')
 <style>
-    .ts-dropdown{
+    .mostafed_name .ts-dropdown{
         position: relative !important;
     }
 </style>
@@ -45,7 +45,7 @@
                                         </div>
                                         <div class="mt-3">
                                             <label for="regular-form-2" class="form-label">نوع المستفيد</label>
-                                            <select  id='mostafed_type' class="form-control branch" name="mostafed_type">
+                                            <select  id='mostafed_type' class="form-control mostafed_type" name="mostafed_type">
                                                 <option value="">...</option>
                                                 <option value="عميل">عميل</option>
                                                 <option value="مندوب">مندوب</option>
@@ -58,7 +58,7 @@
                                         </div>
                                         <div class="mt-3">
                                             <label for="regular-form-2" class="form-label">المستفيد</label>
-                                            <select  id='mostafed_name' class="form-control branch" name="mostafed_name">
+                                            <select  id='mostafed_name' class="form-control mostafed_name" name="mostafed_name">
                                                 <option value=""></option>
 
                                             </select>
@@ -106,8 +106,8 @@ var  mostafed_type =new TomSelect("#mostafed_type",{
                 // $('select[name="mostafed_name"]').empty();
                 // $('select[name="mostafed_name"]').append('<option value="">اختار اسم المستفيد</option>')
                 mostafed_name.clearOptions();
-                         
-                              
+
+
                 $.each(data.data, function (key, value) {
                     // console.log(value.code_);
                     mostafed_name.addOption({
