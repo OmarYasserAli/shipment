@@ -41,6 +41,8 @@
                                         <input type="hidden" name="date" class="form-control"   value="{{$now}}" >
 
                                     </div>
+                                    <input id="rakam-wasl" type="hidden" class="form-control"  name="current_code" value="{{$shipment->code_}}"/>
+
                                     @if(!$code_ai)
                                     <div class="form-inline mt-3">
                                         <label for="rakam-wasl" class="form-label sm:w-20">رقم الوصل</label>
@@ -49,8 +51,7 @@
 
                                     </div>
                                     <small class="warring " style="margin-right: 100px;"></small>
-                                    @else
-                                        <input id="rakam-wasl" type="hidden" class="form-control"  name="code" value="{{$shipment->code_}}"/>
+                                   
                                     @endif
                                     <div class="form-inline mt-3">
                                         <label for="3amil-name" class="form-label sm:w-20">اسم العميل</label>

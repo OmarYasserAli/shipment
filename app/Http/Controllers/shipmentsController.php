@@ -129,7 +129,7 @@ class shipmentsController extends Controller
         dd($statuses);
     }
 
-     public function shipments(int $type,Request $request)
+    public function shipments(int $type,Request $request)
     {
         $user=auth()->user();
         if(!$user->isAbleTo('index-shipment')){
@@ -1449,16 +1449,16 @@ class shipmentsController extends Controller
             //'manteka' => 'required',
             'date' => 'required',
         ]);
-        // dd($request->all());
+        //  dd($request->all());
         $user= auth()->user();
-        $shipment = Shipment::where('code_',$request->code)->first();
+        $shipment = Shipment::where('code_',$request->current_code)->first();
 //        $shipment->date_   = $request->date;
 //        $shipment->tarikh_el7ala   = $request->date;
         // $shipment->date_   = $request->date;
 
         $shipment->client_ID_   = $request->client_id;
-        // if(!Setting::get('shipment_code_ai'))
-        //     $shipment->code_   = $request->code;
+        if(!Setting::get('shipment_code_ai'))
+            $shipment->code_   = $request->code;
 
             // $shipment->serial_ 	 = $request->code;
         $client = USer::where('code_',$request->client_id)->first();
@@ -1502,7 +1502,7 @@ class shipmentsController extends Controller
 
         $shipment->save();
 
-        return redirect()->back()->with('status', 'تم حفظ التعديلات');
+        return \Redirect::route('shiments.edit', [$shipment->code_])->with('status', 'تم حفظ التعديلات');
     }
     public function status(){
 
@@ -1524,7 +1524,7 @@ class shipmentsController extends Controller
         $t7weelTo = $this->t7weelArray(2);
         $shipments = Shipment::with(['Branch_user' => function ($query) {
             $query->select('code_','phone_');
-        }])->where('branch_' ,$user->branch);
+        }]);
 
 
 

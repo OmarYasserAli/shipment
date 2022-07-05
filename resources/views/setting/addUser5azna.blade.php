@@ -30,7 +30,7 @@
         <div class="modal-content">
             <div class="modal-body px-5 py-10">
                 <div class="text-center">
-                    <div class="mb-5" style="font-size: 25px">اسم العميل</div>
+                    <div class="mb-5" style="font-size: 25px">اسم الموظف</div>
                     <div class="form-inline">    
                         <select class=" form-select-lg sm:mt-2 sm:mr-2 mb-5   w-full" id='select_type' aria-label=".form-select-lg example">
                            
@@ -187,7 +187,7 @@
                         <tr   >
                             <td  class="whitespace-nowrap " ><?php echo $i; $i++?></td>
                             <td  class="whitespace-nowrap " >{{$khazna->name}}</td>
-                            <td  class="whitespace-nowrap " >{{$khazna->name}}</td>
+                            <td  class="whitespace-nowrap " >{{$khazna->branch->name_}}</td>
                             
                             <td class="whitespace-nowrap " >
                                 <input type="checkbox" class="check_count" data-code='{{$khazna->id}}' 

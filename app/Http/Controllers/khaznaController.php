@@ -46,12 +46,12 @@ class khaznaController extends Controller
     }
     public function addUserTo5azma(Request $request){
         $users = User::where('type_','موظف')->get();
-        $khaznat = Khazna::all();
+        $khaznat = Khazna::with(['branch'])->get();
         $attachedTo = [];
         if(isset($request->client_id))
             $attachedTo= user::where('code_',$request->client_id)->first()->khazna->pluck('id')->toArray();
-            //dd($attachedTo);
-        return view('setting.addUser5azna' ,compact('users', 'khaznat','attachedTo'));
+        $page_title='ربط مستخدم مع خزينة';
+        return view('setting.addUser5azna' ,compact('users', 'khaznat','attachedTo','page_title'));
     }
     public function addUserTo5azma_save(Request $request){
         // dd($request->all());
