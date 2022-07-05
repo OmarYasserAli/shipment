@@ -44,11 +44,29 @@ class sanadatController extends Controller
         return view('accounting.company.sanadSarf',compact('page_title','khaznat'));
     }
     public function store(Request $request){
-
         $sanad= new Sanad();
-        // $sanad->code = $rquest->
-        // $sanad-> = $rquest->
-        // $sanad-> = $rquest->
+        if($request->mostafed_type =='عميل' || $request->mostafed_type =='مندوب'){
+            $model= user::where('code_',$request->mostafed_name)->first();
+           
+        }
+        
+        if($request->mostafed_type =='فرع'){
+          $model =BranchInfo::where('code_',$request->mostafed_name)->first();
+        }
+        
+        $sanad->code = 5;
+        $sanad->date = Carbon::now()->format('Y-m-d  g:i:s A');
+        $sanad->type = $request->page_type;	
+        $sanad->khazna_id = $request->khazna_id;
+        $sanad->amount = $request->amount;
+
+        $sanad->save();
+
+        // dd($model);
+        $model->sanadat()->save($sanad);
+        // $sanad->sanadable->save($model);
+
+        return back();
     }
 
     public function getMostafedBytype(){
