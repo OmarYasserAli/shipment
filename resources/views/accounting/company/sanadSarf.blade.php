@@ -38,7 +38,7 @@
                         <div id="content" class="tab-pane p-5 active" role="tabpanel" aria-labelledby=	"content-tab">
                             <form method="post" action="{{ route('accounting.coppany.SaveSanad') }}" role="form">
                                 {!! csrf_field() !!}
-                                <input type="hidden" value="sarf" name="page_type">
+                                <input type="hidden" value="صرف" name="page_type">
                                 <div class="mt-3">
                                     <label for="regular-form-2" class="form-label">تاريخ السند</label>
                                     <input id="regular-form-2" value="{{Carbon\Carbon::now()->format('Y-m-d  g:i:s A')}}"  type="text" class="form-control" disabled >
