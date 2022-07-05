@@ -16,4 +16,9 @@ class Sanad extends Model
     {
         return $this->morphTo();
     }
+
+    public function khazna()
+    {
+        return $this->belongsTo(khazna::class,'khazna_id');
+    }
 }
