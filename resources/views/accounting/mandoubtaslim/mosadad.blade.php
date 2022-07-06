@@ -269,7 +269,7 @@
                 });
             $('#operation_print').on('click',function(){
 
-                window.open("{{route('opretation-print')}}"+'?codes='+opreation_codes+'&type=mandoub_taslim&title='+'تحويل شحنات');
+                window.open("{{route('opretation-print')}}"+'?codes='+opreation_codes+'&type=mandoub_taslim&title='+'شحنات غير مسددة لمندوب التسليم');
 
             });
             let  shipments=[];

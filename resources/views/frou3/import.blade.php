@@ -272,7 +272,7 @@
             });
             $('#operation_print').on('click',function(){
 
-                window.open("{{route('opretation-print')}}"+'?codes='+opreation_codes+'&brach_filter='+branch_data+'&type=fro3&title='+'تحويل شحنات');
+                window.open("{{route('opretation-print')}}"+'?codes='+opreation_codes+'&brach_filter='+branch_data+'&type=fro3&title='+'شحنات الواردة من فرع');
 
             });
             let  shipments=[];

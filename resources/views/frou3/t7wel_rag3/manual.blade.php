@@ -258,7 +258,7 @@
 
                 // console.log(opreation_codes);
 
-                window.open("{{route('opretation-print')}}"+'?codes='+opreation_codes+'&brach_filter='+branch_data+'&type=fro3&title='+'تحويل شحنات');
+                window.open("{{route('opretation-print')}}"+'?codes='+opreation_codes+'&brach_filter='+branch_data+'&type=fro3&title='+'تحويل راجع الى فرع');
 
 
 
