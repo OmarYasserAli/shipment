@@ -18,19 +18,19 @@
         }
          .fatoora th{
             width: 30%;
-            font-size: 10px;
+            font-size: 13px;
             font-weight: bold;
 
          }
         .fatoora th,.fatoora td {
-            padding: 6px;
+            /*padding: 0px;*/
             /*text-align: right;*/
            font-weight: bold;
             text-align: center !important;
         }
         .fatoora td {
             text-align: right !important;
-            font-size: 10px;
+            font-size: 13px;
  font-weight: bold;
         }
         .invoice-box {
@@ -145,8 +145,11 @@ tr{
         <div class="invoice-box rtl">
 
             <div class="totalammount" style="font-size: 8px;">
+                 <img src="{{asset('assets/'.$company->image_data)}}"  alt=""  style="width:30mm; height: 30mm!important; margin-bottom: 5px ;margin-right:1%; margin-left:-5px;">
+                 <br>
                 <span style="font-size:12px;padding-top: 10px; font-weight: bold;">{{$company->name_}}</span><br>
                 <span style="font-size:8px;padding-top: 10px; font-weight: bold;">{{$company->address_}}</span>
+                
 
             </div>
             <hr>

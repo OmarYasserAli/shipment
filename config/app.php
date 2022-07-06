@@ -262,6 +262,8 @@ return [
         'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
         // 'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
         // 'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
+        'MorphOrder' => 'Some\Namespace\Order',
+        'MorphStaff' => 'Maybe\Another\Namespace\Staff',
 
     ],
 

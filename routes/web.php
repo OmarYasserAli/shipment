@@ -148,6 +148,7 @@ Route::post('/frou3/accounting/tasdid', 'frou3Controller@tasdid')->name('frou3.a
 
 // accounting
 
+Route::get('/accounting/coppany/kashf_5azna', 'financeCntroller@kashf_5azna')->name('accounting.coppany.kashf_5azna');
 Route::get('/accounting/coppany/qabad', 'sanadatController@createQabad')->name('accounting.coppany.createQabad');
 Route::get('/accounting/coppany/sarf', 'sanadatController@createSarf')->name('accounting.coppany.createSarf');
 

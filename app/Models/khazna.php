@@ -23,5 +23,23 @@ class khazna extends Model
     {
         return $this->belongsToMany(User::class,'5azna_user','user_id','5azna_id');
     }
+    public function sanadat()
+    {
+        return $this->hasMany(Sanad::class);
+    }
+    public function net($date=null){
+        $net=0;
+        $sanadat=  $this->sanadat();
+        if($date != null)
+        $sanadat =  $sanadat->where('created_at' < $date)->get();
+        foreach($sanadat as $sanad){
+            if($sanad->type =='قبض')
+                $net+=$sanad->amount ;
+            else
+                $net-=$sanad->amount ;
+
+        }
+        return $net;
+    }
 
 }

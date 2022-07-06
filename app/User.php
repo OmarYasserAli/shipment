@@ -18,7 +18,7 @@ class User extends Authenticatable
     protected $table = 'all_users';
     public $timestamps = false;
     protected $primaryKey = 'code_';
-
+    protected $morphClass = 'MorphStaff';
     public function Khazna()
     {
         return $this->belongsToMany(khazna::class,'5azna_user','5azna_id','user_id');

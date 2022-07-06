@@ -9,7 +9,7 @@ class Sanad extends Model
     protected $table = 'sanad';
     protected $guarded = [];
     protected $filable = ['name','type','code','model_type','model_id','date'];
-    public $timestamps = false;
+    // public $timestamps = false;
 
 
     public function sanadable()
@@ -20,5 +20,14 @@ class Sanad extends Model
     public function khazna()
     {
         return $this->belongsTo(khazna::class,'khazna_id');
+    }
+    public function mostafed_type()
+    {
+        if($this->sanadable_type =='App\Models\BranchInfo')
+            return 'فرع';
+        if($this->sanadable_type =='App\User')
+        {
+            return ($this->sanadable->type_) ;  
+        }
     }
 }

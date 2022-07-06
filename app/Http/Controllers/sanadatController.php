@@ -54,7 +54,7 @@ class sanadatController extends Controller
           $model =BranchInfo::where('code_',$request->mostafed_name)->first();
         }
         
-        $sanad->code = 5;
+        $sanad->code = (Sanad::orderBy('id' ,'desc')->first()->code)+1;
         $sanad->date = Carbon::now()->format('Y-m-d  g:i:s A');
         $sanad->type = $request->page_type;	
         $sanad->khazna_id = $request->khazna_id;
