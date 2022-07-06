@@ -57,7 +57,7 @@ Route::get('/getManateqAndTas3ir5asByMa7afza', 'tas3irController@getManateqAndTa
 
 
 //operation print
-Route::get('opretation-print', 'printController@opretationPrint')->name('opretation-print');
+Route::get('opretation-print', 'PrintController@operationPrint')->name('opretation-print');
 
 //shipments
 
@@ -105,25 +105,25 @@ Route::get('/accept_t7wel_get', 'frou3Controller@accept_t7wel_get')->name('accep
 Route::post('/accept_frou3_t7wel_qr_save', 'frou3Controller@accept_frou3_t7wel_qr_save')->name('accept_frou3_t7wel_qr_save');
 
 
-Route::get('/frou3_t7wel_sho7nat_manual', 'frou3Controller@frou3_t7wel_sho7nat_manual')->name('frou3_t7wel_sho7nat_manual');
-Route::post('/frou3_t7wel_sho7nat_manual', 'frou3Controller@frou3_t7wel_sho7nat_manual_save')->name('frou3_t7wel_sho7nat_manual_save');
+Route::get('/fro3/frou3_t7wel_sho7nat_manual', 'frou3Controller@frou3_t7wel_sho7nat_manual')->name('frou3_t7wel_sho7nat_manual');
+Route::post('/fro3/frou3_t7wel_sho7nat_manual', 'frou3Controller@frou3_t7wel_sho7nat_manual_save')->name('frou3_t7wel_sho7nat_manual_save');
 
 
  //end t7wel sho7nat
 
 
 //t7wel rag3
-Route::get('/frou3_t7wel_rag3_qr', 'frou3Controller@frou3_t7wel_rag3_qr')->name('frou3_t7wel_rag3_qr');
-Route::any('/frou3_t7wel_rag3_qr_save', 'frou3Controller@frou3_t7wel_rag3_qr_save')->name('frou3_t7wel_rag3_qr_save');
+Route::get('/fro3/frou3_t7wel_rag3_qr', 'frou3Controller@frou3_t7wel_rag3_qr')->name('frou3_t7wel_rag3_qr');
+Route::any('/fro3/frou3_t7wel_rag3_qr_save', 'frou3Controller@frou3_t7wel_rag3_qr_save')->name('frou3_t7wel_rag3_qr_save');
 
 //endt7wel rag3
-Route::get('/accept_frou3_rag3', 'frou3Controller@accept_frou3_rag3')->name('accept_frou3_rag3');
-Route::post('/accept_frou3_rag3', 'frou3Controller@accept_frou3_rag3_save')->name('accept_frou3_rag3_save');
-Route::get('/accept_rag3_get', 'frou3Controller@accept_rag3_get')->name('accept_rag3_get');
-Route::post('/accept_frou3_rag3_qr_save', 'frou3Controller@accept_frou3_rag3_qr_save')->name('accept_frou3_rag3_qr_save');
+Route::get('/fro3/accept_frou3_rag3', 'frou3Controller@accept_frou3_rag3')->name('accept_frou3_rag3');
+Route::post('/fro3/accept_frou3_rag3', 'frou3Controller@accept_frou3_rag3_save')->name('accept_frou3_rag3_save');
+Route::get('/fro3/accept_rag3_get', 'frou3Controller@accept_rag3_get')->name('accept_rag3_get');
+Route::post('/fro3/accept_frou3_rag3_qr_save', 'frou3Controller@accept_frou3_rag3_qr_save')->name('accept_frou3_rag3_qr_save');
 
-Route::get('/frou3_t7wel_rag3_manual', 'frou3Controller@frou3_t7wel_rag3_manual')->name('frou3_t7wel_rag3_manual');
-Route::post('/frou3_t7wel_rag3_manual', 'frou3Controller@frou3_t7wel_rag3_manual_save')->name('frou3_t7wel_rag3_manual_save');
+Route::get('/fro3/frou3_t7wel_rag3_manual', 'frou3Controller@frou3_t7wel_rag3_manual')->name('frou3_t7wel_rag3_manual');
+Route::post('/fro3/frou3_t7wel_rag3_manual', 'frou3Controller@frou3_t7wel_rag3_manual_save')->name('frou3_t7wel_rag3_manual_save');
 
 
 
