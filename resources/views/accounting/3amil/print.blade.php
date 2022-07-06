@@ -242,6 +242,7 @@
 
             <th >مبلغ الشحنه</th>
             <th>الكود</th>
+            <th>الملاحظات</th>
         </tr>
         @php $i=1; @endphp
         @foreach($all as $shipment)
@@ -261,6 +262,7 @@
 
                 <td  >{{number_format($shipment->shipment_coast_, 2)}}</td>
                 <td  >{{$shipment->code_}}</td>
+                <td  >{{$shipment->notes}}</td>
 
             </tr>
         @endforeach
