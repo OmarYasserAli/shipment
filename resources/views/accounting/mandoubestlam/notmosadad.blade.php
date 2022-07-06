@@ -269,7 +269,7 @@
                 });
             $('#operation_print').on('click',function(){
                 console.log('hi');
-                window.open("{{route('opretation-print')}}"+'?codes='+opreation_codes+'&type=mandoub_estlam&title='+'تحويل شحنات');
+                window.open("{{route('opretation-print')}}"+'?codes='+opreation_codes+'&type=mandoub_estlam&title='+'شحنات  مسددة لمندوب الاستلام');
 
             });
             let  shipments=[];

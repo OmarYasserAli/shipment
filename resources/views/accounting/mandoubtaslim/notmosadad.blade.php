@@ -264,7 +264,7 @@
                         }
                     });
                 $('#operation_print').on('click',function(){
-                    window.open("{{route('opretation-print')}}"+'?codes='+opreation_codes+'&type=mandoub_taslim&title='+'تحويل شحنات');
+                    window.open("{{route('opretation-print')}}"+'?codes='+opreation_codes+'&type=mandoub_taslim&title='+'شحنات  مسددة لمندوب التسليم');
 
                 });
                     window.open(window.location.href.split('?')[0]+'?pdf=1&codes='+codes);
