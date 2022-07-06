@@ -167,7 +167,7 @@
                             <h3>{{$company->name_}} <br><br><span>{{$company->Tel_}} </span> </h3>
                         </td>
                         <td class="title" style="">
-                             <img style="width: 130px;" src="{{asset('assets/'.$company->image_data)}}"  alt="" class="ml-auto" style="height: 130px!important; margin-bottom: 30px">
+{{--                             <img style="width: 130px;" src="{{asset('assets/'.$company->image_data)}}"  alt="" class="ml-auto" style="height: 130px!important; margin-bottom: 30px">--}}
                         </td>
                         <td>
                             <h4>

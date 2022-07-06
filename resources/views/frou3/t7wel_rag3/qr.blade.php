@@ -6,8 +6,8 @@
                 <!-- BEGIN: Top Bar -->
                 @include('layout.partial.topbar')
                 <!-- END: Top Bar -->
-                <!-- BEGIN: Modal Toggle --> 
-<!-- END: Modal Toggle --> <!-- BEGIN: Modal Content --> 
+                <!-- BEGIN: Modal Toggle -->
+<!-- END: Modal Toggle --> <!-- BEGIN: Modal Content -->
 <div id="type_modal" class="modal" data-tw-backdrop="static" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -15,7 +15,7 @@
                 <div class="text-center">
                     <div class="mb-5" style="font-size: 25px">اسم الفرع</div>
                     <div class="form-inline">
-                        
+
                         <select class="form-select form-select-lg sm:mt-2 sm:mr-2 mb-5" id='select_type' aria-label=".form-select-lg example">
                             @foreach ($branches as $branch)
                              <option value="{{$branch->serial_}}">{{$branch->name_}}</option>
@@ -23,6 +23,8 @@
                         </select>
                       </div>
                      <button type="button" data-tw-dismiss="" id='modal_close' class="btn btn-primary w-24">استمرار</button>
+                    <button type="button" data-tw-dismiss="" id='operation_print' class="btn btn-success w-24 mt-5">طباعه</button>
+
                 </div>
             </div>
         </div>
@@ -30,7 +32,7 @@
 </div>
 <!-- END: Modal Content -->
                 <div class="intro-y flex items-center mt-8">
-                    
+
                 </div>
                 <div class="grid grid-cols-12 gap-6 ">
                     <div class="intro-y col-span-12 lg:col-span-4">
@@ -51,7 +53,7 @@
                                             <label for="rakam_tawsel" class="form-label sm:w-20">رقم الوصل</label>
                                             <input id="rakam_tawsel" type="text" class="form-control" disabled>
                                         </div>
-                                        
+
                                         <div class="form-inline mt-1">
                                             <label for="3amel_name" class="form-label sm:w-20">اسم العميل</label>
                                             <input id="3amel_name" type="text" class="form-control" disabled>
@@ -88,7 +90,7 @@
                                             <label for="status" class="form-label sm:w-20"> الحالة</label>
                                             <input id="status" type="text" class="form-control" disabled>
                                         </div>
-                                        
+
                                         <div class="form-inline mt-1">
                                             <label for="cost" class="form-label sm:w-20">مبلغ السحنة</label>
                                             <input id="cost" type="text" class="form-control" disabled>
@@ -101,17 +103,17 @@
                                             <label for="safi" class="form-label sm:w-20">الصافى</label>
                                             <input id="safi" type="text" class="form-control" disabled>
                                         </div>
-                                        
+
                                         <div class="sm:ml-20 sm:pl-5 mt-5" style="font-size: 20px">
                                             <button class="btn btn-primary hidden" id='qr_submit'>اضافة</button>
                                             <button class="btn btn-warning" id='qr_new'>جديد</button>
                                         </div>
                                 </div>
-                            </div>                   
+                            </div>
 							</div>
                         </div>
                         <!-- END: Basic Table -->
-                        
+
                     </div>
 
                      <div class="intro-y col-span-12 lg:col-span-8">
@@ -121,7 +123,7 @@
                                 <h2 class="font-medium text-base mr-auto">
                                    الشحنات
                                 </h2>
-                               
+
                             </div>
                             <div class="p-5" id="basic-table">
                                 <div class="preview">
@@ -129,7 +131,7 @@
                                         <table class="table" id='manteka-table'>
                                             <thead>
                                                 <tr class="mantika-row">
-                                                    
+
                                                     <th class="whitespace-nowrap">#</th>
                                                     <th class="whitespace-nowrap">الكود</th>
                                                     <th class="whitespace-nowrap">اسم العميل</th>
@@ -140,46 +142,48 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                
-                                                
-                                              
+
+
+
                                             </tbody>
                                         </table>
                                         <div class="sm:ml-20 sm:pl-5 mt-5" style="font-size: 20px">
                                             <button class="btn btn-primary " id='tanfez'>تنفيذ</button>
-                                        
+
                                             <button class="btn btn-warning " id='cancel' >حذف</button>
                                             <input type="button"  class="btn btn-success  align-left mr-1" style="direction: ltr"  value="طباعه" id='print' >
 
                                           </div>
                                     </div>
                                 </div>
-                                
+
                             </div>
                         </div>
                         <!-- END: Basic Table -->
-                        
+
                     </div>
                 </div>
             </div>
 
         <script type="text/javascript">
+
         $('#print').on('click', function(){
             window.open("{{route('frou3_t7wel_rag3_qr_save')}}"+'?pdf=1&codes='+shipments);
-            
+
             });
+
             let  shipments=[];
             let  selected=[];
             let cnt=1;
-           
+
             let current_status=0;
             $( document ).ready(function() {
                 const myModal = tailwind.Modal.getOrCreateInstance(document.querySelector("#type_modal"));
                  myModal.show();
             });
-            
+
             $( "#modal_close" ).click(function() {
-                
+
                 $('#type').val($( "#select_type option:selected" ).text());
                 current_status=$( "#select_type option:selected" ).val();
                 const myModal = tailwind.Modal.getOrCreateInstance(document.querySelector("#type_modal"));
@@ -193,11 +197,11 @@
                 const myModal = tailwind.Modal.getOrCreateInstance(document.querySelector("#type_modal"));
                 myModal.show();
             });
-             
 
-            
+
+
                 $( "#tanfez" ).click(function() {
-                 
+
                     $.ajax({
                         url: "{{route('frou3_t7wel_rag3_qr_save')}}" ,
                         type: 'post',
@@ -209,7 +213,7 @@
                             alert('تم التحويل بناح');
                         }
                     });
-                     
+
                 });
                 $( "#cancel" ).click(function() {
                     cnt=0;
@@ -220,14 +224,14 @@
                             $( this ).remove();
                             var code=$(this).data('code')
                             shipments.splice(shipments.indexOf(code)-1, 1)
-                            
+
                          }else{
                             $( this ).find("td:first").text(cnt);
                             cnt++;
                          }
                     });
                 });
-                
+
                 $( "#QR" ).keyup(function(e){
                     if(e.keyCode == 13)
                     {
@@ -237,13 +241,13 @@
                         if(qr=='') return;
                         $.ajax("{{route('getShipmentsByCode')}}"+"?code="+qr+"&status="+current_status+"&case=frou3_t7wel_rag3_qr",   // request url
                             {
-                            
+
                                 success: function (data, status, xhr) {
-                                    
-                                    
+
+
                                     if(shipments.includes(qr)) return;
                                     shipments.push(qr);
-                                   
+
                                     var res = (data.data)[0];
                                     $('#rakam_tawsel').val(res.code_);
                                     $('#3amel_name').val(res.client_name_);
@@ -258,20 +262,20 @@
                                     $('#cost').val(res.shipment_coast_);
                                     $('#tawsil_cost').val(res.tawsil_coast_);
                                     $('#safi').val(res.total_);
-                                
-                                  
-                                   
-                                  
+
+
+
+
                                         $('#manteka-table   tr:last').after(`<tr class='sho7nat-row' data-code=`+res.code_+`>
                                             <td>`+cnt+`</td>
                                             <td>`+res.code_+`</td>
-                                            <td >`+(res.client_name_)+`   </td> 
-                                            <td >`+(res.reciver_phone_)+`   </td> 
-                                            
+                                            <td >`+(res.client_name_)+`   </td>
+                                            <td >`+(res.reciver_phone_)+`   </td>
+
                                             <td  >`+(res.mo7afza_)+`</td>
                                             <td  >`+(res.shipment_coast_)+`</td>
                                         <td>
-                                        
+
                                             </td>
                                             </tr>`
                                             );
@@ -284,13 +288,13 @@
                         $(this).val('');
                     }
                 });
-                
+
                 $('#manteka-table').on('click', 'tr', function(){
                     var code = $(this).data('code')
-                 
+
                         $(this).toggleClass('selected');
- 
+
                 });
-               
+
             </script>
 @endsection
