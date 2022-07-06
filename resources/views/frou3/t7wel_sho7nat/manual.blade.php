@@ -26,6 +26,7 @@
                             <p id='msg_modal_text' style="margin: auto;"></p>
                           </div>
                          <button type="button" data-tw-dismiss="" id='msg_modal_close' class="btn btn-primary w-24 mt-5">استمرار</button>
+                        <button type="button" data-tw-dismiss="" id='operation_print' class="btn btn-success w-24 mt-5">طباعه</button>
                     </div>
                 </div>
             </div>
@@ -54,7 +55,7 @@
                       </div>
                      <button type="button" data-tw-dismiss="" id='modal_close' class="btn btn-primary w-24 mt-5">استمرار</button>
                      <button type="button" data-tw-dismiss="" id='msg_modal_cancel' class="btn btn-warning w-24 mt-5">الغاء</button>
-                    <button type="button" data-tw-dismiss="" id='operation_print' class="btn btn-success w-24 mt-5">طباعه</button>
+
 
                 </div>
             </div>
