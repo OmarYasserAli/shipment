@@ -119,7 +119,9 @@ class definationsController extends Controller
                         'Tel_.required'=> 'الهاتف  مطلوب',
                         
                     ]);
-                    BranchInfo::create($request->all());
+                    $br = BranchInfo::create($request->all());
+                    $br->serial_ = $br->code_;
+                    $br->save();
                     return redirect()->back()->with('status', 'تم تسجيل الفرع');
         }
 
