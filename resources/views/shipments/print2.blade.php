@@ -4,7 +4,7 @@
         <meta charset="utf-8" />
         <title>A simple, clean, and responsive HTML invoice template</title>
   <style>
-        @page { sheet-size: 80mm 100mm; }
+        @page { sheet-size: 100mm 150mm; }
         h1.bigsection {
             page-break-before: always;
             page: bigger;
@@ -18,22 +18,23 @@
         }
          .fatoora th{
             width: 30%;
-            font-size: 12px;
+            font-size: 10px;
             font-weight: bold;
 
          }
         .fatoora th,.fatoora td {
-            padding: 8px;
-            text-align: right;
+            padding: 6px;
+            /*text-align: right;*/
            font-weight: bold;
+            text-align: center !important;
         }
         .fatoora td {
             text-align: right !important;
-            font-size: 12px;
+            font-size: 10px;
  font-weight: bold;
         }
         .invoice-box {
-            font-size: 7px;
+            font-size: 5px;
             line-height: 24px;
             font-family: 'XBRiyaz' , Sans-Serif;
             color: #555;
@@ -56,12 +57,21 @@
 
 
         .invoice-box table tr.top table td.title {
-            font-size: 7px;
-
+            font-size: 5px;
+            text-align: center !important;
             color: #333;
         }
+tr{
+    text-align: center!important;
+}
+         hr{
+            width: 80mm;
+            margin: 0 auto;
+            color: gray;
+             margin-top: 4mm;
+             margin-bottom: 4mm
 
-
+        }
         .invoice-box table tr.heading td {
             background: #eee;
             border-bottom: 1px solid #ddd;
@@ -118,7 +128,7 @@
             width: 50px;
             height: 50px;
         }
-        .totalammount h5,.totalammount h6 , .totalammount svg{
+        .totalammount p,.totalammount h6 , .totalammount svg{
 
             margin: 0px;
         }
@@ -133,40 +143,44 @@
 
           @for ($i = 0; $i < count($all); $i++)
         <div class="invoice-box rtl">
-            <table cellpadding="0" cellspacing="0">
-                <tr class="">
-                    <td colspan="2">
-                        <table>
-                            <tr>
-                              <td class="title">
-                                <span style="font-size:13px;padding-top: 10px; font-weight: bold;">{{$company->name_}}</span>
 
-                            </td>
-                                <td class="title">
-           {{--  <img src="{{asset('assets/'.$company->image_data)}}"  alt=""  style="width:30px; height: 30px!important; margin-bottom: 5px ;margin-right:1%; margin-left:-5px;">--}}
+            <div class="totalammount" style="font-size: 8px;">
+                <span style="font-size:12px;padding-top: 10px; font-weight: bold;">{{$company->name_}}</span><br>
+                <span style="font-size:8px;padding-top: 10px; font-weight: bold;">{{$company->address_}}</span>
 
-                                    {{-- <img src="https://www.sparksuite.com/images/logo.png" style="width: 100%; max-width: 300px" /> --}}
-                                </td>
-
-
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-
-
-
-
-            </table>
-
+            </div>
+            <hr>
 <table class="fatoora" style="width:90% ;font-size:7px; margin:auto;">
-
     <tr>
-      <th style="width: 60px;">هاتف الزبون:</th>
+        <th>اسم الفرع:</th>
+        <td style="text-align: center;">{{$all[$i]->branch_}}</td>
+    </tr>
+    <tr>
+        <th>رقم الشحنة:</th>
+        <td style="text-align: center;">{{$all[$i]->code_}}</td>
+    </tr>
+    <tr>
+        <th>التاريخ:</th>
+        <td style="text-align: center;">{{$all[$i]->date_}}</td>
+    </tr>
+    <tr>
+        <th>اسم التجاري:</th>
+        <td style="text-align: center;">{{$all[$i]->commercial_name_}}</td>
+    </tr>
+    <tr>
+        <th>رقم العميل:</th>
+        <td style="text-align: center;">{{$all[$i]->clinet_phone_}}</td>
+    </tr>
+    <tr>
+        <th>اسم المستلم:</th>
+        <td style="text-align: center;">{{$all[$i]->reciver_name_}}</td>
+    </tr>
+    <tr>
+      <th style="width: 60px;">هاتف المستلم:</th>
       <td style="text-align: center;">{{$all[$i]->reciver_phone_}}</td>
     </tr>
     <tr>
-      <th>المحافظه:</th>
+      <th>محافظه:</th>
       <td style="text-align: center;">{{$all[$i]->mo7afza_}}</td>
     </tr>
     <tr>
@@ -174,29 +188,31 @@
       <td style="text-align: center;">{{$all[$i]->el3nwan}}</td>
     </tr>
     <tr>
-      <th>اسم المتجر:</th>
-      <td style="text-align: center;">{{$all[$i]->commercial_name_}}</td>
+        <th>مبلغ الشحنة:</th>
+        <td style="text-align: center;">{{number_format($all[$i]->shipment_coast_, 2)}}</td>
     </tr>
     <tr>
-      <th>رقم الشحنه:</th>
-      <td style="text-align: center;">{{$all[$i]->code_}}</td>
+        <th>الملاحظات:</th>
+        <td style="text-align: center;">{{$all[$i]->notes_}}</td>
     </tr>
+
 
 
   </table>
-
+            <hr>
   <div class="totalammount" style="font-size: 8px;">
-    <h5  style="font-size: 14px">مبلغ الشحنه : {{number_format($all[$i]->shipment_coast_, 2)}}</h5>
 <span id='mark'></span>
 {!! $qrcode[$i]!!}
 
-    <h6>{{Carbon\Carbon::now()->format('Y-m-d  g:i:s A')}}</h6>
-     <p style="font-size: 7px">ust.center</p>
+    <h6>{{Carbon\Carbon::now()->format('Y-m-d  g:i:s A')}}    <p style="font-size: 10px">صمم بواسطة: شركة كاش بوكس للحلول البرمجية</p></h6>
+
   </div>
 
         </div>
+        @if($i != count($all)-1)
 
       <pagebreak></pagebreak>
+        @endif
 
 
 
@@ -204,16 +220,5 @@
 @endfor
 
     </body>
-    <script>
-        var str = `<div></div>
-<!-- some comment -->
-<p></p>
-<!-- some comment -->`
-str = str.replace(/<\!--.*?-->/g, "");
-// console.log(str);
-        // notACommentHere()
-        // document.getElementById("mark").nextSibling.remove();
-        // document.getElementById("mark").nextSibling.remove();
-        // document.getElementById("mark").nextSibling.remove();
-     </script>
+
 </html>

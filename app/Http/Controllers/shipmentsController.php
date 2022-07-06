@@ -1627,7 +1627,7 @@ class shipmentsController extends Controller
                 'title'=>$page_title,
                 'qrcode'  =>$qrNo
             ];
-                 // return view('shipments.print2',compact('allData','qrNo'));
+//                  return view('shipments.print2',compact('allData','qrNo'));
             //return view('shipments.print2' ,compact('all','title'));
             // $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => [80, 236]]);
             // $customPaper = array(0,0,567.00,283.80);

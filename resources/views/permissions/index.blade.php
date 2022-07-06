@@ -1,5 +1,11 @@
 @extends('layout.app')
-
+<style>
+    .select_all_card{
+        padding: 6px !important;
+        margin-right: 30px;
+        margin-bottom: 15px;
+    }
+</style>
 @section('content')
 
 <div class="content">
@@ -11,8 +17,8 @@
             <div class="modal-content">
                 <div class="modal-body px-5 py-10">
                     <div class="text-center">
-                        
-                        
+
+
                           <div class="form-inline" style="font-size: 24px; align-items:center;">
                             <p id='msg_modal_text' style="margin: auto;"></p>
                           </div>
@@ -22,8 +28,8 @@
             </div>
         </div>
     </div>
-    <!-- END: Modal Toggle --> <!-- BEGIN: Modal Content --> 
-    
+    <!-- END: Modal Toggle --> <!-- BEGIN: Modal Content -->
+
 <div id="type_modal" class="modal" data-tw-backdrop="static" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -32,14 +38,14 @@
                     <div class="mb-5" style="font-size: 25px">اسم الموظف</div>
                     <div class="form-inline">
                         @if(!empty($users))
-                        <select class=" form-select-lg sm:mt-2 sm:mr-2 mb-5 tom-select  w-full" id='select_type' aria-label=".form-select-lg example">
+                        <select class=" form-select-lg sm:mt-2 sm:mr-2 mb-5 tom-select select_type  w-full" id='select_type' aria-label=".form-select-lg example">
                             @foreach ($users as $user)
                              <option value="{{$user->code_}}">{{$user->name_}}</option>
                              @endforeach
                         </select>
                         @endif
                       </div>
-                      
+
                      <button type="button" data-tw-dismiss="" id='modal_close' class="btn btn-primary w-24 mt-5">استمرار</button>
                 </div>
             </div>
@@ -53,8 +59,11 @@
         اسم الموظف: {{$selected_user->name_}}
     </h2>
 </div>
+        <button class="btn btn-primary select_all mb-5" id="select_all">تحديد الكل</button>
+        <?php $i=1; ?>
 <form method="post" action="{{route('permissions.store')}}">
     <input type="submit" class="btn btn-primary" value="حفظ">
+
     @csrf
     <input type="hidden" value="{{$selected_user->code_}}" name="user_id">
     <div class="grid grid-cols-12 gap-6 mt-5">
@@ -64,12 +73,17 @@
                 @foreach($permisssions as $key=> $permisssion)
                 <div class="intro-y col-span-12 lg:col-span-6">
                     <div class="intro-y box">
-                        <div class="overflow-x-auto mt-5 " style="padding: 20px;">
-                            <div> 
+
+                        <div class="overflow-x-auto mt-5 select_in_div<?php echo $i;?> " style="padding: 20px;">
+
+                            <div>
+
                                 <label>{{$key}}</label>
-                                @foreach($permisssion as $perm)
-                                    <div class="form-check mt-2"> 
-                                        <input id="checkbox-switch-1" class="form-check-input" type="checkbox" name='{{$perm->name}}' @if($selected_user->isAbleTo($perm->name))checked @endif> 
+                                <span type='button' class="btn btn-primary select_all_card mt-3 button_of_card_<?php echo $i;?>" id="select_in_div<?php echo $i;$i++?>">تحديد الكل</span>
+
+                            @foreach($permisssion as $perm)
+                                    <div class="form-check mt-2">
+                                        <input id="checkbox-switch-1" class="form-check-input" type="checkbox" name='{{$perm->name}}' @if($selected_user->isAbleTo($perm->name))checked @endif>
                                         <label class="form-check-label mr-3" for="checkbox-switch-1" >{{$perm->display_name}}</label>
                                      </div>
                                 @endforeach
@@ -78,47 +92,90 @@
                     </div>
                 </div>
                 @endforeach
-              
 
-                
-                
+
+
+
             </div>
         </div>
 
     </div>
 </form>
+
 @endif
     {{-- <div class="intro-y  grid-cols-12 gap-5 mt-5">
         <!-- BEGIN: Item List -->
-         
- 
+
+
         <div class="intro-y col-span-12 lg:col-span-12">
-            
-            
-            
-           
+
+
+
+
         </div>
-        
+
         <!-- END: Item List -->
         <!-- BEGIN: Ticket -->
-       
+
         <!-- END: Ticket -->
     </div> --}}
     <!-- BEGIN: New Order Modal -->
-    
+
     <!-- END: Add Item Modal -->
-    
+
     <div class="mt-10">
-       
+
     </div>
 
 </div>
+<script>
+    // $("#select_all").click(function(){
+    //
+    //     $('input:checkbox').prop('checked', this.checked);
+    // });
+    $(document).ready(function(){
+        $("#select_all").click(function(){
 
+
+
+            if ($('.form-check-input').is(':checked')) {
+                $('input:checkbox').each(function(){
+                    $("input:checkbox").prop('checked', false);
+                })
+
+
+            }else {
+                $('input:checkbox').each(function(){
+                    $("input:checkbox").prop('checked', true);
+                })
+            }
+        });
+        var a = 1;
+        $(".select_all_card").click(function(){
+           var id = $(this).attr('id');
+//            var parent = document.getElementById(id).parentElement.parentElement
+// console.log(parent)
+//             console.log('.'+id+' .form-check-input')
+
+            if ($('.'+id+' .form-check-input').is(':checked')) {
+                $('.'+id+' input:checkbox').each(function(){
+                    $('.'+id+' input:checkbox').prop('checked', false);
+                })
+
+
+            }else {
+                $('.'+id+' input:checkbox').each(function(){
+                    $('.'+id+' input:checkbox').prop('checked', true);
+                })
+            }
+        });
+    });
+</script>
         <script type="text/javascript">
-       
+
             let  shipments=[];
             let cnt=1;
-           
+
             let current_status=0;
             $( document ).ready(function() {
                 $("body").fadeIn(50);
@@ -128,21 +185,21 @@
                      myModal.show();
                 @endif
             });
-            
+
             $( "#modal_close" ).click(function() {
-                
-                
+
+
                 current_status=$( "#select_type" ).val();
                 const myModal = tailwind.Modal.getOrCreateInstance(document.querySelector("#type_modal"));
                 var noClientFilter = $('#noClientFilter').is(':checked');
                 let user_id = current_status;
-                
+
                     myModal.hide();
 
-               
-                        
+
+
                     window.location.href = "{{route('permissions')}}?user_id="+user_id;
-                    
+
             });
             $( "#msg_modal_close" ).click(function() {
                 const msg_Modal = tailwind.Modal.getOrCreateInstance(document.querySelector("#msg_modal"));
@@ -156,11 +213,11 @@
                 const myModal = tailwind.Modal.getOrCreateInstance(document.querySelector("#type_modal"));
                 myModal.show();
             });
-             
 
-            
+
+
                 $( "#tanfez" ).click(function() {
-                 
+
                     $.ajax({
                         url: "{{route('shipment.t7wel_qr_save')}}" ,
                         type: 'post',
@@ -172,14 +229,14 @@
                             alert('تم التحويل بناح');
                         }
                     });
-                     
+
                 });
                 $( "#cancel" ).click(function() {
                     $('#manteka-table tr').not(function(){ return !!$(this).has('th').length; }).remove();
                     cnt=1;
                     shipments=[];
                 });
-                
+
                 $( "#QR" ).keyup(function(e){
                     if(e.keyCode == 13)
                     {
@@ -189,10 +246,10 @@
                         if(qr=='') return;
                         $.ajax("{{route('getShipmentsByCode')}}"+"?code="+qr+"&status="+current_status+"&case=t7wel_7ala_qr",   // request url
                             {
-                            
+
                                 success: function (data, status, xhr) {
-                                    
-                                    
+
+
                                     if(shipments.includes(qr)) return;
                                     shipments.push(qr);
                                     //sconsole.log(shipments.includes(qr) ,shipments);
@@ -207,22 +264,22 @@
                                     $('#cost').val(res.shipment_coast_);
                                     $('#tawsil_cost').val(res.tawsil_coast_);
                                     $('#safi').val(res.total_);
-                                
-                                
+
+
                                     // success callback function
                                     //$('#manteka-table tr').not(function(){ return !!$(this).has('th').length; }).remove();
-                                    
-                                    
+
+
                                         $('#manteka-table   tr:last').after(`<tr class='' >
                                             <td>`+cnt+`</td>
                                             <td>`+res.code_+`</td>
-                                            <td >`+(res.client_name_)+`   </td> 
-                                            <td >`+(res.reciver_phone_)+`   </td> 
-                                            
+                                            <td >`+(res.client_name_)+`   </td>
+                                            <td >`+(res.reciver_phone_)+`   </td>
+
                                             <td  >`+(res.mo7afza_)+`</td>
                                             <td  >`+(res.shipment_coast_)+`</td>
                                         <td>
-                                        
+
                                             </td>
                                             </tr>`
                                             );
@@ -235,17 +292,17 @@
                     }
                 });
 
-                
+
                 $( "#tasdid" ).click(function() {
-                    
+
                  var codes =[]
-                 
+
                  $('.check_count').each(function() {
                     if($(this).is(':checked')){
                         codes.push($(this).data('code'));
                     }
                 });
-                
+
                  $.ajax({
                      url: "{{route('accounting.3amil.canceltasdid')}}" ,
                      type: 'post',
@@ -254,7 +311,7 @@
                          console.log(e);
                      },
                      success: function(res) {
-                        
+
                          rowsAffected =  codes.length - res['count']
                          msg =" تم تسديد " +res['count']+   " شحنة  "  +" تم رفض " + rowsAffected + " شحنة ";
                          let msg_modal = tailwind.Modal.getOrCreateInstance(document.querySelector("#msg_modal"));
@@ -264,11 +321,11 @@
                         let total_cnt=parseInt($('#total_cnt').val());
                         let total_tawsil=parseInt($('#total_tawsil').val());
                         let total_net= parseInt($('#total_net').val($('#total_cost').val()-$('#total_tawsil').val()));
-                        var i=1; 
+                        var i=1;
                         $('.check_count').each(function() {
-                            
+
                             if($(this).is(':checked') && $(this).data('status')==7){
-                                
+
                                 total_cnt--;
                                 total_cost-= $(this).data('cost');
                                 total_tawsil-= parseInt($(this).data('t7wel'));
@@ -277,10 +334,10 @@
                                 $('#total_tawsil').val(total_tawsil);
                                 $('#total_net').val($('#total_cost').val()-$('#total_tawsil').val());
                                 $('#total_cnt').val(total_cnt);
-                                
+
                                 $(this).parent().parent().remove();
-                                
-                                
+
+
                             }else{
                                 $(this).parent().parent().children('td:first').text(i)
                                 i++;
@@ -289,13 +346,13 @@
                       });
                      }
                  });
-                  
+
              });
 
 
-                    
-             $(document).on('change', '.check_count', function(){ 
-                
+
+             $(document).on('change', '.check_count', function(){
+
                 let total_cost=parseInt($('#total_cost').val());
                 let total_cnt=parseInt($('#total_cnt').val());
                 let total_tawsil=parseInt($('#total_tawsil').val());
@@ -307,7 +364,7 @@
                     total_tawsil+= parseInt($(this).data('t7wel'));
                     total_net+= $(this).data('net');
                 }
-                else 
+                else
                 {
                     total_cnt--;
                     total_cost-= $(this).data('cost');
@@ -319,7 +376,7 @@
                 $('#total_net').val($('#total_cost').val()-$('#total_tawsil').val());
                 $('#total_cnt').val(total_cnt);
         });
-                
+
 
                     $("#checkAll").click(function(){
                         $('.wasel_goz2y').css("background-color", "yellow");
@@ -330,12 +387,12 @@
                         let total_net= parseInt($('#total_net').val($('#total_cost').val()-$('#total_tawsil').val()));
 
                         if($(this).is(':checked'))
-                            var items=$('table tbody input:checkbox:not(:checked)')  
+                            var items=$('table tbody input:checkbox:not(:checked)')
                         else
-                            var items= $('table tbody input:checkbox:checked') 
+                            var items= $('table tbody input:checkbox:checked')
                             items.each(function(){
-                               
-                            
+
+
                         if(!$(this).is(':checked'))
                         {
                             total_cnt++;
@@ -344,7 +401,7 @@
                             total_net+= parseInt($(this).data('net'));
                             $(this).prop('checked', 1);
                         }
-                        else 
+                        else
                         {
                             total_cnt--;
                             total_cost-= $(this).data('cost');
@@ -352,7 +409,7 @@
                             total_net-= $(this).data('net');
                             $(this).prop('checked', 0);
                         }
-                        
+
 
                         });
                         $('#total_cost').val(total_cost);
@@ -360,7 +417,7 @@
                         $('#total_net').val($('#total_cost').val()-$('#total_tawsil').val());
                         $('#total_cnt').val(total_cnt);
                 });
-                        
+
                 $( ".filterByEnter" ).keyup(function(e){
                     if(e.keyCode == 13)
                     {
@@ -369,31 +426,31 @@
                 });
 
                 $('#client_id').on('change', function() {
-                  
+
                     var client_id = this.value;
                         $("#Commercial_name").html('');
                         $.ajax({
                             url:"{{url('getCommertialnameBy3amil')}}?client_id="+client_id,
                             type: "get",
                             data: {
-                                
+
                             },
                             dataType : 'json',
                             success: function(result){
                             $('#Commercial_name').prop('disabled', false);
                             $('#Commercial_name').html('<option value="">...</option>');
-                            
+
                             $.each(result.all,function(key,value){
                                 $("#Commercial_name").append('<option value="'+value.name_+'">'+value.name_+'</option>');
                             });
-                            //$('#city_id').html('<option value="">Select city</option>'); 
+                            //$('#city_id').html('<option value="">Select city</option>');
                             }
                         });
-                });    
+                });
 
             var page = 0;
             let cont=0;
-       
+
             $(window).scroll(function () {
                 if ($(window).scrollTop() + $(window).height() +1    >= $(document).height()) {
                     page++;
@@ -404,19 +461,19 @@
             function infinteLoadMore(page) {
                 $.ajax({
                     url: "{{route('accounting.3amil.mosadad')}}"+ "?lodaMore=1&page=" + page+'&'+window.location.search.substr(1),
-                
+
                     type: "get",
                     beforeSend: function () {
-                        
+
                     }
                 })
                 .done(function (response) {
                     if (response.length == 0) {
-                    
+
                         return;
                     }
                     $.each(response.data,function(key,value){
-                        
+
                         cont++;
                         var client = '';
                         if (typeof value.client != 'undefined' &&  value.client != null){client = (value.client)['name_'];}else{client =value.client_name_}
@@ -426,19 +483,19 @@
                             <td  class="whitespace-nowrap " >`+value.reciver_phone_+`</td>
                             <td  class="whitespace-nowrap " >`+value.commercial_name_+`</td>
                             <td  class="whitespace-nowrap " >`+ client+`</td>
-                            <td  class="whitespace-nowrap " >`+value.date_+`</td> 
-                            <td  class="whitespace-nowrap " >`+value.tarikh_tasdid_el3amil+`</td> 
+                            <td  class="whitespace-nowrap " >`+value.date_+`</td>
+                            <td  class="whitespace-nowrap " >`+value.tarikh_tasdid_el3amil+`</td>
                             <td  class="whitespace-nowrap " >`+value.branch_+`</td>
                             <td  class="whitespace-nowrap " >`+value.total_+`</td>
                             <td  class="whitespace-nowrap " >`+value.tawsil_coast_+`</td>
                             <td  class="whitespace-nowrap " >`+value.shipment_coast_+`</td>
                             <td  class="whitespace-nowrap " >`+value.code_+`</td>
                             <td class="whitespace-nowrap " ><input type="checkbox" class="check_count" data-cost='`+value.shipment_coast_+`'
-                                        data-t7wel='`+value.tawsil_coast_+`' data-net='`+value.shipment_coast_+`' data-code='`+value.code_+`' data-status='`+value.Status_+`'></td>                
+                                        data-t7wel='`+value.tawsil_coast_+`' data-net='`+value.shipment_coast_+`' data-code='`+value.code_+`' data-status='`+value.Status_+`'></td>
                                             </tr>`
                             );
 
-                            
+
                             //rows_counter()
                     });
                 })
@@ -447,6 +504,6 @@
                 });
             }
 
-               
+
             </script>
 @endsection
