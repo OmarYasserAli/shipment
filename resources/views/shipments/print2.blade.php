@@ -13,8 +13,8 @@
             font-family: 'XBRiyaz' , Sans-Serif;
         }
         table.fatoora,.fatoora th,.fatoora td {
-            border: 1px solid #0000003d;
-            border-collapse: collapse;
+            /*border: 1px solid #0000003d;*/
+            /*border-collapse: collapse;*/
         }
          .fatoora th{
             width: 30%;
@@ -23,10 +23,12 @@
 
          }
         .fatoora th,.fatoora td {
-            /*padding: 0px;*/
+            padding: 3px;
+            /*margin-top: 1mm;*/
+            /*margin-bottom: 1mm;*/
             /*text-align: right;*/
            font-weight: bold;
-            text-align: center !important;
+            text-align: right !important;
         }
         .fatoora td {
             text-align: right !important;
@@ -149,54 +151,54 @@ tr{
                  <br>
                 <span style="font-size:12px;padding-top: 10px; font-weight: bold;">{{$company->name_}}</span><br>
                 <span style="font-size:8px;padding-top: 10px; font-weight: bold;">{{$company->address_}}</span>
-                
+
 
             </div>
             <hr>
-<table class="fatoora" style="width:90% ;font-size:7px; margin:auto;">
+<table class="fatoora" cellpadding="0" cellspacing="0" style="width: 90%;ont-size:7px; margin:auto;">
     <tr>
         <th>اسم الفرع:</th>
-        <td style="text-align: center;">{{$all[$i]->branch_}}</td>
+        <td style="text-align: left;">{{$all[$i]->branch_}}</td>
     </tr>
     <tr>
         <th>رقم الشحنة:</th>
-        <td style="text-align: center;">{{$all[$i]->code_}}</td>
+        <td style="text-align: left;">{{$all[$i]->code_}}</td>
     </tr>
     <tr>
         <th>التاريخ:</th>
-        <td style="text-align: center;">{{$all[$i]->date_}}</td>
+        <td style="text-align: left;">{{$all[$i]->date_}}</td>
     </tr>
     <tr>
         <th>اسم التجاري:</th>
-        <td style="text-align: center;">{{$all[$i]->commercial_name_}}</td>
+        <td style="text-align: left;">{{$all[$i]->commercial_name_}}</td>
     </tr>
     <tr>
         <th>رقم العميل:</th>
-        <td style="text-align: center;">{{$all[$i]->clinet_phone_}}</td>
+        <td style="text-align: left;">{{$all[$i]->clinet_phone_}}</td>
     </tr>
     <tr>
         <th>اسم المستلم:</th>
-        <td style="text-align: center;">{{$all[$i]->reciver_name_}}</td>
+        <td style="text-align: left;">{{$all[$i]->reciver_name_}}</td>
     </tr>
     <tr>
       <th style="width: 60px;">هاتف المستلم:</th>
-      <td style="text-align: center;">{{$all[$i]->reciver_phone_}}</td>
+      <td style="text-align: left;">{{$all[$i]->reciver_phone_}}</td>
     </tr>
     <tr>
       <th>محافظه:</th>
-      <td style="text-align: center;">{{$all[$i]->mo7afza_}}</td>
+      <td style="text-align: left;">{{$all[$i]->mo7afza_}}</td>
     </tr>
     <tr>
       <th>العنوان:</th>
-      <td style="text-align: center;">{{$all[$i]->el3nwan}}</td>
+      <td style="text-align: left;">{{$all[$i]->el3nwan}}</td>
     </tr>
     <tr>
         <th>مبلغ الشحنة:</th>
-        <td style="text-align: center;">{{number_format($all[$i]->shipment_coast_, 2)}}</td>
+        <td style="text-align: left;">{{number_format($all[$i]->shipment_coast_, 2)}}</td>
     </tr>
     <tr>
         <th>الملاحظات:</th>
-        <td style="text-align: center;">{{$all[$i]->notes_}}</td>
+        <td style="text-align: left;">{{$all[$i]->notes_}}</td>
     </tr>
 
 
