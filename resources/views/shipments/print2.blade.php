@@ -23,7 +23,7 @@
 
          }
         .fatoora th,.fatoora td {
-            padding: 3px;
+            padding: 1px;
             /*margin-top: 1mm;*/
             /*margin-bottom: 1mm;*/
             /*text-align: right;*/
@@ -195,6 +195,10 @@ tr{
     <tr>
         <th>مبلغ الشحنة:</th>
         <td style="text-align: left;">{{number_format($all[$i]->shipment_coast_, 2)}}</td>
+    </tr>
+    <tr>
+        <th>نوع الشحنة:</th>
+        <td style="text-align: left;">{{$all[$i]->ship_type}}</td>
     </tr>
     <tr>
         <th>الملاحظات:</th>

@@ -1607,7 +1607,7 @@ class shipmentsController extends Controller
               $qrNo = array();
             $allData = array();
             foreach ($exp as $code){
-            $qrcode=QrCode::encoding('UTF-8')->size(70)->generate($code);
+            $qrcode=QrCode::encoding('UTF-8')->size(90)->generate($code);
             $qrcode= str_replace('<?"xml version="1.0" encoding="UTF-8?>',"",$qrcode);
             $qrcode= str_replace('<?xml version="1.0" encoding="UTF-8"?>',"",$qrcode);
             // $qrcode=str_replace("\n","",$qrcode);
