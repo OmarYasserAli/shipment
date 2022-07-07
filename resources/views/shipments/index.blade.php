@@ -285,6 +285,7 @@
 
         <script type="text/javascript">
              let opreation_codes=[];
+             let global_ta7weel_to='';
             $('#print').on('click', function(){
                 var codes=[];
                 $('.check_count').each(function() {
@@ -298,7 +299,7 @@
 
 
             $('#operation_print').on('click',function(){
-                window.open("{{route('opretation-print')}}"+'?codes='+opreation_codes+'&type=shipment&title='+'تحويل شحنات');
+                window.open("{{route('opretation-print')}}"+'?codes='+opreation_codes+'&type=shipment&title='+global_ta7weel_to);
 
             })
             
@@ -361,6 +362,7 @@
                         }
                     });
                     if(t7weel_to =='' || t7weel_to== null) return;
+                    global_ta7weel_to= t7weel_to;
                     //console.log(codes)
                     opreation_codes= codes;
                     $.ajax({
