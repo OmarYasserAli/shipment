@@ -1427,7 +1427,7 @@ class shipmentsController extends Controller
         }
         $shipment = Shipment::where('code_',$code)->first();
 
-        $clients = User::where('type_','عميل')->where('branch', $user->branch)->get();
+        $clients = User::where('type_','عميل')->get();
         $mo7afazat =Mohfza::where('branch',$user->branch)->get();
         $now = Carbon::now();
         $code_ai=Setting::get('shipment_code_ai');
@@ -1483,8 +1483,8 @@ class shipmentsController extends Controller
         }
 
 
-        $shipment->Ship_area_   = $user->branch;
-        $shipment->branch_   = $user->branch;
+        // $shipment->Ship_area_   = $user->branch;
+        // $shipment->branch_   = $user->branch;
         //$shipment->status_   = 1;
         $shipment->el3nwan=$request->el3nwan;
         $shipment->elmantqa_el3nwan=$request->manteka."/".$request->el3nwan;
