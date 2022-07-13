@@ -36,7 +36,7 @@ class financeCntroller extends Controller
         $sanadat =[];
         $date_from = Carbon::now()->format('y-m-d');
         $date_to = Carbon::now()->addDays(1)->format('y-m-d');
-
+        $safiKhazna = '';
 
         if(isset(request()->date_from)){
             $date_from = request()->date_from;
@@ -51,9 +51,10 @@ class financeCntroller extends Controller
             // ->where('created_at', '>', $date_from)
             // ->where('created_at', '<=' , $date_to)->orderBy('created_at')->get();
             ->whereBetween('created_at', [ $date_from,  $date_to])->orderBy('created_at')->get();
+            $safiKhazna =$this->khaznaNet($khazna,$date_from);
         }
-        $safiKhazna =$this->khaznaNet($khazna,$date_from);
-        
+
+
         return view('accounting.company.kashf-5azna',compact('sanadat','khaznat','safiKhazna'));
     }
 
