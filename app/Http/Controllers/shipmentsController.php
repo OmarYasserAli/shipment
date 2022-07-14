@@ -1509,6 +1509,12 @@ class shipmentsController extends Controller
 
         $shipment->save();
 
+        $sanad_3amil = Sanad_3amil::where('code',$shipment->code_)->first();
+        if(isset($sanad_3amil)){
+            $sanad_3amil->amount =$shipment->shipment_coast_; 
+            $sanad_3amil->save();
+        }
+
         return \Redirect::route('shiments.edit', [$shipment->code_])->with('status', 'تم حفظ التعديلات');
     }
     public function status(){
