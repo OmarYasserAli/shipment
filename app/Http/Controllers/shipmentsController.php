@@ -12,6 +12,8 @@ use App\Models\AllUser;
 use App\Models\Shipment_status;
 use App\Models\Commercial_name;
 use App\Models\Archive;
+use App\Models\Sanad_3amil;
+use App\Models\Sanad_taslim;
 use App\User;
 use App\Models\Branch_user;
 use QrCode;
@@ -1302,7 +1304,12 @@ class shipmentsController extends Controller
             $shipment->total_=$request->total_;
             $shipment->notes_  =    $request->notes_;
             $shipment->save();
-
+            $sanad_3amil = new Sanad_3amil();
+            $sanad_3amil->amount = $request->shipment_coast_  ;
+            $sanad_3amil->code = $shipment->code_   ;
+            $sanad_3amil->client_id =  $request->client_id ;
+            $sanad_3amil->type='قبض';
+            $sanad_3amil->save() ;
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 500,
@@ -1761,6 +1768,15 @@ class shipmentsController extends Controller
               'mandoub_taslim' =>$mandob->name_,
               'add_shipment_tb_.status_' => 4
             ]);
+            foreach($codes as $code){
+                $Sanad_taslim = new Sanad_taslim();
+            $Sanad_taslim->amount = Shipment::where('code_',$code)->first()->shipment_coast_  ;
+            $Sanad_taslim->code =  $code   ;
+            $Sanad_taslim->client_id =  $mandob->code_ ;
+            $Sanad_taslim->type='صرف';
+            $Sanad_taslim->save() ;
+
+            }
 
 
               return response()->json([
