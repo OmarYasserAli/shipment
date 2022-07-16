@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
-
+use Illuminate\Support\Facades\DB;
 class authentication extends Controller
 {
     public function authenticate(Request $request){
@@ -89,14 +89,13 @@ class authentication extends Controller
     }
 
     public function deleteUser(Request $request){
-        if(!auth()->user()){
+        if(!$user = DB::table("all_users")->where('code_' ,$request->user_id)->first()){
             return response()->json([
                 'status'  => false,
                 'message' => 'unauthorized',
             ], 403);
         }
-        $user = AllUser::findOrFail($request->code_)->delete();
-
+        $user = AllUser::findOrFail($request->code)->delete();
         return response()->json([
             'status'  => true,
             'message' => 'user deleted succefully',

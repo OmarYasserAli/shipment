@@ -18,7 +18,7 @@ Route::post('login', 'Authentication\authentication@authenticate')->name('all_us
 Route::post('logout', 'Authentication\authentication@logout');
 Route::get('getAllbranch','general\BranchController@allbranch');
 Route::get('getCommerical','general\BranchController@commerical');
-Route::delete('delete', 'Authentication\authentication@deleteUser')->name('deleteUser');
+Route::post('delete-user', 'Authentication\authentication@deleteUser')->name('deleteUser');
 
 //client
 Route::prefix('client')->group(function () {
