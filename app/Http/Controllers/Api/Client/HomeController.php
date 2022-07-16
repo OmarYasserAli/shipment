@@ -74,5 +74,4 @@ Class HomeController
        return response::suceess('success', 200,"ship",$ship);
 
     }
- 
 }

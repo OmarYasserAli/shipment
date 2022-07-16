@@ -66,7 +66,8 @@ class register extends Controller
                 'phone_'=>$request->phone_,
                 'ID_'=>$request->ID,
                 'address_'=>"",
-                'notes'=>"" 
+                'notes'=>"" ,
+                'phonekey_'=>''
             ]);
             DB::commit();
             $token = JWTAuth::fromUser($client);
@@ -129,7 +130,8 @@ class register extends Controller
                 'mantqa'=>$request->mantqa,
                 'phonekey_'=>$request->phone_,
                 'ID_'=>$request->ID,
-                'address_'=>""
+                'address_'=>"",
+
             ]);
             $token = JWTAuth::fromUser($client);
             $client->TOEKN_=$token;

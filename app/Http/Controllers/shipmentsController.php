@@ -414,6 +414,16 @@ class shipmentsController extends Controller
               'add_shipment_tb_.status_' => 4
             ]);
 
+            foreach($request->code as $code){
+                $Sanad_taslim = new Sanad_taslim();
+                $Sanad_taslim->amount = Shipment::where('code_',$code)->first()->shipment_coast_  ;
+                $Sanad_taslim->code =  $code   ;
+                $Sanad_taslim->mandoub_id =  $mandob->code_ ;
+                $Sanad_taslim->type='صرف';
+                $Sanad_taslim->save() ;
+
+            }
+
 
               return response()->json([
                 'status' => 200,
@@ -1778,7 +1788,7 @@ class shipmentsController extends Controller
                 $Sanad_taslim = new Sanad_taslim();
             $Sanad_taslim->amount = Shipment::where('code_',$code)->first()->shipment_coast_  ;
             $Sanad_taslim->code =  $code   ;
-            $Sanad_taslim->client_id =  $mandob->code_ ;
+            $Sanad_taslim->mandoub_id =  $mandob->code_ ;
             $Sanad_taslim->type='صرف';
             $Sanad_taslim->save() ;
 

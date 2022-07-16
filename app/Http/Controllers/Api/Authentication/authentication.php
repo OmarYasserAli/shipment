@@ -45,7 +45,6 @@ class authentication extends Controller
             $user->TOEKN_=$token;
             $user->save();
         }
-        
         return response()->json([
             'status'  => true,
             'message' => 'succeess',
@@ -87,5 +86,20 @@ class authentication extends Controller
             'status'  => true,
             'message' => 'Logout Successfully',
         ], 200);          
+    }
+
+    public function deleteUser(Request $request){
+        if(!auth()->user()){
+            return response()->json([
+                'status'  => false,
+                'message' => 'unauthorized',
+            ], 403);
+        }
+        $user = AllUser::findOrFail($request->code_)->delete();
+
+        return response()->json([
+            'status'  => true,
+            'message' => 'user deleted succefully',
+        ], 200);
     }
 }

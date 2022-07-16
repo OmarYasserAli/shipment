@@ -17,47 +17,32 @@ Route::post('register', 'Authentication\register@register');
 Route::post('login', 'Authentication\authentication@authenticate')->name('all_user');
 Route::post('logout', 'Authentication\authentication@logout');
 Route::get('getAllbranch','general\BranchController@allbranch');
-Route::get('getAllmantika','general\BranchController@allmantika');
 Route::get('getCommerical','general\BranchController@commerical');
-Route::post('search_qr','general\BranchController@search_qr');
-Route::get('paidship','general\BranchController@paid');
-Route::get('unpaidship','general\BranchController@unpaidship');
-Route::post('updateship','general\BranchController@updateship');
+Route::delete('delete', 'Authentication\authentication@deleteUser')->name('deleteUser');
+
 //client
 Route::prefix('client')->group(function () {
     
     Route::get('store_ship','Client\HomeController@Store_shipment');
+    Route::get('hasrec','Client\HomeController@Rec_shipment');
+    Route::get('hasclient','Client\HomeController@Client_shipment');
+    Route::get('hasdelegate','Client\HomeController@Delegate_shipment');
+    Route::get('partial_shipment','Client\HomeController@Partial_shipment');
+    Route::get('recived','Client\HomeController@Recived');
+    Route::get('returnfromclient','Client\HomeController@ReturnClient');
+    Route::get('returnfromstore','Client\HomeController@ReturnStore');
+    Route::get('later','Client\HomeController@later');
     Route::post('search_ship','Client\HomeController@search_ship');
     Route::post('addreport','Client\ReportController@Addreport');
     Route::get('allreport','Client\ReportController@allreport');
-   
-});
-
-Route::prefix('Receiving')->group(function () {
-    Route::post('addreport','Receiving\ReportController@Addreport');
-    Route::get('allreport','Receiving\ReportController@allreport');
-    Route::get('myship','Receiving\HomeController@myShip');
-    Route::post('shipToclient','Receiving\HomeController@shipToclient');
-    Route::post('search_ship','Receiving\HomeController@search_ship');
-    Route::get('all_commeric','Receiving\HomeController@all_commeric');
-    Route::post('search_commeric','Receiving\HomeController@search_commeric');
- 
-
-});
-Route::prefix('sending')->group(function () {
-    Route::get('myship','Sending\HomeController@myShip');
-    Route::post('search_qr','Sending\HomeController@search_qr');
-    Route::post('search_ship','Sending\HomeController@search_ship');
-    Route::post('addreport','Sending\ReportController@Addreport');
-    Route::get('allreport','Sending\ReportController@allreport');
-
-
 });
 
 Route::get('home-page','general\HomeController@HomePage');
 Route::get('shipments','general\HomeController@shipments');
+Route::post('shipments/store','general\HomeController@store');
 Route::get('accounting','general\HomeController@accounting');
 Route::get('accounting-shipments','general\HomeController@accounting_shipments');
+Route::post('shipments/edit/uid','general\HomeController@editUid');
 
 
 Route::get('get-shipment-delevery','general\HomeController@get_shipment_delevery');
@@ -75,21 +60,16 @@ Route::post('wasel-goz2e-mandob-taslem','general\HomeController@wasel_goz2e_mand
 Route::post('taslem-mandob-taslem','general\HomeController@taslem_mandob_taslem');
 
 
+Route::post('wasel-goz2e-mandob-taslem','general\HomeController@wasel_goz2e_mandob_taslem');
+Route::post('taslem-mandob-taslem','general\HomeController@taslem_mandob_taslem');
+
+
+
 
 
 //estlam
 Route::get('estlam-shipments-count','general\HomeController@estlam_shipments_count');
 Route::get('estlam-shipments','general\HomeController@estlam_shipments');
 Route::get('estlam-commercial-names','general\HomeController@estlam_commercial_names');
-
-
-
-
-
-
-
-
-
-
 
 

@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\Api\general;
-
 use App\CustomClass\response;
 use App\Http\Controllers\Api\site\Controller;
 use App\Models\BranchInfo;
@@ -14,6 +13,8 @@ use App\Models\Commercial_name;
 use App\Models\Archive;
 
 
+use App\Setting;
+use App\User;
 use Carbon\Carbon;
 
 use Illuminate\Http\Request;
@@ -35,7 +36,7 @@ class HomeController extends Controller
         $statuses= Shipment_status::orderBy('sort_no')->where('code_' ,'!=',10)
         ->UserTypeFilter($user->type_,$user->code_)
         ->select('code_','name_')->get()->toArray();
-
+        $total = 0;
         foreach($statuses as $key=> $status){
             
             $shipments = Shipment::where('Status_',$status['code_'])
@@ -47,7 +48,17 @@ class HomeController extends Controller
             ->groupBy( 'Status_')
             ->first();
             $statuses[$key]['cnt'] = $shipments ? $shipments->cnt : 0;
+            $total += $statuses[$key]['cnt'];
             
+        }
+          foreach($statuses as $key=> $status){
+
+
+                        $mathOfTotal = 0;
+if ($total != 0  ){
+            $mathOfTotal = $statuses[$key]['cnt']/$total*100;
+}
+            $statuses[$key]['mathOfTotal'] = $mathOfTotal ? $mathOfTotal : 0;
         }
         if($user->type_=='مندوب تسليم')
             $statuses[0]['name_']='شحناتى';
@@ -86,6 +97,7 @@ class HomeController extends Controller
             'status' => 200,
             'message' => 'success',
             "type"=> $user->type_,
+            'addShipment' => $user->addshipment,
             'commercial_name_count'=>$cummercial_names_count,
             'commercial_name'=>$cummercial_names,
             'all' => $statuses,
@@ -122,8 +134,7 @@ class HomeController extends Controller
             ->where('status_',request()->code);
             
            
-            
-            if($user->type_== 'مندوب استلام' && request()->code ==3){
+             if($user->type_== 'مندوب استلام' && request()->code ==3){
                 $shipments = $shipments->where('branch_',$user->branch);
                 
             }else{
@@ -177,11 +188,9 @@ class HomeController extends Controller
                 $tawsilCost = $counter->sum('tas3ir_mandoub_estlam');
             if($user->type_=='مندوب تسليم')
                 $tawsilCost = $counter->sum('tas3ir_mandoub_taslim');
-            
             $netCost =  $totalCost-$tawsilCost;
-
             $count_all = $counter->count();
-            if($request->page == -100)
+             if($request->page == -100)
                 $request->limit=$count_all;
             $all = $all_shipments->paginate($request->limit ?? 10);
        
@@ -203,7 +212,6 @@ class HomeController extends Controller
             
         
     }
-
     public function accounting(Request $request)
     {
             $data=[];
@@ -404,10 +412,10 @@ class HomeController extends Controller
             if(isset(request()->code))
                 $shipments_null_date = $shipments_null_date->where('status_',request()->code);
             $shipments_null_date = $shipments_null_date->UserType($user->type_,$user->code_)
-            ->where('tarikh_tasdid_el3amil' ,'');
-            
+            ->where('tarikh_tasdid_el3amil' ,'')
+            ->where('tarikh_el7ala' ,'');
             if(isset($request->commercial_name)){
-                $shipments_null_date = $shipments_null_date->where('commercial_name_', $request->commercial_name);
+                $shipments_null_date = $shipments_null_date->where('add_shipment_tb_.commercial_name_', $request->commercial_name);
             }
 
             $shipments = Shipment::with(['Branch_user' => function ($query) {
@@ -425,9 +433,8 @@ class HomeController extends Controller
             //     $shipments= $shipments->where('tarikh_tasdid_el3amil' ,'<=',DATE( request()->date_to) );
 
            
-                     
+             
             $all_shipments = $shipments;
-            //->union($shipments_null_date);
           
             $all_shipments=$this->filter_accounting_type($all_shipments, $this->accounting_types[request()->type],$user,$request);
             $counter= $all_shipments->get();
@@ -471,7 +478,6 @@ class HomeController extends Controller
 
             $shipment = Shipment::where('Status_',3)
             ->where('branch_',$user->branch)
-            ->UserType($user->type_,$user->code_)
             ->count();
             return response()->json([
                 'status' => 200,
@@ -493,19 +499,28 @@ class HomeController extends Controller
             $shipment = Shipment::with(['Branch_user' => function ( $query) {
                 $query->select('code_','phone_');
              }])->where('Status_',3)
-            ->where('branch_',$user->branch)
-            ->UserType($user->type_,$user->code_);
+            ->where('branch_',$user->branch);
             // if(isset($request->commercial_name)){
             //     $shipment = $shipment->where('add_shipment_tb_.commercial_name_', $request->commercial_name);
             // }
             $totalCost = $shipment->sum('shipment_coast_');
-            //$tawsilCost = $shipment->sum('tawsil_coast_');
             $tawsilCost = $counter->sum('tas3ir_mandoub_estlam');
             $netCost =  $totalCost-$tawsilCost;
             $count_all = $shipment->count();
             $all = $shipment->paginate($request->limit ?? 10);
             if(!isset(request()->commercial_name))
-        
+        //     {
+        //         $cummercial_names = DB::table('add_commercial_names_tb')
+        //         ->select('add_commercial_names_tb.name','add_commercial_names_tb.code')
+        //         ->where('branch', $user->branch)
+        //         ->groupBy( 'add_commercial_names_tb.name' ,'add_commercial_names_tb.code')
+        //         ->get();
+        //         $cummercial_names_count= $cummercial_names->count();
+        //      }
+        //  else{
+        //      $cummercial_names =  request()->commercial_name;
+        //      $cummercial_names_count  =1;
+        // }
         return response()->json([
             'status' => 200,
             'message' => 'success',
@@ -554,7 +569,6 @@ class HomeController extends Controller
             ->distinct()
                 ;
     }
-
     public function get_shipment_delevery(Request $request)
     {
         if (!$user = DB::table("all_users")->where('code_' ,request()->user_id)->first()) {
@@ -722,17 +736,17 @@ class HomeController extends Controller
     }
     public function taslim_check(Request $request)
     {
-       
+        
         if (!$user = DB::table("all_users")->where('code_' ,request()->user_id)->first()) {
             return response::falid('user_not_found', 404);
         }
-       
             $shipments = Shipment::where('Status_',1)
             ->where('code_',$request->shipment_code);
             //->where('client_ID_',$request->user_id);
+
            return  $this->handleMultiShipmentelequent( $shipments, $user, $request);
     }
-    public function taslem_mandob_taslem(Request $request)
+        public function taslem_mandob_taslem(Request $request)
     {
         /*UPDATE add_shipment_tb_ SET Status_= 7 ,tarikh_el7ala='${intl.DateFormat('yyyy-MM-dd')}' WHERE code_ = (?);*/
         if (!$user = DB::table("all_users")->where('code_' ,request()->user_id)->first()) {
@@ -764,8 +778,6 @@ class HomeController extends Controller
             }
             return  $this->handleMultiShipmentelequent( $all, $user, $request);
     }
-
-
     public function getShipmentsByRecNum(Request $request)
     {
         if (!$user = DB::table("all_users")->where('code_', request()->user_id)->first()) {
@@ -798,6 +810,8 @@ class HomeController extends Controller
         return $this->handleMultiShipmentelequent($all, $user, $request);
 
     }
+
+
     public function handleMultiShipmentelequent( $all, $user, Request $request )
     {
         $totalCost = $all->sum('shipment_coast_');
@@ -807,7 +821,7 @@ class HomeController extends Controller
             $tawsilCost = $all->sum('tas3ir_mandoub_estlam');
         if($user->type_=='مندوب تسليم')
             $tawsilCost = $all->sum('tas3ir_mandoub_taslim');
-       $netCost =  $totalCost-$tawsilCost;
+        $netCost =  $totalCost-$tawsilCost;
         $count_all = $all->count();
         if ($user->type_ == 'عميل') {
             $all = $all->with(['Branch_user' => function ( $query) {
@@ -838,17 +852,12 @@ class HomeController extends Controller
         ]);
 
     }
-    public function handleMultiShipment(Builder $all, $user, Request $request)
+    public function handleMultiShipment( $all, $user, Request $request)
     {
         $totalCost = $all->sum('shipment_coast_');
         $tawsilCost = $all->sum('tawsil_coast_');
         $netCost = $all->sum('total_');
-
         $count_all = $all->count();
-        if ($user->type_ == 'عميل') {
-            $all = $all->Join('add_branch_users_tb', 'add_shipment_tb_.Delivery_Delivered_Shipment_ID', '=', 'add_branch_users_tb.code_')
-                ->select('add_shipment_tb_.*', 'add_branch_users_tb.phone_ as mabdob phone');
-        }
         if(isset($request->commercial_name)){
             $all = $all->where('add_shipment_tb_.commercial_name_', $request->commercial_name);
         }
@@ -870,8 +879,6 @@ class HomeController extends Controller
         ]);
 
     }
-    
-
     public function filter_accounting_type($query,$type,$user,$request){
         if($type=='mosadada')
          {  
@@ -999,5 +1006,90 @@ class HomeController extends Controller
           
        return $all;
     }
+   public function store(Request $request){
+
+        try {
+            $validated = $request->validate([
+                //'reciver_name_' => 'required',
+                'client_id' => 'required',
+                'mo7afza' => 'required',
+                'manteka' => 'required',
+
+            ]);
+            // dd($request->all());
+
+//            $user= auth('all_user')->user();
+            $shipment = new Shipment();
+            $shipment->date_   = Carbon::now()->format('Y-m-d  g:i:s A');
+            $shipment->tarikh_el7ala   = Carbon::now()->format('Y-m-d  g:i:s A');
+            // $shipment->date_   = $request->date;
+            $shipment->reciver_phone_   = $request->reciver_phone_;
+            $shipment->client_ID_   = $request->client_id;
+            // if(!Setting::get('shipment_code_ai') && $request->code!='' && $request->code != null){
+            //     $shipment->code_   = $request->code;
+            //     $shipment->serial_   = $request->code;
+
+            // }
+
+            $client = AllUser::where('code_',$request->client_id)->first();
+            $shipment->client_ID_   = $client->code_;
+            $shipment->client_name_   = $client->name_;
+            $shipment->clinet_phone_   = $client->phone_;
+            $shipment->reciver_name_   = $request->reciver_name_;
+            $shipment->Commercial_name_ = $request->Commercial_name;
+
+            $mo7afzaCode=Mohfza::where('name',$request->mo7afza)->first()->code;
+            $manatekCode=Mantikqa::where('name',$request->manteka )->first()->code;
+            $shipment->mo7afaza_id   = $mo7afzaCode;
+            $shipment->mantika_id   = $manatekCode;
+            $shipment->mo7afza_   = $request->mo7afza;
+            $shipment->mantqa_   = $request->manteka;
+            $shipment->Ship_area_   = $client->branch;
+            $shipment->branch_   =$client->branch;
+            $shipment->status_   = 3;
+            $shipment->el3nwan=$request->el3nwan;
+            $shipment->elmantqa_el3nwan=$request->manteka."/".$request->el3nwan;
+            $shipment->shipment_coast_=$request->shipment_coast_;
+            $shipment->tawsil_coast_=$request->tawsil_coast_;
+            $shipment->total_=$request->total_;
+            $shipment->notes_  =    $request->notes_;
+            $shipment->ship_type = $request->ship_type;
+            $shipment->shipment_code_ = 'null';
+            $shipment->save();
+
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 500,
+                'message' =>   $e->getMessage(),
+            ],500);
+
+        }
+        return response()->json([
+            'status' => 200,
+            'message' => '',
+            'code' =>$shipment->code_
+        ],200);
+        return redirect()->back()->with('status', 'Settings has been saved.');
+
+    }
+        public function editUid(Request $request){
+        $validated = $request->validate([
+            //'reciver_name_' => 'required',
+            'code' => 'required',
+            'uid' => 'required',
+
+
+        ]);
+        $shipment = Shipment::where('code_',$request->code);
+        $shipment->update([
+            'uid' => $request->uid
+        ]);
+        return response()->json([
+            'status' => 200,
+            'message' => 'success',
+        ],200);
+
+    }
+    
 }
-//

@@ -278,7 +278,13 @@
                                 <div class="side-menu__icon"> <i data-lucide="zap"></i> </div>
                                 <div class="side-menu__title">كشف الخزينة</div>
                             </a>
+                        </li><li>
+                            <a href="{{route('accounting.coppany.kashf_7sab')}}" class="side-menu">
+                                <div class="side-menu__icon"> <i data-lucide="zap"></i> </div>
+                                <div class="side-menu__title">كشف حساب</div>
+                            </a>
                         </li>
+                        
                     </ul>
                 </li>
                 <li>
