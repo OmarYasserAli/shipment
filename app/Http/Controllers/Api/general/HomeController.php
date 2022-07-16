@@ -98,6 +98,7 @@ if ($total != 0  ){
             'message' => 'success',
             "type"=> $user->type_,
             'addShipment' => $user->addshipment,
+            'canDelete' => 1,
             'commercial_name_count'=>$cummercial_names_count,
             'commercial_name'=>$cummercial_names,
             'all' => $statuses,
