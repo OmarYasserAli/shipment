@@ -106,12 +106,19 @@
                     </thead>
                     <tbody>
                     <tr>
-                            <td colspan='6'></td>
-                            <td></td>
-                            <td></td>
+                            <td colspan='9'>الرصيد السابف</td>
+                            <td>@if($safiKhazna < 0 )  $safiKhazna @else 0 @endif</td>
+                            <td>@if($safiKhazna > 0 )  $safiKhazna @else 0 @endif</td>
+                           
                         
                     </tr>
-                        @php $i=0; $raseed=$safiKhazna; @endphp
+                        @php 
+                            $i=0; $raseed=$safiKhazna; 
+                            $T7rkaDa2en=0;
+                            $T7rkamaden=0;
+                            $TrasedDa2en=0;
+                            $TrasedDa2en=0;
+                        @endphp
                         @foreach($sanadat as $sanad)
                         @php 
                              $i++;
@@ -138,7 +145,13 @@
                             
                         </tr>
                         @endforeach
-
+                        <tr>
+                            <td colspan='7'>الاجمالى</td>
+                            <td>@if($safiKhazna < 0 )  $safiKhazna @else 0 @endif</td>
+                            <td>@if($safiKhazna > 0 )  $safiKhazna @else 0 @endif</td>
+                           
+                        
+                    </tr>
                     </tbody>
                 </table>
             </div>

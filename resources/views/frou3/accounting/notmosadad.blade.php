@@ -117,9 +117,9 @@
                                 </div>
                                 <div class="form-inline">
                                     <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:2px; margin-top:1px; width:30px; ">تاريخ الشحنه </label>
-                                    <input name="hala_date_from" type="date"  class="form-control form-select-sm "  aria-label="default input inline 1" style="">
+                                    <input name="date_from" type="date"  class="form-control form-select-sm "  aria-label="default input inline 1" style="">
                                     <label for="horizontal-form-1" class="form-label" style=" text-align:right!important; margin-right:3px; margin-left:5px; margin-top:1px;  ">الي</label>
-                                    <input name="hala_date_to" type="date"  class="form-control form-select-sm "  aria-label="default input inline 1" style="">
+                                    <input name="date_to" type="date"  class="form-control form-select-sm "  aria-label="default input inline 1" style="">
                                 </div>
 
 
