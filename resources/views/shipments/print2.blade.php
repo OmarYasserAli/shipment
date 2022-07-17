@@ -147,7 +147,7 @@ tr{
         <div class="invoice-box rtl">
 
             <div class="totalammount" style="font-size: 8px;">
-               <img src="{{asset('assets/'.$company->image_data)}}"  alt=""  style="width:30mm; height: 30mm!important; margin-bottom: 5px ;margin-right:1%; margin-left:-5px;">
+               <img src="assets/{{$company->image_data}}"  alt=""  style="width:30mm; height: 30mm!important; margin-bottom: 5px ;margin-right:1%; margin-left:-5px;">
                  <br>
                 <span style="font-size:12px;padding-top: 10px;font-family: 'XBRiyaz' , Sans-Serif;font-weight: bold;">{{$company->name_}}</span><br>
                 <span style="font-size:10px;padding-top: 10px; font-weight: bold;">{{$company->address_}}</span>
