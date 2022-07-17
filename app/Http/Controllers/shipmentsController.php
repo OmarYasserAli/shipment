@@ -414,15 +414,15 @@ class shipmentsController extends Controller
               'add_shipment_tb_.status_' => 4
             ]);
 
-            // foreach($request->code as $code){
-            //     $Sanad_taslim = new Sanad_taslim();
-            //     $Sanad_taslim->amount = Shipment::where('code_',$code)->first()->shipment_coast_  ;
-            //     $Sanad_taslim->code =  $code   ;
-            //     $Sanad_taslim->mandoub_id =  $mandob->code_ ;
-            //     $Sanad_taslim->type='صرف';
-            //     $Sanad_taslim->save() ;
+            foreach($request->code as $code){
+                $Sanad_taslim = new Sanad_taslim();
+                $Sanad_taslim->amount = Shipment::where('code_',$code)->first()->shipment_coast_  ;
+                $Sanad_taslim->code =  $code   ;
+                $Sanad_taslim->mandoub_id =  $mandob->code_ ;
+                $Sanad_taslim->type='صرف';
+                $Sanad_taslim->save() ;
 
-            // }
+            }
 
 
               return response()->json([
@@ -435,11 +435,30 @@ class shipmentsController extends Controller
             $status=array(9);
             $updated_array = ['status_'=>8, 'tarikh_el7ala'=>Carbon::now()->format('Y-m-d  g:i:s A'),
                                 'shipment_coast_'=>0 , 'tawsil_coast_'=>0 , 'total_'=>0  ];
+
+            foreach($request->code as $code){
+                $shipment = Shipment::where('code_',$code)->first();
+                $sanad_3amil = new Sanad_3amil();
+                $sanad_3amil->amount = $shipment->shipment_coast_  ;
+                $sanad_3amil->code = $code   ;
+                $sanad_3amil->client_id =  $shipment->client_ID_ ;
+                $sanad_3amil->type='صرف';
+                $sanad_3amil->save() ;
+            }
         }
         if($request->t7weel_to=='الشحنات الراجعه فى المخزن'){   //t7wel rag3 lada m5zn
             $status=array(1,3,4);
             $updated_array = ['status_'=>9, 'tarikh_el7ala'=>Carbon::now()->format('Y-m-d  g:i:s A'),
                                 'Delivery_Delivered_Shipment_ID'=>"" , 'mandoub_taslim'=>"" , 'tas3ir_mandoub_taslim'=>0 ];
+            foreach($request->code as $code){
+                $shipment = Shipment::where('code_',$code)->first();
+                $sanad_3amil = new Sanad_taslim();
+                $sanad_3amil->amount = $shipment->shipment_coast_  ;
+                $sanad_3amil->code = $code   ;
+                $sanad_3amil->mandoub_id =  $shipment->Delivery_take_shipment_ID ;
+                $sanad_3amil->type='قبض';
+                $sanad_3amil->save() ;
+            }
         }
         $row = DB::table('add_shipment_tb_')
               ->whereIn('code_', $request->code)
@@ -1314,6 +1333,7 @@ class shipmentsController extends Controller
             $shipment->total_=$request->total_;
             $shipment->notes_  =    $request->notes_;
             $shipment->save();
+            
             $sanad_3amil = new Sanad_3amil();
             $sanad_3amil->amount = $request->shipment_coast_  ;
             $sanad_3amil->code = $shipment->code_   ;
@@ -1784,15 +1804,15 @@ class shipmentsController extends Controller
               'mandoub_taslim' =>$mandob->name_,
               'add_shipment_tb_.status_' => 4
             ]);
-            // foreach($codes as $code){
-            //     $Sanad_taslim = new Sanad_taslim();
-            //     $Sanad_taslim->amount = Shipment::where('code_',$code)->first()->shipment_coast_  ;
-            //     $Sanad_taslim->code =  $code   ;
-            //     $Sanad_taslim->mandoub_id =  $mandob->code_ ;
-            //     $Sanad_taslim->type='صرف';
-            //     $Sanad_taslim->save() ;
+            foreach($codes as $code){
+                $Sanad_taslim = new Sanad_taslim();
+                $Sanad_taslim->amount = Shipment::where('code_',$code)->first()->shipment_coast_  ;
+                $Sanad_taslim->code =  $code   ;
+                $Sanad_taslim->mandoub_id =  $mandob->code_ ;
+                $Sanad_taslim->type='صرف';
+                $Sanad_taslim->save() ;
 
-            // }
+            }
 
 
               return response()->json([

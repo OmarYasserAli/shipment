@@ -17,6 +17,7 @@ use App\Setting;
 use App\User;
 use Carbon\Carbon;
 use PDF;
+use App\Models\Sanad_far3;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -696,6 +697,29 @@ class frou3Controller extends Controller
             if(!isset($shipment)) return ;
             $shipment->TRANSFERE_ACCEPT_REFUSE =1;
             $shipment->save();
+
+            $sanad =new Sanad_far3();
+            $shipment = Shipment::where('code_',$request->code)->first();
+            $sanad->amount = $shipment->shipment_coast_  ;
+            $sanad->code = $request->code   ;
+            $sanad->type='صرف';
+            $sanad->note='تحويل شحنة';
+
+            $sanad2 =new Sanad_far3();
+            $sanad2->amount = $shipment->shipment_coast_  ;
+            $sanad2->code = $request->code   ;
+            $sanad2->type='قبض';
+            $sanad2->note='تحويل شحنة';
+
+            if($shipment->transfere_2 == ''){
+                $sanad->far3_id =  BranchInfo::where('name_',$shipment->branch_)->first()->code_ ;
+                $sanad2->far3_id =  BranchInfo::where('name_',$shipment->transfere_1)->first()->code_ ;
+            }else{
+                $sanad->far3_id =  BranchInfo::where('name_',$shipment->transfere_1)->first()->code_ ;
+                $sanad2->far3_id =  BranchInfo::where('name_',$shipment->transfere_2)->first()->code_ ;
+            }
+            $sanad->save() ;
+            $sanad2->save() ;
         }
         elseif($request->type=='cancel'){
             $shipment->first()->delete();
@@ -726,6 +750,31 @@ class frou3Controller extends Controller
         DB::table('add_shipment_tempo')
         ->whereIN('code_',$request->code)
         ->delete();
+
+        foreach($request->code as $code){
+            $sanad =new Sanad_far3();
+            $shipment = Shipment::where('code_',$code)->first();
+            $sanad->amount = $shipment->shipment_coast_  ;
+            $sanad->code = $code   ;
+            $sanad->type='صرف';
+            $sanad->note='تحويل شحنة';
+
+            $sanad2 =new Sanad_far3();
+            $sanad2->amount = $shipment->shipment_coast_  ;
+            $sanad2->code = $code;
+            $sanad2->type='قبض';
+            $sanad2->note='تحويل شحنة';
+
+            if($shipment->transfere_2 == ''){
+                $sanad->far3_id =  BranchInfo::where('name_',$shipment->branch_)->first()->code_ ;
+                $sanad2->far3_id =  BranchInfo::where('name_',$shipment->transfere_1)->first()->code_ ;
+            }else{
+                $sanad->far3_id =  BranchInfo::where('name_',$shipment->transfere_1)->first()->code_ ;
+                $sanad2->far3_id =  BranchInfo::where('name_',$shipment->transfere_2)->first()->code_ ;
+            }
+            $sanad->save() ;
+            $sanad2->save() ;
+        }
         return response()->json([
             'status' => 200,
             'message' => 'تم الموافقة',

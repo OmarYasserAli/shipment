@@ -16,6 +16,9 @@ use App\User;
 use App\Models\Khazna;
 use App\Models\Branch_user;
 use App\Models\Sanad;
+use App\Models\Sanad_3amil;
+use App\Models\Sanad_taslim;
+use App\Models\Sanad_far3;
 
 use QrCode;
 
@@ -45,13 +48,21 @@ class sanadatController extends Controller
     }
     public function store(Request $request){
         $sanad= new Sanad();
-        if($request->mostafed_type =='عميل' || $request->mostafed_type =='مندوب'){
+        if($request->mostafed_type =='عميل' ){
             $model= user::where('code_',$request->mostafed_name)->first();
-           
+           $sanad2 = new Sanad_3amil();
+           $sanad2->client_id = $request->mostafed_name ;
+        }
+        if($request->mostafed_type =='مندوب'){
+            $model= user::where('code_',$request->mostafed_name)->first();
+            $sanad2 = new Sanad_taslim();
+            $sanad2->mandoub_id = $request->mostafed_name ;
         }
         
         if($request->mostafed_type =='فرع'){
           $model =BranchInfo::where('code_',$request->mostafed_name)->first();
+          $sanad2 = new Sanad_far3();
+          $sanad2->far3_id = $request->mostafed_name ;
         }
         
         $sanad->code = (Sanad::orderBy('id' ,'desc')->first()->code)+1;
@@ -59,13 +70,17 @@ class sanadatController extends Controller
         $sanad->type = $request->page_type;	
         $sanad->khazna_id = $request->khazna_id;
         $sanad->amount = $request->amount;
-
         $sanad->save();
 
         // dd($model);
         $model->sanadat()->save($sanad);
         // $sanad->sanadable->save($model);
 
+
+        $sanad2->amount = $request->amount ;
+        $sanad->code = 0;
+        $sanad->type = $request->page_type;
+        $sanad->note = 'خزينة';
         return back();
     }
 

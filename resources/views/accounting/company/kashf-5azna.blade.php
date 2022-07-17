@@ -106,27 +106,28 @@
                     </thead>
                     <tbody>
                     <tr>
-                            <td colspan='9'>الرصيد السابف</td>
-                            <td>@if($safiKhazna < 0 )  $safiKhazna @else 0 @endif</td>
-                            <td>@if($safiKhazna > 0 )  $safiKhazna @else 0 @endif</td>
+                            <td colspan='9'>الرصيد السابق</td>
+                            <td>@if($safiKhazna < 0 )  {{($safiKhazna)*-1}} @else 0 @endif</td>
+                            <td>@if($safiKhazna > 0 )  {{$safiKhazna}} @else 0 @endif</td>
                            
                         
                     </tr>
                         @php 
                             $i=0; $raseed=$safiKhazna; 
                             $T7rkaDa2en=0;
-                            $T7rkamaden=0;
+                            $T7rkaMaden=0;
                             $TrasedDa2en=0;
-                            $TrasedDa2en=0;
+                            $TrasedMaden=0;
                         @endphp
                         @foreach($sanadat as $sanad)
                         @php 
-                             $i++;
-                             if($sanad->type =='صرف') {$raseed -= $sanad->amount;}
-                             if($sanad->type =='قبض') {$raseed += $sanad->amount;}
-                             if($raseed < 0){$da2en= -$raseed;   $madeen = 0;}
-                             else{$da2en= 0;   $madeen = $raseed;}
-                           
+                            $i++;
+                            if($sanad->type =='صرف') {$raseed -= $sanad->amount;}
+                            if($sanad->type =='قبض') {$raseed += $sanad->amount;}
+                            if($raseed < 0){$da2en= -$raseed;   $madeen = 0;}
+                            else{$da2en= 0;   $madeen = $raseed;}
+                            $TrasedDa2en = $da2en;
+                            $TrasedMaden = $madeen;
                         @endphp
                         <tr   >
 
@@ -138,17 +139,19 @@
                             <td class="whitespace-nowrap " >{{$sanad->sanadable->name_}}</td>
                             <td class="whitespace-nowrap " >{{$sanad->notes}}</td>
                             
-                            <td class="whitespace-nowrap " >@if($sanad->type =='صرف')  {{number_format($sanad->amount , 0)}}@else 0 @endif</td>
-                            <td class="whitespace-nowrap " >@if($sanad->type =='قبض'){{number_format($sanad->amount , 0)}}@else 0 @endif</td>
-                            <td class="whitespace-nowrap " >{{number_format($da2en , 0)}}</td>
+                            <td class="whitespace-nowrap " >@if($sanad->type =='صرف')  {{number_format($sanad->amount , 0)}} @php $T7rkaDa2en+= $sanad->amount; @endphp @else 0 @endif</td>
+                            <td class="whitespace-nowrap " >@if($sanad->type =='قبض'){{number_format($sanad->amount , 0)}} @php $T7rkaMaden+= $sanad->amount; @endphp @else 0 @endif</td>
+                            <td class="whitespace-nowrap " >{{number_format($da2en , 0)}} </td>
                             <td class="whitespace-nowrap " >{{number_format($madeen , 0)}}</td>
                             
                         </tr>
                         @endforeach
                         <tr>
                             <td colspan='7'>الاجمالى</td>
-                            <td>@if($safiKhazna < 0 )  $safiKhazna @else 0 @endif</td>
-                            <td>@if($safiKhazna > 0 )  $safiKhazna @else 0 @endif</td>
+                            <td> {{$T7rkaDa2en}}</td>
+                            <td> {{$T7rkaMaden}}</td>
+                            <td> {{$TrasedDa2en}}</td>
+                            <td> {{$TrasedMaden}}</td>
                            
                         
                     </tr>

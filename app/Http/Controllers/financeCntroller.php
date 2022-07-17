@@ -17,6 +17,7 @@ use App\Models\Khazna;
 use App\Models\Sanad;
 use App\Models\Sanad_3amil;
 use App\Models\Sanad_taslim;
+use App\Models\Sanad_far3;
 use App\Models\Branch_user;
 use QrCode;
 
@@ -37,7 +38,7 @@ class financeCntroller extends Controller
         $sanadat =[];
         $date_from = Carbon::now()->format('y-m-d');
         $date_to = Carbon::now()->addDays(1)->format('y-m-d');
-        $safiKhazna = '';
+        $safiKhazna = 0;
 
         if(isset(request()->date_from)){
             $date_from = request()->date_from;
