@@ -1333,7 +1333,7 @@ class shipmentsController extends Controller
             $shipment->total_=$request->total_;
             $shipment->notes_  =    $request->notes_;
             $shipment->save();
-            
+
             $sanad_3amil = new Sanad_3amil();
             $sanad_3amil->amount = $request->shipment_coast_  ;
             $sanad_3amil->code = $shipment->code_   ;
@@ -1556,11 +1556,12 @@ class shipmentsController extends Controller
         $exp = array_merge($exp, $path);
 
         $user=auth()->user();
-        if(!$user->isAbleTo('index-shipment')){
-            return abort(403);
-        }
+          if(!$user->isAbleTo('print-shipment')){
+              return abort(403);
+          }
 
-        $limit=Setting::get('items_per_page');
+
+          $limit=Setting::get('items_per_page');
         $page =0;
         if(isset(request()->page)) $page= request()->page;
 
@@ -1568,11 +1569,15 @@ class shipmentsController extends Controller
         $shipments = Shipment::with(['Branch_user' => function ($query) {
             $query->select('code_','phone_');
         }]);
+          if ($user->type_ = 'عميل'){
+              $shipments = $shipments->where('client_ID_',$user->code_);
+          }
 
 
 
 
-        if(isset(request()->commercial_name)){
+
+          if(isset(request()->commercial_name)){
             $shipments = $shipments->where('add_shipment_tb_.commercial_name_', request()->commercial_name);
         }
 
