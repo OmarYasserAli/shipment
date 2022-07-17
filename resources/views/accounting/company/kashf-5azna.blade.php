@@ -99,12 +99,18 @@
                             <th class="whitespace-nowrap">بيان</th>
                             <th class="whitespace-nowrap">حركة دائنة</th>
                             <th class="whitespace-nowrap">حركة مدينة</th>
-                            <th class="whitespace-nowrap">رصيد دائة</th>
+                            <th class="whitespace-nowrap">رصيد دائن</th>
                             <th class="whitespace-nowrap">رصيد مدين</th>
                            
                         </tr>
                     </thead>
                     <tbody>
+                    <tr>
+                            <td colspan='6'></td>
+                            <td></td>
+                            <td></td>
+                        
+                    </tr>
                         @php $i=0; $raseed=$safiKhazna; @endphp
                         @foreach($sanadat as $sanad)
                         @php 
