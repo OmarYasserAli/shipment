@@ -261,30 +261,38 @@
                         </div>
                     </a>
                     <ul class="">
+                        @if(\Illuminate\Support\Facades\Auth::user()->isAbleTo('sanad-qabd'))
                         <li>
                             <a href="{{route('accounting.coppany.createQabad')}}" class="side-menu">
                                 <div class="side-menu__icon"> <i data-lucide="zap"></i> </div>
                                 <div class="side-menu__title"> سند قبض</div>
                             </a>
                         </li>
+                        @endif
+                            @if(\Illuminate\Support\Facades\Auth::user()->isAbleTo('sanad_sarf'))
                         <li>
                             <a href="{{route('accounting.coppany.createSarf')}}" class="side-menu">
                                 <div class="side-menu__icon"> <i data-lucide="zap"></i> </div>
                                 <div class="side-menu__title">سند صرف</div>
                             </a>
                         </li>
+                            @endif
+                            @if(\Illuminate\Support\Facades\Auth::user()->isAbleTo('kashef_khazna'))
                         <li>
                             <a href="{{route('accounting.coppany.kashf_5azna')}}" class="side-menu">
                                 <div class="side-menu__icon"> <i data-lucide="zap"></i> </div>
                                 <div class="side-menu__title">كشف الخزينة</div>
                             </a>
-                        </li><li>
+                        </li>
+                            @endif
+                            @if(\Illuminate\Support\Facades\Auth::user()->isAbleTo('khashef_hesab'))
+                                <li>
                             <a href="{{route('accounting.coppany.kashf_7sab')}}" class="side-menu">
                                 <div class="side-menu__icon"> <i data-lucide="zap"></i> </div>
                                 <div class="side-menu__title">كشف حساب</div>
                             </a>
                         </li>
-                        
+                            @endif
                     </ul>
                 </li>
                 <li>
@@ -531,12 +539,15 @@
                         </div>
                     </a>
                     <ul class="">
+                        @if(\Illuminate\Support\Facades\Auth::user()->isAbleTo('adafat_khazena'))
                         <li>
                             <a href="{{route('Khazna.create')}}" class="side-menu">
                                 <div class="side-menu__icon"> <i data-lucide="zap"></i> </div>
                                 <div class="side-menu__title"> اضافة خزينة</div>
                             </a>
                         </li>
+                        @endif
+                        @if(\Illuminate\Support\Facades\Auth::user()->isAbleTo('rabat_mosta5dam_ma3_khazena'))
                         <li>
                             <a href="{{route('Khazna.adduser')}}" class="side-menu">
                                 <div class="side-menu__icon"> <i data-lucide="zap"></i> </div>
@@ -544,7 +555,7 @@
                                     رﺑط ﻣﺳﺗﺧدم ﻣﻊ ﺧزﯾﻧﺔ</div>
                             </a>
                         </li>
-
+                            @endif
                     </ul>
                 </li>
                 @if(\Illuminate\Support\Facades\Auth::user()->isAbleTo('setting-setting'))
@@ -559,5 +570,6 @@
             </ul>
         </li>
         <!-- -->
+
     </ul>
 </nav>
