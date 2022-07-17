@@ -8,6 +8,9 @@ Purchase: https://themeforest.net/user/left4code/portfolio
 Renew Support: https://themeforest.net/user/left4code/portfolio
 License: You must have a valid license purchased only from themeforest(the above link) in order to legally use the theme for your project.
 -->
+@php
+$companyMainData = \App\Models\CompanyInfo::where('branch_','الفرع الرئيسى')->first();
+@endphp
 <html lang="en" class="light">
     <!-- BEGIN: Head -->
     <head>
@@ -29,13 +32,13 @@ License: You must have a valid license purchased only from themeforest(the above
                 <!-- BEGIN: Login Info -->
                 <div class="hidden xl:flex flex-col min-h-screen">
                     <a href="" class="-intro-x flex items-center pt-5">
-                        <img alt="Midone - HTML Admin Template" class="w-6" src="{{asset('images/logo.png')}}">
-                        <span class="text-white text-lg ml-3"> شركة البحار </span> 
+                        <img alt="Midone - HTML Admin Template" class="w-6" src="{{asset('assets/'.$companyMainData->image_data)}}">
+                        <span class="text-white text-lg ml-3"> شركة البحار </span>
                     </a>
                     <div class="my-auto">
-                        <img alt="Midone - HTML Admin Template" class="-intro-x w-1/2 -mt-16" src="{{asset('images/logo.png')}}">
+                        <img alt="Midone - HTML Admin Template" class="-intro-x w-1/2 -mt-16" src="{{asset('assets/'.$companyMainData->image_data)}}">
                         <div class="-intro-x text-white font-medium text-4xl leading-tight mt-10">
-                            شركة البحار للتوصيل السريع
+                           {{$companyMainData->name_}}
                             <br>
                             سجل دخول الي حسابك
                         </div>
@@ -60,8 +63,8 @@ License: You must have a valid license purchased only from themeforest(the above
                                 <input type="password" class="intro-x login__input form-control py-3 px-4 block mt-4" placeholder="Password" name="password">
                             </div>
                             <div class="intro-x flex text-slate-600 dark:text-slate-500 text-xs sm:text-sm mt-4">
-                               
-                               
+
+
                             </div>
                             <div class="intro-x mt-5 xl:mt-8 text-center xl:text-left">
                                 <button class="btn btn-primary py-3 px-4 w-full xl:w-32 xl:mr-3 align-top">Login</button>
@@ -79,7 +82,7 @@ License: You must have a valid license purchased only from themeforest(the above
             <div class="dark-mode-switcher__toggle border"></div>
         </div>
         <!-- END: Dark Mode Switcher-->
-        
+
         <!-- BEGIN: JS Assets-->
         <script src="{{asset('js/app.js')}}"></script>
         <!-- END: JS Assets-->
