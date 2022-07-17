@@ -1541,7 +1541,7 @@ class shipmentsController extends Controller
 
         $sanad_3amil = Sanad_3amil::where('code',$shipment->code_)->first();
         if(isset($sanad_3amil)){
-            $sanad_3amil->amount =$shipment->shipment_coast_; 
+            $sanad_3amil->amount =$shipment->shipment_coast_;
             $sanad_3amil->save();
         }
 

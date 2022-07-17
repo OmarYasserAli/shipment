@@ -44,6 +44,13 @@ class permissionSeeder extends Seeder
         ['name'=>'notMosadadMandoubTaslem-accounting'  ,  'display_name'=>'الشحنات  الغير مسدده لمنودب التسليم' ,'sort_no'=>'3'],
         ['name'=>'notMosadadMandoubEstlam-accounting'  ,  'display_name'=>'الشحنات الغير مسدده لمنودب الاستلام' ,'sort_no'=>'3'],
         ['name'=>'mosadadMandoubEstlam-accounting'  ,  'display_name'=>'الشحنات  المسدده لمنودب الاستلام' ,'sort_no'=>'3'],
+        ['name'=>'sanad_sarf'  ,  'display_name'=>'سند صرف' ,'sort_no'=>'3'],
+        ['name'=>'sanad-qabd'  ,  'display_name'=>'سند قبض' ,'sort_no'=>'3'],
+        ['name'=>'kashef_khazna'  ,  'display_name'=>'كشف خزنة' ,'sort_no'=>'3'],
+        ['name'=>'khashef_hesab'  ,  'display_name'=>'كشف حساب' ,'sort_no'=>'3'],
+        ['name'=>''  ,  'display_name'=>'' ,'sort_no'=>'3'],
+
+
 
         ['name'=>'companyDefinations-definations'  ,  'display_name'=>'تعريف الشركة' ,'sort_no'=>'4'],
         ['name'=>'addManatek-definations'  ,  'display_name'=>'اضافة تسعير المناطق' ,'sort_no'=>'4'],
@@ -60,8 +67,10 @@ class permissionSeeder extends Seeder
 
         ['name'=>'permitions-setting'  ,  'display_name'=>'صلاحيات المستخدمين' ,'sort_no'=>'7'],
         ['name'=>'setting-setting'  ,  'display_name'=>'اعدادات الموقع ' ,'sort_no'=>'7'],
+        ['name'=>'adafat_khazena'  ,  'display_name'=>'اضافة خزينة' ,'sort_no'=>'7'],
+        ['name'=>'rabat_mosta5dam_ma3_khazena'  ,  'display_name'=>'ربط متخدم مع خزينة' ,'sort_no'=>'7'],
 
-         
+
 
 
 
@@ -79,7 +88,12 @@ class permissionSeeder extends Seeder
             'display_name' => 'User Administrator', // optional
             'description' => 'User is allowed to manage and edit other users', // optional
         ]);
-        
+        $client = Role::create([
+            'name' => 'client',
+            'display_name' => 'User client', // optional
+            'description' => 'client', // optional
+        ]);
+
         foreach($this->perms as $perm){
             $p =new Permission();
             $p->name= $perm['name'];
@@ -89,6 +103,7 @@ class permissionSeeder extends Seeder
             $p->save();
             $admin->attachPermission($p);
         }
+        $client->attachPermission(Permission::where('name','print-shipment')->first());
         $superUser=new User();
         $superUser->name_ = 'super Admin';
         $superUser->type_ = 'موظف';
