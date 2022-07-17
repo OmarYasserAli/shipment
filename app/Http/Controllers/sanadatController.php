@@ -37,7 +37,7 @@ class sanadatController extends Controller
         $page_title='سند قبض';
         $user=auth()->user();
         $khaznat=$user->Khazna;
-       
+        
         return view('accounting.company.sanadQabad',compact('page_title','khaznat'));
     } 
     public function createSarf(){
@@ -47,6 +47,7 @@ class sanadatController extends Controller
         return view('accounting.company.sanadSarf',compact('page_title','khaznat'));
     }
     public function store(Request $request){
+        $user=auth()->user();
         $sanad= new Sanad();
         if($request->mostafed_type =='عميل' ){
             $model= user::where('code_',$request->mostafed_name)->first();
@@ -63,6 +64,7 @@ class sanadatController extends Controller
           $model =BranchInfo::where('code_',$request->mostafed_name)->first();
           $sanad2 = new Sanad_far3();
           $sanad2->far3_id = $request->mostafed_name ;
+          $sanad2->far3_from = BranchInfo::where('name_',$user->branch)->first()->code_;
         }
         
         $sanad->code = (Sanad::orderBy('id' ,'desc')->first()->code)+1;
@@ -78,9 +80,10 @@ class sanadatController extends Controller
 
 
         $sanad2->amount = $request->amount ;
-        $sanad->code = 0;
-        $sanad->type = $request->page_type;
-        $sanad->note = 'خزينة';
+        $sanad2->code = 0;
+        $sanad2->type = $request->page_type;
+        $sanad2->note = 'خزينة';
+        $sanad2->save();
         return back();
     }
 

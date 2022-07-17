@@ -455,7 +455,7 @@ class shipmentsController extends Controller
                 $sanad_3amil = new Sanad_taslim();
                 $sanad_3amil->amount = $shipment->shipment_coast_  ;
                 $sanad_3amil->code = $code   ;
-                $sanad_3amil->mandoub_id =  $shipment->Delivery_take_shipment_ID ;
+                $sanad_3amil->mandoub_id =  $shipment->Delivery_Delivered_Shipment_ID ;
                 $sanad_3amil->type='قبض';
                 $sanad_3amil->save() ;
             }
