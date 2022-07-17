@@ -100,6 +100,8 @@
                     @endif
             </ul>
         </li>
+        @if(\Illuminate\Support\Facades\Auth::user()->hasRole('admin'))
+
         <li>
             <a href="javascript:;" class="side-menu  @if(Request::is('frou3/*')) side-menu--active side-menu--open @endif">
                 <div class="side-menu__icon"> <i data-lucide="inbox"></i> </div>
@@ -570,6 +572,6 @@
             </ul>
         </li>
         <!-- -->
-
+        @endif
     </ul>
 </nav>
