@@ -124,6 +124,13 @@ class frou3Controller extends Controller
         if(isset( request()->date_to))
             $shipments= $shipments->where('date_' ,'<=' ,DATE($request->date_to) );
 
+        if(isset( request()->hala_date_from)){
+          
+            $shipments= $shipments->where('tarikh_el7ala' ,'>=',DATE($request->hala_date_from) );
+        }
+        if(isset( request()->hala_date_to))
+            $shipments= $shipments->where('tarikh_el7ala' ,'<=' ,DATE($request->hala_date_to) );
+
             $all_shipments = $shipments;
             $ta7weel=0;
             foreach($all_shipments->get() as $ship){
@@ -294,7 +301,12 @@ class frou3Controller extends Controller
             $shipments= $shipments->where('date_' ,'>=',DATE($request->date_from) );
         if(isset( request()->date_to))
             $shipments= $shipments->where('date_' ,'<=' ,DATE($request->date_to) );
+        if(isset( request()->hala_date_from)) {
+            $shipments= $shipments->where('tarikh_el7ala' ,'>=',DATE($request->hala_date_from) );
 
+        } 
+        if(isset( request()->hala_date_to))
+            $shipments= $shipments->where('tarikh_el7ala' ,'<=' ,DATE($request->hala_date_to) );
             $all_shipments = $shipments;
             $ta7weel=0;
             foreach($all_shipments->get() as $ship){
