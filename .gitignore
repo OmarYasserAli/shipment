@@ -4,6 +4,7 @@
 /storage/*.key
 /resources/views/shipments/print2.blade.php
 /vendor
+.env
 .env.backup
 .phpunit.result.cache
 Homestead.json
