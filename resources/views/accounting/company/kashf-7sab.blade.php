@@ -104,6 +104,8 @@
                             <th class="whitespace-nowrap">التاريخ</th>
                             <th class="whitespace-nowrap">الرقم</th>
                             <th class="whitespace-nowrap">نوع الحركة</th>
+                            <th class="whitespace-nowrap">نوع الحساب</th>
+                            <th class="whitespace-nowrap"> الحساب</th>
                             
                             {{-- <th class="whitespace-nowrap">المتسفيد</th> --}}
                             <th class="whitespace-nowrap">بيان</th>
@@ -122,7 +124,7 @@
                             $TrasedMaden=0;
                         @endphp
                         <tr>
-                            <td colspan='7'>الرصيد السابق</td>
+                            <td colspan='9'>الرصيد السابق</td>
                             <td>@if($safi7sab < 0 )  {{($safi7sab)*-1}} @else 0 @endif</td>
                             <td>@if($safi7sab > 0 )  {{$safi7sab}} @else 0 @endif</td>
                            
@@ -144,7 +146,9 @@
                             <td  class="whitespace-nowrap " >{{$sanad->created_at }}</td>
                             <td  class="whitespace-nowrap " >{{$sanad->code }}</td>
                             <td class="whitespace-nowrap " >{{$sanad->type}}</td>
-                           
+                            <td class="whitespace-nowrap " >{{$type7sab}}</td>
+                            <td class="whitespace-nowrap " >{{$owner}}</td>
+                            
                             <td class="whitespace-nowrap " >{{$sanad->note}}</td>
                             
                             <td class="whitespace-nowrap " >@if($sanad->type =='صرف')  {{number_format($sanad->amount , 0)}} @php $T7rkaDa2en+= $sanad->amount; @endphp @else 0 @endif</td>
@@ -155,7 +159,7 @@
                         </tr>
                         @endforeach
                         <tr>
-                            <td colspan='5'>الاجمالى</td>
+                            <td colspan='7'>الاجمالى</td>
                             <td> {{$T7rkaDa2en}}</td>
                             <td> {{$T7rkaMaden}}</td>
                             <td> {{$TrasedDa2en}}</td>

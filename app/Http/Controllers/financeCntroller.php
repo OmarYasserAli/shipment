@@ -67,7 +67,7 @@ class financeCntroller extends Controller
         $date_from = Carbon::now()->format('y-m-d');
         $date_to = Carbon::now()->addDays(1)->format('y-m-d');
         $safi7sab = 0;
-       
+        $type7sab=''; $owner = '';
         if(isset(request()->date_from)){
             $date_from = new Carbon(request()->date_from); 
         }
@@ -83,33 +83,32 @@ class financeCntroller extends Controller
                 $sanadat = Sanad_3amil::where('client_id',  $request->owner)
                 ->whereBetween('created_at', [ $date_from,  $date_to])->orderBy('created_at')->get();
                 $safi7sab =$this->hesabNet(Sanad_3amil::where('client_id',  $request->owner),$date_from);
-
+                $owner = User::where('code_',$request->owner)->first()->name_;
             }
             if(request()->type =='مندوب'){
                 // $user = User::where('code_' ,  $request->owner)->first();
                 $sanadat = Sanad_taslim::where('mandoub_id',  $request->owner)
                 ->whereBetween('created_at', [ $date_from,  $date_to])->orderBy('created_at')->get();
                 $safi7sab =$this->hesabNet(Sanad_taslim::where('mandoub_id',  $request->owner),$date_from);
-
+                $owner = User::where('code_',$request->owner)->first()->name_;
             }
             if(request()->type =='فرع'){
                 $user = auth()->user();
-                $far3_from = BranchInfo::where('name_',$user->branch)->first()->code_;
+                $far3= BranchInfo::where('name_',$user->branch)->first();
+                $far3_from =$far3->code_;
                 $q = Sanad_far3::where('far3_id',  $request->owner)->where('far3_from',   $far3_from);
                 
                 $sanadat= $q->whereBetween('created_at', [ $date_from,  $date_to])->orderBy('created_at')->get();
 
                 $safi7sab =$this->hesabNet(Sanad_far3::where('far3_id',  $request->owner)->where('far3_from',   $far3_from),$date_from);
+                $owner = BranchInfo::where('code_',$request->owner)->first()->name_;
             }
-           
-            // $khazna=Khazna::where('id', request()->khazna_id)->first();
-            // $sanadat = Sanad::with(['sanadable'])->where('khazna_id', request()->khazna_id)
-            // ->whereBetween('created_at', [ $date_from,  $date_to])->orderBy('created_at')->get();
-            // $safiKhazna =$this->khaznaNet($khazna,$date_from);
+            $type7sab= request()->type;
+            
         }
 
         $page_title='كشف حساب';
-        return view('accounting.company.kashf-7sab',compact('sanadat','safi7sab','page_title'));
+        return view('accounting.company.kashf-7sab',compact('sanadat','safi7sab','page_title','type7sab','owner'));
     }
 
     public function get7sabOwners(Request $request){
@@ -119,7 +118,7 @@ class financeCntroller extends Controller
             $data = User::where('branch',$user->branch)->where('type_','عميل')->get();
         }
         if($request->type =='مندوب'){
-            $data = User::where('branch',$user->branch)->where('type_','مندوب استلام')->get();
+            $data = User::where('branch',$user->branch)->where('type_','مندوب تسليم')->get();
         }
         if($request->type =='فرع'){
             $data = BranchInfo::all();

@@ -574,8 +574,8 @@ class frou3Controller extends Controller
                 $mpdf = PDF::loadView('shipments.print',$data);
                 return $mpdf->stream('document.pdf');
             }
-            Tempo::insert(json_decode(json_encode($t2), true));
-        Tempo::insert(json_decode(json_encode($t1), true));
+        Tempo::firstOrNew(json_decode(json_encode($t2), true));
+        Tempo::firstOrNew(json_decode(json_encode($t1), true));
             $q2 =  $q2->update(['add_shipment_tb_.transfere_2'=>$branch->name_,
             'add_shipment_tb_.transfer_coast_2' =>DB::raw("`transfer_prices_main_tb`.`price_`"),
             'TRANSFERE_ACCEPT_REFUSE'=>2,
@@ -1013,9 +1013,9 @@ class frou3Controller extends Controller
                 $mpdf = PDF::loadView('shipments.print',$data);
                 return $mpdf->stream('document.pdf');
             }
-
-            Tempo::insert(json_decode(json_encode($t2), true));
-            Tempo::insert(json_decode(json_encode($t1), true));
+            
+            Tempo::insertOrIgnore(json_decode(json_encode($t2), true));
+            Tempo::insertOrIgnore(json_decode(json_encode($t1), true));
 
 
 
