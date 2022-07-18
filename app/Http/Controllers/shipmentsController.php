@@ -1597,8 +1597,10 @@ class shipmentsController extends Controller
         if(isset($request->Commercial_name)){
             $shipments = $shipments->where('commercial_name_', '=', $request->Commercial_name);
         }
-        if(isset( $request->client_id))
+        if(isset( $request->client_id)){
             $shipments= $shipments->where('client_name_' ,$request->client_id);
+//            dd($shipments->get());
+        }
         $all_shipments = $shipments;
 
         if(isset( request()->date_from))
@@ -1611,8 +1613,14 @@ class shipmentsController extends Controller
         if(isset( request()->hala_date_to))
             $shipments= $shipments->where('tarikh_el7ala' ,'<=',DATE( request()->hala_date_to) );
 
-        if(isset( request()->Status_))
+        if(isset( request()->Status_)){
             $shipments= $shipments->where('Status_' ,( request()->Status_) );
+
+        }else{
+            if ($user->type_ == 'عميل'){
+                $shipments= $shipments->where('Status_' ,3 );
+            }
+        }
         if(request()->showAll == 'on'){
             $counter= $all_shipments->get();
             $count_all = $counter->count();
