@@ -65,7 +65,7 @@ $companyMainData = \App\Models\CompanyInfo::where('branch_','الفرع الرئ
                             </h2>
                             <strong>{{ $errors->first('USERNAME') }}</strong>
                             @if($errors->any())
-                            {!! implode('', $errors->all('<div>:message</div>')) !!}
+                            {!! implode('', $errors->all('<div class="mt-5 text-danger text-right">:message</div>')) !!}
                         @endif
                             @csrf
                             <div class="intro-x mt-8">
