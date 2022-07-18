@@ -1141,13 +1141,13 @@ class frou3Controller extends Controller
             $sanad->amount = $shipment->shipment_coast_  ;
             $sanad->code = $request->code   ;
             $sanad->type='قبض';
-            $sanad->note='تحويل شحنة';
+            $sanad->note='تحويل راجع بين الفروع';
 
             $sanad2 =new Sanad_far3();
             $sanad2->amount = $shipment->shipment_coast_  ;
             $sanad2->code = $request->code   ;
             $sanad2->type='صرف';
-            $sanad2->note='تحويل شحنة';
+            $sanad2->note='تحويل راجع بين الفروع';
 
             if($shipment->transfere_2 == ''){
                 $sanad->far3_from  =  BranchInfo::where('name_',$shipment->branch)->first()->code_ ;
@@ -1196,6 +1196,38 @@ class frou3Controller extends Controller
          DB::table('add_shipment_tempo')
          ->whereIN('code_',$request->code)
          ->delete();
+         foreach($request->code as $code){
+            $sanad =new Sanad_far3();
+            $shipment = Tempo::where('code_',$code)->first();
+            
+            $sanad->amount = $shipment->shipment_coast_  ;
+            $sanad->code = $code   ;
+            $sanad->type='قبض';
+            $sanad->note='تحويل راجع بين الفروع';
+
+            $sanad2 =new Sanad_far3();
+            $sanad2->amount = $shipment->shipment_coast_  ;
+            $sanad2->code = $code   ;
+            $sanad2->type='صرف';
+            $sanad2->note='تحويل راجع بين الفروع';
+
+            if($shipment->transfere_2 == ''){
+                $sanad->far3_from  =  BranchInfo::where('name_',$shipment->branch)->first()->code_ ;
+                $sanad->far3_id = BranchInfo::where('name_', $shipment->transfere_1)->first()->code_;
+                
+                $sanad2->far3_from = BranchInfo::where('name_',$shipment->transfere_1)->first()->code_;
+                $sanad2->far3_id =  BranchInfo::where('name_', $shipment->branch)->first()->code_ ;
+                
+            }else{
+                $sanad->far3_from  =  BranchInfo::where('name_',$shipment->transfere_1)->first()->code_ ;
+                $sanad->far3_id = BranchInfo::where('name_',$shipment->transfere_2)->first()->code_;
+                
+                $sanad2->far3_from = BranchInfo::where('name_',$shipment->transfere_2)->first()->code_;
+                $sanad2->far3_id =  BranchInfo::where('name_',$shipment->transfere_1)->first()->code_ ;
+            }
+            $sanad->save() ;
+            $sanad2->save() ;
+         }
          return response()->json([
              'status' => 200,
              'message' => 'تم الموافقة',
