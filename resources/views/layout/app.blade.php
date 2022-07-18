@@ -12,6 +12,16 @@
         <title>Dashboard - Midone - Tailwind HTML Admin Template</title>
         <!-- BEGIN: CSS Assets-->
         <link rel="stylesheet" href="{{asset('css/_app.css')}}" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600&display=swap" rel="stylesheet">
+        <style>
+            body{
+                font-family: 'Cairo', sans-serif !important;
+
+            }
+        </style>
+
         <!-- END: CSS Assets-->
         <script
   src="https://code.jquery.com/jquery-3.6.0.min.js"
@@ -21,7 +31,7 @@
     <!-- END: Head -->
     <body class="py-5">
         <!-- BEGIN: Mobile Menu -->
-        
+
          @include('layout.partial.mob-menu')
         <!-- END: Mobile Menu -->
         <div class="flex" style="direction:  rtl;">
@@ -30,7 +40,7 @@
             <!-- END: Side Menu -->
             <!-- BEGIN: Content -->
             @yield('content')
-            
+
             <!-- END: Content -->
         </div>
         <!-- BEGIN: Dark Mode Switcher-->
@@ -39,14 +49,14 @@
             <div class="dark-mode-switcher__toggle border"></div>
         </div>
         <!-- END: Dark Mode Switcher-->
-        
+
         <!-- BEGIN: JS Assets-->
         <script src="{{asset('js/markerclusterer.js')}}"></script>
-        
+
         <script src="{{asset('js/app.js')}}"></script>
         <script
           src="{{asset('js/jquery-3.6.0.min.js')}}"
-          
+
           ></script>
         <!-- END: JS Assets-->
     </body>

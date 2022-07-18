@@ -100,7 +100,7 @@
                     @endif
             </ul>
         </li>
-        @if(\Illuminate\Support\Facades\Auth::user()->hasRole('admin'))
+        @if(\Illuminate\Support\Facades\Auth::user()->type_ == 'موظف')
 
         <li>
             <a href="javascript:;" class="side-menu  @if(Request::is('frou3/*')) side-menu--active side-menu--open @endif">
