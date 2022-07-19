@@ -288,10 +288,16 @@
                         </li>
                             @endif
                             @if(\Illuminate\Support\Facades\Auth::user()->isAbleTo('khashef_hesab'))
-                                <li>
+                        <li>
                             <a href="{{route('accounting.coppany.kashf_7sab')}}" class="side-menu">
                                 <div class="side-menu__icon"> <i data-lucide="zap"></i> </div>
                                 <div class="side-menu__title">كشف حساب</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{route('accounting.coppany.Arba7')}}" class="side-menu">
+                                <div class="side-menu__icon"> <i data-lucide="zap"></i> </div>
+                                <div class="side-menu__title">الارباح</div>
                             </a>
                         </li>
                             @endif

@@ -149,6 +149,7 @@ Route::post('/frou3/accounting/tasdid', 'frou3Controller@tasdid')->name('frou3.a
 // accounting
 
 Route::get('/accounting/coppany/kashf_7sab', 'financeCntroller@kashf_7sab')->name('accounting.coppany.kashf_7sab');
+Route::get('/accounting/coppany/Arba7', 'financeCntroller@Arba7')->name('accounting.coppany.Arba7');
 Route::get('/accounting/coppany/get7sabOwners', 'financeCntroller@get7sabOwners')->name('get7sabOwners');
 
 
