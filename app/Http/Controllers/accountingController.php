@@ -253,6 +253,17 @@ class accountingController extends Controller
         $allCount = $all_shipments->count();
         $netCost =  $totalCost-$tawsilCost;
         $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];
+        if(isset(request()->arba7)){
+            if(isset(request()->printArba7)){
+               /* print  $all_shipments     $sums*/ 
+            }
+            return response()->json([
+                'status' => 200,
+              
+                'message' => 'sucecss',
+                'sums'=>$sums
+            ], 200);
+        }
         $all = $all_shipments->skip($limit*$page)->limit($limit)->get();
         if(isset(request()->lodaMore)){
 
@@ -285,11 +296,11 @@ class accountingController extends Controller
             }
             $all=$all->get();
             $totalCost = $all->sum('shipment_coast_');
-        $tawsilCost = $all->sum('tawsil_coast_');
-        $alSafiCost = $all->sum('total_');
+            $tawsilCost = $all->sum('tawsil_coast_');
+            $alSafiCost = $all->sum('total_');
 
-        $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'alSafiCost'=>$alSafiCost,'company' => 1];
-         $data = [
+            $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'alSafiCost'=>$alSafiCost,'company' => 1];
+            $data = [
                 'all'=>$all,
                 'title'=>$page_title,
                 'sum'=>$sums

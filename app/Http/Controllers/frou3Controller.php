@@ -324,6 +324,17 @@ class frou3Controller extends Controller
         $allCount = $all_shipments->count();
         $netCost =  $totalCost-$tawsilCost;
         $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];
+        if(isset(request()->arba7)){
+            if(isset(request()->printArba7)){
+               /* print  $all_shipments     $sums*/ 
+            }
+            return response()->json([
+                'status' => 200,
+              
+                'message' => 'sucecss',
+                'sums'=>$sums
+            ], 200);
+        }image.png
         $all = $all_shipments->skip($limit*$page)->limit($limit)->get();
         if(isset(request()->lodaMore)){
 
@@ -1145,7 +1156,7 @@ class frou3Controller extends Controller
             $shipment=$shipment->first();
             if(!isset($shipment)) return ;
             $shipment->TRANSFERE_ACCEPT_REFUSE =1;
-            $shipment->save();
+            
 
             $sanad =new Sanad_far3();
             $shipment = Tempo::where('code_',$request->code)->first();
@@ -1159,22 +1170,25 @@ class frou3Controller extends Controller
             $sanad2->amount = $shipment->shipment_coast_  ;
             $sanad2->code = $request->code   ;
             $sanad2->type='صرف';
-            $sanad2->note='تحويل راجع بين الفروع';
+            
 
             if($shipment->transfere_2 == ''){
-                $sanad->far3_from  =  BranchInfo::where('name_',$shipment->branch)->first()->code_ ;
+                $sanad->far3_from  =  BranchInfo::where('name_',$shipment->branch_)->first()->code_ ;
                 $sanad->far3_id = BranchInfo::where('name_', $shipment->transfere_1)->first()->code_;
                 
                 $sanad2->far3_from = BranchInfo::where('name_',$shipment->transfere_1)->first()->code_;
-                $sanad2->far3_id =  BranchInfo::where('name_', $shipment->branch)->first()->code_ ;
-                
+                $sanad2->far3_id =  BranchInfo::where('name_', $shipment->branch_)->first()->code_ ;
+                $sanad2->note='1تحويل راجع بين الفروع';
             }else{
                 $sanad->far3_from  =  BranchInfo::where('name_',$shipment->transfere_1)->first()->code_ ;
                 $sanad->far3_id = BranchInfo::where('name_',$shipment->transfere_2)->first()->code_;
                 
                 $sanad2->far3_from = BranchInfo::where('name_',$shipment->transfere_2)->first()->code_;
                 $sanad2->far3_id =  BranchInfo::where('name_',$shipment->transfere_1)->first()->code_ ;
+
+                $sanad2->note='2تحويل راجع بين الفروع';
             }
+            $shipment->save();
             $sanad->save() ;
             $sanad2->save() ;
         }
@@ -1386,6 +1400,17 @@ class frou3Controller extends Controller
         $allCount = $all_shipments->count();
         $netCost =  $totalCost-$tawsilCost;
         $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];
+        if(isset(request()->arba7)){
+            if(isset(request()->printArba7)){
+               /* print  $all_shipments     $sums*/ 
+            }
+            return response()->json([
+                'status' => 200,
+              
+                'message' => 'sucecss',
+                'sums'=>$sums
+            ], 200);
+        }
         $all = $all_shipments->skip($limit*$page)->limit($limit)->get();
         if(isset(request()->lodaMore)){
 
