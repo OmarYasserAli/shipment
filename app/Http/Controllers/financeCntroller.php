@@ -68,6 +68,7 @@ class financeCntroller extends Controller
         $date_to = Carbon::now()->addDays(1)->format('y-m-d');
         $safi7sab = 0;
         $type7sab=''; $owner = '';
+        $clients=User::where('type_','عميل')->get();
         if(isset(request()->date_from)){
             $date_from = new Carbon(request()->date_from); 
         }
@@ -108,7 +109,7 @@ class financeCntroller extends Controller
         }
 
         $page_title='كشف حساب';
-        return view('accounting.company.kashf-7sab',compact('sanadat','safi7sab','page_title','type7sab','owner'));
+        return view('accounting.company.kashf-7sab',compact('clients','safi7sab','page_title','type7sab','owner'));
     }
 
     public function get7sabOwners(Request $request){

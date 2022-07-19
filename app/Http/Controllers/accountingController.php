@@ -64,7 +64,7 @@ class accountingController extends Controller
             $shipments = $shipments->where('status_' ,'=',7) ;
         else
             $shipments = $shipments->where('status_' ,'!=',8) ;
-
+        
         if(isset($request->code)){
            $shipments = $shipments->where('code_', '=', $request->code);
         }
@@ -75,9 +75,13 @@ class accountingController extends Controller
         if(isset($request->mo7afza)){
             $shipments = $shipments->where('mo7afaza_id', '=', $request->mo7afza);
          }
+       
        if(isset($request->client_id) && $request->client_id!='الكل'){
-        $shipments = $shipments->where('client_name_', '=', $request->client_id);
+           $shipments = $shipments->where('client_name_', '=', $request->client_id);
+        //    dd($shipments->get());
+
         }
+        // dd($shipments->get());
         if(isset($request->Commercial_name)){
             $shipments = $shipments->where('commercial_name_', '=', $request->Commercial_name);
             }
@@ -104,6 +108,17 @@ class accountingController extends Controller
         $allCount = $all_shipments->count();
         $netCost =  $totalCost-$tawsilCost;
         $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];
+        if(isset(request()->arba7)){
+            if(isset(request()->printArba7)){
+               /* print  $all_shipments     $sums*/ 
+            }
+            return response()->json([
+                'status' => 200,
+              
+                'message' => 'sucecss',
+                'sums'=>$sums
+            ], 200);
+        }
         $all = $all_shipments->skip($limit*$page)->limit($limit)->get();
         if(isset(request()->lodaMore)){
 
@@ -409,6 +424,17 @@ class accountingController extends Controller
         $allCount = $all_shipments->count();
         $netCost =  $totalCost-$tawsilCost;
         $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];
+        if(isset(request()->arba7)){
+            if(isset(request()->printArba7)){
+               /* print  $all_shipments     $sums*/ 
+            }
+            return response()->json([
+                'status' => 200,
+              
+                'message' => 'sucecss',
+                'sums'=>$sums
+            ], 200);
+        }
         $all = $all_shipments->skip($limit*$page)->limit($limit)->get();
         if(isset(request()->lodaMore)){
 

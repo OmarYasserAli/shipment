@@ -262,7 +262,7 @@
 
                 <td  >{{number_format($shipment->shipment_coast_, 2)}}</td>
                 <td  >{{$shipment->code_}}</td>
-                <td  >{{$shipment->notes}}</td>
+                <td  >{{$shipment->notes_}}</td>
 
             </tr>
         @endforeach
