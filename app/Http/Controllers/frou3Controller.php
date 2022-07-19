@@ -721,35 +721,35 @@ class frou3Controller extends Controller
             $shipment->TRANSFERE_ACCEPT_REFUSE =1;
             $shipment->save();
 
-            $sanad =new Sanad_far3();
-            $shipment = Shipment::where('code_',$request->code)->first();
-            $sanad->amount = $shipment->shipment_coast_  ;
-            $sanad->code = $request->code   ;
-            $sanad->type='صرف';
-            $sanad->note='تحويل شحنة';
+            // $sanad =new Sanad_far3();
+            // $shipment = Shipment::where('code_',$request->code)->first();
+            // $sanad->amount = $shipment->shipment_coast_  ;
+            // $sanad->code = $request->code   ;
+            // $sanad->type='صرف';
+            // $sanad->note='تحويل شحنة';
 
-            $sanad2 =new Sanad_far3();
-            $sanad2->amount = $shipment->shipment_coast_  ;
-            $sanad2->code = $request->code   ;
-            $sanad2->type='قبض';
-            $sanad2->note='تحويل شحنة';
+            // $sanad2 =new Sanad_far3();
+            // $sanad2->amount = $shipment->shipment_coast_  ;
+            // $sanad2->code = $request->code   ;
+            // $sanad2->type='قبض';
+            // $sanad2->note='تحويل شحنة';
 
-            if($shipment->transfere_2 == ''){
-                $sanad->far3_from  =  BranchInfo::where('name_',$shipment->branch_)->first()->code_ ;
-                $sanad->far3_id = BranchInfo::where('name_',$user->branch)->first()->code_;
+            // if($shipment->transfere_2 == ''){
+            //     $sanad->far3_from  =  BranchInfo::where('name_',$shipment->branch_)->first()->code_ ;
+            //     $sanad->far3_id = BranchInfo::where('name_',$user->branch)->first()->code_;
                 
-                $sanad2->far3_from = BranchInfo::where('name_',$user->branch)->first()->code_;
-                $sanad2->far3_id =  BranchInfo::where('name_',$shipment->branch_)->first()->code_ ;
+            //     $sanad2->far3_from = BranchInfo::where('name_',$user->branch)->first()->code_;
+            //     $sanad2->far3_id =  BranchInfo::where('name_',$shipment->branch_)->first()->code_ ;
 
-            }else{
-                $sanad->far3_from  =  BranchInfo::where('name_',$shipment->transfere_1)->first()->code_ ;
-                $sanad->far3_id = BranchInfo::where('name_',$user->branch)->first()->code_;
+            // }else{
+            //     $sanad->far3_from  =  BranchInfo::where('name_',$shipment->transfere_1)->first()->code_ ;
+            //     $sanad->far3_id = BranchInfo::where('name_',$user->branch)->first()->code_;
                 
-                $sanad2->far3_from = BranchInfo::where('name_',$user->branch)->first()->code_;
-                $sanad2->far3_id =  BranchInfo::where('name_',$shipment->transfere_1)->first()->code_ ;
-            }
-            $sanad->save() ;
-            $sanad2->save() ;
+            //     $sanad2->far3_from = BranchInfo::where('name_',$user->branch)->first()->code_;
+            //     $sanad2->far3_id =  BranchInfo::where('name_',$shipment->transfere_1)->first()->code_ ;
+            // }
+            // $sanad->save() ;
+            // $sanad2->save() ;
         }
         elseif($request->type=='cancel'){
             $shipment->first()->delete();
@@ -781,37 +781,37 @@ class frou3Controller extends Controller
         ->whereIN('code_',$request->code)
         ->delete();
 
-        foreach($request->code as $code){
-            $sanad =new Sanad_far3();
-            $shipment = Shipment::where('code_',$code)->first();
-            $sanad->amount = $shipment->shipment_coast_  ;
-            $sanad->code = $code   ;
-            $sanad->type='صرف';
-            $sanad->note='تحويل شحنة';
+        // foreach($request->code as $code){
+        //     $sanad =new Sanad_far3();
+        //     $shipment = Shipment::where('code_',$code)->first();
+        //     $sanad->amount = $shipment->shipment_coast_  ;
+        //     $sanad->code = $code   ;
+        //     $sanad->type='صرف';
+        //     $sanad->note='تحويل شحنة';
 
-            $sanad2 =new Sanad_far3();
-            $sanad2->amount = $shipment->shipment_coast_  ;
-            $sanad2->code = $code;
-            $sanad2->type='قبض';
-            $sanad2->note='تحويل شحنة';
+        //     $sanad2 =new Sanad_far3();
+        //     $sanad2->amount = $shipment->shipment_coast_  ;
+        //     $sanad2->code = $code;
+        //     $sanad2->type='قبض';
+        //     $sanad2->note='تحويل شحنة';
 
-            if($shipment->transfere_2 == ''){
-                $sanad->far3_from  =  BranchInfo::where('name_',$shipment->branch_)->first()->code_ ;
-                $sanad->far3_id = BranchInfo::where('name_',$user->branch)->first()->code_;
+        //     if($shipment->transfere_2 == ''){
+        //         $sanad->far3_from  =  BranchInfo::where('name_',$shipment->branch_)->first()->code_ ;
+        //         $sanad->far3_id = BranchInfo::where('name_',$user->branch)->first()->code_;
                 
-                $sanad2->far3_from = BranchInfo::where('name_',$user->branch)->first()->code_;
-                $sanad2->far3_id =  BranchInfo::where('name_',$shipment->branch_)->first()->code_ ;
+        //         $sanad2->far3_from = BranchInfo::where('name_',$user->branch)->first()->code_;
+        //         $sanad2->far3_id =  BranchInfo::where('name_',$shipment->branch_)->first()->code_ ;
 
-            }else{
-                $sanad->far3_from  =  BranchInfo::where('name_',$shipment->transfere_1)->first()->code_ ;
-                $sanad->far3_id = BranchInfo::where('name_',$user->branch)->first()->code_;
+        //     }else{
+        //         $sanad->far3_from  =  BranchInfo::where('name_',$shipment->transfere_1)->first()->code_ ;
+        //         $sanad->far3_id = BranchInfo::where('name_',$user->branch)->first()->code_;
                 
-                $sanad2->far3_from = BranchInfo::where('name_',$user->branch)->first()->code_;
-                $sanad2->far3_id =  BranchInfo::where('name_',$shipment->transfere_1)->first()->code_ ;
-            }
-            $sanad->save() ;
-            $sanad2->save() ;
-        }
+        //         $sanad2->far3_from = BranchInfo::where('name_',$user->branch)->first()->code_;
+        //         $sanad2->far3_id =  BranchInfo::where('name_',$shipment->transfere_1)->first()->code_ ;
+        //     }
+        //     $sanad->save() ;
+        //     $sanad2->save() ;
+        // }
         return response()->json([
             'status' => 200,
             'message' => 'تم الموافقة',
@@ -1156,41 +1156,41 @@ class frou3Controller extends Controller
             $shipment=$shipment->first();
             if(!isset($shipment)) return ;
             $shipment->TRANSFERE_ACCEPT_REFUSE =1;
-            
-
-            $sanad =new Sanad_far3();
-            $shipment = Tempo::where('code_',$request->code)->first();
-            
-            $sanad->amount = $shipment->shipment_coast_  ;
-            $sanad->code = $request->code   ;
-            $sanad->type='قبض';
-            $sanad->note='تحويل راجع بين الفروع';
-
-            $sanad2 =new Sanad_far3();
-            $sanad2->amount = $shipment->shipment_coast_  ;
-            $sanad2->code = $request->code   ;
-            $sanad2->type='صرف';
-            
-
-            if($shipment->transfere_2 == ''){
-                $sanad->far3_from  =  BranchInfo::where('name_',$shipment->branch_)->first()->code_ ;
-                $sanad->far3_id = BranchInfo::where('name_', $shipment->transfere_1)->first()->code_;
-                
-                $sanad2->far3_from = BranchInfo::where('name_',$shipment->transfere_1)->first()->code_;
-                $sanad2->far3_id =  BranchInfo::where('name_', $shipment->branch_)->first()->code_ ;
-                $sanad2->note='1تحويل راجع بين الفروع';
-            }else{
-                $sanad->far3_from  =  BranchInfo::where('name_',$shipment->transfere_1)->first()->code_ ;
-                $sanad->far3_id = BranchInfo::where('name_',$shipment->transfere_2)->first()->code_;
-                
-                $sanad2->far3_from = BranchInfo::where('name_',$shipment->transfere_2)->first()->code_;
-                $sanad2->far3_id =  BranchInfo::where('name_',$shipment->transfere_1)->first()->code_ ;
-
-                $sanad2->note='2تحويل راجع بين الفروع';
-            }
             $shipment->save();
-            $sanad->save() ;
-            $sanad2->save() ;
+
+        //     $sanad =new Sanad_far3();
+        //     $shipment = Tempo::where('code_',$request->code)->first();
+            
+        //     $sanad->amount = $shipment->shipment_coast_  ;
+        //     $sanad->code = $request->code   ;
+        //     $sanad->type='قبض';
+        //     $sanad->note='تحويل راجع بين الفروع';
+
+        //     $sanad2 =new Sanad_far3();
+        //     $sanad2->amount = $shipment->shipment_coast_  ;
+        //     $sanad2->code = $request->code   ;
+        //     $sanad2->type='صرف';
+            
+
+        //     if($shipment->transfere_2 == ''){
+        //         $sanad->far3_from  =  BranchInfo::where('name_',$shipment->branch_)->first()->code_ ;
+        //         $sanad->far3_id = BranchInfo::where('name_', $shipment->transfere_1)->first()->code_;
+                
+        //         $sanad2->far3_from = BranchInfo::where('name_',$shipment->transfere_1)->first()->code_;
+        //         $sanad2->far3_id =  BranchInfo::where('name_', $shipment->branch_)->first()->code_ ;
+        //         $sanad2->note='1تحويل راجع بين الفروع';
+        //     }else{
+        //         $sanad->far3_from  =  BranchInfo::where('name_',$shipment->transfere_1)->first()->code_ ;
+        //         $sanad->far3_id = BranchInfo::where('name_',$shipment->transfere_2)->first()->code_;
+                
+        //         $sanad2->far3_from = BranchInfo::where('name_',$shipment->transfere_2)->first()->code_;
+        //         $sanad2->far3_id =  BranchInfo::where('name_',$shipment->transfere_1)->first()->code_ ;
+
+        //         $sanad2->note='2تحويل راجع بين الفروع';
+        //     }
+            
+        //     $sanad->save() ;
+        //     $sanad2->save() ;
         }
 
         elseif($request->type=='cancel'){
@@ -1222,38 +1222,38 @@ class frou3Controller extends Controller
          DB::table('add_shipment_tempo')
          ->whereIN('code_',$request->code)
          ->delete();
-         foreach($request->code as $code){
-            $sanad =new Sanad_far3();
-            $shipment = Tempo::where('code_',$code)->first();
+        //  foreach($request->code as $code){
+        //     $sanad =new Sanad_far3();
+        //     $shipment = Tempo::where('code_',$code)->first();
             
-            $sanad->amount = $shipment->shipment_coast_  ;
-            $sanad->code = $code   ;
-            $sanad->type='قبض';
-            $sanad->note='تحويل راجع بين الفروع';
+        //     $sanad->amount = $shipment->shipment_coast_  ;
+        //     $sanad->code = $code   ;
+        //     $sanad->type='قبض';
+        //     $sanad->note='تحويل راجع بين الفروع';
 
-            $sanad2 =new Sanad_far3();
-            $sanad2->amount = $shipment->shipment_coast_  ;
-            $sanad2->code = $code   ;
-            $sanad2->type='صرف';
-            $sanad2->note='تحويل راجع بين الفروع';
+        //     $sanad2 =new Sanad_far3();
+        //     $sanad2->amount = $shipment->shipment_coast_  ;
+        //     $sanad2->code = $code   ;
+        //     $sanad2->type='صرف';
+        //     $sanad2->note='تحويل راجع بين الفروع';
 
-            if($shipment->transfere_2 == ''){
-                $sanad->far3_from  =  BranchInfo::where('name_',$shipment->branch)->first()->code_ ;
-                $sanad->far3_id = BranchInfo::where('name_', $shipment->transfere_1)->first()->code_;
+        //     if($shipment->transfere_2 == ''){
+        //         $sanad->far3_from  =  BranchInfo::where('name_',$shipment->branch)->first()->code_ ;
+        //         $sanad->far3_id = BranchInfo::where('name_', $shipment->transfere_1)->first()->code_;
                 
-                $sanad2->far3_from = BranchInfo::where('name_',$shipment->transfere_1)->first()->code_;
-                $sanad2->far3_id =  BranchInfo::where('name_', $shipment->branch)->first()->code_ ;
+        //         $sanad2->far3_from = BranchInfo::where('name_',$shipment->transfere_1)->first()->code_;
+        //         $sanad2->far3_id =  BranchInfo::where('name_', $shipment->branch)->first()->code_ ;
                 
-            }else{
-                $sanad->far3_from  =  BranchInfo::where('name_',$shipment->transfere_1)->first()->code_ ;
-                $sanad->far3_id = BranchInfo::where('name_',$shipment->transfere_2)->first()->code_;
+        //     }else{
+        //         $sanad->far3_from  =  BranchInfo::where('name_',$shipment->transfere_1)->first()->code_ ;
+        //         $sanad->far3_id = BranchInfo::where('name_',$shipment->transfere_2)->first()->code_;
                 
-                $sanad2->far3_from = BranchInfo::where('name_',$shipment->transfere_2)->first()->code_;
-                $sanad2->far3_id =  BranchInfo::where('name_',$shipment->transfere_1)->first()->code_ ;
-            }
-            $sanad->save() ;
-            $sanad2->save() ;
-         }
+        //         $sanad2->far3_from = BranchInfo::where('name_',$shipment->transfere_2)->first()->code_;
+        //         $sanad2->far3_id =  BranchInfo::where('name_',$shipment->transfere_1)->first()->code_ ;
+        //     }
+        //     $sanad->save() ;
+        //     $sanad2->save() ;
+        //  }
          return response()->json([
              'status' => 200,
              'message' => 'تم الموافقة',
