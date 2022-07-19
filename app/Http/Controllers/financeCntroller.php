@@ -45,7 +45,7 @@ class financeCntroller extends Controller
         }
         if(isset(request()->date_to)){
             $date_to = request()->date_to;
-        }
+        } 
         // dd($date_from);
         if(isset(request()->khazna_id)){
             $khazna=Khazna::where('id', request()->khazna_id)->first();
@@ -54,6 +54,15 @@ class financeCntroller extends Controller
             // ->where('created_at', '<=' , $date_to)->orderBy('created_at')->get();
             ->whereBetween('created_at', [ $date_from,  $date_to])->orderBy('created_at')->get();
             $safiKhazna =$this->khaznaNet($khazna,$date_from);
+            
+        }
+        if(isset(request()->arba7)){
+            return response()->json([
+                'status' => 200,
+              
+                'message' => 'sucecss',
+                'safiKhazna'=>$safiKhazna
+            ], 200);
         }
 
         $page_title='كشف حساب خزية';
@@ -69,6 +78,10 @@ class financeCntroller extends Controller
         $safi7sab = 0;
         $type7sab=''; $owner = '';
         $clients=User::where('type_','عميل')->get();
+        $mandoubs=User::where('type_','مندوب تسليم')->get();
+
+        
+        $branches=BranchInfo::all();
         if(isset(request()->date_from)){
             $date_from = new Carbon(request()->date_from); 
         }
@@ -109,7 +122,7 @@ class financeCntroller extends Controller
         }
 
         $page_title='كشف حساب';
-        return view('accounting.company.kashf-7sab',compact('clients','safi7sab','page_title','type7sab','owner'));
+        return view('accounting.company.kashf-7sab',compact('clients','branches','mandoubs','khaznat','owner'));
     }
 
     public function get7sabOwners(Request $request){
