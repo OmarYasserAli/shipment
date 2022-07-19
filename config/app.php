@@ -163,9 +163,9 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
         Laravel\Passport\PassportServiceProvider::class,
-        
+
         Meneses\LaravelMpdf\LaravelMpdfServiceProvider::class,
-        
+
         // Yajra\DataTables\HtmlServiceProvider::class,
         // Yajra\DataTables\ButtonsServiceProvider::class,
         // Barryvdh\Snappy\ServiceProvider::class,
