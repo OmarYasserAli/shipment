@@ -164,7 +164,7 @@
                             </div >
                         </div>
                         <div>
-                            @if(request()->get('client_id') != null)
+                            @if(request()->get('client_id') != null && request()->get('client_id') != 'الكل')
                                 <div class="form-inline align-left">
                                     <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:10px; margin-top:8px;  width:400px; "> </label>
                                     <input type="button"  class="btn btn-success  align-left" style="direction: ltr"  value="الغاء تسديد المحدد" id='tasdid' >
