@@ -563,7 +563,26 @@
                                     رﺑط ﻣﺳﺗﺧدم ﻣﻊ ﺧزﯾﻧﺔ</div>
                             </a>
                         </li>
-                            @endif
+                        @endif
+
+                        @if(\Illuminate\Support\Facades\Auth::user()->isAbleTo('rabat_mosta5dam_ma3_khazena'))
+                        <li>
+                            <a href="{{route('setting.masaref_tree')}}" class="side-menu">
+                                <div class="side-menu__icon"> <i data-lucide="zap"></i> </div>
+                                <div class="side-menu__title">
+                                    اضافة مصاريف </div>
+                            </a>
+                        </li>
+                        @endif  
+                        @if(\Illuminate\Support\Facades\Auth::user()->isAbleTo('rabat_mosta5dam_ma3_khazena'))
+                        <li>
+                            <a href="{{route('setting.o5ra_tree')}}" class="side-menu">
+                                <div class="side-menu__icon"> <i data-lucide="zap"></i> </div>
+                                <div class="side-menu__title">
+                                    اضافة حسابات اخرى</div>
+                            </a>
+                        </li>
+                        @endif
                     </ul>
                 </li>
                 @if(\Illuminate\Support\Facades\Auth::user()->isAbleTo('setting-setting'))

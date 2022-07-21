@@ -19,6 +19,13 @@ use App\Models\Sanad;
 use App\Models\Sanad_3amil;
 use App\Models\Sanad_taslim;
 use App\Models\Sanad_far3;
+use App\Models\Sanad_o5ra;
+use App\Models\Sanad_masaref;
+
+
+use App\Models\O5ra_7sabat;
+use App\Models\Masaref;
+
 
 use QrCode;
 
@@ -66,7 +73,16 @@ class sanadatController extends Controller
           $sanad2->far3_id = $request->mostafed_name ;
           $sanad2->far3_from = BranchInfo::where('name_',$user->branch)->first()->code_;
         }
-        
+        if($request->mostafed_type =='اخرى'){
+            $model =O5ra_7sabat::where('code_',$request->mostafed_name)->first();
+            $sanad2 = new Sanad_o5ra();
+            $sanad2->o5ra_id = $request->mostafed_name ;
+          }
+          if($request->mostafed_type =='مصاريف'){
+            $model =Masaref::where('code_',$request->mostafed_name)->first();
+            $sanad2 = new Sanad_masaref();
+            $sanad2->masaref_id = $request->mostafed_name ;
+          }
         $sanad->code = (Sanad::orderBy('id' ,'desc')->first()->code)+1;
         $sanad->date = Carbon::now()->format('Y-m-d  g:i:s A');
         $sanad->type = $request->page_type;	
@@ -100,7 +116,15 @@ class sanadatController extends Controller
         if(request()->mostafed_type =='فرع'){
             $data = BranchInfo::all();
         }
+        if(request()->mostafed_type =='اخرى'){
+            $data = O5ra_7sabat::all();
+        }
+        if(request()->mostafed_type =='مصاريف'){
+            $data = Masaref::all();
+        }
 
+
+        
         return response()->json([
             'status' => 200,
             'data' => $data,

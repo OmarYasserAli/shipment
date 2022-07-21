@@ -5,8 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Mohfza;
 use App\Models\Mantikqa;
+use App\Models\O5ra_7sabat;
+use App\Models\Masaref;
+use App\Models\BranchInfo;
+
+
 use App\User;
 use App\Setting;
+
 
 class SettingController extends Controller
 {
@@ -55,5 +61,47 @@ class SettingController extends Controller
         return redirect()->back()->with('status', 'تم الحفظ');
     }
     
+    public function o5ra_tree(){
+        $items =O5ra_7sabat::all();
+        return view("setting.o5ra_tree" , compact('items'));
+    }
+    public function masaref_tree(){
+        $items =Masaref::all();
+        return view("setting.masaref_tree" , compact('items'));
+    }
+    public function masaref_tree_store(Request $request){
+        // dd($request->all());
+
+        $item = new Masaref();
+        $item->name_= $request->name;
+        $item->parent_id=$request->parent ;
+        $b = BranchInfo::where('name_',auth()->user()->branch)->first();
+        $item->branch_id= $b->code_ ;
+
+        $item->save() ;
+
+        return response()->json([
+            'status' => 200,
+           
+        ], 200); 
+    }
+
+    public function o5ra_tree_store(Request $request){
+        // dd($request->all());
+
+        $item = new O5ra_7sabat();
+        $item->name_= $request->name;
+        $item->parent_id=$request->parent ;
+        $b = BranchInfo::where('name_',auth()->user()->branch)->first();
+        $item->branch_id= $b->code_ ;
+
+        
+        $item->save() ;
+
+        return response()->json([
+            'status' => 200,
+           
+        ], 200); 
+    }
   
 }

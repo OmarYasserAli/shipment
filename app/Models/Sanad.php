@@ -25,6 +25,10 @@ class Sanad extends Model
     {
         if($this->sanadable_type =='App\Models\BranchInfo')
             return 'فرع';
+        if($this->sanadable_type =='App\Models\Masaref')
+            return 'مصاريف';
+        if($this->sanadable_type =='App\Models\O5ra_7sabat')
+            return 'اخرى';
         if($this->sanadable_type =='App\User')
         {
             return ($this->sanadable->type_) ;  

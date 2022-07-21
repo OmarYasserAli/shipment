@@ -226,6 +226,10 @@ Route::post('/settings/Khazna/store', 'KhaznaController@store')->name('Khazna.st
 Route::get('/settings/addUserTo5azma', 'KhaznaController@addUserTo5azma')->name('Khazna.adduser');
 Route::post('/settings/addUserTo5azmasave', 'KhaznaController@addUserTo5azma_save')->name('Khazna.adduserSave');
 
+Route::get('/settings/o5ra-tree', 'SettingController@o5ra_tree')->name('setting.o5ra_tree');
+Route::post('/settings/o5ra-tree', 'SettingController@o5ra_tree_store')->name('setting.o5ra_tree.store');
+Route::get('/settings/masaref-tree', 'SettingController@masaref_tree')->name('setting.masaref_tree');
+Route::post('/settings/masaref-tree', 'SettingController@masaref_tree_store')->name('setting.masaref_tree.store');
 
 
 Route::get('/permissions', 'permissionController@index')->name('permissions');

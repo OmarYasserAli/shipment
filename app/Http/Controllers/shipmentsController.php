@@ -1334,12 +1334,12 @@ class shipmentsController extends Controller
             $shipment->notes_  =    $request->notes_;
             $shipment->save();
 
-            $sanad_3amil = new Sanad_3amil();
-            $sanad_3amil->amount = $request->shipment_coast_  ;
-            $sanad_3amil->code = $shipment->code_   ;
-            $sanad_3amil->client_id =  $request->client_id ;
-            $sanad_3amil->type='قبض';
-            $sanad_3amil->save() ;
+            // $sanad_3amil = new Sanad_3amil();
+            // $sanad_3amil->amount = $request->shipment_coast_  ;
+            // $sanad_3amil->code = $shipment->code_   ;
+            // $sanad_3amil->client_id =  $request->client_id ;
+            // $sanad_3amil->type='قبض';
+            // $sanad_3amil->save() ;
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 500,
@@ -1539,11 +1539,11 @@ class shipmentsController extends Controller
 
         $shipment->save();
 
-        $sanad_3amil = Sanad_3amil::where('code',$shipment->code_)->first();
-        if(isset($sanad_3amil)){
-            $sanad_3amil->amount =$shipment->shipment_coast_;
-            $sanad_3amil->save();
-        }
+        // $sanad_3amil = Sanad_3amil::where('code',$shipment->code_)->first();
+        // if(isset($sanad_3amil)){
+        //     $sanad_3amil->amount =$shipment->shipment_coast_;
+        //     $sanad_3amil->save();
+        // }
 
         return \Redirect::route('shiments.edit', [$shipment->code_])->with('status', 'تم حفظ التعديلات');
     }
