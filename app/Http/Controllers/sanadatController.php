@@ -88,6 +88,13 @@ class sanadatController extends Controller
         $sanad->type = $request->page_type;	
         $sanad->khazna_id = $request->khazna_id;
         $sanad->amount = $request->amount;
+        $khazna = Khazna::findOrFail($request->khazna_id);
+       
+        if($request->page_type =='صرف'   && $khazna->net() < $request->amount){
+
+            return back()->with('error','لا يوم رصيد كافى افى الخزنية');
+        }
+
         $sanad->save();
 
         // dd($model);
@@ -100,7 +107,7 @@ class sanadatController extends Controller
         $sanad2->type = $request->page_type;
         $sanad2->note = 'خزينة';
         $sanad2->save();
-        return back();
+        return back()->with('status','تمت العملية بنجاح');
     }
 
     public function getMostafedBytype(){

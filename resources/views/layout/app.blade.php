@@ -3,13 +3,22 @@
 <html lang="en" class="light">
     <!-- BEGIN: Head -->
     <head>
+        @php
+            $companyMainData = \App\Models\CompanyInfo::where('branch_','الفرع الرئيسى')->first();
+        @endphp
         <meta charset="utf-8">
-        <link href="{{asset('images/logo.svg')}}" rel="shortcut icon">
+        <link href="{{asset('assets/'.$companyMainData->image_data)}}" rel="shortcut icon">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="Midone admin is super flexible, powerful, clean & modern responsive tailwind admin template with unlimited possibilities.">
         <meta name="keywords" content="admin template, Midone Admin Template, dashboard template, flat admin template, responsive admin template, web app">
         <meta name="author" content="LEFT4CODE">
-        <title>Dashboard - Midone - Tailwind HTML Admin Template</title>
+        <title> 
+           
+        @if(isset($page_title))
+            {{$page_title}}
+        @endif
+        -  {{$companyMainData->name_}} 
+        </title>
         <!-- BEGIN: CSS Assets-->
         <link rel="stylesheet" href="{{asset('css/_app.css')}}" />
         <link rel="preconnect" href="https://fonts.googleapis.com">

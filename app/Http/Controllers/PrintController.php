@@ -16,7 +16,7 @@ class PrintController extends Controller
 {
     public function operationPrint(Request $request)
     {
-//        return $request;
+        //return $request;
         $user = auth()->user();
         if (!$user->isAbleTo('index-shipment')) {
             return abort(403);
@@ -60,11 +60,11 @@ class PrintController extends Controller
         $alSafiCost = $all->sum('total_');
         $printPage='shipments.print';
         $page_title = request()->title;
-//        $brach_filter = request()->brach_filter;
+        //$brach_filter = request()->brach_filter;
         // fro3   shipment   3amel  mandoub
         if(request()->type == 'fro3' ){
             $printPage='frou3.accounting.print';
-            return $all;
+            //return $all;
 
             $ta7weel=0;
             foreach($all as $ship){
@@ -105,6 +105,6 @@ class PrintController extends Controller
 
 
 
-        }
+    }
 
 }

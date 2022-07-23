@@ -318,7 +318,8 @@ class frou3Controller extends Controller
             $count_all = $counter->count();
             request()->limit=$count_all;
         }
-
+        $codes = $all_shipments;
+        $codes= $codes->pluck('code_')->toArray();
         $totalCost = $all_shipments->sum('shipment_coast_');
         $tawsilCost = $ta7weel;
         $allCount = $all_shipments->count();
@@ -332,7 +333,8 @@ class frou3Controller extends Controller
                 'status' => 200,
               
                 'message' => 'sucecss',
-                'sums'=>$sums
+                'sums'=>$sums,
+                'codes' => $codes
             ], 200);
         }
         $all = $all_shipments->skip($limit*$page)->limit($limit)->get();
@@ -1394,7 +1396,8 @@ class frou3Controller extends Controller
             $count_all = $counter->count();
             request()->limit=$count_all;
         }
-
+        $codes = $all_shipments;
+        $codes= $codes->pluck('code_')->toArray();
         $totalCost = $all_shipments->sum('shipment_coast_');
         $tawsilCost = $ta7weel;
         $allCount = $all_shipments->count();
@@ -1408,7 +1411,8 @@ class frou3Controller extends Controller
                 'status' => 200,
               
                 'message' => 'sucecss',
-                'sums'=>$sums
+                'sums'=>$sums,
+                'codes' => $codes
             ], 200);
         }
         $all = $all_shipments->skip($limit*$page)->limit($limit)->get();

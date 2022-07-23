@@ -177,7 +177,7 @@ class financeCntroller extends Controller
         }
 
         $page_title='كشف حساب';
-        return view('accounting.company.kashf-7sab',compact('clients','branches','mandoubs','khaznat','owner'));
+        return view('accounting.company.arba7',compact('clients','branches','mandoubs','khaznat','owner'));
     }
     
     public function get7sabOwners(Request $request){
@@ -205,7 +205,7 @@ class financeCntroller extends Controller
         if($date != null)
             $sanadat =  $sanadat->where('created_at', '<' ,$date);
         $sanadat =  $sanadat->get();
-        // dd( $sanadat);
+        
         foreach($sanadat as $sanad){
             if($sanad->type =='قبض')
                 $net+=$sanad->amount ;

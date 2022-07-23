@@ -1626,6 +1626,7 @@ class shipmentsController extends Controller
             $count_all = $counter->count();
             request()->limit=$count_all;
         }
+        //dd($all_shipments->get());
         //  dd($all_shipments->skip(0)->limit(40)->get()[20]);
         $totalCost = $all_shipments->sum('shipment_coast_');
         $tawsilCost = $all_shipments->sum('tawsil_coast_');
@@ -1633,10 +1634,12 @@ class shipmentsController extends Controller
         $netCost =  $totalCost-$tawsilCost;
         $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];
         $all = $all_shipments->skip($limit*$page)->limit($limit)->get();
-        if(isset(request()->lodaMore)){
+        // dd(request()->loadMore);
+        if(isset(request()->loadMore)){
 
             return response()->json([
                 'status' => 200,
+                
                 'data' => $all,
                 'message' => 'sucecss',
                 'sums'=>$sums

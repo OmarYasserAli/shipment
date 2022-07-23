@@ -27,6 +27,24 @@ class khazna extends Model
     {
         return $this->hasMany(Sanad::class);
     }
-    
+    public function scopeNet($q,$date=null){
+        $net=0;
+        
+        $sanadat=  $this->sanadat()->get();
+       
+        if($date != null)
+            $sanadat =  $sanadat->where('created_at', '<' ,$date);
+        //  $sanadat =  $sanadat->get();
+        
+        foreach($sanadat as $sanad){
+          
+            if($sanad->type =='قبض')
+                $net+=$sanad->amount ;
+            else
+                $net-=$sanad->amount ;
+
+        }
+        return $net;
+    }
 
 }

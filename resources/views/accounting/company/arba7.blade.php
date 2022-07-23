@@ -7,9 +7,7 @@
 
         <!-- END: Top Bar -->
         <div class="intro-y flex items-center mt-8">
-            <h2 class="text-lg font-medium mr-auto">
-                Form Layout
-            </h2>
+            
         </div>
         <div class="grid grid-cols-12 mt-5">
             <div class="intro-y col-span-12 lg:col-span-12">
@@ -62,7 +60,7 @@
 
                             </div>
                             <div class="form-control col-span-12 lg:col-span-2 mt-5">
-                                <button type="button" class="btn btn-primary w-24">طباعة</button>
+                                <button type="button" class="btn btn-primary w-24 print" data-type='3amil'>طباعة</button>
 
                             </div>
 
@@ -130,7 +128,7 @@
 
                                 </div>
                                 <div class="form-control col-span-12 lg:col-span-2 mt-5">
-                                    <button type="button" class="btn btn-primary w-24">طباعة</button>
+                                    <button type="button" class="btn btn-primary w-24 print" data-type='fro3'>طباعة</button>
 
                                 </div>
 
@@ -198,7 +196,8 @@
 
                                 </div>
                                 <div class="form-control col-span-12 lg:col-span-2 mt-5">
-                                    <button type="button" class="btn btn-primary w-24">طباعة</button>
+                                    <input type="hidden" id='3amil_print_val' data-title='العميل' data-codes='' value="">
+                                    <button type="button" class="btn btn-primary w-24 print" data-type='fro3'>طباعة</button>
 
                                 </div>
 
@@ -265,7 +264,7 @@
 
                             </div>
                             <div class="form-control col-span-12 lg:col-span-2 mt-5">
-                                <button type="button" class="btn btn-primary w-24">طباعة</button>
+                                <button type="button" class="btn btn-primary w-24 print" data-type='mandoub_taslim'>طباعة</button>
 
                             </div>
 
@@ -432,6 +431,14 @@
     let branch_3leh_net=0;
     let mandoub_net=0;
     let khazna_net=0;
+
+    let print={amil:{
+        title:'عميل', codes:''},
+        mandoub:{
+        title:'مندوب تسليم', codes:''},
+        fro3:{
+        title:'فرع', codes:''},
+    }
     $('.client_el').on('change', function() {
         var client_id = $('.client_id').val();
         var date_from = $('.date_from').val();
@@ -445,6 +452,8 @@
                 .done(function (response) {
                     $('.client_net').val(response.sums['netCost'].toLocaleString('en-US'))
                     client_net = response.sums['netCost'];
+                    print.amil.codes= response.codes;
+                   
                     raseedTotal()
                     arba7Total()
                 })
@@ -463,6 +472,7 @@
                 .done(function (response) {
                     $('.branch_lah_net').val(response.sums['netCost'].toLocaleString('en-US'))
                     branch_lah_net = response.sums['netCost']
+                    print.fro3.codes= response.codes;
                     raseedTotal()
                     arba7Total()
                 })
@@ -481,6 +491,7 @@
                 .done(function (response) {
                     $('.branch_3leh_net').val(response.sums['netCost'].toLocaleString('en-US'))
                     branch_3leh_net = response.sums['netCost']
+                    print.fro3.codes= response.codes;
                     raseedTotal()
                     arba7Total()
                 })
@@ -499,6 +510,7 @@
                 .done(function (response) {
                     $('.mandoub_net').val(response.sums['netCost'].toLocaleString('en-US'))
                     mandoub_net=response.sums['netCost']
+                    print.mandoub.codes= response.codes;
                     raseedTotal()
                     arba7Total()
                 })
@@ -541,5 +553,28 @@
             $('.arba7_raseed').val((Math.abs(arba7)).toLocaleString('en-US') + '   '+ label);
         }
     }
+
+
+    $('.print').click(function(){
+        var type = ($(this).data('type'));
+        if(type == '3amil'){
+            var code=print.amil.codes;
+            var title=print.amil.title;
+        }
+        if(type == 'fro3'){
+            var code=print.fro3.codes;
+            var title=print.fro3.title;
+        }
+        if(type == 'mandoub_taslim'){
+            var code=print.mandoub.codes;
+            var title=print.mandoub.title;
+        }
+        if(code != '')
+        window.open("{{route('opretation-print')}}"+'?codes='+code+'&type='+type+'&title='+title);
+
+            
+        
+        
+    })
 </script>
 @endsection

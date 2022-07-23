@@ -522,7 +522,7 @@
             });
             function infinteLoadMore(page) {
                 $.ajax({
-                    url: "{{route('shiments',['type' =>$type])}}"+ "?lodaMore=1&page=" + page+'&'+window.location.search.substr(1),
+                    url: "{{route('shiments.print')}}"+ "?loadMore=1&type="+{{$type}}+"&page=" + page+'&'+window.location.search.substr(1),
 
                     type: "get",
                     beforeSend: function () {

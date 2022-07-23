@@ -103,6 +103,8 @@ class accountingController extends Controller
             request()->limit=$count_all;
         }
         //  dd($all_shipments->skip(0)->limit(40)->get()[20]);
+        $codes = $all_shipments;
+        $codes= $codes->pluck('code_')->toArray();
         $totalCost = $all_shipments->sum('shipment_coast_');
         $tawsilCost = $all_shipments->sum('tawsil_coast_');
         $allCount = $all_shipments->count();
@@ -116,7 +118,8 @@ class accountingController extends Controller
                 'status' => 200,
               
                 'message' => 'sucecss',
-                'sums'=>$sums
+                'sums'=>$sums,
+                'codes' => $codes
             ], 200);
         }
         $all = $all_shipments->skip($limit*$page)->limit($limit)->get();
@@ -419,6 +422,8 @@ class accountingController extends Controller
             $count_all = $counter->count();
             request()->limit=$count_all;
         }
+        $codes = $all_shipments;
+        $codes= $codes->pluck('code_')->toArray();
         $totalCost = $all_shipments->sum('shipment_coast_');
         $tawsilCost = $all_shipments->sum('tas3ir_mandoub_taslim');
         $allCount = $all_shipments->count();
@@ -432,7 +437,8 @@ class accountingController extends Controller
                 'status' => 200,
               
                 'message' => 'sucecss',
-                'sums'=>$sums
+                'sums'=>$sums,
+                'codes' => $codes
             ], 200);
         }
         $all = $all_shipments->skip($limit*$page)->limit($limit)->get();
