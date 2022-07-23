@@ -32,7 +32,7 @@ class HomeController extends Controller
        
         if (!$user = DB::table("all_users")->where('code_' ,request()->user_id)->first()) {
             return response::falid('user_not_found', 404);
-        }
+        } 
         $statuses= Shipment_status::orderBy('sort_no')->where('code_' ,'!=',10)
         ->UserTypeFilter($user->type_,$user->code_)
         ->select('code_','name_')->get()->toArray();
@@ -41,6 +41,9 @@ class HomeController extends Controller
             
             $shipments = Shipment::where('Status_',$status['code_'])
             ->UserType($user->type_,$user->code_);
+            if($status['code_'] == 7 ){
+                $shipments = $shipments->where('el3amil_elmosadad', '!=' ,'مسدد');
+            }
             if(isset(request()->commercial_name)){
                 $shipments=$shipments->where('commercial_name_',request()->commercial_name);
             }
@@ -53,12 +56,11 @@ class HomeController extends Controller
         }
           foreach($statuses as $key=> $status){
 
-
                         $mathOfTotal = 0;
-if ($total != 0  ){
-            $mathOfTotal = $statuses[$key]['cnt']/$total*100;
-}
-            $statuses[$key]['mathOfTotal'] = $mathOfTotal ? $mathOfTotal : 0;
+            if ($total != 0  ){
+                $mathOfTotal = $statuses[$key]['cnt']/$total*100;
+            }
+                $statuses[$key]['mathOfTotal'] = $mathOfTotal ? $mathOfTotal : 0;
         }
         if($user->type_=='مندوب تسليم')
             $statuses[0]['name_']='شحناتى';

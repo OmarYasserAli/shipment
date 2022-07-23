@@ -468,18 +468,18 @@ class accountingController extends Controller
 
                 // dd(request()->pdf);
                 $all=Shipment::whereIn('code_',$codes);
-                // dd($all);
+                 //dd($all);
 
 
-            }
+                }
             $all=$all->get();
-         $totalCost = $all->sum('shipment_coast_');
-        $tawsilCost = $all->sum('tas3ir_mandoub_taslim');
-        $alSafiCost = $totalCost - $tawsilCost;
+            $totalCost = $all->sum('shipment_coast_');
+            $tawsilCost = $all->sum('tas3ir_mandoub_taslim');
+            $alSafiCost = $totalCost - $tawsilCost;
 
 
-        $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'alSafiCost'=>$alSafiCost,'mandoub' => 1,];
-         $data = [
+            $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'alSafiCost'=>$alSafiCost,'mandoub' => 1,];
+            $data = [
                 'all'=>$all,
                 'title'=>$page_title,
                 'sum'=>$sums

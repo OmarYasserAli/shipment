@@ -2,6 +2,10 @@
 <html>
 <head>
     <meta charset="utf-8" />
+        @php
+            $companyMainData = \App\Models\CompanyInfo::where('branch_','الفرع الرئيسى')->first();
+        @endphp
+        <link href="{{asset('assets/'.$companyMainData->image_data)}}" rel="shortcut icon">
     <title>A simple, clean, and responsive HTML invoice template</title>
 
     <style>

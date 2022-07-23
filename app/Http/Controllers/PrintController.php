@@ -83,6 +83,7 @@ class PrintController extends Controller
             $alSafiCost = $totalCost - $tawsilCost;
 
         }elseif (request()->type == 'mandoub_taslim'){
+            $tawsilCost = $all->sum('tas3ir_mandoub_taslim');
             $printPage='accounting.mandoubtaslim.print';
             $alSafiCost = $totalCost - $tawsilCost;
 

@@ -2,7 +2,12 @@
 <html>
     <head>
         <meta charset="utf-8" />
-        <title>A simple, clean, and responsive HTML invoice template</title>
+        @php
+            $companyMainData = \App\Models\CompanyInfo::where('branch_','الفرع الرئيسى')->first();
+        @endphp
+       
+        <link rel="icon" type="image/x-icon" href="assets/{{$companyMainData->image_data}}">
+        <title>طباعه الوصول</title>
   <style>
         @page { sheet-size: 100mm 150mm; }
         h1.bigsection {
@@ -33,7 +38,7 @@
         .fatoora td {
             text-align: right !important;
             font-size: 13px;
- font-weight: bold;
+    font-weight: bold;
         }
         .invoice-box {
             font-size: 5px;
@@ -63,9 +68,9 @@
             text-align: center !important;
             color: #333;
         }
-tr{
-    text-align: center!important;
-}
+    tr{
+        text-align: center!important;
+    }
          hr{
             width: 80mm;
             margin: 0 auto;

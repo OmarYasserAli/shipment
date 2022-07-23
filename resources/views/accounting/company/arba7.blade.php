@@ -128,7 +128,7 @@
 
                                 </div>
                                 <div class="form-control col-span-12 lg:col-span-2 mt-5">
-                                    <button type="button" class="btn btn-primary w-24 print" data-type='fro3'>طباعة</button>
+                                    <button type="button" class="btn btn-primary w-24 print" data-type='fro32'>طباعة</button>
 
                                 </div>
 
@@ -433,11 +433,14 @@
     let khazna_net=0;
 
     let print={amil:{
-        title:'عميل', codes:''},
+        title:'الشحنات الغير مسددة للعميل', codes:''},
         mandoub:{
-        title:'مندوب تسليم', codes:''},
+        title:'الشحنات الغير مسددة لمندوب التسليم', codes:''},
         fro3:{
-        title:'فرع', codes:''},
+        title:'الشحنات الغير مسدده للفرع', codes:''},
+        
+        fro32:{
+        title:'الشحنات الواردة للفرع الغير مسدده', codes:''},
     }
     $('.client_el').on('change', function() {
         var client_id = $('.client_id').val();
@@ -491,7 +494,7 @@
                 .done(function (response) {
                     $('.branch_3leh_net').val(response.sums['netCost'].toLocaleString('en-US'))
                     branch_3leh_net = response.sums['netCost']
-                    print.fro3.codes= response.codes;
+                    print.fro32.codes= response.codes;
                     raseedTotal()
                     arba7Total()
                 })
@@ -564,6 +567,11 @@
         if(type == 'fro3'){
             var code=print.fro3.codes;
             var title=print.fro3.title;
+        }
+        if(type == 'fro32'){
+            type = 'fro3'
+            var code=print.fro32.codes;
+            var title=print.fro32.title;
         }
         if(type == 'mandoub_taslim'){
             var code=print.mandoub.codes;
