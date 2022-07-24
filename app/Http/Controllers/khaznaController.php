@@ -45,8 +45,9 @@ class khaznaController extends Controller
         return back()->with(['status' => 'تم اضافة الخزنة بنجاح']);
     }
     public function addUserTo5azma(Request $request){
-        $users = User::where('type_','موظف')->get();
-        $khaznat = Khazna::with(['branches'])->get();
+        $b = BranchInfo::where('name_',auth()->user()->branch)->first();
+        $khaznat = Khazna::with(['branches'])->where('branch_id',$b->code_)->get();
+        $users = User::where('type_','موظف')->where('branch',auth()->user()->branch)->get();
         $attachedTo = [];
         if(isset($request->client_id))
             $attachedTo= user::where('code_',$request->client_id)->first()->khazna->pluck('id')->toArray();
