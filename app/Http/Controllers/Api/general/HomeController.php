@@ -149,7 +149,7 @@ class HomeController extends Controller
             if(isset($request->commercial_name)){
                 $shipments = $shipments->where('add_shipment_tb_.commercial_name_', $request->commercial_name);
             }
-            dd($shipments->get());
+            //dd($shipments->get());
            
             // $shipments_not_mosadad = Shipment::with(['Branch_user' => function ($query) {
             //     $query->select('code_','phone_');
