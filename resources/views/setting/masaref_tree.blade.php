@@ -133,7 +133,7 @@
                     </a> --}}
                     <a class="tree-nav__item-title">
                       <i class="icon ion-android-star"></i>
-                      شجرة الحسابات الأخرى
+                      شجرة المصاريف
                     </a>
                     
                   @foreach ($items as $key => $item)
