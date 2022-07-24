@@ -316,7 +316,18 @@ class HomeController extends Controller
             
             if($user->type_ =='عميل'){
                 $all_mosta7aqa= $query->where('add_shipment_tb_.client_ID_',$user->code_)
-                ->where("el3amil_elmosadad","!=",  'مسدد');
+                ->where("el3amil_elmosadad","!=",  'مسدد')
+                ->where(function ($q) {
+                    $q->where('mandoub_taslim'  , '!=',  '')->where('elmandoub_elmosadad_taslim'  , '=',  'مسدد')
+                    
+                    ->orWhere('transfere_1' ,'!=',  '')->where('elfar3_elmosadad'  , '=',  'مسدد')
+                    ->orWhere('transfere_2' ,'!=',  '')->where('elfar3_elmosadad_2'  , '=',  'مسدد');
+                });
+
+
+               
+
+             
             }
             if($user->type_ =='مندوب استلام'){
                 $all_mosta7aqa= $query->where('add_shipment_tb_.Delivery_take_shipment_ID',$user->code_)
