@@ -979,7 +979,12 @@ class HomeController extends Controller
             $all= $query->where('Status_',7);
             if($user->type_ =='عميل'){
                 $all= $all->where('client_ID_',$user->code_)
-                ->where("el3amil_elmosadad","!=",  'مسدد');
+                ->where("el3amil_elmosadad","!=",  'مسدد')
+                ->where(function ($q) {
+                    $q->where('mandoub_taslim'  , '!=',  '')->where('elmandoub_elmosadad_taslim'  , '=',  'مسدد')
+                    ->orWhere('transfere_1' ,'!=',  '')->where('elfar3_elmosadad_mno'  , '=',  'مسدد')
+                    ->orWhere('transfere_2' ,'!=',  '')->where('elfar3_elmosadad_mno_2'  , '=',  'مسدد');
+                });
             }
             if($user->type_ =='مندوب استلام'){
                 $all= $all->where('Delivery_take_shipment_ID',$user->code_)
