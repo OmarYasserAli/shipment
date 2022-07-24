@@ -43,10 +43,33 @@ class PrintController extends Controller
 
                 }
                 else
-                {$all=Shipment::whereIn('code_',$codes)->select('*',DB::raw("(CASE
+                {
+                    $all=Shipment::whereIn('code_',$codes)->select('*',DB::raw("(CASE
                                     WHEN ( branch_ = '{$user->branch}' and  transfere_1 !=  '' and elfar3_elmosadad_mno = '') THEN  transfer_coast_1
                                     WHEN ( transfere_1 = '{$user->branch}' and  transfere_2 != '' and elfar3_elmosadad_mno_2 = '') THEN transfer_coast_2
                                     END) AS t7weel_cost"));
+
+
+
+                }
+            }
+            if(request()->type == 'import' ){
+                if( $brach_filter != '')
+                {
+
+                    $all=Shipment::whereIn('code_',$codes)->select('*',DB::raw("(CASE
+                    WHEN ( branch_ = '{$user->branch}' and  transfere_1 = '{$brach_filter}' and elfar3_elmosadad_mno = '') THEN  transfer_coast_1
+                    WHEN ( transfere_1 = '{$user->branch}' and  transfere_2 = '{$brach_filter}' and elfar3_elmosadad_mno_2 = '') THEN transfer_coast_2
+                    END) AS t7weel_cost"));
+
+
+                }
+                else
+                {
+                    $all=Shipment::whereIn('code_',$codes)->select('*',DB::raw("(CASE
+                    WHEN ( branch_ = '{$user->branch}' and  transfere_1 !=  '' and elfar3_elmosadad_mno = '') THEN  transfer_coast_1
+                    WHEN ( transfere_1 = '{$user->branch}' and  transfere_2 != '' and elfar3_elmosadad_mno_2 = '') THEN transfer_coast_2
+                    END) AS t7weel_cost"));
 
 
 
@@ -60,6 +83,7 @@ class PrintController extends Controller
         $alSafiCost = $all->sum('total_');
         $printPage='shipments.print';
         $page_title = request()->title;
+        
         //$brach_filter = request()->brach_filter;
         // fro3   shipment   3amel  mandoub
         if(request()->type == 'fro3' ){
@@ -70,8 +94,10 @@ class PrintController extends Controller
             foreach($all as $ship){
                 $ta7weel += $ship->t7weel_cost ;
             }
+            // dd($alSafiCost);
             $tawsilCost = $ta7weel;
             $alSafiCost = $totalCost - $tawsilCost;
+            //dd($alSafiCost);
 
         }elseif (request()->type == 'shipment'){
             $printPage='shipments.print';

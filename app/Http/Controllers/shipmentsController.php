@@ -64,6 +64,7 @@ class shipmentsController extends Controller
             if(isset(request()->commercial_name)){
                 $shipments=$shipments->where('commercial_name_',request()->commercial_name);
             }
+            
             $shipments=$shipments->select(DB::raw('count(*) as cnt'))
             //->groupBy( 'Status_')
             ->first();

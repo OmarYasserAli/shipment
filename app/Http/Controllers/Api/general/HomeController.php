@@ -130,12 +130,15 @@ class HomeController extends Controller
             if(isset($request->commercial_name)){
                 $shipments_null_date = $shipments_null_date->where('add_shipment_tb_.commercial_name_', $request->commercial_name);
             }
+            
 
             $shipments = Shipment::with(['Branch_user' => function ($query) {
                 $query->select('code_','phone_');
             }])
             ->where('status_',request()->code);
-            
+            if(request()->code == 7 ){
+                $shipments = $shipments->where('el3amil_elmosadad', '!=' ,'مسدد');
+            }
            
              if($user->type_== 'مندوب استلام' && request()->code ==3){
                 $shipments = $shipments->where('branch_',$user->branch);
@@ -146,8 +149,8 @@ class HomeController extends Controller
             if(isset($request->commercial_name)){
                 $shipments = $shipments->where('add_shipment_tb_.commercial_name_', $request->commercial_name);
             }
+            dd($shipments->get());
            
-
             // $shipments_not_mosadad = Shipment::with(['Branch_user' => function ($query) {
             //     $query->select('code_','phone_');
             // }])
@@ -162,7 +165,7 @@ class HomeController extends Controller
             // }
             
       
-           
+            
              
             $all_shipments = $shipments;
 

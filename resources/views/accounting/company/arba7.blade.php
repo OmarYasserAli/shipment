@@ -487,6 +487,7 @@
         var date_to = $('.date_to_3').val();
         var type = ($('.waselOnly_3').val()=='wasel')?1:'';
         if(branch_id =='-1' ) return ;
+        console.log(branch_id);
         $.ajax({
                     url: "{{route('frou3.import')}}"+ "?arba7=1&date_from="+date_from+"&date_to="+date_to+"&branch_="+branch_id+'&waselOnly='+type,
                     type: "get",
@@ -578,7 +579,7 @@
             var title=print.mandoub.title;
         }
         if(code != '')
-        window.open("{{route('opretation-print')}}"+'?codes='+code+'&type='+type+'&title='+title);
+        window.open("{{route('opretation-print')}}"+'?codes='+code+'&type='+type+'&title='+title+'&branch_='+'فرع كركوك');
 
             
         
