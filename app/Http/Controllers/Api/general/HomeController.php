@@ -319,9 +319,8 @@ class HomeController extends Controller
                 ->where("el3amil_elmosadad","!=",  'مسدد')
                 ->where(function ($q) {
                     $q->where('mandoub_taslim'  , '!=',  '')->where('elmandoub_elmosadad_taslim'  , '=',  'مسدد')
-                    
-                    ->orWhere('transfere_1' ,'!=',  '')->where('elfar3_elmosadad'  , '=',  'مسدد')
-                    ->orWhere('transfere_2' ,'!=',  '')->where('elfar3_elmosadad_2'  , '=',  'مسدد');
+                    ->orWhere('transfere_1' ,'!=',  '')->where('elfar3_elmosadad_mno'  , '=',  'مسدد')
+                    ->orWhere('transfere_2' ,'!=',  '')->where('elfar3_elmosadad_mno_2'  , '=',  'مسدد');
                 });
 
 
