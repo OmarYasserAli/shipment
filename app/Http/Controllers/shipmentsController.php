@@ -1532,8 +1532,8 @@ class shipmentsController extends Controller
         $shipment->total_=$request->total_;
         $shipment->notes_  =    $request->notes_;
 
-        $shipment->transfere_1  =    $request->transfere_1;
-        $shipment->transfere_2  =    $request->transfere_2;
+        // $shipment->transfere_1  =    $request->transfere_1;
+        // $shipment->transfere_2  =    $request->transfere_2;
         $shipment->transfer_coast_1  =    $request->transfer_coast_1;
         $shipment->transfer_coast_2  =    $request->transfer_coast_2;
 

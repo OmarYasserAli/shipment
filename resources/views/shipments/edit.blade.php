@@ -124,10 +124,10 @@
                                     <div class="form-inline mt-3">
                                         <label for="horizontal-form-1" class="form-label sm:w-20">تحويل اول</label>
 
-                                        <input id="shipment_cost" type="text" class="form-control   mr-1" name="transfere_1" value="{{$shipment->transfere_1}}"  aria-label="default input inline 1" value="{{$shipment->shipment_coast_}}">
+                                        <input id="shipment_cost" type="text" class="form-control   mr-1" name="transfere_1" value="{{$shipment->transfere_1}}"  aria-label="default input inline 1" value="{{$shipment->shipment_coast_}}" disabled>
 
                                         <label for="horizontal-form-1" class="form-label sm:w-20">تحويل ثاني</label>
-                                        <input id="tawsil_cost" type="text" class="form-control col-span-2" name="transfere_2" value="{{$shipment->transfere_2}}"  aria-label="default input inline 1" value="{{$shipment->tawsil_coast_}}">
+                                        <input id="tawsil_cost" type="text" class="form-control col-span-2" name="transfere_2" value="{{$shipment->transfere_2}}"  aria-label="default input inline 1" value="{{$shipment->tawsil_coast_}}" disabled>
 
 
 
@@ -135,10 +135,10 @@
                                     <div class="form-inline mt-3">
                                         <label for="horizontal-form-1" class="form-label sm:w-20">استقطاع اول</label>
 
-                                        <input id="shipment_cost" type="text" class="form-control   mr-1" name="transfer_coast_" value="{{$shipment->transfer_coast_1}}"  aria-label="default input inline 1" value="{{$shipment->shipment_coast_}}">
+                                        <input id="shipment_cost" type="text" class="form-control   mr-1" name="transfer_coast_1" value="{{$shipment->transfer_coast_1}}"  aria-label="default input inline 1" >
 
                                         <label for="horizontal-form-1" class="form-label sm:w-20">استقطاع ثاني</label>
-                                        <input id="tawsil_cost" type="text" class="form-control col-span-2" name="transfer_coast_2" value="{{$shipment->transfer_coast_2}}" aria-label="default input inline 1" value="{{$shipment->tawsil_coast_}}">
+                                        <input id="tawsil_cost" type="text" class="form-control col-span-2" name="transfer_coast_2" value="{{$shipment->transfer_coast_2}}" aria-label="default input inline 1" >
 
 
 
