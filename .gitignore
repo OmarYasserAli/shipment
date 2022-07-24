@@ -1,11 +1,9 @@
-/node_modules
 /app/Http/Controllers/Api/general/HomeController.php
+/node_modules
 /public/hot
 /public/storage
 /storage/*.key
-/resources/views/shipments/print2.blade.php
 /vendor
-.env
 .env.backup
 .phpunit.result.cache
 Homestead.json
