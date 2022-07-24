@@ -120,7 +120,7 @@ class HomeController extends Controller
             if(isset(request()->offset ))   $offset =request()->offset;
             if(isset(request()->limit ))   $limit =request()->limit;
             
-            $shipments_null_date = Shipment::with(['Branch_user' => function ($query) {
+            $shipments_null_date = Shipment::with(['mandoubPhone' => function ($query) {
                 $query->select('code_','phone_');
             }])
             ->where('status_',request()->code)
@@ -132,7 +132,7 @@ class HomeController extends Controller
             }
             
 
-            $shipments = Shipment::with(['Branch_user' => function ($query) {
+            $shipments = Shipment::with(['mandoubPhone' => function ($query) {
                 $query->select('code_','phone_');
             }])
             ->where('status_',request()->code);

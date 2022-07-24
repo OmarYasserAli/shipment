@@ -34,6 +34,10 @@ class Shipment extends Model
     {
         return $this->belongsTo(Branch_user::class,'Delivery_Delivered_Shipment_ID');
     }
+    public function mandoubPhone()
+    {
+        return $this->belongsTo(User::class,'Delivery_Delivered_Shipment_ID');
+    }
 
     
 
