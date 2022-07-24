@@ -316,12 +316,12 @@ class HomeController extends Controller
             
             if($user->type_ =='عميل'){
                 $all_mosta7aqa= $query->where('add_shipment_tb_.client_ID_',$user->code_)
-                ->where("el3amil_elmosadad","!=",  'مسدد')
-                ->where(function ($q) {
-                    $q->where('mandoub_taslim'  , '!=',  '')->where('elmandoub_elmosadad_taslim'  , '=',  'مسدد')
-                    ->orWhere('transfere_1' ,'!=',  '')->where('elfar3_elmosadad_mno'  , '=',  'مسدد')
-                    ->orWhere('transfere_2' ,'!=',  '')->where('elfar3_elmosadad_mno_2'  , '=',  'مسدد');
-                });
+                ->where("el3amil_elmosadad","!=",  'مسدد');
+                // ->where(function ($q) {
+                //     $q->where('mandoub_taslim'  , '!=',  '')->where('elmandoub_elmosadad_taslim'  , '=',  'مسدد')
+                //     ->orWhere('transfere_1' ,'!=',  '')->where('elfar3_elmosadad_mno'  , '=',  'مسدد')
+                //     ->orWhere('transfere_2' ,'!=',  '')->where('elfar3_elmosadad_mno_2'  , '=',  'مسدد');
+                // });
 
 
                
@@ -976,6 +976,7 @@ class HomeController extends Controller
         //mosta7aqa
         if($type=='mosta7aqa')
         {
+           
             $all= $query->where('Status_',7);
             if($user->type_ =='عميل'){
                 $all= $all->where('client_ID_',$user->code_)
