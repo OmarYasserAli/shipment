@@ -323,7 +323,7 @@ class frou3Controller extends Controller
         $codes= $codes->pluck('code_')->toArray();
         $totalCost = $all_shipments->sum('shipment_coast_');
         $tawsilCost = $ta7weel;
-        dd($ta7weel);
+        //dd($ta7weel);
         $allCount = $all_shipments->count();
         $netCost =  $totalCost-$tawsilCost;
         $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];

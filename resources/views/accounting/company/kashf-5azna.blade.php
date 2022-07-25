@@ -63,7 +63,7 @@
                                 <div class="form-inline">
                                     <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:10px; margin-top:8px;  width:60px; ">الخزينة</label>
                                     <select name="khazna_id" class="form-select form-select-sm mr-1" aria-label=".form-select-sm example" style=" width:250px">
-                                        <option value="">...</option>
+                                        
                                         @foreach($khaznat as $khazna)
                                         <option value="{{$khazna->id}}"  @if(request()->get('khazna_id') ==$khazna->id) selected @endif>{{$khazna->name}}</option>
                                         @endforeach
@@ -74,7 +74,7 @@
                                 <div class="form-inline">
                                     <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:10px; margin-top:8px; margin-right:3px ; width:50px"> </label>
 
-                                    <input type="submit"  class="btn btn-primary  "  value="فلتر">
+                                    <input type="submit"  class="btn btn-primary  "  value="بحث">
                                     <input type="button"  class="btn btn-success  align-left mr-1" style="direction: ltr"  value="طباعه" id='print' >
 
 

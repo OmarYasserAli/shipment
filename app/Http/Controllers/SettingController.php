@@ -62,11 +62,13 @@ class SettingController extends Controller
     }
     
     public function o5ra_tree(){
-        $items =O5ra_7sabat::all();
+        $b = BranchInfo::where('name_',auth()->user()->branch)->first();
+        $items =O5ra_7sabat::where('branch_id',$b->code_)->get();
         return view("setting.o5ra_tree" , compact('items'));
     }
     public function masaref_tree(){
-        $items =Masaref::all();
+        $b = BranchInfo::where('name_',auth()->user()->branch)->first();
+        $items =Masaref::where('branch_id',$b->code_)->get();
         return view("setting.masaref_tree" , compact('items'));
     }
     public function masaref_tree_store(Request $request){

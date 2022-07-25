@@ -67,7 +67,7 @@
                                         <div class="mt-3">
                                             <label for="regular-form-2" class="form-label">الخزنة</label>
                                             <select  id='khazna_id' class="form-control mostafed_name" name="khazna_id">
-                                                <option value=""></option>
+                                               
                                                 @foreach($khaznat as $khazna)
                                                     <option value="{{$khazna->id}}"  >{{$khazna->name}}</option>
                                                 @endforeach

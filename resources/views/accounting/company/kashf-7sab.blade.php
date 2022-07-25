@@ -66,9 +66,10 @@
                                         <option value="">...</option>
                                         
                                         <option value="عميل"  @if(request()->get('7sab_type') =='عميل') selected @endif>عميل</option>
-                                        <option value="مندوب"  @if(request()->get('7sab_type') =='عميل') selected @endif>مندوب</option>
-                                        <option value="فرع"  @if(request()->get('7sab_type') =='عميل') selected @endif>فرع</option>
-                                        <option value="اخرى"  @if(request()->get('7sab_type') =='عميل') selected @endif>اخرى</option>
+                                        <option value="مندوب"  @if(request()->get('7sab_type') =='مندوب') selected @endif>مندوب</option>
+                                        <option value="فرع"  @if(request()->get('7sab_type') =='فرع') selected @endif>فرع</option>
+                                        <option value="اخرى"  @if(request()->get('7sab_type') =='اخرى') selected @endif>اخرى</option>
+                                        <option value="مصاريف"  @if(request()->get('7sab_type') =='مصاريف') selected @endif>مصاريف</option>
                                        
                                     </select>
                                 </div>

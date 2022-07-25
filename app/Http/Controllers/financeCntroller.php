@@ -18,7 +18,13 @@ use App\Models\Sanad;
 use App\Models\Sanad_3amil;
 use App\Models\Sanad_taslim;
 use App\Models\Sanad_far3;
+use App\Models\Sanad_masaref;
+use App\Models\Sanad_o5ra;
 use App\Models\Branch_user;
+use App\Models\O5ra_7sabat;
+use App\Models\Masaref;
+
+
 use QrCode;
 
 use Carbon\Carbon;
@@ -33,8 +39,9 @@ use PDF;
 class financeCntroller extends Controller
 {
     public function kashf_5azna(){
-
-        $khaznat= Khazna::all();
+        $user = auth()->user();
+        $b = BranchInfo::where('name_',$user->branch)->first();
+        $khaznat= Khazna::where('branch_id',$b->code_)->get();
         $sanadat =[];
         $date_from = Carbon::now()->format('y-m-d');
         $date_to = Carbon::now()->addDays(1)->format('y-m-d');
@@ -117,12 +124,37 @@ class financeCntroller extends Controller
                 $safi7sab =$this->hesabNet(Sanad_far3::where('far3_id',  $request->owner)->where('far3_from',   $far3_from),$date_from);
                 $owner = BranchInfo::where('code_',$request->owner)->first()->name_;
             }
+            if(request()->type =='مصاريف'){
+                $user = auth()->user();
+                 $far3= BranchInfo::where('name_',$user->branch)->first();
+                // $far3_from =$far3->code_;
+                $q = Sanad_masaref::where('masaref_id',  $request->owner);
+                
+                $sanadat= $q->whereBetween('created_at', [ $date_from,  $date_to])->orderBy('created_at')->get();
+
+                $safi7sab =$this->hesabNet(Sanad_masaref::where('masaref_id',  $request->owner),$date_from);
+                $owner = Masaref::where('code_',$request->owner)->first()->name_;
+            }
+            if(request()->type =='اخرى'){
+                $user = auth()->user();
+                 $far3= BranchInfo::where('name_',$user->branch)->first();
+                // $far3_from =$far3->code_;
+                $q = Sanad_o5ra::where('o5ra_id',  $request->owner);
+                
+                $sanadat= $q->whereBetween('created_at', [ $date_from,  $date_to])->orderBy('created_at')->get();
+
+                $safi7sab =$this->hesabNet(Sanad_o5ra::where('o5ra_id',  $request->owner),$date_from);
+                $owner = O5ra_7sabat::where('code_',$request->owner)->first()->name_;
+            }
+
+            
             $type7sab= request()->type;
             
         }
 
         $page_title='كشف حساب';
-        return view('accounting.company.kashf-7sab',compact('clients','branches','mandoubs','khaznat','owner'));
+        return view('accounting.company.kashf-7sab',compact('clients','branches','mandoubs','khaznat','owner','page_title',
+        'sanadat','safi7sab','type7sab'));
     }
     public function Arba7(Request $request){
 
@@ -183,6 +215,7 @@ class financeCntroller extends Controller
     public function get7sabOwners(Request $request){
 
         $user = auth()->user();
+        $b = BranchInfo::where('name_',$user->branch)->first();
         if($request->type =='عميل'){
             $data = User::where('branch',$user->branch)->where('type_','عميل')->get();
         }
@@ -191,6 +224,12 @@ class financeCntroller extends Controller
         }
         if($request->type =='فرع'){
             $data = BranchInfo::all();
+        }
+        if($request->type =='اخرى'){
+            $data = O5ra_7sabat::where('branch_id',$b->code_)->get();
+        }
+        if($request->type =='مصاريف'){
+            $data = Masaref::where('branch_id',$b->code_)->get();
         }
         return response()->json([
             'status' => 200,

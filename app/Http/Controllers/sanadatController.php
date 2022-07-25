@@ -92,7 +92,7 @@ class sanadatController extends Controller
        
         if($request->page_type =='صرف'   && $khazna->net() < $request->amount){
 
-            return back()->with('error','لا يوم رصيد كافى افى الخزنية');
+            return back()->with('error','لا يوجد رصيد كافي في الخزينة');
         }
 
         $sanad->save();
@@ -113,6 +113,7 @@ class sanadatController extends Controller
     public function getMostafedBytype(){
         $data = '';
         $user = auth()->user();
+        $b = BranchInfo::where('name_',$user->branch)->first();
         if(request()->mostafed_type =='عميل'){
             $data =  User::where('type_','عميل')->where('branch',$user->branch)->get();
         }
@@ -124,10 +125,10 @@ class sanadatController extends Controller
             $data = BranchInfo::all();
         }
         if(request()->mostafed_type =='اخرى'){
-            $data = O5ra_7sabat::all();
+            $data = O5ra_7sabat::where('branch_id',$b->code_)->get();
         }
         if(request()->mostafed_type =='مصاريف'){
-            $data = Masaref::all();
+            $data = Masaref::where('branch_id',$b->code_)->get();
         }
 
 
