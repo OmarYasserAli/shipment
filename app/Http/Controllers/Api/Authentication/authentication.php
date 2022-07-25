@@ -33,12 +33,12 @@ class authentication extends Controller
                     'message' =>'passwored or username is wrong' ,
                 ], 404); 
             }
-            // if(($user->type_ != 'موظف')){
-            //     return response()->json([
-            //         'status'  => false,
-            //         'message' =>'invalid user' ,
-            //     ], 404); 
-            // }
+            if(($user->type_ == 'موظف')){
+                return response()->json([
+                    'status'  => false,
+                    'message' =>'invalid user' ,
+                ], 404); 
+            }
             if(($user->status_ ==0)){
                 return response()->json([
                     'status'  => false,
