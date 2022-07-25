@@ -39,7 +39,7 @@ class authentication extends Controller
                     'message' =>'invalid user' ,
                 ], 404); 
             }
-            if(($user->status_ ==0)){
+            if(($user->status_ != 1)){
                 return response()->json([
                     'status'  => false,
                     'message' =>'this user is not active' ,
