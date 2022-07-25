@@ -6,8 +6,8 @@
     </a>
     <div class="side-nav__devider my-6"></div>
     <ul>
-        <li>
-            <a href="side-menu-light-inbox.html" class="side-menu">
+        <li>  
+            <a  href="{{route('home')}}" class="side-menu">
                 <div class="side-menu__icon"> <i data-lucide="inbox"></i> </div>
                 <div class="side-menu__title"> لوحة المراقبة </div>
             </a>

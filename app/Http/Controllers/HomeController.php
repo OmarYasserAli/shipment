@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Models\Shipment;
+use Carbon\Carbon;
 class HomeController extends Controller
 {
     /**
@@ -23,6 +24,10 @@ class HomeController extends Controller
      */
     public function index()
     {
+       
+        $dailyShipments = Shipment::where('date_'  ,'>=',DATE( Carbon::now()->format('Y-m-d')))->get();
+        $dailyStatus    = Shipment::where('tarikh_el7ala'  ,'>=',DATE( Carbon::now()->format('Y-m-d')))->get();
+        dd(( $dailyStatus));
         $page_title='لوحة المواقبة';
         return view('home' ,compact('page_title'));
     }
