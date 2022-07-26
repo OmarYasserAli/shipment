@@ -636,13 +636,13 @@ class accountingController extends Controller
     public function mandoubtaslimCanselTasdid(Request $request){
 
         $user=auth()->user();
-        if($user->branch !='الفرع الرئيسى' && $request->brach_filter!=$user->branch)
-        {
-            return response()->json([
-                'status' => 404,
-                'message' => 'لم يتم التسديد',
-            ], 404);
-        }
+        // if($user->branch !='الفرع الرئيسى' && $request->brach_filter!=$user->branch)
+        // {
+        //     return response()->json([
+        //         'status' => 404,
+        //         'message' => 'لم يتم التسديد',
+        //     ], 404);
+        // }
         //case 1
         $row =  DB::table('add_shipment_tb_')
         ->whereIn('add_shipment_tb_.code_', $request->code)
