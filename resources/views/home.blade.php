@@ -18,25 +18,26 @@
                         <h2 class="text-lg font-medium truncate mr-5">
                             شحنات العميل
                         </h2>
-                        <div class="sm:ml-auto mt-3 sm:mt-0 relative text-slate-500">
-                            <i data-lucide="calendar" class="w-4 h-4 z-10 absolute my-auto inset-y-0 ml-3 left-0"></i> 
-                            <input type="text" class="datepicker form-control sm:w-56 box pl-10">
-                        </div>
+                        
                     </div>
                     <div class="intro-y box p-5 mt-12 sm:mt-5">
                         <div class="flex flex-col md:flex-row md:items-center">
                             <div class="flex">
                                 <div>
-                                    <div class="text-primary dark:text-slate-300 text-lg xl:text-xl font-medium">$15,000</div>
-                                    <div class="mt-0.5 text-slate-500">This Month</div>
+                                    <div class="text-primary dark:text-slate-300 text-lg xl:text-xl font-medium">
+                                        <input type="date" class='date_from'> 
+                                    </div>
+                                    <div class="mt-0.5 text-slate-500">التاريخ من</div>
                                 </div>
                                 <div class="w-px h-12 border border-r border-dashed border-slate-200 dark:border-darkmode-300 mx-4 xl:mx-5"></div>
                                 <div>
-                                    <div class="text-slate-500 text-lg xl:text-xl font-medium">$10,000</div>
-                                    <div class="mt-0.5 text-slate-500">Last Month</div>
+                                    <div class="text-slate-500 text-lg xl:text-xl font-medium">
+                                        <input type="date" class='date_to'></div>
+                                    <div class="mt-0.5 text-slate-500"> التاريخ الي</div>
                                 </div>
                             </div>
                             <div class="dropdown md:ml-auto mt-5 md:mt-0">
+                                
                                 <select data-placeholder="اسم العميل" class="tom-select w-full client_id client_el" id="crud-form-2" >
                                             
                                     @foreach ($clients as  $client)
@@ -44,6 +45,7 @@
                                     <option value='{{$client->code_}}'>{{$client->name_}}</option>
                                     @endforeach
                                 </select>
+                                <div class="mt-0.5 text-slate-500"> اسم العميل</div>
                             </div>
                         </div>
                         <div class="">
@@ -728,8 +730,12 @@ const labelsBarChart = [
   );
   $('.client_id').on('change',function(){
     var client_id = ($('.client_id').val());
+    var date_to = ($('.date_to').val());
+    var date_from = ($('.date_from').val());
+    
+    
     $.ajax({
-                            url:"{{url('getclientChartData')}}?client_id="+client_id,
+                            url:"{{url('getclientChartData')}}?client_id="+client_id+'&date_from='+date_from + '&date_to='+date_to,
                             type: "get",
                             data: {
 
@@ -737,7 +743,7 @@ const labelsBarChart = [
                             dataType : 'json',
                             success: function(result){
                                 chartBarz.destroy();
-console.log(result.statuses)
+
                                 const labelsBarChart = [
                                         
                                     ];
@@ -949,61 +955,9 @@ console.log(result.statuses)
                 });
 
                 
-                $( "#tasdid" ).click(function() {
-                    
-                 var codes =[]
-                 
-                 $('.check_count').each(function() {
-                    if($(this).is(':checked')){
-                        codes.push($(this).data('code'));
-                    }
-                });
+                
                
-                 $.ajax({
-                     url: "{{route('accounting.3amil.canceltasdid')}}" ,
-                     type: 'post',
-                     data:{ code:codes,  _token: "{{ csrf_token() }}"},
-                     error: function(e){
-                        
-                     },
-                     success: function(res) {
-                        
-                         rowsAffected =  codes.length - res['count']
-                         msg =" تم تسديد " +res['count']+   " شحنة  "  +" تم رفض " + rowsAffected + " شحنة ";
-                         let msg_modal = tailwind.Modal.getOrCreateInstance(document.querySelector("#msg_modal"));
-                        $('#msg_modal_text').text(msg)
-                         msg_modal.show();
-                        let total_cost=parseInt($('#total_cost').val());
-                        let total_cnt=parseInt($('#total_cnt').val());
-                        let total_tawsil=parseInt($('#total_tawsil').val());
-                        let total_net= parseInt($('#total_net').val($('#total_cost').val()-$('#total_tawsil').val()));
-                        var i=1; 
-                        $('.check_count').each(function() {
-                            
-                            if($(this).is(':checked') && $(this).data('status')==7){
-                                
-                                total_cnt--;
-                                total_cost-= $(this).data('cost');
-                                total_tawsil-= parseInt($(this).data('t7wel'));
-                                total_net-= $(this).data('net');
-                                $('#total_cost').val(total_cost);
-                                $('#total_tawsil').val(total_tawsil);
-                                $('#total_net').val($('#total_cost').val()-$('#total_tawsil').val());
-                                $('#total_cnt').val(total_cnt);
-                                
-                                $(this).parent().parent().remove();
-                                
-                                
-                            }else{
-                                $(this).parent().parent().children('td:first').text(i)
-                                i++;
-
-                            }
-                      });
-                     }
-                 });
-                  
-             });
+    
 
 
                     

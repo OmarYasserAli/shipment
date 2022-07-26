@@ -46,9 +46,15 @@ class HomeController extends Controller
     }
 
     public function getclientChartData(){
-        $data    = Shipment::where('client_ID_',request()->client_id)
+        $data    = Shipment::where('client_ID_',request()->client_id);
+        if(isset(request()->date_from)){
+            $data  = $data->where('date_','>=' ,request()->date_from);
+        }
+        if(isset(request()->date_to)){
+            $data  = $data->where('date_','<=' ,request()->date_to);
+        }
         //->where('Ship_area_',auth()->user()->branch)
-        ->select('Status_', DB::raw('count(*) as total'))->groupBy('Status_')->get()->pluck('total','Status_')->toArray();
+        $data  = $data->select('Status_', DB::raw('count(*) as total'))->groupBy('Status_')->get()->pluck('total','Status_')->toArray();
         $status = Shipment_status::all()->pluck('name_','code_')->toArray();
         return response()->json([
             'status' => 200,
