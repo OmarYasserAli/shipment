@@ -223,7 +223,7 @@ class shipmentsController extends Controller
         $Commercial_names =Commercial_name::whereIn('code_',$filtered_clients)->groupBy('name_')->get();
 
 
-        $clients =User::where('type_','عميل')->get();
+        $clients =User::where('type_','عميل')->where('branch',auth()->user()->branch)->get();
         $status_color=Setting::whereIN('name',['status_6_color','status_1_color','status_2_color','status_3_color'
         ,'status_4_color','status_7_color','status_8_color','status_9_color'])->get()->keyBy('name')->pluck('val','name');
         $css_prop = Setting::get('status_css_prop');
@@ -353,7 +353,7 @@ class shipmentsController extends Controller
         $Commercial_names =Commercial_name::whereIn('code_',$filtered_clients)->groupBy('name_')->get();
 
 
-        $clients =User::where('type_','عميل')->get();
+        $clients =User::where('type_','عميل')->where('branch',auth()->user()->branch)->get();
         $status_color=Setting::whereIN('name',['status_6_color','status_1_color','status_2_color','status_3_color'
         ,'status_4_color','status_7_color','status_8_color','status_9_color'])->get()->keyBy('name')->pluck('val','name');
         $css_prop = Setting::get('status_css_prop');
@@ -1449,7 +1449,7 @@ class shipmentsController extends Controller
         $Commercial_names =Commercial_name::whereIn('code_',$filtered_clients)->groupBy('name_')->get();
 
 
-        $clients =User::where('type_','عميل')->get();
+        $clients =User::where('type_','عميل')->where('branch',auth()->user()->branch)->get();
         $status_color=Setting::whereIN('name',['status_6_color','status_1_color','status_2_color','status_3_color'
         ,'status_4_color','status_7_color','status_8_color','status_9_color'])->get()->keyBy('name')->pluck('val','name');
         $css_prop = Setting::get('status_css_prop');
@@ -1656,7 +1656,7 @@ class shipmentsController extends Controller
         $Commercial_names =Commercial_name::whereIn('code_',$filtered_clients)->groupBy('name_')->get();
 
 
-        $clients =User::where('type_','عميل')->get();
+        $clients =User::where('type_','عميل')->where('branch',auth()->user()->branch)->get();
           if ($user->type_ == 'عميل'){
               $clients = User::where('code_',$user->code_)->first();
               $Commercial_names =Commercial_name::where('code_',$user->code_)->groupBy('name_')->get();
