@@ -57,7 +57,7 @@
                 </div>
                 <!-- END: Sales Report -->
                 <!-- BEGIN: Weekly Top Seller -->
-                <div class="col-span-12 sm:col-span-6 lg:col-span-3 mt-8">
+                <div class="col-span-12 sm:col-span-6 lg:col-span-4 mt-8">
                     <div class="intro-y flex items-center h-10">
                         <h2 class="text-lg font-medium truncate mr-5">
                            عدد الشحنات اليومية
@@ -73,7 +73,7 @@
                         <div class="w-52 sm:w-auto mx-auto mt-8">
                             <div class="flex items-center">
                                 <div class="w-2 h-2  rounded-full mr-3"></div>
-                                <span class="truncate">عدد الشحنات اليومية</span> <span class="font-medium ml-auto">{{ $dailyShipments->count()}}</span> 
+                                <span class="truncate">عدد الشحنات اليومية</span> <span class="font-medium mr-auto">{{ $dailyShipments->count()}}</span> 
                             </div>
                             
                         </div>
@@ -82,7 +82,7 @@
                 <!-- END: Weekly Top Seller -->
                 <!-- BEGIN: Sales Report -->
                 <input type="hidden" >
-                <div class="col-span-12 sm:col-span-8 lg:col-span-3 mt-8">
+                <div class="col-span-12 sm:col-span-8 lg:col-span-4 mt-8">
                     <div class="intro-y flex items-center h-10">
                         <h2 class="text-lg font-medium truncate mr-5">
                             حالات الشحنة اليومية
@@ -102,7 +102,7 @@
                                     @php $ii = $key;
                                     if($ii>5) $ii--; @endphp
                                     <div class="w-2 h-2  rounded-full mr-3" style="background-color: {{$status_color[$ii-1]}};"></div>
-                                    <span class="truncate">{{$status[$key]}}</span> <span class="font-medium ml-auto">{{$dailyStatus[$key]}}</span> 
+                                    <span class="truncate">{{$status[$key]}}</span> <span class="font-medium mr-auto">{{$dailyStatus[$key]}}</span> 
                                 </div>
                             @endforeach
                             
