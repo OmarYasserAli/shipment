@@ -37,21 +37,18 @@
                                 </div>
                             </div>
                             <div class="dropdown md:ml-auto mt-5 md:mt-0">
-                                <button class="dropdown-toggle btn btn-outline-secondary font-normal" aria-expanded="false" data-tw-toggle="dropdown"> Filter by Category <i data-lucide="chevron-down" class="w-4 h-4 ml-2"></i> </button>
-                                <div class="dropdown-menu w-40">
-                                    <ul class="dropdown-content overflow-y-auto h-32">
-                                        <li><a href="" class="dropdown-item">PC & Laptop</a></li>
-                                        <li><a href="" class="dropdown-item">Smartphone</a></li>
-                                        <li><a href="" class="dropdown-item">Electronic</a></li>
-                                        <li><a href="" class="dropdown-item">Photography</a></li>
-                                        <li><a href="" class="dropdown-item">Sport</a></li>
-                                    </ul>
-                                </div>
+                                <select data-placeholder="اسم العميل" class="tom-select w-full client_id client_el" id="crud-form-2" >
+                                            
+                                    @foreach ($clients as  $client)
+                                
+                                    <option value='{{$client->code_}}'>{{$client->name_}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
-                        <div class="report-chart">
-                            <div class="h-[275px]">
-                                <canvas id="report-line-chart" class="mt-6 -mb-6"></canvas>
+                        <div class="">
+                            <div class="h-[475px]">
+                                <canvas class="" id="chartBar"></canvas>
                             </div>
                         </div>
                     </div>
@@ -73,23 +70,17 @@
                         </div>
                         <div class="w-52 sm:w-auto mx-auto mt-8">
                             <div class="flex items-center">
-                                <div class="w-2 h-2 bg-primary rounded-full mr-3"></div>
-                                <span class="truncate">17 - 30 Years old</span> <span class="font-medium ml-auto">62%</span> 
+                                <div class="w-2 h-2  rounded-full mr-3"></div>
+                                <span class="truncate">عدد الشحنات اليومية</span> <span class="font-medium ml-auto">{{ $dailyShipments->count()}}</span> 
                             </div>
-                            <div class="flex items-center mt-4">
-                                <div class="w-2 h-2 bg-pending rounded-full mr-3"></div>
-                                <span class="truncate">31 - 50 Years old</span> <span class="font-medium ml-auto">33%</span> 
-                            </div>
-                            <div class="flex items-center mt-4">
-                                <div class="w-2 h-2 bg-warning rounded-full mr-3"></div>
-                                <span class="truncate">>= 50 Years old</span> <span class="font-medium ml-auto">10%</span> 
-                            </div>
+                            
                         </div>
                     </div>
                 </div>
                 <!-- END: Weekly Top Seller -->
                 <!-- BEGIN: Sales Report -->
-                <div class="col-span-12 sm:col-span-6 lg:col-span-3 mt-8">
+                <input type="hidden" >
+                <div class="col-span-12 sm:col-span-8 lg:col-span-3 mt-8">
                     <div class="intro-y flex items-center h-10">
                         <h2 class="text-lg font-medium truncate mr-5">
                             حالات الشحنة اليومية
@@ -103,18 +94,15 @@
                             </div>
                         </div>
                         <div class="w-52 sm:w-auto mx-auto mt-8">
-                            <div class="flex items-center">
-                                <div class="w-2 h-2 bg-primary rounded-full mr-3"></div>
-                                <span class="truncate">17 - 30 Years old</span> <span class="font-medium ml-auto">62%</span> 
-                            </div>
-                            <div class="flex items-center mt-4">
-                                <div class="w-2 h-2 bg-pending rounded-full mr-3"></div>
-                                <span class="truncate">31 - 50 Years old</span> <span class="font-medium ml-auto">33%</span> 
-                            </div>
-                            <div class="flex items-center mt-4">
-                                <div class="w-2 h-2 bg-warning rounded-full mr-3"></div>
-                                <span class="truncate">>= 50 Years old</span> <span class="font-medium ml-auto">10%</span> 
-                            </div>
+                            @foreach ($dailyStatus as $key =>$val)
+                            
+                                <div class="flex items-center mt-4">
+                                    <div class="w-2 h-2  rounded-full mr-3" style="background-color: {{$status_color[$key-1]}};"></div>
+                                    <span class="truncate">{{$status[$key]}}</span> <span class="font-medium ml-auto">{{$dailyStatus[$key]}}</span> 
+                                </div>
+                            @endforeach
+                            
+                            
                         </div>
                     </div>
                 </div>
@@ -712,12 +700,89 @@
 </div>
 
     <script type="text/javascript">
+
+const labelsBarChart = [
+   
+  ];
+  const dataBarChart = {
+    labels: labelsBarChart,
+    datasets: [
+      {
+        label: "My First dataset",
+        backgroundColor: "hsl(252, 82.9%, 67.8%)",
+        borderColor: "hsl(252, 82.9%, 67.8%)",
+        data: [ ],
+      },
+    ],
+  };
+
+  const configBarChart = {
+    type: "bar",
+    data: dataBarChart,
+    options: {},
+  };
+
+  let chartBarz = new Chart(
+    document.getElementById("chartBar"),
+    configBarChart
+  );
+  $('.client_id').on('change',function(){
+    var client_id = ($('.client_id').val());
+    $.ajax({
+                            url:"{{url('getclientChartData')}}?client_id="+client_id,
+                            type: "get",
+                            data: {
+
+                            },
+                            dataType : 'json',
+                            success: function(result){
+                                chartBarz.destroy();
+console.log(result.statuses)
+                                const labelsBarChart = [
+                                        
+                                    ];
+
+                                let d=[];
+                                    $.each(result.data,function(key,value){
+                                        labelsBarChart.push(result.statuses[key]); 
+                                        d.push(value); 
+                                    });
+                                   
+                                           
+                                            console.log(d);
+                                    const dataBarChart = {
+                                        labels: labelsBarChart,
+                                        datasets: [
+                                        {
+                                            label: "شحنات العميل",
+                                            backgroundColor: "hsl(252, 82.9%, 67.8%)",
+                                            borderColor: "hsl(252, 82.9%, 67.8%)",
+                                            data: d,
+                                        },
+                                        ],
+                                    };
+
+                                    const configBarChart = {
+                                        type: "bar",
+                                        data: dataBarChart,
+                                        options: {},
+                                    };
+
+                                     chartBarz = new Chart(
+                                        document.getElementById("chartBar"),
+                                        configBarChart
+                                    );
+                                                            
+                            }
+                        });
+})
+  /////
     const dataPie = {
             
     datasets: [
       {
-        label: "My First Dataset",
-        data: [300, 50, 100],
+        label: "شحنات العميل",
+        data: [{{ $dailyShipments->count()}}],
         backgroundColor: [
           "rgb(133, 105, 241)",
           "rgb(164, 101, 241)",
@@ -738,15 +803,20 @@
 
 
   const dataDoughnut = {
-   
+    
     datasets: [
       {
         label: "My First Dataset",
-        data: [300, 50, 100],
+        data: [
+        @foreach ($dailyStatus as $key =>$val)
+                {{$dailyStatus[$key]}},
+        @endforeach
+    ],
         backgroundColor: [
-          "rgb(133, 105, 241)",
-          "rgb(164, 101, 241)",
-          "rgb(101, 143, 241)",
+            @foreach ($dailyStatus as $key =>$val)
+                '{{$status_color[$key-1]}}',
+        @endforeach
+         
         ],
         hoverOffset: 4,
       },
@@ -769,11 +839,7 @@
             let current_status=0;
             $( document ).ready(function() {
                 $("body").fadeIn(50);
-                const myModal = tailwind.Modal.getOrCreateInstance(document.querySelector("#type_modal"));
-
-                @if(!isset(request()->user_id ))
-                     myModal.show();
-                @endif
+               
             });
             
             $( "#modal_close" ).click(function() {

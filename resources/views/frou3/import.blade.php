@@ -155,13 +155,13 @@
                             </div >
                         </div>
                         <div>
-                            @if(request()->get('branch_') != null)
+                            {{-- @if(request()->get('branch_') != null)
                                 <div class="form-inline align-left">
                                     <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:10px; margin-top:8px;  width:400px; "> </label>
                                     <input type="button"  class="btn btn-success  align-left" style="direction: ltr"  value="الغاء تسديد المحدد" id='tasdid' >
 
                                 </div>
-                            @endif
+                            @endif --}}
 
                         </div>
                     </div>

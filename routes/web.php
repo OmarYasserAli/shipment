@@ -23,6 +23,9 @@ Route::get('/clear-cache',function(){
 });
 
 Route::get('/', 'HomeController@index')->name('home');
+Route::get('/getclientChartData', 'HomeController@getclientChartData')->name('getclientChartData');
+
+
 Route::get('/definations/company', 'setting\definationsController@company')->name('company');
 Route::post('/definations/storeCompany', 'setting\definationsController@storeCompany')->name('storeCompany');
 
