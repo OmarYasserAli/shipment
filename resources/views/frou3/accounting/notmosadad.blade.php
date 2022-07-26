@@ -421,7 +421,13 @@
                     opreation_codes= codes;
 
                     var brach_filter = $('#branch_').val();
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                        });
                  $.ajax({
+                    
                      url: "{{route('frou3.accounting.tasdid')}}" ,
                      type: 'post',
                      data:{ code:codes,  _token: "{{ csrf_token() }}" ,brach_filter:brach_filter},
