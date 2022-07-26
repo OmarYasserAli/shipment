@@ -16,7 +16,7 @@
                 <div class="col-span-12 lg:col-span-6 mt-8">
                     <div class="intro-y block sm:flex items-center h-10">
                         <h2 class="text-lg font-medium truncate mr-5">
-                            Sales Report
+                            شحنات العميل
                         </h2>
                         <div class="sm:ml-auto mt-3 sm:mt-0 relative text-slate-500">
                             <i data-lucide="calendar" class="w-4 h-4 z-10 absolute my-auto inset-y-0 ml-3 left-0"></i> 
