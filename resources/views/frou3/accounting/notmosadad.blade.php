@@ -430,12 +430,12 @@
                     
                      url: "{{route('frou3.accounting.tasdid')}}" ,
                      type: 'post',
-                     data:{ code:codes,  _token: "{{ csrf_token() }}" ,brach_filter:brach_filter},
+                     data:{ _token: "{{ csrf_token() }}",code:codes ,brach_filter:brach_filter},
                      error: function(e){
                          console.log(e);
                      },
                      success: function(res) {
-                         console.log(res)
+                         //console.log(res)
                          rowsAffected =  codes.length - res['count']
                          msg =" تم تسديد " +res['count']+   " شحنة  "  +" تم رفض " + rowsAffected + " شحنة ";
                          let msg_modal = tailwind.Modal.getOrCreateInstance(document.querySelector("#msg_modal"));
@@ -449,7 +449,7 @@
                         $('.check_count').each(function() {
                             //
                             if($(this).is(':checked')  && $(this).data('status')==7){
-                                console.log($(this).data('status'));
+                                //console.log($(this).data('status'));
                                 total_cnt--;
                                 total_cost-= $(this).data('cost');
                                 total_tawsil-= parseInt($(this).data('t7wel'));
@@ -515,7 +515,7 @@
                         else
                             var items= $('table tbody input:checkbox:checked')
                             items.each(function(){
-                                console.log($(this))
+                               // console.log($(this))
 
                         if(!$(this).is(':checked'))
                         {
@@ -563,7 +563,7 @@
                             success: function(result){
                             $('#Commercial_name').prop('disabled', false);
                             $('#Commercial_name').html('<option value="">...</option>');
-                            console.log(result);
+                            //console.log(result);
                             $.each(result.all,function(key,value){
                                 $("#Commercial_name").append('<option value="'+value.name_+'">'+value.name_+'</option>');
                             });
@@ -597,7 +597,7 @@
                         return;
                     }
                     $.each(response.data,function(key,value){
-                        console.log(value.client);
+                        //console.log(value.client);
                         cont++;
                         var client = '';
                         if (typeof value.client != 'undefined' &&  value.client != null){client = (value.client)['name_'];}else{client =value.client_name_}
