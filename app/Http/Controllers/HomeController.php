@@ -40,7 +40,7 @@ class HomeController extends Controller
         ,'status_4_color','status_7_color','status_8_color','status_9_color'])->get()->keyBy('name')->pluck('val');
 
         $clients = User::where('type_','عميل')->where('branch', auth()->user()->branch)->get();
-         //dd($status_color);
+        // dd($status_color);
         $page_title='لوحة المواقبة';
         return view('home' ,compact('page_title','dailyStatus','dailyShipments','status','status_color','clients'));
     }
