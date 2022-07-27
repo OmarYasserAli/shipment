@@ -43,8 +43,8 @@ return [
         ],
 
         'database' => [
-            'driver' => 'database',
-            'table' => 'cache',
+            'driver' => null,
+            'table' => null,
             'connection' => null,
         ],
 
