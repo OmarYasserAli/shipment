@@ -28,6 +28,7 @@ use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 use PDF;
 class khaznaController extends Controller
 {
+    /*/** */
     public function create(){
         $branches = BranchInfo::all();
         $page_title='اضافة خزنة';
