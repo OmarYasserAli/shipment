@@ -1646,7 +1646,7 @@ class shipmentsController extends Controller
                 'sums'=>$sums
             ], 200);
         }
-
+/**/
 
         // $all->withPath("?mo7afza={$request->mo7afza}&showAll={$request->showAll}
         // &client_id={$request->client_id}");
