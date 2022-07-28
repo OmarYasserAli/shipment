@@ -51,6 +51,16 @@ class Shipment extends Model
         elseif($type=="مندوب استلام")
             return $query->where('Delivery_take_shipment_ID', $id);
     }
+    public function scopeNotMosadad($query,$type)
+    {
+        if($type=="عميل")
+            return $query->where('el3amil_elmosadad', '!=' ,'مسدد');
+        elseif($type=="مندوب تسليم")
+            return $query->where("elmandoub_elmosadad_taslim", '!=' , 'مسدد'); 
+        
+        elseif($type=="مندوب استلام")
+        return $query->where("elmandoub_elmosadad_estlam", '!=' , 'مسدد');
+    }
     
     // public function scopedateFilter($query,$from, $to)
     // {
