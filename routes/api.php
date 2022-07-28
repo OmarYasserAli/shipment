@@ -35,6 +35,7 @@ Route::prefix('client')->group(function () {
     Route::post('search_ship','Client\HomeController@search_ship');
     Route::post('addreport','Client\ReportController@Addreport');
     Route::get('allreport','Client\ReportController@allreport');
+   
 });
 
 Route::get('home-page','general\HomeController@HomePage');
@@ -73,3 +74,4 @@ Route::get('estlam-shipments','general\HomeController@estlam_shipments');
 Route::get('estlam-commercial-names','general\HomeController@estlam_commercial_names');
 
 
+Route::post('chatopen','general\HomeController@chat_open');
