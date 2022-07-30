@@ -587,8 +587,9 @@
                             <td  class="whitespace-nowrap " >`+value.date_+`</td>
 
                             <td  class="whitespace-nowrap " >`+value.branch_+`</td>
+                            <td  class="whitespace-nowrap " >`+value.Ship_area_+`</td>
                             <td  class="whitespace-nowrap " >`+value.total_+`</td>
-                            <td  class="whitespace-nowrap " >`+value.t7weel_cost+`</td>
+                            
                             <td  class="whitespace-nowrap " >`+value.shipment_coast_+`</td>
                             <td  class="whitespace-nowrap " >`+value.code_+`</td>
                             <td class="whitespace-nowrap " ><input type="checkbox" class="check_count" data-cost='`+value.shipment_coast_+`'

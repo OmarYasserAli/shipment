@@ -704,7 +704,7 @@ class frou3Controller extends Controller
         $mpdf = PDF::loadView('shipments.print',$data);
         return $mpdf->stream('document.pdf');
     }
-    $page_title='الموافقة على تحويل رواجع الفروع';
+        $page_title='الموافقة على تحويل رواجع الفروع';
          return view('frou3.t7wel_sho7nat.accept',compact('all','branches','mo7afazat','page_title'));
 
     }
@@ -1290,9 +1290,6 @@ class frou3Controller extends Controller
      }
     //end rag3
 
-
-
-
     //acc
     public function AccountingNotMosadad(Request $request)
     {
@@ -1377,11 +1374,11 @@ class frou3Controller extends Controller
             $shipments = $shipments->where('commercial_name_', '=', $request->Commercial_name);
             }
 
-
+           
         if(isset( request()->date_from))
             $shipments= $shipments->where('date_' ,'>=',DATE($request->date_from) );
         if(isset( request()->date_to))
-            $shipments= $shipments->where('date_' ,'<=' ,DATE($request->date_to) );
+            $shipments= $shipments->where('date_' ,'<=' ,DATE('Y-m-d',strtotime($request->date_to. ' +1 day') ));
         if(isset( request()->tasdid_date_from))
             $shipments= $shipments->where('tarikh_el7ala' ,'>=',DATE($request->tasdid_date_from) );
         if(isset( request()->tasdid_date_to))
@@ -1610,15 +1607,20 @@ class frou3Controller extends Controller
             $shipments = $shipments->where('commercial_name_', '=', $request->Commercial_name);
             }
 
-
-        if(isset( request()->date_from))
+           // dd(DATE(strtotime($request->date_to. ' +1 day') ));
+        if(isset( request()->date_from)){}
             $shipments= $shipments->where('date_' ,'>=',DATE($request->date_from) );
         if(isset( request()->date_to))
-            $shipments= $shipments->where('date_' ,'<=' ,DATE($request->date_to) );
-        if(isset( request()->tasdid_date_from))
-            $shipments= $shipments->where('tarikh_tasdid_far3' ,'>=',DATE($request->tasdid_date_from) );
-        if(isset( request()->tasdid_date_to))
-            $shipments= $shipments->where('tarikh_tasdid_far3' ,'<=' ,DATE($request->tasdid_date_to) );
+            $shipments= $shipments->where('date_' ,'<=' ,DATE(strtotime($request->date_to. ' +1 day') ) );
+        if(isset( request()->tasdid_date_from)){
+            $start_raw = DB::raw("STR_TO_DATE(tarikh_tasdid_far3, '%Y-%m-%d')");
+            //dd($start_raw);
+            $shipments= $shipments->where($start_raw ,'>=',DATE($request->tasdid_date_from) );
+        }
+        if(isset( request()->tasdid_date_to)){
+            $end_raw = DB::raw("STR_TO_DATE(tarikh_tasdid_far3, '%Y-%m-%d')");
+            $shipments= $shipments->where($end_raw ,'<=' ,DATE($request->tasdid_date_to) );
+        }
 
             $all_shipments = $shipments;
             $ta7weel=0;

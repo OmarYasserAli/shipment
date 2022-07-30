@@ -3,7 +3,8 @@
 namespace App\Models;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Support\Facades\DB;
+use DateTimeInterface;
 class Shipment extends Model
 {
     protected $table = 'add_shipment_tb_';
@@ -16,7 +17,15 @@ class Shipment extends Model
         'tas3ir_mandoub_taslim' =>'double',
         'total_' => 'double',
         'code_' =>'string',
+       // 'date_'=>  'date:Y-m-d',
     ];
+    /**
+     * Prepare a date for array / JSON serialization.
+     *
+     * @param  \DateTimeInterface  $date
+     * @return string
+     */
+  
     public function Shipment_status()
     {
         return $this->belongsTo(Shipment_status::class,'Status_');
