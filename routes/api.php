@@ -40,6 +40,7 @@ Route::prefix('client')->group(function () {
 
 Route::get('home-page','general\HomeController@HomePage');
 Route::get('shipments','general\HomeController@shipments');
+Route::post('shipments/update','general\HomeController@updateShipment');
 Route::post('shipments/store','general\HomeController@store');
 Route::get('accounting','general\HomeController@accounting');
 Route::get('accounting-shipments','general\HomeController@accounting_shipments');
