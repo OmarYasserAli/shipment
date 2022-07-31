@@ -253,7 +253,7 @@ $('#manteka-table').on('dblclick', 'td', function(){
     let current_status=0;
     $( document ).ready(function() {
         const myModal = tailwind.Modal.getOrCreateInstance(document.querySelector("#type_modal"));
-       // myModal.show();
+        myModal.show();
     });
 
     $( "#modal_close" ).click(function() {

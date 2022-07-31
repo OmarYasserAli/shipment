@@ -153,6 +153,7 @@ class tas3irController extends Controller
     public function save_3amel_5as(Request $request){
 
         if ($request->serial == 0){
+            
              $specialClient = User::where('code_',$request->specialClient)->first();
              $branch = Auth::user()->branch;
             Tas3ir_3amil_5as::create([
