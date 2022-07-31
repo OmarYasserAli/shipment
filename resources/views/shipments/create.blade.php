@@ -67,11 +67,15 @@
                                     @endif
                                     <div class="form-inline mt-3">
                                         <label for="3amil-name" class="form-label sm:w-20">اسم العميل</label>
-                                        <select class="form-control client_id " id='client_id' name="client_id" data-clear='{{$clearFileds['remove_client_name']}}'>
-                                            <option value=""></option>
-                                            @foreach ($clients as $client)
-                                             <option value="{{$client->code_}}">{{$client->name_}}</option>
-                                             @endforeach
+                                        <select class="form-control client_id " id='client_id' name="client_id" data-clear='{{$clearFileds['remove_client_name']}}' @if (auth()->user()->type_=='عميل') disabled @endif>
+                                            @if (auth()->user()->type_=='عميل')
+                                            <option value="{{auth()->user()->code_}}">{{auth()->user()->name_}}</option>
+                                           @else
+                                                <option value=""></option>
+                                                @foreach ($clients as $client)
+                                                <option value="{{$client->code_}}">{{$client->name_}}</option>
+                                                @endforeach
+                                             @endif
                                         </select>
 
                                         <script>
@@ -82,6 +86,12 @@
                                     <div class="form-inline mt-3">
                                         <label for="commercial-name" class="form-label sm:w-20 ">الاسم التجارى</label>
                                         <select class="Commercial_name form-control" id='Commercial_name' name="Commercial_name" data-clear='{{$clearFileds['remove_commercial_name']}}'>
+                                        @if ( $Commercial_names)
+                                            @foreach ( $Commercial_names as $cName )
+                                                <option value="{{$cName->name_}}">{{$cName->name_}}</option>
+                                            @endforeach
+                                            
+                                        @endif
                                         </select>
                                     </div>
                                     <small class="warring data-error" id='data-error-Commercial_name' style="margin-right: 100px;" hidden></small>
@@ -265,7 +275,7 @@ $('#el3nwan').on('change', function() {
 
                     var client_id  = $('#client_id ').find(":selected").val();
                     var mo7afza_id  = $('#mo7afza ').find(":selected").val();
-
+// console.log(client_id);
                         $("#tawsil_cost").html('');
                         if(manteka_id == '') return;
                         $.ajax({

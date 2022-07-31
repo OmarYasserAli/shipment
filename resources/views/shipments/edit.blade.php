@@ -367,7 +367,7 @@ var  manteka =new TomSelect("#manteka",{
         formData.forEach(element =>
         {   data[element['name']]= element['value'] ;
         if(element['name']!='notes_' && element['name']!='reciver_name_' && element['name']!='code'
-        && element['name']!='transfere_1' &&  element['name']!='transfere_2' && element['name']!='transfer_coast_' && element['name']!='transfer_coast_2'    ){
+        && element['name']!='transfere_1' &&  element['name']!='transfere_2' && element['name']!='transfer_coast_1' && element['name']!='transfer_coast_2'    ){
             if(element['value'] =='' || element['value'] == null)
             {
                 flg=1; $("#cerror").append('<li>'+element['name'] +' is required</li>');

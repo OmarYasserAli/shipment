@@ -1284,7 +1284,11 @@ class shipmentsController extends Controller
         $clearFileds=Setting::whereIn('name',['remove_mantka','remove_mo7fza','remove_client_name','remove_commercial_name'])->get()->pluck('val','name')->toArray();
         // dd($clearFileds);
         $phoneLength =Setting::get('phone_length');
-        return view('shipments.create',compact('clients','mo7afazat','now','code_ai','page_title','clearFileds','phoneLength'));
+        $Commercial_names= 0;
+        if($user->type_=='عميل')
+            $Commercial_names =Commercial_name::where('code_',$user->code_)->groupBy('name_')->get();
+
+        return view('shipments.create',compact('clients','mo7afazat','now','code_ai','page_title','clearFileds','phoneLength','Commercial_names'));
     }
     public function store(Request $request){
 
@@ -1552,11 +1556,13 @@ class shipmentsController extends Controller
 
     }
       public function print(Request $request){
+        
         $path = explode(",", $request->code);
         $exp = array();
         $exp = array_merge($exp, $path);
 
         $user=auth()->user();
+        
           if(!$user->isAbleTo('print-shipment')){
               return abort(403);
           }
