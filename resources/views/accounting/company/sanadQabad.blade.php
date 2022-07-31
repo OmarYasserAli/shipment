@@ -78,6 +78,11 @@
                                             <label for="regular-form-2" class="form-label">المبلغ</label>
                                             <input id="regular-form-2"  type="text" class="form-control" name="amount" >
                                         </div>
+                                        <div class="mt-3">
+                                            <label for="regular-form-2" class="form-label">ملاحظات</label>
+                                            <textarea id="regular-form-2"   class="form-control" name="notes"></textarea>
+                                           
+                                        </div>
                                 <button class="btn btn-primary mt-5">Save</button>
                             </form>
                                 </div>

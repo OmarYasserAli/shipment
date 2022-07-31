@@ -88,6 +88,7 @@ class sanadatController extends Controller
         $sanad->type = $request->page_type;	
         $sanad->khazna_id = $request->khazna_id;
         $sanad->amount = $request->amount;
+        $sanad->notes = $request->notes;
         $khazna = Khazna::findOrFail($request->khazna_id);
        
         if($request->page_type =='صرف'   && $khazna->net() < $request->amount){
@@ -105,7 +106,7 @@ class sanadatController extends Controller
         $sanad2->amount = $request->amount ;
         $sanad2->code = 0;
         $sanad2->type = $request->page_type;
-        $sanad2->note = 'خزينة';
+        $sanad2->note = $request->notes;
         $sanad2->save();
         return back()->with('status','تمت العملية بنجاح');
     }
