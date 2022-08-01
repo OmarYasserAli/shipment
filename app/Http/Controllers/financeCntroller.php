@@ -67,9 +67,19 @@ class financeCntroller extends Controller
                 ], 200);
             }
             $sanadat = Sanad::with(['sanadable'])->where('khazna_id', request()->khazna_id)
-            // ->where('created_at', '>', $date_from)
-            // ->where('created_at', '<=' , $date_to)->orderBy('created_at')->get();
+  
             ->whereBetween('created_at', [ $date_from,  $date_to])->orderBy('created_at')->get();
+            if(isset(request()->pdf)){
+                $safiKhazna =$this->khaznaNet($khazna,Carbon::now()->addDays(1)->format('y-m-d'));
+                return response()->json([
+                    'status' => 200,
+                  
+                    'message' => 'sucecss',
+                    'safiKhazna'=>$safiKhazna,
+                    'sanadat'=>$sanadat
+                ], 200);
+            }
+            
             //dd($sanadat);
             $safiKhazna =$this->khaznaNet($khazna,$date_from);
             

@@ -204,18 +204,11 @@
             let opreation_codes=[];
 
             $('#print').on('click', function(){
-                var codes=[];
-                $('.check_count').each(function() {
-                        if($(this).is(':checked')){
-                            codes.push($(this).data('code'));
-                        }
-                    });
-                $('#operation_print').on('click',function(){
-                    window.open("{{route('opretation-print')}}"+'?codes='+opreation_codes+'&type=3amel&title='+'تحويل شحنات');
-
-                })
-                window.open(window.location.href.split('?')[0]+'?pdf=1&codes='+codes);
-                // window.location.replace ();
+               
+               
+               
+                window.open(window.location.href+'&pdf=1');
+               
                 });
             let  shipments=[];
             let cnt=1;
