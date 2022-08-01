@@ -89,8 +89,8 @@
         }
 
         .invoice-box table tr.top table td.title {
-            font-size: 45px;
-            line-height: 45px;
+            font-size: 25px;
+            line-height: 15px;
             color: #333;
         }
 
@@ -163,17 +163,18 @@
             <td colspan="2">
                 <table>
                     <tr>
-                        <td>
-                            <h3>{{$company->name_}} <br><br><span>{{$company->Tel_}} </span> </h3>
+                        <td class="title">
+                            <h3>{{$company->name_}} </h3><br><br> <br><h3>{{$company->address_}}</h3>
                         </td>
-                        <td class="title" style="">
-                            {{-- <img style="width: 130px;" src="{{asset('assets/'.$company->image_data)}}"  alt="" class="ml-auto" style="height: 130px!important; margin-bottom: 30px"> --}}
+                        <td class="title"  style="text-align: center !important;">
+                            <img style="width: 130px;" src="assets/{{$company->image_data}}"  alt="" class="" style="width:50mm; height: 50mm!important; margin-left: 60mm ">
                         </td>
-                        <td>
-                            <h4>
-                                {{$company->branch_}}<br />
-                                {{$company->address_}}
-                            </h4>
+                        <td class="title" style="text-align: left">
+                            <h3>
+                                {{$company->name_E}}</h3><br/><br>
+                            <h3>
+                                {{$company->	Tel_}}
+                            </h3>
                         </td>
 
 
@@ -217,8 +218,8 @@
             <td colspan='9' style="">الرصيد السابق</td>
             <td>@if($safiKhazna < 0 )  {{($safiKhazna)*-1}} @else 0 @endif</td>
             <td>@if($safiKhazna > 0 )  {{$safiKhazna}} @else 0 @endif</td>
-           
-        
+
+
     </tr>
         @php
             $i=0;
@@ -261,8 +262,8 @@
             <td> {{$T7rkaMaden}}</td>
             <td> {{$TrasedDa2en}}</td>
             <td> {{$TrasedMaden}}</td>
-           
-        
+
+
     </tr>
     </table>
 
