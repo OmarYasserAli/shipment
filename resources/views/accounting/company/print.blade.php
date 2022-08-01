@@ -196,31 +196,6 @@
         {{--    </div>--}}
 
 
-        <table class="tabel_data" align="center">
-            <tr>
-                <th >عدد الشحنات</th>
-                <th >اجمالي مبلغ الشحنة</th>
-
-                <th>اجمالي اجرة الشركة</th>
-
-
-                <th >اجمالي الصافي</th>
-                <th >التاريخ</th>
-
-
-            </tr>
-
-
-                <tr >
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-
-                </tr>
-
-        </table>
     </div>
     <br><br><br><br>
 
