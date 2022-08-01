@@ -67,17 +67,21 @@ class financeCntroller extends Controller
                 ], 200);
             }
             $sanadat = Sanad::with(['sanadable'])->where('khazna_id', request()->khazna_id)
-  
             ->whereBetween('created_at', [ $date_from,  $date_to])->orderBy('created_at')->get();
+            $page_title='كشف حساب خزية';
             if(isset(request()->pdf)){
                 $safiKhazna =$this->khaznaNet($khazna,Carbon::now()->addDays(1)->format('y-m-d'));
-                return response()->json([
-                    'status' => 200,
-                  
-                    'message' => 'sucecss',
-                    'safiKhazna'=>$safiKhazna,
-                    'sanadat'=>$sanadat
-                ], 200);
+                
+
+                $data = [
+                    'sanadat'=>$sanadat,
+                    'title'=>$page_title,
+                    'safiKhazna'=>$safiKhazna
+                ];
+        
+                $mpdf = PDF::loadView($printPage,$data);
+                $mpdf->showImageErrors = true;
+                return $mpdf->stream('document.pdf');
             }
             
             //dd($sanadat);
@@ -87,7 +91,7 @@ class financeCntroller extends Controller
         
         
 
-        $page_title='كشف حساب خزية';
+        
         return view('accounting.company.kashf-5azna',compact('sanadat','khaznat','safiKhazna','page_title'));
     }
 
