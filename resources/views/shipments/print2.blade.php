@@ -5,7 +5,7 @@
         @php
             $companyMainData = \App\Models\CompanyInfo::where('branch_','الفرع الرئيسى')->first();
         @endphp
-       
+
         <link rel="icon" type="image/x-icon" href="assets/{{$companyMainData->image_data}}">
         <title>طباعه الوصول</title>
   <style>
@@ -23,7 +23,7 @@
         }
          .fatoora th{
             width: 30%;
-            font-size: 13px;
+            font-size: 15px;
             font-weight: bold;
 
          }
@@ -37,7 +37,7 @@
         }
         .fatoora td {
             text-align: right !important;
-            font-size: 13px;
+            font-size: 15px;
     font-weight: bold;
         }
         .invoice-box {
