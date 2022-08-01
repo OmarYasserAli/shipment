@@ -97,16 +97,18 @@
                         </div>
                         <div class="w-52 sm:w-auto mx-auto mt-8">
                             @foreach ($dailyStatus as $key =>$val)
-                            
+                           
                                 <div class="flex items-center mt-4">
                                     @php $ii = $key;
-                                    if($ii>5) $ii--; @endphp
+                                    if($ii>5) $ii--; 
+                                    @endphp
+                                   
                                     <div class="w-2 h-2  rounded-full mr-3" style="background-color: {{$status_color[$ii-1]}};"></div>
                                     <span class="truncate">{{$status[$key]}}</span> <span class="font-medium mr-auto">{{$dailyStatus[$key]}}</span> 
                                 </div>
                             @endforeach
                             
-                            
+                          
                         </div>
                     </div>
                 </div>

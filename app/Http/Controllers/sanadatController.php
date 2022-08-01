@@ -88,6 +88,7 @@ class sanadatController extends Controller
         $sanad->type = $request->page_type;	
         $sanad->khazna_id = $request->khazna_id;
         $sanad->amount = $request->amount;
+        $sanad->is_solfa = $request->is_solfa;
         $sanad->notes = $request->notes;
         $khazna = Khazna::findOrFail($request->khazna_id);
        
@@ -104,8 +105,9 @@ class sanadatController extends Controller
 
 
         $sanad2->amount = $request->amount ;
-        $sanad2->code = 0;
+        $sanad2->code =  $sanad->code;
         $sanad2->type = $request->page_type;
+        $sanad2->is_solfa = $request->is_solfa;
         $sanad2->note = $request->notes;
         $sanad2->save();
         return back()->with('status','تمت العملية بنجاح');
@@ -119,7 +121,10 @@ class sanadatController extends Controller
             $data =  User::where('type_','عميل')->where('branch',$user->branch)->get();
         }
         if(request()->mostafed_type =='مندوب'){
-            $data =  User::where('branch',$user->branch)->where('type_','مندوب استلام')->orWhere('type_','مندوب تسليم')->get();
+           
+            $data =  User::where('branch',$user->branch)->where(function ($query) {
+                $query ->where('type_','مندوب استلام')->orWhere('type_','مندوب تسليم');
+            })->get();
             
         }
         if(request()->mostafed_type =='فرع'){
@@ -131,7 +136,6 @@ class sanadatController extends Controller
         if(request()->mostafed_type =='مصاريف'){
             $data = Masaref::where('branch_id',$b->code_)->get();
         }
-
 
         
         return response()->json([

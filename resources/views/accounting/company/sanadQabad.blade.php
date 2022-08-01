@@ -44,6 +44,14 @@
                                             <input id="regular-form-2" value="{{Carbon\Carbon::now()->format('Y-m-d  g:i:s A')}}"  type="text" class="form-control" disabled >
                                         </div>
                                         <div class="mt-3">
+                                            <label for="is_solfa" class="form-label">نوع السند</label>
+                                            <select  id='is_solfa' class="form-control is_solfa" name="is_solfa">
+                                               
+                                                <option value="0">سند قبض</option>
+                                                <option value="1">سند سلفة</option>
+                                            </select>
+                                        </div>
+                                        <div class="mt-3">
                                             <label for="regular-form-2" class="form-label">نوع المستفيد</label>
                                             <select  id='mostafed_type' class="form-control mostafed_type" name="mostafed_type">
                                                 <option value="">...</option>
@@ -51,9 +59,7 @@
                                                 <option value="مندوب">مندوب</option>
                                                 <option value="فرع">فرع</option>
                                                 <option value="اخرى">اخرى</option>
-
                                             </select>
-
                                         </div>
 
                                         <div class="mt-3">

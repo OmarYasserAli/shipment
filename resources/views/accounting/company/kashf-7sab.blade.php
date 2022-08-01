@@ -80,6 +80,16 @@
                                         
                                     </select>
                                 </div>
+                                <div class="form-inline">
+                                    <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:10px; margin-top:8px;  width:60px; ">نوع السند</label>
+                                    <select name="is_solfa" class="form-select form-select-sm mr-1 is_solfa" aria-label=".form-select-sm example" style=" width:250px">
+                                        <option value="">الكل</option>
+                                        
+                                        <option value="0"  @if(request()->get('is_solfa') =='0') selected @endif>سند</option>
+                                        <option value="1"  @if(request()->get('is_solfa') =='1') selected @endif>سلف</option>
+                                       
+                                    </select>
+                                </div>
 
 
                                 <div class="form-inline">
@@ -146,7 +156,7 @@
                             <td  class="whitespace-nowrap " ><?php echo $i;?></td>
                             <td  class="whitespace-nowrap " >{{$sanad->created_at }}</td>
                             <td  class="whitespace-nowrap " >{{$sanad->code }}</td>
-                            <td class="whitespace-nowrap " >{{$sanad->type}}</td>
+                            <td class="whitespace-nowrap " >{{$sanad->type}} @if($sanad->is_solfa) سلفة @endif</td>
                             <td class="whitespace-nowrap " >{{$type7sab}}</td>
                             <td class="whitespace-nowrap " >{{$owner}}</td>
                             

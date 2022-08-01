@@ -134,7 +134,7 @@
                             <td  class="whitespace-nowrap " ><?php echo $i;?></td>
                             <td  class="whitespace-nowrap " >{{$sanad->created_at }}</td>
                             <td  class="whitespace-nowrap " >{{$sanad->code }}</td>
-                            <td class="whitespace-nowrap " >{{$sanad->type}}</td>
+                            <td class="whitespace-nowrap " >{{$sanad->type}} @if($sanad->is_solfa) سلفة @endif</td>
                             <td class="whitespace-nowrap " >{{$sanad->mostafed_type()}}</td>
                             <td class="whitespace-nowrap " >{{$sanad->sanadable->name_}}</td>
                             <td class="whitespace-nowrap " >{{$sanad->notes}}</td>
