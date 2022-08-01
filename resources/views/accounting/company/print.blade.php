@@ -226,7 +226,7 @@
 
     <table class="tabel_data" align="center">
         <tr>
-
+            <th>#</th>
             <th>التاريخ</th>
             <th>الرقم</th>
             <th>نوع الحركة</th>
@@ -264,7 +264,7 @@
                 <td >{{$sanad->type}} @if($sanad->is_solfa) سلفة @endif</td>
                 <td>{{$sanad->mostafed_type()}}</td>
                 <td >{{$sanad->sanadable->name_}}</td>
-                <td{{$sanad->notes}}</td>
+                <td>{{$sanad->notes}}</td>
 
                 <td >@if($sanad->type =='صرف')  {{number_format($sanad->amount , 0)}} @php $T7rkaDa2en+= $sanad->amount; @endphp @else 0 @endif</td>
                 <td >@if($sanad->type =='قبض'){{number_format($sanad->amount , 0)}} @php $T7rkaMaden+= $sanad->amount; @endphp @else 0 @endif</td>
