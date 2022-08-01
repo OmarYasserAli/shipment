@@ -69,8 +69,9 @@ class financeCntroller extends Controller
             $sanadat = Sanad::with(['sanadable'])->where('khazna_id', request()->khazna_id)
             ->whereBetween('created_at', [ $date_from,  $date_to])->orderBy('created_at')->get();
             $page_title='كشف حساب خزية';
+            $safiKhazna =$this->khaznaNet($khazna,$date_from);
             if(isset(request()->pdf)){
-                $safiKhazna =$this->khaznaNet($khazna,Carbon::now()->addDays(1)->format('y-m-d'));
+                //$safiKhazna =$this->khaznaNet($khazna,Carbon::now()->addDays(1)->format('y-m-d'));
                 $printPage='accounting.company.print';
 
                 $data = [
@@ -78,18 +79,18 @@ class financeCntroller extends Controller
                     'title'=>$page_title,
                     'safiKhazna'=>$safiKhazna
                 ];
-
+               
                 $mpdf = PDF::loadView($printPage,$data);
                 $mpdf->showImageErrors = true;
                 return $mpdf->stream('document.pdf');
             }
 
             //dd($sanadat);
-            $safiKhazna =$this->khaznaNet($khazna,$date_from);
+           
 
         }
 
-
+        $page_title='كشف حساب خزية';
 
 
         return view('accounting.company.kashf-5azna',compact('sanadat','khaznat','safiKhazna','page_title'));

@@ -213,6 +213,13 @@
             <th>رصيد دائن</th>
             <th>رصيد مدين</th>
         </tr>
+        <tr>
+            <td colspan='9' style="">الرصيد السابق</td>
+            <td>@if($safiKhazna < 0 )  {{($safiKhazna)*-1}} @else 0 @endif</td>
+            <td>@if($safiKhazna > 0 )  {{$safiKhazna}} @else 0 @endif</td>
+           
+        
+    </tr>
         @php
             $i=0;
             $raseed=$safiKhazna;
@@ -248,6 +255,15 @@
 
             </tr>
         @endforeach
+        <tr>
+            <td colspan='7'>الاجمالى</td>
+            <td> {{$T7rkaDa2en}}</td>
+            <td> {{$T7rkaMaden}}</td>
+            <td> {{$TrasedDa2en}}</td>
+            <td> {{$TrasedMaden}}</td>
+           
+        
+    </tr>
     </table>
 
 {{--ZIAD ABO ALKAMAR--}}
