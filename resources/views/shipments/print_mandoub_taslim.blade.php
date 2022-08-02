@@ -178,7 +178,7 @@
                             <h3>{{$company->name_}} </h3><br><br> <br><h3>{{$company->address_}}</h3>
                         </td>
                         <td class="title img"  style="text-align: center !important;">
-                            <img src="assets/{{$company->image_data}}"  alt="" class="" style="width:50mm; height: 50mm!important; margin-right: 20mm ">
+                            <img src="assets/{{$company->image_data}}"  alt="" class="" style="width:25mm; height: 25mm!important; margin-right: 40mm ">
                         </td>
                         <td class="title" style="text-align: left">
                             <h3>

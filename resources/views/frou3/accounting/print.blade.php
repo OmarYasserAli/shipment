@@ -172,28 +172,11 @@
             <td colspan="2">
                 <table>
                     <tr>
-                        <td>
-                            <h3>{{$company->name_}} <br><br><span>{{$company->Tel_}} </span> </h3>
-                        </td>
-                        <td class="title" style="">
-                            {{-- <img style="width: 130px;" src="{{asset('assets/'.$company->image_data)}}"  alt="" class="ml-auto" style="height: 130px!important; margin-bottom: 30px"> --}}
-                        </td>
-                        <td>
-                            <h4>
-                                {{$company->branch_}}<br />
-                                {{$company->address_}}
-                            </h4>
-                        </td>
-
-
-                    </tr>
-                </table>  <table>
-                    <tr>
                         <td class="title">
                             <h3>{{$company->name_}} </h3><br><br> <br><h3>{{$company->address_}}</h3>
                         </td>
                         <td class="title img"  style="text-align: center !important;">
-                            <img src="assets/{{$company->image_data}}"  alt="" class="" style="width:50mm; height: 50mm!important; margin-right: 20mm ">
+                            <img src="assets/{{$company->image_data}}"  alt="" class="" style="width:25mm; height: 25mm!important; margin-right: 40mm ">
                         </td>
                         <td class="title" style="text-align: left">
                             <h3>
