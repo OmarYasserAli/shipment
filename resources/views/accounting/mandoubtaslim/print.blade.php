@@ -89,9 +89,17 @@
         }
 
         .invoice-box table tr.top table td.title {
-            font-size: 45px;
-            line-height: 45px;
-            color: #333;
+        .invoice-box .title{
+            width: 33.3%!important ;
+            display: inline-block!important;
+        }
+        .invoice-box .title.img img{
+            text-align: center!important;
+            justify-content: center!important;
+            align-content: center!important;
+            align-items: center!important;
+            margin: auto!important;
+        }
         }
 
         .invoice-box table tr.information table td {
@@ -123,7 +131,17 @@
             font-weight: bold;
         }
 
-
+        .invoice-box .title{
+            width: 33.3%!important ;
+            display: inline-block!important;
+        }
+        .invoice-box .title.img img{
+            text-align: center!important;
+            justify-content: center!important;
+            align-content: center!important;
+            align-items: center!important;
+            margin: auto!important;
+        }
         @media only screen and (max-width: 600px) {
             .invoice-box table tr.top table td {
                 width: 100%;
@@ -163,17 +181,18 @@
             <td colspan="2">
                 <table>
                     <tr>
-                        <td>
-                            <h3>{{$company->name_}} <br><br><span>{{$company->Tel_}} </span> </h3>
+                        <td class="title">
+                            <h3>{{$company->name_}} </h3><br><br> <br><h3>{{$company->address_}}</h3>
                         </td>
-                        <td class="title" style="">
-                            {{-- <img style="width: 130px;" src="{{asset('assets/'.$company->image_data)}}"  alt="" class="ml-auto" style="height: 130px!important; margin-bottom: 30px"> --}}
+                        <td class="title img"  style="text-align: center !important;">
+                            <img src="assets/{{$company->image_data}}"  alt="" class="" style="width:50mm; height: 50mm!important; margin-right: 20mm ">
                         </td>
-                        <td>
-                            <h4>
-                                {{$company->branch_}}<br />
-                                {{$company->address_}}
-                            </h4>
+                        <td class="title" style="text-align: left">
+                            <h3>
+                                {{$company->name_E}}</h3><br/><br>
+                            <h3>
+                                {{$company->	Tel_}}
+                            </h3>
                         </td>
 
 

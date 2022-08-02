@@ -126,7 +126,17 @@
             border-top: 2px solid #eee;
             font-weight: bold;
         }
-
+        .invoice-box .title{
+            width: 33.3%!important ;
+            display: inline-block!important;
+        }
+        .invoice-box .title.img img{
+          text-align: center!important;
+            justify-content: center!important;
+            align-content: center!important;
+            align-items: center!important;
+            margin: auto!important;
+        }
 
         @media only screen and (max-width: 600px) {
             .invoice-box table tr.top table td {
@@ -170,8 +180,8 @@
                         <td class="title">
                             <h3>{{$company->name_}} </h3><br><br> <br><h3>{{$company->address_}}</h3>
                         </td>
-                        <td class="title"  style="text-align: center !important;">
-                            <img style="width: 130px;" src="assets/{{$company->image_data}}"  alt="" class="" style="width:50mm; height: 50mm!important; margin-left: 60mm ">
+                        <td class="title img"  style="text-align: center !important;">
+                            <img src="assets/{{$company->image_data}}"  alt="" class="" style="width:50mm; height: 50mm!important; margin-right: 20mm ">
                         </td>
                         <td class="title" style="text-align: left">
                             <h3>
