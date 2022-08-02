@@ -6,7 +6,7 @@
     </a>
     <div class="side-nav__devider my-6"></div>
     <ul>
-        <li>  
+        <li>
             <a  href="{{route('home')}}" class="side-menu">
                 <div class="side-menu__icon"> <i data-lucide="inbox"></i> </div>
                 <div class="side-menu__title"> لوحة المراقبة </div>
@@ -97,6 +97,16 @@
                         <div class="side-menu__title"> ﺗﺳﻠﯾم ﺷﺣﻧﺔ اﻟﻰ ﻣﻧدوب ﺗﺳﻠﯾم ﺑﺄﺳﺗﺧدام Qr </div>
                     </a>
                 </li>
+                    @endif
+
+                    @if(\Illuminate\Support\Facades\Auth::user()->isAbleTo('tasleemToMandoubtaslim-shipment'))
+
+                        <li>
+                            <a href="{{route('shipment.taslim_qr')}}" class="side-menu">
+                                <div class="side-menu__icon"> <i data-lucide="activity"></i> </div>
+                                <div class="side-menu__title"> ﺗﺳﻠﯾم ﺷﺣﻧﺔ اﻟﻰ ﻣﻧدوب ﺗﺳﻠﯾم ﺑﺄﺳﺗﺧدام Qr </div>
+                            </a>
+                        </li>
                     @endif
             </ul>
         </li>
@@ -521,10 +531,10 @@
             </a>
             <ul class="@if(Request::is('settings/*') ||Request::is('settings'))side-menu__sub-open @endif">
                 <li>
-                    <a href="side-menu-light-tab.html" class="side-menu">
+                    <a href="{{route("ads.index")}}" class="side-menu">
                         <div class="side-menu__icon"> <i data-lucide="activity"></i> </div>
                         <div class="side-menu__title">
-                            اﺿﺎﻓﺔ اﻻﻋﻼﻧﺎت
+                             اﻻﻋﻼﻧﺎت
                              </div>
                     </a>
                 </li>
@@ -573,7 +583,7 @@
                                     اضافة مصاريف </div>
                             </a>
                         </li>
-                        @endif  
+                        @endif
                         @if(\Illuminate\Support\Facades\Auth::user()->isAbleTo('rabat_mosta5dam_ma3_khazena'))
                         <li>
                             <a href="{{route('setting.o5ra_tree')}}" class="side-menu">
@@ -596,6 +606,7 @@
                 @endif
             </ul>
         </li>
+
         <!-- -->
         @endif
     </ul>
