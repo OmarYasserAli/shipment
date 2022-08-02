@@ -10,6 +10,12 @@ class Sanad_masaref extends Model
     protected $guarded = [];
     protected $filable = ['name','code','date'];
     // public $timestamps = false;
-
+    public function mostafed_type(){
+        return 'حساب مصاريف';
+    }
+    public function sanadable()
+    {
+        return $this->belongsTo(Masaref::class,'mandoub_id');
+    }
    
 }

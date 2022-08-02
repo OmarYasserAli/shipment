@@ -171,10 +171,25 @@ class financeCntroller extends Controller
             }
             $sanadat=$sanadat->get();
             $type7sab= request()->type;
+            $page_title='كشف حساب';
+            if(isset(request()->pdf)){
+                //$safiKhazna =$this->khaznaNet($khazna,Carbon::now()->addDays(1)->format('y-m-d'));
+                $printPage='accounting.company.print';
+
+                $data = [
+                    'sanadat'=>$sanadat,
+                    'title'=>$page_title,
+                    'safiKhazna'=>$safi7sab
+                ];
+               
+                $mpdf = PDF::loadView($printPage,$data);
+                $mpdf->showImageErrors = true;
+                return $mpdf->stream('document.pdf');
+            }
 
         }
-
         $page_title='كشف حساب';
+        
         return view('accounting.company.kashf-7sab',compact('clients','branches','mandoubs','khaznat','owner','page_title',
         'sanadat','safi7sab','type7sab'));
     }

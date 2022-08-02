@@ -11,5 +11,11 @@ class Sanad_3amil extends Model
     protected $filable = ['name','code','date'];
     // public $timestamps = false;
 
-   
+    public function mostafed_type(){
+        return 'عميل';
+    }
+    public function sanadable()
+    {
+        return $this->belongsTo(AllUser::class,'mandoub_id');
+    }
 }

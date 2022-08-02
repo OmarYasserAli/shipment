@@ -57,7 +57,7 @@
                                         <input type="hidden" name="date" class="form-control"   value="{{$now}}" >
 
                                     </div>
-                                    @if(!$code_ai)
+                                    @if(!$code_ai &&  Illuminate\Support\Facades\Auth::user()->type_!='عميل')
                                     <div class="form-inline mt-3">
                                         <label for="rakam-wasl" class="form-label sm:w-20">رقم الوصل</label>
                                         <input id="rakam-wasl" type="text" class="form-control"  name="code" />
@@ -98,13 +98,13 @@
 
                                     <div class="form-inline mt-3">
                                         <label for="reciver_phone_" class="form-label sm:w-20">هاتف المستلم</label>
-                                        <input id="reciver_phone_" type="text" class="form-control"  name="reciver_phone_" maxlength="{{$phoneLength}}" minlength="{{$phoneLength}}"/>
+                                        <input id="reciver_phone_" type="text" class="form-control"  name="reciver_phone_" maxlength="{{$phoneLength}}" minlength="{{$phoneLength}}" value="{{request()->reciver_phone_}}"/>
                                     </div>
                                     <small class="warring data-error" id='data-error-reciver_phone_' style="margin-right: 100px;" hidden></small>
 
                                     <div class="form-inline mt-3">
                                         <label for="reciver_name_" class="form-label sm:w-20">اسم المستلم</label>
-                                        <input id="reciver_name_" type="text" class="form-control"  name="reciver_name_" />
+                                        <input id="reciver_name_" type="text" class="form-control"  name="reciver_name_" value="{{request()->reciver_name_}}" />
                                     </div>
                                     <div class="form-inline mt-3">
                                         <label for="mo7afaza" class="form-label sm:w-20 ">المحافظة</label>

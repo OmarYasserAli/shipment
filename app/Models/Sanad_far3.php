@@ -11,5 +11,11 @@ class Sanad_far3 extends Model
     protected $filable = ['name','code','date'];
     // public $timestamps = false;
 
-   
+    public function mostafed_type(){
+        return 'فرع';
+    }
+    public function sanadable()
+    {
+        return $this->belongsTo(BranchInfo::class,'mandoub_id');
+    }
 }

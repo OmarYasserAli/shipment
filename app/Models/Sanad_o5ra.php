@@ -11,5 +11,11 @@ class Sanad_o5ra extends Model
     protected $filable = ['name','code','date'];
     // public $timestamps = false;
 
-   
+    public function mostafed_type(){
+        return 'حسابات أخرى';
+    }
+    public function sanadable()
+    {
+        return $this->belongsTo(O5ra_7sabat::class,'mandoub_id');
+    }
 }
