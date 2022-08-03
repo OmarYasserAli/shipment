@@ -155,7 +155,7 @@
 
                                     <div class="sm:ml-20 sm:pl-5 mt-5">
                                         <button class="btn btn-primary">حفظ</button>
-                                        <button class="btn btn-success" id="save_print">حفظ وتعديل</button>
+                                        <button class="btn btn-success" id="save_print">حفظ وطباعة</button>
 
                                         
                                     </div>

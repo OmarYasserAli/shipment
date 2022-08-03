@@ -29,12 +29,10 @@ class adsController extends Controller
      */
 
     public function index(){
-<<<<<<< HEAD
-        
-=======
+
     $ads = Ad::all();
     return view("setting.ads.index",compact('ads'));
->>>>>>> 1444b66230e447f2aecec55ccf12295dcd2966fc
+
     }
     public function create(){
         return view("setting.ads.create");
