@@ -126,7 +126,7 @@
 
                                         </select>
                                         <label for="horizontal-form-1" class="form-label sm:w-20">العنوان</label>
-                                        <input type="text" name="el3nwan" id="el3nwan" class="form-select form-select-sm mr-1" style=" width:400px; ">
+                                        <input type="text" name="el3nwan" id="el3nwan" class="form-select form-select-sm mr-1" style=" width:400px;" value="{{request()->el3nwan}}">
                                     </div>
                                     <small class="warring data-error" id='data-error-manteka' style="margin-right: 100px " hidden></small>
                                     <small class="warring data-error" id='data-error-el3nwan' style="margin-right: 550px;" hidden></small>
@@ -134,12 +134,12 @@
                                     <div class="form-inline mt-3">
                                         <label for="horizontal-form-1" class="form-label sm:w-20">مبلغ الشحنه</label>
 
-                                        <input id="shipment_cost" type="text" class="form-control   mr-1" name="shipment_coast_" aria-label="default input inline 1">
+                                        <input id="shipment_cost" type="text" class="form-control   mr-1" name="shipment_coast_" aria-label="default input inline 1"  value="{{request()->shipment_coast_}}">
 
                                         <label for="tawsil_cost" class="form-label sm:w-20">مبلغ التوصيل</label>
-                                        <input id="tawsil_cost" type="text" class="form-control col-span-2" name="tawsil_coast_"  aria-label="default input inline 1">
+                                        <input id="tawsil_cost" type="text" class="form-control col-span-2" name="tawsil_coast_"  aria-label="default input inline 1" @if(Illuminate\Support\Facades\Auth::user()->type_=='عميل') disabled @endif>
                                         <label for="total" class="form-label sm:w-20">الصافى</label>
-                                        <input  id="total" type="text" class="form-control col-span-2"  aria-label="default input inline 1" name="total_">
+                                        <input  id="total" type="text" class="form-control col-span-2"  aria-label="default input inline 1" name="total_" @if(Illuminate\Support\Facades\Auth::user()->type_=='عميل') disabled @endif> 
 
 
                                     </div>
@@ -149,7 +149,7 @@
 
                                     <div class="form-inline mt-3">
                                         <label for="notes_" class="form-label sm:w-20">ملاحظات</label>
-                                        <input id="notes_" type="text" class="form-control"   name="notes_"/>
+                                        <input id="notes_" type="text" class="form-control"   name="notes_" value="{{request()->notes_}}"/>
                                     </div>
 
 

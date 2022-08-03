@@ -1378,7 +1378,7 @@ class frou3Controller extends Controller
         if(isset( request()->date_from))
             $shipments= $shipments->where('date_' ,'>=',DATE($request->date_from) );
         if(isset( request()->date_to))
-            $shipments= $shipments->where('date_' ,'<=' ,DATE('Y-m-d',strtotime($request->date_to. ' +1 day') ));
+            $shipments= $shipments->where('date_' ,'<=' ,DATE($request->date_to ));
         if(isset( request()->tasdid_date_from))
             $shipments= $shipments->where('tarikh_el7ala' ,'>=',DATE($request->tasdid_date_from) );
         if(isset( request()->tasdid_date_to))

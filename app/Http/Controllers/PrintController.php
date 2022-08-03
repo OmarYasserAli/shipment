@@ -36,9 +36,10 @@ class PrintController extends Controller
                 {
 
                     $all=Shipment::whereIn('code_',$codes)->select('*',DB::raw("(CASE
-                                    WHEN ( branch_ = '{$user->branch}' and  transfere_1 = '{$brach_filter}' and elfar3_elmosadad_mno = '') THEN  transfer_coast_1
-                                    WHEN ( transfere_1 = '{$user->branch}' and  transfere_2 = '{$brach_filter}' and elfar3_elmosadad_mno_2 = '') THEN transfer_coast_2
-                                    END) AS t7weel_cost"));
+                    WHEN ( branch_ = '{$user->branch}' and  transfere_1 = '{$brach_filter}' and elfar3_elmosadad_mno = '') THEN  transfer_coast_1
+                    WHEN ( transfere_1 = '{$user->branch}' and  transfere_2 = '{$brach_filter}' and elfar3_elmosadad_mno_2 = '') THEN transfer_coast_2
+                    END) AS t7weel_cost"));
+                                    
 
 
                 }
@@ -52,6 +53,7 @@ class PrintController extends Controller
 
 
                 }
+                dd($all->get());
             }
             if(request()->type == 'import' ){
                 if( $brach_filter != '')
@@ -93,12 +95,13 @@ class PrintController extends Controller
             $ta7weel=0;
             foreach($all as $ship){
                 $ta7weel += $ship->t7weel_cost ;
+                
             }
             // dd($alSafiCost);
             $tawsilCost = $ta7weel;
             $alSafiCost = $totalCost - $tawsilCost;
             //dd($alSafiCost);
-
+         
         }elseif (request()->type == 'shipment'){
             $printPage='shipments.print';
 
@@ -125,7 +128,7 @@ class PrintController extends Controller
             'title'=>$page_title,
             'sum'=>$sums
         ];
-
+      
         $mpdf = PDF::loadView($printPage,$data);
         $mpdf->showImageErrors = true;
         return $mpdf->stream('document.pdf');
