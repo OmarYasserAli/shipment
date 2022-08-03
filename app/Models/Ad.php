@@ -6,7 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Ad extends Model
 {
-    
+    public $timestamps = false;
 
-    
+    protected $guarded = [];
+    protected $table = 'ads';
+
+
 }

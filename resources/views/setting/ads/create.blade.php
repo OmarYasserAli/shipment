@@ -28,7 +28,7 @@
                         <div class="post intro-y overflow-hidden box mt-5">
 
                             <div class="post__content tab-content">
-                                <form action="" method="POST" enctype="multipart/form-data">
+                                <form action="{{route('ads.store')}}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                 <div id="content" class="tab-pane p-5 active" role="tabpanel" aria-labelledby="content-tab">
                                     <div class="mt-3">
@@ -38,9 +38,7 @@
                                     <div class="mt-3">
 
                                         <label for="regular-form-1" class="form-label">الاعلان</label>
-{{--                                        @if ($company->image_data)--}}
-                                            <img src="" height="80px" alt="" class="ml-auto" style="height: 80px!important; margin-bottom: 30px">
-{{--                                        @endif--}}
+
                                         <input type="file" name="ads" class="form-control credit-card-mask" placeholder="الشعار"  />
                                         @error('logo')<span class="text-danger"></span>@enderror </div>
 
