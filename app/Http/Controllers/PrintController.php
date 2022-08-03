@@ -36,8 +36,8 @@ class PrintController extends Controller
                 {
 
                     $all=Shipment::whereIn('code_',$codes)->select('*',DB::raw("(CASE
-                    WHEN ( branch_ = '{$user->branch}' and  transfere_1 = '{$brach_filter}' and elfar3_elmosadad_mno = '') THEN  transfer_coast_1
-                    WHEN ( transfere_1 = '{$user->branch}' and  transfere_2 = '{$brach_filter}' and elfar3_elmosadad_mno_2 = '') THEN transfer_coast_2
+                    WHEN ( branch_ = '{$user->branch}' and  transfere_1 = '{$brach_filter}' ) THEN  transfer_coast_1
+                    WHEN ( transfere_1 = '{$user->branch}' and  transfere_2 = '{$brach_filter}' ) THEN transfer_coast_2
                     END) AS t7weel_cost"));
                                     
 
@@ -46,22 +46,22 @@ class PrintController extends Controller
                 else
                 {
                     $all=Shipment::whereIn('code_',$codes)->select('*',DB::raw("(CASE
-                                    WHEN ( branch_ = '{$user->branch}' and  transfere_1 !=  '' and elfar3_elmosadad_mno = '') THEN  transfer_coast_1
-                                    WHEN ( transfere_1 = '{$user->branch}' and  transfere_2 != '' and elfar3_elmosadad_mno_2 = '') THEN transfer_coast_2
+                                    WHEN ( branch_ = '{$user->branch}' and  transfere_1 !=  '' ) THEN  transfer_coast_1
+                                    WHEN ( transfere_1 = '{$user->branch}' and  transfere_2 != '' ) THEN transfer_coast_2
                                     END) AS t7weel_cost"));
 
 
 
                 }
-                dd($all->get());
+                //dd($all->get());
             }
             if(request()->type == 'import' ){
                 if( $brach_filter != '')
                 {
 
                     $all=Shipment::whereIn('code_',$codes)->select('*',DB::raw("(CASE
-                    WHEN ( branch_ = '{$user->branch}' and  transfere_1 = '{$brach_filter}' and elfar3_elmosadad_mno = '') THEN  transfer_coast_1
-                    WHEN ( transfere_1 = '{$user->branch}' and  transfere_2 = '{$brach_filter}' and elfar3_elmosadad_mno_2 = '') THEN transfer_coast_2
+                    WHEN ( branch_ = '{$brach_filter }' and  transfere_1 = '{$user->branch}' and elfar3_elmosadad_mno = '') THEN  transfer_coast_1
+                    WHEN ( transfere_1 = '{$brach_filter }' and  transfere_2 = '{$user->branch}' and elfar3_elmosadad_mno_2 = '') THEN transfer_coast_2
                     END) AS t7weel_cost"));
 
 
@@ -69,9 +69,10 @@ class PrintController extends Controller
                 else
                 {
                     $all=Shipment::whereIn('code_',$codes)->select('*',DB::raw("(CASE
-                    WHEN ( branch_ = '{$user->branch}' and  transfere_1 !=  '' and elfar3_elmosadad_mno = '') THEN  transfer_coast_1
-                    WHEN ( transfere_1 = '{$user->branch}' and  transfere_2 != '' and elfar3_elmosadad_mno_2 = '') THEN transfer_coast_2
+                    WHEN ( branch_ != '' and  transfere_1 =  '{$user->branch}' and elfar3_elmosadad_mno = '') THEN  transfer_coast_1
+                    WHEN ( transfere_1 != '' and  transfere_2 = '{$user->branch}' and elfar3_elmosadad_mno_2 = '') THEN transfer_coast_2
                     END) AS t7weel_cost"));
+                                    
 
 
 
@@ -89,6 +90,21 @@ class PrintController extends Controller
         //$brach_filter = request()->brach_filter;
         // fro3   shipment   3amel  mandoub
         if(request()->type == 'fro3' ){
+            $printPage='frou3.accounting.print';
+            //return $all;
+
+            $ta7weel=0;
+            foreach($all as $ship){
+                $ta7weel += $ship->t7weel_cost ;
+                
+            }
+            // dd($alSafiCost);
+            $tawsilCost = $ta7weel;
+            $alSafiCost = $totalCost - $tawsilCost;
+            //dd($alSafiCost);
+         
+        }
+        elseif(request()->type == 'import' ){
             $printPage='frou3.accounting.print';
             //return $all;
 
