@@ -1270,7 +1270,7 @@ class shipmentsController extends Controller
         return view('shipments.create',compact('clients','mo7afazat','now','code_ai','page_title','clearFileds','phoneLength','Commercial_names'));
     }
     public function store(Request $request){
-
+        
         try {
             $validated = $request->validate([
                 //'reciver_name_' => 'required',
@@ -1318,12 +1318,7 @@ class shipmentsController extends Controller
             $shipment->notes_  =    $request->notes_;
             $shipment->save();
 
-            // $sanad_3amil = new Sanad_3amil();
-            // $sanad_3amil->amount = $request->shipment_coast_  ;
-            // $sanad_3amil->code = $shipment->code_   ;
-            // $sanad_3amil->client_id =  $request->client_id ;
-            // $sanad_3amil->type='قبض';
-            // $sanad_3amil->save() ;
+           
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 500,
@@ -1331,9 +1326,14 @@ class shipmentsController extends Controller
             ],500);
 
         }
+        $shipment_print='';
+        if($request->print == '1'){
+            $shipment_print = $shipment->code_;
+        }
         return response()->json([
             'status' => 200,
             'message' => '',
+            'shipment_code' => $shipment_print,
         ],200);
         return redirect()->back()->with('status', 'Settings has been saved.');
 

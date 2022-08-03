@@ -155,6 +155,9 @@
 
                                     <div class="sm:ml-20 sm:pl-5 mt-5">
                                         <button class="btn btn-primary">حفظ</button>
+                                        <button class="btn btn-success" id="save_print">حفظ وتعديل</button>
+
+                                        
                                     </div>
 							    </div>
                             </form>
@@ -304,6 +307,10 @@ $('#el3nwan').on('change', function() {
         e.preventDefault();
         save_shipment()
     });
+    $('#save_print').on("click",function(e){
+        e.preventDefault();
+        save_shipment('print')
+    });
     $('#shipment_cost').on("keyup",function(e){
         if(e.keyCode == 13){
            // save_shipment()
@@ -327,11 +334,12 @@ $('#el3nwan').on('change', function() {
 
     } )
 
-    function save_shipment() {
+    function save_shipment(print='') {
         // var formData = new FormData($('#shipment_form')[0]);
         var formData = $('#shipment_form').serializeArray();
         $('.data-error').hide();
         var data={}
+        
         var flg=0;
         formData.forEach(element =>
         {
@@ -356,7 +364,8 @@ $('#el3nwan').on('change', function() {
             }
         });
 
-
+        if(print !='')
+        data['print']= 1 ;
        if(flg) {
 
 
@@ -400,6 +409,9 @@ $('#el3nwan').on('change', function() {
                         // .val('');
                         // .prop('checked', false)
                         // .prop('selected', false);
+                        if(result.shipment_code != ''){
+                            window.open('{{route('shiments.print' ,['pdf' => '1'] )}}&code='+result.shipment_code, '_blank');
+                        }
 
                     },
                     fail: function(result){
