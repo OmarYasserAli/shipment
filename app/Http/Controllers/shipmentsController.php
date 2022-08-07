@@ -1278,6 +1278,7 @@ class shipmentsController extends Controller
                 'mo7afza' => 'required',
                 'manteka' => 'required',
                 'date' => 'required',
+                'code'=>  'digits_between:1,10|numeric'
             ]);
         // dd($request->all());
 
@@ -1340,9 +1341,12 @@ class shipmentsController extends Controller
     }
 
     public function isCodeUsed(Request $request){
-
-        if(Shipment::where('code_',$request->code)->get()->count() >0 ){
-            if(request()->code != request()->originalCode )
+        
+        if(Shipment::where('code_',$request->code)->get()->count() >0 || strlen(request()->code)>10  
+        || (!is_numeric(request()->code) && !empty(request()->code))  || (!isset(request()->code) == true) || empty(request()->code)){
+            //dd(empty(request()->code));
+            // failed
+            if(request()->code != request()->originalCode  ||empty(request()->code))
                 return response()->json([
                     'status' => 200,
                     'data' => true,
