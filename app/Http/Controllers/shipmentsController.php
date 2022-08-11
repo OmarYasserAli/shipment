@@ -1278,7 +1278,7 @@ class shipmentsController extends Controller
                 'mo7afza' => 'required',
                 'manteka' => 'required',
                 'date' => 'required',
-                'code'=>  'digits_between:1,10|numeric'
+                'code'=>  'digits_between:1,12|numeric'
             ]);
         // dd($request->all());
 

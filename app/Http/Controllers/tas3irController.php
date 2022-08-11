@@ -44,7 +44,7 @@ class tas3irController extends Controller
         	$branch = Auth::user()->branch;
         	$cities=Mohfza::groupBy('name')->get();
             $page_title='تسعير العميل الخاص';
-        	$specialClients = User::groupBy('name_')->where('Special_prices','!=','لا' )->where('branch',$branch)->get();
+        	$specialClients = User::groupBy('name_')->where('Special_prices','!=','لا' )->where('type_','عميل')->where('branch',$branch)->get();
       	        return view('tas3ir.3amil_5as',compact('cities','specialClients','page_title'));
         }
         public function tas3ir_mandouben(Request $request)
