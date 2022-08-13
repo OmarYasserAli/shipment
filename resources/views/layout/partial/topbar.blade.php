@@ -38,8 +38,9 @@
                             
                             dataType : 'json',
                             success: function(result){
-                          
-                                location.reload();
+                                window.location = window.location.href.split("?")[0];
+
+                                
                           
                         }
                         });
