@@ -7,6 +7,9 @@ use App\Models\Mohfza;
 use App\Models\Mantikqa;
 use App\User;
 use App\Models\Commercial_name;
+use App\Models\Tas3ir_3amil;
+
+
 use App\Models\AddClientsMainComp;
 use Illuminate\Support\Facades\DB;
 
@@ -40,6 +43,30 @@ class generalController extends Controller
         else
             $manatek =Mantikqa::with('Tas3ir_3amil' ,'Tas3ir_ta7wel')->where('mo7afza',$mo7afza)->where('branch',$user->branch)->get();
 
+            foreach($manatek as $m){
+
+           
+            if(!isset($m->Tas3ir_3amil )){
+                $t = new Tas3ir_3amil();
+                $t->area_name_ =  $m->name;
+                $t->city_name_ = $mo7afza ;
+                $t->branch =$user->branch ;
+                $t->price_ =0 ;
+                $nCode = Tas3ir_3amil::max('code_');
+                $t->code_ =$nCode+1;
+
+                $t->save();
+
+            }
+            if(request()->bycode=="1"){
+                $chosen_Mohfza=Mohfza::where('code',$mo7afza)->where('branch',$user->branch)->first();
+               
+                $manatek =Mantikqa::with('Tas3ir_3amil' ,'Tas3ir_ta7wel')->where('mo7afza',$chosen_Mohfza->name)->where('branch',$user->branch)->get();
+            }
+            else
+                $manatek =Mantikqa::with('Tas3ir_3amil' ,'Tas3ir_ta7wel')->where('mo7afza',$mo7afza)->where('branch',$user->branch)->get();
+    
+        }
         return response()->json([
             'status' => 200,
             'message' => 'success',

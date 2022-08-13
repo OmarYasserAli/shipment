@@ -682,7 +682,7 @@ class frou3Controller extends Controller
             ], 200);
         }
 
-        $page_title='الموافقة على تحويل رواجع الفروع';
+        $page_title='اﻟﻣواﻓﻘﺔ ﻋﻠﻰ اﻟﺷﺣﻧﺎت اﻟواردة ﻣن اﻟﻔرع';
        $branches =BranchInfo::all();
        $mo7afazat =Mohfza::all();
        if(isset(request()->pdf)){
@@ -704,7 +704,8 @@ class frou3Controller extends Controller
         $mpdf = PDF::loadView('shipments.print',$data);
         return $mpdf->stream('document.pdf');
     }
-        $page_title='الموافقة على تحويل رواجع الفروع';
+        //$page_title='الموافقة على تحويل رواجع الفروع';
+        $page_title='اﻟﻣواﻓﻘﺔ ﻋﻠﻰ اﻟﺷﺣﻧﺎت اﻟواردة ﻣن اﻟﻔرع';
          return view('frou3.t7wel_sho7nat.accept',compact('all','branches','mo7afazat','page_title'));
 
     }

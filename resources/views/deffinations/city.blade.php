@@ -145,7 +145,7 @@
                                     $('#manteka-table tbody ').after(`<tr class='mantika-row' >
                                         <td>`+data.all[i].name+`</td>
                                         <td class='editable' data-type='3amel'
-                                         data-code='`+(data.all[i].tas3ir_3amil).code_+`'>`
+                                         data-code='`+(data.all[i].tas3ir_3amil).serial_+`'>`
                                         +(data.all[i].tas3ir_3amil).price_+`
                                         </td> 
                                         <td class='editable' data-type='ta7wel'

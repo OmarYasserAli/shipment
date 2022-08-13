@@ -1556,9 +1556,13 @@ class shipmentsController extends Controller
         if(isset(request()->page)) $page= request()->page;
 
         $t7weelTo = $this->t7weelArray(2);
-        $shipments = Shipment::with(['Branch_user' => function ($query) {
+        $shipments = Shipment::with(['Branch_user' => function ($query)  {
+           
             $query->select('code_','phone_');
-        }]);
+        }])->where(function ($q) use($user) {
+            $q->where('branch_',$user->branch)->orwhere('ship_area_',$user->branch);
+        });
+       
           if ($user->type_ == 'عميل'){
               $shipments = $shipments->where('client_ID_',$user->code_);
           }

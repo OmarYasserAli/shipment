@@ -23,7 +23,7 @@ class tas3irController extends Controller
         public function save_3amel(Request $request)
         {
 
-        	$tas3ir = Tas3ir_3amil::find($request->code);
+        	$tas3ir = Tas3ir_3amil::where('serial_',$request->code);
                 $tas3ir->price_= $request->value;
                 $tas3ir->save();
         }
@@ -154,8 +154,8 @@ class tas3irController extends Controller
 
         if ($request->serial == 0){
             
-             $specialClient = User::where('code_',$request->specialClient)->first();
-             $branch = Auth::user()->branch;
+            $specialClient = User::where('code_',$request->specialClient)->first();
+            $branch = Auth::user()->branch;
             Tas3ir_3amil_5as::create([
                 'area_name_'=>$request->manteqa,
                 'city_name_'=>$request->mo7afza,

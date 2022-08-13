@@ -59,7 +59,12 @@
     </div>
 </div>
 <script>
-
+      new TomSelect("#select_type",{
+      
+    maxOptions: 100,
+	valueField: 'value',
+	
+});
 </script>
 <!-- END: Modal Content -->
 @if(isset(request()->user_id ))
@@ -143,12 +148,7 @@
     //     $('input:checkbox').prop('checked', this.checked);
     // });
     $(document).ready(function(){
-        new TomSelect("#select_type",{
-            
-	maxOptions: 100,
-	valueField: 'id',
-	labelField: 'name',
-});
+  
         $("#select_all").click(function(){
 
 
