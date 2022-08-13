@@ -30,6 +30,7 @@ class generalController extends Controller
     public function getManateqByMa7afza( )
     {
         $user= auth()->user();
+        dd($user->branch);
         $mo7afza=request()->mo7afza;
         if(request()->bycode=="1"){
             $chosen_Mohfza=Mohfza::where('code',$mo7afza)->where('branch',$user->branch)->first();
