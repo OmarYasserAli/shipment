@@ -22,8 +22,9 @@ class tas3irController extends Controller
 
         public function save_3amel(Request $request)
         {
-
-        	$tas3ir = Tas3ir_3amil::where('serial_',$request->code);
+            
+        	$tas3ir = Tas3ir_3amil::where('serial_',$request->code)->first();
+            
                 $tas3ir->price_= $request->value;
                 $tas3ir->save();
         }
