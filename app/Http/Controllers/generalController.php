@@ -143,6 +143,22 @@ class generalController extends Controller
         ], 200); 
     }
 
+    public function changeAdminBranch(Request $request){
+      
+        if(auth()->user()->username =='Superuser' )
+        {
+            $u=User::where('username' ,'Superuser')->first();
+           
+            $u->branch =$request->branch; 
+            $u->save();
+            return response()->json([
+                'status' => 200,
+                'message' => 'success',
+             
+            ], 200); 
+        }
+    }
+
     
   
 }

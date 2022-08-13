@@ -3,16 +3,7 @@
     <nav aria-label="breadcrumb" class="-intro-x  hidden sm:flex" style="width: 100%; align-items:center;">
         
         <div class="search  sm:block " style="float: right;">
-         @if(isset($superUserBranch))
-        <div class="flex">
-            <label style="width: 100px; margin-top:8px;">الفرع الحالي</label>
-            <select name="" id="" class="rounded form-control">
-               @foreach ($superUserBranch as $item)
-                   <option value="{{$item->code_}}">{{$item->name_}}</option>
-               @endforeach
-           </select>
-        </div>
-         @endif
+         
         </div>
         @if(isset($page_title))
             <div class="" style="">
@@ -25,7 +16,38 @@
     </nav>
     <!-- END: Breadcrumb -->
     <!-- BEGIN: Search -->
+    @if(auth()->user()->username =='Superuser')
+         @php
+             $superUserBranch = App\Models\BranchInfo::all();
+         @endphp
+        <div class="flex">
+            <label style="width: 100px; margin-top:8px;">الفرع الحالي</label>
+            <select name="" id="current_branch" class="rounded form-control">
+               @foreach ($superUserBranch as $item)
+                   <option value="{{$item->name_}}" @if(auth()->user()->branch == $item->name_) selected @endif>{{$item->name_}}</option>
+               @endforeach
+           </select>
+        </div>
+         @endif
+
+         <script>
+            $('#current_branch').on('change',function(){
+                $.ajax({
+                            url:"{{url('changeAdminBranch')}}?branch="+$('#current_branch').val(),
+                            type: "get",
+                            
+                            dataType : 'json',
+                            success: function(result){
+                          
+                                location.reload();
+                          
+                        }
+                        });
+              
+            })
+         </script>
     <div class="flex mr-auto">
+        
         <div class="intro-x relative mr-3 sm:mr-6">
 
         
