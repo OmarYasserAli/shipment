@@ -43,6 +43,7 @@ class permissionController extends Controller
             'صلاحيات الاعدادات'=>$permisssions_7];
         }else{
             $users=user::where('type_','موظف')->where('status_',1)->get();
+            //dd($users);
         }
         $page_title='الصلاحيات';
         return view('permissions.index', compact('users','permisssions','selected_user','page_title') );

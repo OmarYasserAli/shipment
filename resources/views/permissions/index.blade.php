@@ -7,6 +7,12 @@
     }
 </style>
 @section('content')
+<link href="https://cdn.jsdelivr.net/npm/tom-select@2.0.3/dist/css/tom-select.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.0.3/dist/js/tom-select.complete.min.js"></script>
 
 <div class="content">
     <!-- BEGIN: Top Bar -->
@@ -38,7 +44,7 @@
                     <div class="mb-5" style="font-size: 25px">اسم الموظف</div>
                     <div class="form-inline">
                         @if(!empty($users))
-                        <select class=" form-select-lg sm:mt-2 sm:mr-2 mb-5 tom-select select_type  w-full" id='select_type' aria-label=".form-select-lg example">
+                        <select class=" form-select-lg sm:mt-2 sm:mr-2 mb-5  select_type  w-full" id='select_type' aria-label=".form-select-lg example">
                             @foreach ($users as $user)
                              <option value="{{$user->code_}}">{{$user->name_}}</option>
                              @endforeach
@@ -52,6 +58,9 @@
         </div>
     </div>
 </div>
+<script>
+
+</script>
 <!-- END: Modal Content -->
 @if(isset(request()->user_id ))
 <div class="intro-y flex items-center mt-8" >
@@ -134,6 +143,12 @@
     //     $('input:checkbox').prop('checked', this.checked);
     // });
     $(document).ready(function(){
+        new TomSelect("#select_type",{
+            
+	maxOptions: 100,
+	valueField: 'id',
+	labelField: 'name',
+});
         $("#select_all").click(function(){
 
 
