@@ -203,7 +203,8 @@
                         type: 'post',
                         data:{ code:shipments, status:current_status, _token: "{{ csrf_token() }}"},
                         error: function(e){
-                            console.log(e);
+                            var err = eval("(" + e.responseText + ")");
+                            alert(err.msg);
                         },
                         success: function(res) {
                             alert('تم التحويل بناح');
@@ -233,7 +234,11 @@
                     {
                         var qr = ( $('#QR').val());
                         //  console.log(qr);
-                        if(shipments.includes(qr)) return;
+                        if(shipments.includes(qr)) 
+                        { 
+                            alert('هذه الشحنة مضافة من قبل فى الجدول');
+                            return;
+                        }
                         if(qr=='') return;
                         $.ajax("{{route('getShipmentsByCode')}}"+"?code="+qr+"&status="+current_status+"&case=frou3_t7wel_sho7nat_qr",   // request url
                             {

@@ -1881,10 +1881,13 @@ class shipmentsController extends Controller
         ->whereIn('status_', $status)
         ->where($filter_field, $user->branch);
         if($request->case=='frou3_t7wel_sho7nat_qr'){
-            $shipment=$shipment->where('transfere_2','');
+            $b= BranchInfo::where('serial_',$request->status)->first();
+            $shipment=$shipment->where('transfere_2','')->where('Ship_area_','!=',$b->name_);
+           
         }
         if($request->case=='frou3_t7wel_rag3_qr'){
-            $shipment=$shipment->where('transfere_1','!=','');
+            $b= BranchInfo::where('serial_',$request->status)->first();
+            $shipment=$shipment->where('transfere_1','!=','')->where('Ship_area_','!=',$b->name_);
         }
 
         $shipment= $shipment->with(['Shipment_status'])

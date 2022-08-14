@@ -111,6 +111,13 @@
             
         </div>
         </div>
+        <div style="background-color:#fff;  opacity: 1;position: fixed; bottom:0px; z-index:999; width:79%;" class="flex h-12 pt-3 rounded ">
+            <div class="mr-6" style="margin-left: 10px;">اجمالى مبالخ الشحنات</div>
+            <div class="total_cost" style="margin-left: 40px;"><input type="text" disabled class="h-6 w-40" id="total_cost" value="{{$sums['totalCost'] }}"></div>
+            <div class=" " style="margin-left: 10px;">مجموع عدد الشحنات</div>
+            <div class=""> <input type="text" disabled class="h-6 w-16" id="total_cnt" value="{{$sums['allCount']}}"></div>
+    
+        </div>
         <div id="example-tab-2" class="tab-pane leading-relaxed p-5" role="tabpanel" aria-labelledby="example-2-tab"> 
             <div class="grid grid-cols-12 gap-6">
                 <div class="intro-y col-span-12 lg:col-span-4">

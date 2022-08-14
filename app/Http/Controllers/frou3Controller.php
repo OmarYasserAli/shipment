@@ -552,12 +552,14 @@ class frou3Controller extends Controller
             ->whereIn('add_shipment_tb_.code_', $request->code)
             ->where('add_shipment_tb_.transfere_1', '')
             ->where('add_shipment_tb_.status_', 1)
-            ->where('add_shipment_tb_.branch_', $user->branch)->get();
+            ->where('add_shipment_tb_.branch_', $user->branch)
+            ->where('Ship_area_','!=',$branch->name_)->get();
 
         $t2 = DB::table('add_shipment_tb_')
             ->whereIn('add_shipment_tb_.code_', $request->code)
             ->where('add_shipment_tb_.transfere_1','!=', '')
-            ->where('add_shipment_tb_.status_', 1)->get();
+            ->where('add_shipment_tb_.status_', 1)
+            ->where('Ship_area_','!=',$branch->name_)->get();
 
 
          $q1 =DB::table('add_shipment_tb_')
@@ -565,6 +567,7 @@ class frou3Controller extends Controller
          ->where('add_shipment_tb_.transfere_1', '')
          ->where('add_shipment_tb_.status_', 1)
          ->where('transfer_prices_main_tb.branch', $user->branch)
+         ->where('Ship_area_','!=',$branch->name_)
         ->join('transfer_prices_main_tb', function($join){
             $join->on('transfer_prices_main_tb.mantika_id', '=', 'add_shipment_tb_.mantika_id');
             $join->on('transfer_prices_main_tb.mo7afaza_id','=','add_shipment_tb_.mo7afaza_id');
@@ -575,6 +578,7 @@ class frou3Controller extends Controller
             ->where('add_shipment_tb_.transfere_1','!=', '')
             ->where('add_shipment_tb_.status_', 1)
             ->where('transfer_prices_main_tb.branch', $user->branch)
+            ->where('Ship_area_','!=',$branch->name_)
            ->join('transfer_prices_main_tb', function($join){
                $join->on('transfer_prices_main_tb.mantika_id', '=', 'add_shipment_tb_.mantika_id');
                $join->on('transfer_prices_main_tb.mo7afaza_id','=','add_shipment_tb_.mo7afaza_id');
@@ -706,7 +710,7 @@ class frou3Controller extends Controller
     }
         //$page_title='الموافقة على تحويل رواجع الفروع';
         $page_title='اﻟﻣواﻓﻘﺔ ﻋﻠﻰ اﻟﺷﺣﻧﺎت اﻟواردة ﻣن اﻟﻔرع';
-         return view('frou3.t7wel_sho7nat.accept',compact('all','branches','mo7afazat','page_title'));
+         return view('frou3.t7wel_sho7nat.accept',compact('all','branches','mo7afazat','page_title','sums'));
 
     }
     public function accept_frou3_t7wel_save(Request $request){
@@ -1000,25 +1004,29 @@ class frou3Controller extends Controller
             ->where('add_shipment_tb_.transfere_2' ,'')
             ->where('add_shipment_tb_.transfere_1' ,'!=','')
             ->where('add_shipment_tb_.status_', 9)
-            ->where('add_shipment_tb_.Ship_area_', $user->branch)->get();
+            ->where('add_shipment_tb_.Ship_area_', $user->branch)
+            ->where('Ship_area_','!=',$branch->name_)->get();
 
             $t2 = DB::table('add_shipment_tb_')
             ->whereIn('add_shipment_tb_.code_', $request->code)
             ->where('add_shipment_tb_.transfere_2','!=' ,'')
             ->where('add_shipment_tb_.status_', 9)
-            ->where('add_shipment_tb_.Ship_area_', $user->branch)->get();
+            ->where('add_shipment_tb_.Ship_area_', $user->branch)
+            ->where('Ship_area_','!=',$branch->name_)->get();
 
             $u1 =  DB::table('add_shipment_tb_')
             ->whereIn('add_shipment_tb_.code_', $request->code)
             ->where('add_shipment_tb_.transfere_2' ,'')
             ->where('add_shipment_tb_.transfere_1' ,'!=','')
             ->where('add_shipment_tb_.status_', 9)
-            ->where('add_shipment_tb_.Ship_area_', $user->branch);
+            ->where('add_shipment_tb_.Ship_area_', $user->branch)
+            ->where('Ship_area_','!=',$branch->name_);
             $u2 =   DB::table('add_shipment_tb_')
                ->whereIn('add_shipment_tb_.code_', $request->code)
                ->where('add_shipment_tb_.transfere_2','!=' ,'')
                ->where('add_shipment_tb_.status_', 9)
-               ->where('add_shipment_tb_.Ship_area_', $user->branch);
+               ->where('add_shipment_tb_.Ship_area_', $user->branch)
+               ->where('Ship_area_','!=',$branch->name_);
             if(isset(request()->pdf)){
 
                 $data = [
@@ -1142,7 +1150,7 @@ class frou3Controller extends Controller
             return $mpdf->stream('document.pdf');
         }
         $page_title='الموافقة على تحويل رواجع الفروع';
-        return view('frou3.t7wel_rag3.accept',compact('all','branches','mo7afazat','page_title'));
+        return view('frou3.t7wel_rag3.accept',compact('all','branches','mo7afazat','page_title','sums'));
     }
     public function accept_frou3_rag3_save(Request $request){
         $user=auth()->user();

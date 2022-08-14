@@ -233,7 +233,11 @@
                     {
                         var qr = ( $('#QR').val());
                         //  console.log(qr);
-                        if(shipments.includes(qr)) return;
+                        if(shipments.includes(qr))  
+                        { 
+                            alert('هذه الشحنة مضافة من قبل فى الجدول');
+                            return;
+                        }
                         if(qr=='') return;
                         $.ajax("{{route('getShipmentsByCode')}}"+"?code="+qr+"&status="+current_status+"&case=t7wel_7ala_qr",   // request url
                             {
