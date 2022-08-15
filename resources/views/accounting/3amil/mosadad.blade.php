@@ -237,7 +237,7 @@
 
     </div>
     <div style="background-color:#fff;  opacity: 1;position: fixed; bottom:0px; z-index:999; width:79%;" class="flex h-12 pt-3 rounded ">
-        <div class="mr-6" style="margin-left: 10px;">اجمالى مبالخ الشحنات</div>
+        <div class="mr-6" style="margin-left: 10px;">اجمالى مبالغ الشحنات</div>
         <div class="total_cost" style="margin-left: 40px;"><input type="text" disabled class="h-6 w-40" id="total_cost" value="0"></div>
         <div class="f" style="margin-left: 10px;">اجمالى مبالغ التحويل</div>
         <div class="total_tawsil" style="margin-left: 40px;"><input type="text" disabled class="h-6 w-40" id="total_tawsil" value="0"></div>
