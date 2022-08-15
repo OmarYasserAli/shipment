@@ -72,7 +72,7 @@ Route::post('shiment/store', 'shipmentsController@store')->name('shiments.store'
 Route::get('shiment/edit/{code}', 'shipmentsController@edit')->name('shiments.edit');
 Route::post('shiment/update', 'shipmentsController@update')->name('shiments.update');
 Route::get('shiment/search', 'shipmentsController@shipmentsSearch')->name('sipments.search');
-Route::get('shiment/deleteShipment/{code}', 'shipmentsController@deleteShipment')->name('shiments.deleteShipment');
+Route::post('shiment/deleteShipment/', 'shipmentsController@deleteShipment')->name('shiments.deleteShipment');
 
 
 Route::get('shiment/editview', 'shipmentsController@editview')->name('shiments.editview');

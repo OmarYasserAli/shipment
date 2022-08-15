@@ -51,7 +51,7 @@
 
                                     </div>
                                     <small class="warring " style="margin-right: 100px;"></small>
-                                   
+
                                     @endif
                                     <div class="form-inline mt-3">
                                         <label for="3amil-name" class="form-label sm:w-20">اسم العميل</label>
@@ -342,7 +342,7 @@ var  manteka =new TomSelect("#manteka",{
     // } )
 
     $('#rakam-wasl').on("keyup",function(e){
-        
+
         let code= $(this).val();
         $.ajax({
         url:"{{route('shiments.isCodeUsed')}}?code="+code +'&originalCode='+'{{$shipment->code_}}',
@@ -379,28 +379,28 @@ var  manteka =new TomSelect("#manteka",{
         return;
     };
     $.ajax({
-        
+
         url:"{{route('shiments.isCodeUsed')}}?code="+$('#rakam-wasl').val()+'&originalCode='+'{{$shipment->code_}}',
         type: "get",
         success: function(result){
            if(result.data == true){
-            
+
                 $("#cerror").append('<li>رقم الوصل غير متاح</li>');
                 $('msgs').addClass( "alert alert-danger" );
            }
             else
-            
+
             $('#shipment_form').submit();
             }
         });
-       
+
         // $.ajax({
         //             url:"{{route('shiments.update')}}",
         //             type: "post",
         //             data: data,
 
         //             success: function(result){
-                        
+
         //                 $('#rakam-wasl').val('');
         //                 document.getElementById("rakam-wasl").focus();
         //                 $('.warring').text('');
