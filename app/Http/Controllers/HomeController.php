@@ -41,7 +41,7 @@ class HomeController extends Controller
 
         $clients = User::where('type_','عميل')->where('branch', auth()->user()->branch)->get();
         //dd($status_color);
-        $page_title='لوحة المواقبة';
+        $page_title='لوحة المراقبة';
         return view('home' ,compact('page_title','dailyStatus','dailyShipments','status','status_color','clients'));
     }
 
