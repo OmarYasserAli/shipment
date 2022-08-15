@@ -59,7 +59,14 @@ class shipmentsController extends Controller
         $total=0;
         foreach($statuses as $key=> $status){
 
-            $shipments = Shipment::where('Status_',$status['code_'])->whereIn('TRANSFERE_ACCEPT_REFUSE',[1,0])->where('Ship_area_',$user->branch);
+            if($user->type_  !='عميل'){
+                $shipments = Shipment::where('Status_',$status['code_'])
+            ->whereIn('TRANSFERE_ACCEPT_REFUSE',[1,0])->where('Ship_area_',$user->branch);
+            }else{
+                $shipments = Shipment::where('Status_',$status['code_'])
+            ->UserType($user->type_,$user->code_);
+            }
+            
             //->UserType($user->type_,$user->code_);
             if(isset(request()->commercial_name)){
                 $shipments=$shipments->where('commercial_name_',request()->commercial_name);
@@ -155,14 +162,18 @@ class shipmentsController extends Controller
              if(isset(request()->page)) $page= request()->page;
 
             $t7weelTo = $this->t7weelArray( $type);
-            $shipments = Shipment::with(['Branch_user' => function ($query) {
-                $query->select('code_','phone_');
-            }])->whereIn('TRANSFERE_ACCEPT_REFUSE',[1,0])->where('Ship_area_',$user->branch)
-            ->where('status_',$status);
-
-
-
-
+            if($user->type_  !='عميل'){
+                $shipments = Shipment::with(['Branch_user' => function ($query) {
+                    $query->select('code_','phone_');
+                }])->where('Ship_area_',$user->branch)
+                ->where('status_',$status);
+            }else{
+                $shipments = Shipment::with(['Branch_user' => function ($query) {
+                    $query->select('code_','phone_');
+                }])->UserType($user->type_,$user->code_)
+                ->where('status_',$status);          
+            }
+            
             if(isset(request()->commercial_name)){
                 $shipments = $shipments->where('add_shipment_tb_.commercial_name_', request()->commercial_name);
             }

@@ -110,7 +110,8 @@
                     @endif
             </ul>
         </li>
-        @if(\Illuminate\Support\Facades\Auth::user()->type_ == 'موظف')
+       
+        @if(\Illuminate\Support\Facades\Auth::user()->type_ == 'موظف'  )
 
         <li>
             <a href="javascript:;" class="side-menu  @if(Request::is('frou3/*')) side-menu--active side-menu--open @endif">
@@ -254,6 +255,7 @@
                 </li>
             </ul>
         </li>
+        @endif
         <li>
             <a href="javascript:;" class="side-menu @if(Request::is('accounting/*')) side-menu--active side-menu--open @endif">
                 <div class="side-menu__icon"> <i data-lucide="inbox"></i> </div>
@@ -263,7 +265,7 @@
                 </div>
             </a>
             <ul class="@if(Request::is('accounting/*'))side-menu__sub-open @endif">
-
+                @if(\Illuminate\Support\Facades\Auth::user()->type_ == 'موظف'  )
                 <li>
                     <a href="javascript:;" class="side-menu">
                         <div class="side-menu__icon"> <i data-lucide="activity"></i> </div>
@@ -313,6 +315,8 @@
                             @endif
                     </ul>
                 </li>
+                @endif
+               
                 <li>
                     <a href="javascript:;" class="side-menu">
                         <div class="side-menu__icon"> <i data-lucide="activity"></i> </div>
@@ -342,6 +346,7 @@
                             @endif
                     </ul>
                 </li>
+                @if(\Illuminate\Support\Facades\Auth::user()->type_ == 'موظف'  )
                 <li>
                     <a href="javascript:;" class="side-menu">
                         <div class="side-menu__icon"> <i data-lucide="activity"></i> </div>
@@ -372,6 +377,8 @@
                             @endif
                     </ul>
                 </li>
+                @endif
+                @if(\Illuminate\Support\Facades\Auth::user()->type_ == 'موظف'  )
                 <li>
                     <a href="javascript:;" class="side-menu">
                         <div class="side-menu__icon"> <i data-lucide="activity"></i> </div>
@@ -401,13 +408,15 @@
                             @endif
                     </ul>
                 </li>
-
+                @endif
 
 
 
 
             </ul>
         </li>
+        @if(\Illuminate\Support\Facades\Auth::user()->type_ == 'موظف' )
+
         <li>
             <a href="javascript:;" class="side-menu @if(Request::is('definations/*')) side-menu--active side-menu--open @endif ">
                 <div class="side-menu__icon"> <i data-lucide="home"></i> </div>

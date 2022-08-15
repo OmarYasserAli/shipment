@@ -41,10 +41,15 @@ class accountingController extends Controller
     }
     public function amilNotMosadad(Request $request)
     {
+        
 
         $user=auth()->user();
+        
         if(!$user->isAbleTo('notMosadad3amel-accounting')){
             return abort(403);
+        }
+        if($user->type_ == 'عميل'){
+            $request->client_id = $user->name_;
         }
         $limit=Setting::get('items_per_page');
         $page =0;
@@ -208,6 +213,9 @@ class accountingController extends Controller
         $user=auth()->user();
         if(!$user->isAbleTo('mosadad3amel-accounting')){
             return abort(403);
+        }
+        if($user->type_ == 'عميل'){
+            $request->client_id = $user->name_;
         }
         $limit=Setting::get('items_per_page');
         $page =0;
@@ -397,7 +405,7 @@ class accountingController extends Controller
             $shipments = $shipments->where('mo7afaza_id', '=', $request->mo7afza);
         }
         if(isset($request->client_id) && $request->client_id!='الكل'){
-            $u = User::where('name_',$request->client_id)->first();
+            $u = User::where('name_',$request->client_id)->where('type_','مندوب تسليم')->first();
             $shipments = $shipments->where('Delivery_Delivered_Shipment_ID', '=', $u->code_);
         }
         // if(isset($request->Commercial_name)){
