@@ -64,7 +64,7 @@ class shipmentsController extends Controller
             if(isset(request()->commercial_name)){
                 $shipments=$shipments->where('commercial_name_',request()->commercial_name);
             }
-            
+
             $shipments=$shipments->select(DB::raw('count(*) as cnt'))
             //->groupBy( 'Status_')
             ->first();
@@ -81,18 +81,25 @@ class shipmentsController extends Controller
 
 
     }
-    public function deleteShipment(int $code){
+    public function deleteShipment(Request $request){
+        $code =  $request->code;
         $user=auth()->user();
         if(!$user->isAbleTo('update-shipment')){
             return abort(403);
         }
         $shipment = Shipment::where('code_',$code)->first();
         if (!$shipment) {
-            return redirect()->back()->with('status', 'يوجد خطاء ما!');
+
+            return response()->json([
+                'success' => false,
+                'message' => 'يوجد خطاء ما!',
+            ]);
         }else{
             $shipment->delete();
-            return redirect()->back()->with('status', 'تم الحذف بنجاح');
-
+            return response()->json([
+                'success' => true,
+                'message' => 'تم الحذف بنجاح',
+            ]);
         }
 
     }
@@ -1270,7 +1277,7 @@ class shipmentsController extends Controller
         return view('shipments.create',compact('clients','mo7afazat','now','code_ai','page_title','clearFileds','phoneLength','Commercial_names'));
     }
     public function store(Request $request){
-        
+
         try {
             $validated = $request->validate([
                 //'reciver_name_' => 'required',
@@ -1319,7 +1326,7 @@ class shipmentsController extends Controller
             $shipment->notes_  =    $request->notes_;
             $shipment->save();
 
-           
+
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 500,
@@ -1341,8 +1348,8 @@ class shipmentsController extends Controller
     }
 
     public function isCodeUsed(Request $request){
-        
-        if(Shipment::where('code_',$request->code)->get()->count() >0 || strlen(request()->code)>10  
+
+        if(Shipment::where('code_',$request->code)->get()->count() >0 || strlen(request()->code)>10
         || (!is_numeric(request()->code) && !empty(request()->code))  || (!isset(request()->code) == true) || empty(request()->code)){
             //dd(empty(request()->code));
             // failed
@@ -1539,13 +1546,13 @@ class shipmentsController extends Controller
 
     }
       public function print(Request $request){
-        
+
         $path = explode(",", $request->code);
         $exp = array();
         $exp = array_merge($exp, $path);
 
         $user=auth()->user();
-        
+
           if(!$user->isAbleTo('print-shipment')){
               return abort(403);
           }
@@ -1557,12 +1564,12 @@ class shipmentsController extends Controller
 
         $t7weelTo = $this->t7weelArray(2);
         $shipments = Shipment::with(['Branch_user' => function ($query)  {
-           
+
             $query->select('code_','phone_');
         }])->where(function ($q) use($user) {
             $q->where('branch_',$user->branch)->orwhere('ship_area_',$user->branch);
         });
-       
+
           if ($user->type_ == 'عميل'){
               $shipments = $shipments->where('client_ID_',$user->code_);
           }
@@ -1633,7 +1640,7 @@ class shipmentsController extends Controller
 
             return response()->json([
                 'status' => 200,
-                
+
                 'data' => $all,
                 'message' => 'sucecss',
                 'sums'=>$sums
@@ -1874,7 +1881,7 @@ class shipmentsController extends Controller
             $status=array(9);
             $filter_field = 'Ship_area_';
         }
-        
+
 
         $user = auth()->user();
         $shipment =Shipment::where('code_',$request->code)
@@ -1913,13 +1920,13 @@ class shipmentsController extends Controller
 }
 //
 /**
- * 
- * 
- * 
+ *
+ *
+ *
  * مندوب تسليم
  * >
  * [status_]مؤجل
- * 
+ *
  * >
  * [status_] واصل
  * راجع فى المخزن
