@@ -83,14 +83,27 @@
                             </div>
                             <div class="form-inline 3amil">
                                 <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:15px; margin-top:1px; width:30px; ">العميل</label>
-
+                                @if(auth()->user()->type_ != 'عميل')
                                 <input type="hidden" value="@if(request()->get('client_id')!= null){{request()->get('client_id')}}@else الكل @endif" name='client_id'>
-                                    <div class="mr-6 alert alert-outline-secondary alert-dismissible show flex items-center mb-2" role="alert">
-                                        @if(request()->get('client_id')!= null)
-                                            {{request()->get('client_id')}}
+                                @else
+                                <input type="hidden" value="{{auth()->user()->name_}}" name='client_id'>
 
+                                @endif
+                                <div class="mr-6 alert alert-outline-secondary alert-dismissible show flex items-center mb-2" role="alert">
+                                        @if(request()->get('client_id')!= null)
+                                            @if(auth()->user()->type_ == 'عميل')
+                                                {{auth()->user()->name_}}
+                                            @else
+                                                {{request()->get('client_id')}}
+                                            @endif
                                        @endif
-                                       @if(request()->get('client_id') == null)الكل@endif
+                                       @if(request()->get('client_id') == null)
+                                                @if(auth()->user()->type_ == 'عميل')
+                                                {{auth()->user()->name_}}
+                                                @else
+                                                الكل
+                                                @endif
+                                       @endif
                                         <button type="button" class="btn-close" data-tw-dismiss="alert" aria-label="Close" onclick="window.location.replace('{{route('accounting.3amil.notmosadad')}}')">
                                             <i data-lucide="x" class="w-4 h-4"></i> </button>
                                     </div>
