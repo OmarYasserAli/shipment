@@ -962,7 +962,7 @@ class frou3Controller extends Controller
         return view('frou3.t7wel_rag3.qr',compact('branches','page_title'));
     }
     public function frou3_t7wel_rag3_qr_save(Request $request){
-        $status=array(1);
+        $status=array(9);
 
         if(isset(request()->pdf)){
             $codes= explode(',',$request->codes);
@@ -970,6 +970,7 @@ class frou3Controller extends Controller
             ->whereIn('add_shipment_tb_.code_', $codes)
             ->whereIN('add_shipment_tb_.status_',$status)
             ->get();
+           
             $totalCost = $all->sum('shipment_coast_');
 
 
@@ -983,7 +984,7 @@ class frou3Controller extends Controller
                 'title'=>'تحويل الراجع بين الفروع باستخدام qr',
                 'sum'=>$sums
             ];
-
+           
             $mpdf = PDF::loadView('shipments.print',$data);
             return $mpdf->stream('document.pdf');
         }
