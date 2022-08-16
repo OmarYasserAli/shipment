@@ -166,6 +166,7 @@ class shipmentsController extends Controller
                 $shipments = Shipment::with(['Branch_user' => function ($query) {
                     $query->select('code_','phone_');
                 }])->where('Ship_area_',$user->branch)
+                ->whereIn('TRANSFERE_ACCEPT_REFUSE',[1,0])
                 ->where('status_',$status);
             }else{
                 $shipments = Shipment::with(['Branch_user' => function ($query) {
