@@ -99,15 +99,7 @@
                 </li>
                     @endif
 
-                    @if(\Illuminate\Support\Facades\Auth::user()->isAbleTo('tasleemToMandoubtaslim-shipment'))
-
-                        <li>
-                            <a href="{{route('shipment.taslim_qr')}}" class="side-menu">
-                                <div class="side-menu__icon"> <i data-lucide="activity"></i> </div>
-                                <div class="side-menu__title"> ﺗﺳﻠﯾم ﺷﺣﻧﺔ اﻟﻰ ﻣﻧدوب ﺗﺳﻠﯾم ﺑﺄﺳﺗﺧدام Qr </div>
-                            </a>
-                        </li>
-                    @endif
+                    
             </ul>
         </li>
        

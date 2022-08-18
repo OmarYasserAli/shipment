@@ -1899,6 +1899,10 @@ class shipmentsController extends Controller
         $shipment =Shipment::where('code_',$request->code)
         ->whereIn('status_', $status)
         ->where($filter_field, $user->branch);
+        if($request->case=='taslim_qr'){
+            $shipment=$shipment->whereIn('TRANSFERE_ACCEPT_REFUSE',[0,1]);
+           
+        }
         if($request->case=='frou3_t7wel_sho7nat_qr'){
             $b= BranchInfo::where('serial_',$request->status)->first();
             $shipment=$shipment->where('transfere_2','')->where('Ship_area_','!=',$b->name_);
