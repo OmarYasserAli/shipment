@@ -428,6 +428,7 @@ class shipmentsController extends Controller
             })
 
               ->where('mandoub_taslim_tas3irtb.mandoub_ID', $mandob->code_)
+              ->where('add_shipment_tb_.el3amil_elmosadad', '!=','مسدد')
               //->get();
               ->update(['add_shipment_tb_.tas3ir_mandoub_taslim'=> DB::raw("`mandoub_taslim_tas3irtb`.`price_`") ,
               'tarikh_el7ala'=>Carbon::now()->format('Y-m-d  g:i:s A') ,

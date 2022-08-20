@@ -8,7 +8,7 @@ use App\Models\BranchInfo;
 
 use Illuminate\Database\Eloquent\Model;
 
-class khazna extends Model
+class Khazna extends Model
 {
     
     protected $table = '5azna';

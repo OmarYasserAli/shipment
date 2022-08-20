@@ -1561,7 +1561,10 @@ class frou3Controller extends Controller
             $shipments = Shipment::select('*',DB::raw("(CASE
                                     WHEN ( branch_ = '{$user->branch}' and  transfere_1 = '{$brach_filter}' and elfar3_elmosadad_mno != '') THEN  transfer_coast_1
                                     WHEN ( transfere_1 = '{$user->branch}' and  transfere_2 = '{$brach_filter}' and elfar3_elmosadad_mno_2 != '') THEN transfer_coast_2
-                                    END) AS t7weel_cost"));
+                                    END) AS t7weel_cost"),DB::raw("(CASE
+                                    WHEN ( branch_ = '{$user->branch}' and  transfere_1 = '{$brach_filter}' and elfar3_elmosadad_mno != '') THEN  tarikh_tasdid_far3
+                                    WHEN ( transfere_1 = '{$user->branch}' and  transfere_2 = '{$brach_filter}' and elfar3_elmosadad_mno_2 != '') THEN tarikh_tasdid_far3_2
+                                    END) AS tasdid_far3"));
             $shipments= $shipments->where(function ($query) use($request,$user,$brach_filter){
                 $query->where(function ($query) use($request,$user,$brach_filter){
                     $query->where('branch_', '=', $user->branch)
@@ -1579,7 +1582,10 @@ class frou3Controller extends Controller
             $shipments = Shipment::select('*',DB::raw("(CASE
                                     WHEN ( branch_ = '{$user->branch}' and  transfere_1 != '' and elfar3_elmosadad_mno != '') THEN  transfer_coast_1
                                     WHEN ( transfere_1 = '{$user->branch}' and  transfere_2 != '' and elfar3_elmosadad_mno_2 != '') THEN transfer_coast_2
-                                    END) AS t7weel_cost"));
+                                    END) AS t7weel_cost"),DB::raw("(CASE
+                                    WHEN ( branch_ = '{$user->branch}' and  transfere_1 != '' and elfar3_elmosadad_mno != '') THEN  tarikh_tasdid_far3
+                                    WHEN ( transfere_1 = '{$user->branch}' and  transfere_2 != '' and elfar3_elmosadad_mno_2 != '') THEN tarikh_tasdid_far3_2
+                                    END) AS tasdid_far3"));
             $shipments= $shipments->where(function ($query) use($request,$user,$brach_filter){
                 $query->where(function ($query) use($request,$user,$brach_filter){
                     $query->where('branch_', '=', $user->branch)
