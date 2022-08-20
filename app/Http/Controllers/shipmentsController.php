@@ -400,6 +400,7 @@ class shipmentsController extends Controller
     public function t7weel_manual(Request $request){
         //dd($request->all());
         //dd($request->all());
+        $user=auth()->user();
         if($request->t7weel_to=='الشحنات فى المخزن'){  //ta7wel sh7nat fel m5zn
             $status=[3,2,9];
             $updated_array = ['status_'=>1,'tarikh_el7ala'=>Carbon::now()->format('Y-m-d  g:i:s A')];
@@ -447,7 +448,17 @@ class shipmentsController extends Controller
             $status=array(9);
             $updated_array = ['status_'=>8, 'tarikh_el7ala'=>Carbon::now()->format('Y-m-d  g:i:s A'),
                                 'shipment_coast_'=>0 , 'tawsil_coast_'=>0 , 'total_'=>0  ];
-
+                                $row = DB::table('add_shipment_tb_')
+                                ->whereIn('code_', $request->code)
+                                ->whereIn('status_', $status)
+                                ->where('branch_', $user->branch)
+                                ->update($updated_array);
+                  
+                                return response()->json([
+                                  'status' => 200,
+                                  'message' => 'تم التحويل',
+                                  'count' => $row,
+                              ], 200); 
 
         }
         if($request->t7weel_to=='الشحنات الراجعه فى المخزن'){   //t7wel rag3 lada m5zn
@@ -459,7 +470,7 @@ class shipmentsController extends Controller
         if($request->t7weel_to=='المؤجل'){  //ta7wel  mo2gl
             $status=[4];
             $updated_array = ['status_'=>10,'tarikh_el7ala'=>Carbon::now()->format('Y-m-d  g:i:s A')];
-        }
+       }
         $row = DB::table('add_shipment_tb_')
               ->whereIn('code_', $request->code)
               ->whereIn('status_', $status)
@@ -469,7 +480,7 @@ class shipmentsController extends Controller
                 'status' => 200,
                 'message' => 'تم التحويل',
                 'count' => $row,
-            ], 200);
+            ], 200); 
     }
 
     public function accounting(Request $request)
