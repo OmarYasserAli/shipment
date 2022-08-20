@@ -603,7 +603,7 @@
                             <td  class="whitespace-nowrap " >`+value.commercial_name_+`</td>
                             <td  class="whitespace-nowrap " >`+ client+`</td>
                             <td  class="whitespace-nowrap " >`+value.date_+`</td>
-                            <td  class="whitespace-nowrap " >`+value.tarikh_tasdid_far3+`</td>
+                            <td  class="whitespace-nowrap " >`+value.tasdid_far3+`</td>
                             <td  class="whitespace-nowrap " >`+value.branch_+`</td>
                             <td  class="whitespace-nowrap " >`+value.Ship_area_+`</td>
                             <td  class="whitespace-nowrap " >`+(value.shipment_coast_ - value.t7weel_cost).toLocaleString('en-US')+`</td>

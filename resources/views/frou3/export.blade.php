@@ -199,7 +199,7 @@
                             <td class="whitespace-nowrap " >{{$shipment->commercial_name_}}</td>
                             <td class="whitespace-nowrap " >@if(isset($shipment->client)){{$shipment->client->name_}} @else {{$shipment->client_name_}}@endif</td>
                             <td class="whitespace-nowrap " >{{$shipment->date_}}</td>
-                            <td class="whitespace-nowrap " >{{$shipment->tarikh_tasdid_far3}}</td>
+                            <td class="whitespace-nowrap " >{{$shipment->tasdid_far3}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->branch_}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->Ship_area_}}</td>
                             <td class="whitespace-nowrap " >{{($shipment->shipment_coast_ -  $shipment->t7weel_cost)}}</td>
@@ -589,7 +589,7 @@
                             <td  class="whitespace-nowrap " >`+value.commercial_name_+`</td>
                             <td  class="whitespace-nowrap " >`+ client+`</td>
                             <td  class="whitespace-nowrap " >`+value.date_ +`</td>
-                            <td  class="whitespace-nowrap " >`+value.tarikh_tasdid_far3+`</td>
+                            <td  class="whitespace-nowrap " >`+value.tasdid_far3+`</td>
                             <td  class="whitespace-nowrap " >`+value.branch_+`</td>
                             <td  class="whitespace-nowrap " >`+value.Ship_area_+`</td>
                             <td  class="whitespace-nowrap " >`+(value.shipment_coast_-value.t7weel_cost) +`</td>
