@@ -508,7 +508,7 @@ class frou3Controller extends Controller
         // dd($counter);
         $page_title='تحويل الشحنات يدويا الى فرع';
         return view('frou3.t7wel_sho7nat.manual',compact('all','branches','mo7afazat','brach_filter','waselOnly','page_title',
-     'css_prop','status_color' ,'sums'));
+     'css_prop','status_color' ,'sums','user'));
     }
     public function frou3_t7wel_sho7nat_manual_save(Request $request){
         // dd($request->all());
@@ -701,7 +701,7 @@ class frou3Controller extends Controller
 
         $page_title='اﻟﻣواﻓﻘﺔ ﻋﻠﻰ اﻟﺷﺣﻧﺎت اﻟواردة ﻣن اﻟﻔرع';
        $branches =BranchInfo::all();
-       $mo7afazat =Mohfza::all();
+       $mo7afazat =Mohfza::where('branch',$user->branch)->get();
        if(isset(request()->pdf)){
         //return view('shipments.print' , compact('all'));
         $totalCost = $all->sum('shipment_coast_');
@@ -957,7 +957,7 @@ class frou3Controller extends Controller
         // dd($counter);
         $page_title='تحويل الرواجع يدويا الى فرع';
         return view('frou3.t7wel_rag3.manual',compact('all','branches','mo7afazat','brach_filter','waselOnly','page_title',
-     'css_prop','status_color' ,'sums'));
+     'css_prop','status_color' ,'sums','user'));
     }
     public function frou3_t7wel_rag3_manual_save(Request $request){
         // dd($request->all());
@@ -1144,7 +1144,7 @@ class frou3Controller extends Controller
 
         $page_title='الموافقة على تحويل رواجع الفروع';
         $branches =BranchInfo::all();
-        $mo7afazat =Mohfza::all();
+        $mo7afazat =Mohfza::where('branch',$user->branch)->get();
         if(isset(request()->pdf)){
             $totalCost = $all->sum('shipment_coast_');
             $tawsilCost = $all->sum('tawsil_coast_');

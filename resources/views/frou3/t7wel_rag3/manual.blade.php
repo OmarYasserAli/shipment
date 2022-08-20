@@ -42,7 +42,7 @@
                     <div class="mb-5" style="font-size: 25px">الفرع</div>
                     <div class="form-inline">
 
-                        <select class=" form-select-lg sm:mt-2 sm:mr-2 mb-5 tom-select  w-full" id='select_type' aria-label=".form-select-lg example">
+                        <select class=" form-select-lg sm:mt-2 sm:mr-2 mb-5 tom-select  w-full" id='select_type' aria-label=".form-select-lg example" @if($user->branch !='الفرع الرئيسى')disabled @endif>
                             @foreach ($branches as $branch)
                              <option value="{{$branch->serial_}}">{{$branch->name_}}</option>
                              @endforeach
