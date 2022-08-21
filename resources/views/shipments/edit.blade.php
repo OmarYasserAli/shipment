@@ -127,7 +127,7 @@
                                         <input id="shipment_cost" type="text" class="form-control   mr-1" name="transfere_1" value="{{$shipment->transfere_1}}"  aria-label="default input inline 1" value="{{$shipment->shipment_coast_}}" disabled>
 
                                         <label for="horizontal-form-1" class="form-label sm:w-20">تحويل ثاني</label>
-                                        <input id="tawsil_cost" type="text" class="form-control col-span-2" name="transfere_2" value="{{$shipment->transfere_2}}"  aria-label="default input inline 1" value="{{$shipment->tawsil_coast_}}" disabled>
+                                        <input id="t7wel_tany" type="text" class="form-control col-span-2" name="transfere_2" value="{{$shipment->transfere_2}}"  aria-label="default input inline 1" value="{{$shipment->tawsil_coast_}}" disabled>
 
 
 
@@ -138,7 +138,7 @@
                                         <input id="shipment_cost" type="text" class="form-control   mr-1" name="transfer_coast_1" value="{{$shipment->transfer_coast_1}}"  aria-label="default input inline 1" >
 
                                         <label for="horizontal-form-1" class="form-label sm:w-20">استقطاع ثاني</label>
-                                        <input id="tawsil_cost" type="text" class="form-control col-span-2" name="transfer_coast_2" value="{{$shipment->transfer_coast_2}}" aria-label="default input inline 1" >
+                                        <input id="estqta3_tany" type="text" class="form-control col-span-2" name="transfer_coast_2" value="{{$shipment->transfer_coast_2}}" aria-label="default input inline 1" >
 
 
 
@@ -305,7 +305,7 @@ var  manteka =new TomSelect("#manteka",{
                     var manteka_id = this.value;
                     var client_id  = $('#client_id ').find(":selected").val();
                     var mo7afza_id  = $('#mo7afza ').find(":selected").val();
-                    console.log(first);
+                    //console.log(first);
                         $("#tawsil_cost").html('');
                         if(first >= 1)
                         {
@@ -328,6 +328,10 @@ var  manteka =new TomSelect("#manteka",{
     $('#shipment_cost').on('keyup',function(){
 
         $('#total').val( parseInt($('#shipment_cost').val()) - parseInt($('#tawsil_cost').val())   )
+    })
+    $('#tawsil_cost').on('keyup',function(){
+
+    $('#total').val( parseInt($('#shipment_cost').val()) - parseInt($('#tawsil_cost').val())   )
     })
 
 

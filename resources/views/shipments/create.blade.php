@@ -185,6 +185,11 @@
 
         }
     }
+
+    $('#tawsil_cost').on('keyup',function(){
+        if($('#shipment_cost').val() != '')
+            $('#total').val( parseInt($('#shipment_cost').val()) - parseInt($('#tawsil_cost').val())   )
+    })
 document.getElementById("client_id").focus();
 var  comName =new TomSelect(".Commercial_name",{
 	valueField: 'id',
