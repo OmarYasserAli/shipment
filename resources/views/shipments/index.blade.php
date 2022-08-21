@@ -258,7 +258,7 @@
     <div style="background-color:#fff;  opacity: 1;position: fixed; bottom:0px; z-index:999; width:79%;" class="flex h-12 pt-3 rounded ">
         <div class="mr-6" style="margin-left: 10px;">اجمالى مبالغ الشحنات</div>
         <div class="total_cost" style="margin-left: 40px;"><input type="text" disabled class="h-6 w-40" id="total_cost" value="0"></div>
-        <div class="f" style="margin-left: 10px;">اجمالى أجرة الشركة</div>
+        <div class="f" style="margin-left: 10px;">@if($type==4)اجمالى أجرةالمندوب @else اجمالى أجرة الشركة @endif</div>
         <div class="total_tawsil" style="margin-left: 40px;"><input type="text" disabled class="h-6 w-40" id="total_tawsil" value="0"></div>
         <div class=" " style="margin-left: 10px;">اجمالى الصافى</div>
         <div class="total_net" style="margin-left: 40px;"><input type="text" disabled class="h-6 w-40" id='total_net' value="0"></div>
@@ -299,7 +299,14 @@
 
 
             $('#operation_print').on('click',function(){
-                window.open("{{route('opretation-print')}}"+'?codes='+opreation_codes+'&type=shipment&title='+global_ta7weel_to);
+
+                
+                if($('#t7weel_to').val()=='الشحنات لدى مندوب التسليم'){
+                    window.open(window.location.href.split('?')[0]+'?pdf=1&codes='+opreation_codes+'&status=4');
+                    //window.open("{{route('opretation-print')}}"+'?codes='+opreation_codes+'&type=mandoub_taslim&title='+global_ta7weel_to);
+                }else{
+                    window.open("{{route('opretation-print')}}"+'?codes='+opreation_codes+'&type=shipment&title='+global_ta7weel_to);
+                }
 
             })
             

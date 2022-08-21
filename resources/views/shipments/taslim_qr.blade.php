@@ -167,7 +167,7 @@
 
         <script type="text/javascript">
         $('#print').on('click', function(){
-            window.open("{{route('shipment.t7wel_qr_save')}}"+'?pdf=1&codes='+shipments);
+            window.open("{{route('shipment.taslim_qr_save')}}"+'?pdf=1&codes='+shipments);
                     // $.ajax({
                     //     url: "{{route('shipment.taslim_qr_save')}}?pdf=1" ,
                     //     type: 'post',
