@@ -14,7 +14,7 @@ use App\Models\Commercial_name;
 use App\Models\Archive;
 use App\User;
 use App\Models\Khazna;
-use App\Models\Sanad;
+use App\Models\Sanad; 
 use App\Models\Sanad_3amil;
 use App\Models\Sanad_taslim;
 use App\Models\Sanad_far3;
@@ -100,6 +100,7 @@ class financeCntroller extends Controller
 
         $khaznat= Khazna::all();
         $sanadat =[];
+        $sanadatNet =[];
         $date_from = Carbon::now()->format('y-m-d');
         $date_to = Carbon::now()->addDays(1)->format('y-m-d');
         $safi7sab = 0;
@@ -120,58 +121,107 @@ class financeCntroller extends Controller
 
         if(isset(request()->type)){
             if(request()->type =='عميل'){
-                // $user = User::where('code_' ,  $request->owner)->first();
-                $sanadat = Sanad_3amil::where('client_id',  $request->owner)
-                ->whereBetween('created_at', [ $date_from,  $date_to])->orderBy('created_at');
-                $safi7sab =$this->hesabNet(Sanad_3amil::where('client_id',  $request->owner),$date_from, request()->is_solfa);
+                if(isset($request->owner))
+                {
+                    $sanadat = Sanad_3amil::where('client_id',  $request->owner);
+                    $sanadatNet = Sanad_3amil::where('client_id',  $request->owner);
+                }
+                else    
+                {
+                    $sanadat = Sanad_3amil::where('id','>' ,0);
+                    $sanadatNet = Sanad_3amil::where('id','>' ,0);
+                }
+
+                $sanadat =$sanadat->whereBetween('created_at', [ $date_from,  $date_to])->orderBy('created_at');
+                $safi7sab =$this->hesabNet( $sanadatNet,$date_from, request()->is_solfa);
+                if(isset($request->owner))
                 $owner = User::where('code_',$request->owner)->first()->name_;
             }
             if(request()->type =='مندوب'){
-                // $user = User::where('code_' ,  $request->owner)->first();
-                $sanadat = Sanad_taslim::where('mandoub_id',  $request->owner)
-                ->whereBetween('created_at', [ $date_from,  $date_to])->orderBy('created_at');
-                $safi7sab =$this->hesabNet(Sanad_taslim::where('mandoub_id',  $request->owner),$date_from , request()->is_solfa);
-                $owner = User::where('code_',$request->owner)->first()->name_;
+                if(isset($request->owner))
+                {
+                    $sanadat = Sanad_taslim::where('mandoub_id',  $request->owner);
+                    $sanadatNet = Sanad_taslim::where('mandoub_id',  $request->owner);
+                }
+                else    
+                {
+                    $sanadat = Sanad_taslim::where('id','>' ,0);
+                    $sanadatNet = Sanad_taslim::where('id','>' ,0);
+                }
+                $sanadat = $sanadat->whereBetween('created_at', [ $date_from,  $date_to])->orderBy('created_at');
+                $safi7sab =$this->hesabNet($sanadatNet,$date_from, request()->is_solfa);
+                if(isset($request->owner))
+                    $owner = User::where('code_',$request->owner)->first()->name_;
             }
             if(request()->type =='فرع'){
                 $user = auth()->user();
                 $far3= BranchInfo::where('name_',$user->branch)->first();
                 $far3_from =$far3->code_;
-                $q = Sanad_far3::where('far3_id',  $request->owner)->where('far3_from',   $far3_from);
+                if(isset($request->owner))
+                {
+                    $sanadat = Sanad_far3::where('far3_id',  $request->owner)->where('far3_from',   $far3_from);
+                    $sanadatNet = Sanad_far3::where('far3_id',  $request->owner)->where('far3_from',   $far3_from);
+                }
+                else    
+                {
+                    $sanadat = Sanad_far3::where('id','>' ,0)->where('far3_from',   $far3_from);
+                    $sanadatNet = Sanad_far3::where('id','>' ,0)->where('far3_from',   $far3_from);
+                }
+                //$q = Sanad_far3::where('far3_id',  $request->owner)->where('far3_from',   $far3_from);
+                $sanadat= $sanadat->whereBetween('created_at', [ $date_from,  $date_to])->orderBy('created_at');
 
-                $sanadat= $q->whereBetween('created_at', [ $date_from,  $date_to])->orderBy('created_at');
-
-                $safi7sab =$this->hesabNet(Sanad_far3::where('far3_id',  $request->owner)->where('far3_from',   $far3_from),$date_from , request()->is_solfa);
-                $owner = BranchInfo::where('code_',$request->owner)->first()->name_;
+                $safi7sab =$this->hesabNet($sanadatNet,$date_from , request()->is_solfa);
+                if(isset($request->owner))
+                    $owner = BranchInfo::where('code_',$request->owner)->first()->name_;
             }
             if(request()->type =='مصاريف'){
-                $user = auth()->user();
-                 $far3= BranchInfo::where('name_',$user->branch)->first();
-                // $far3_from =$far3->code_;
-                $q = Sanad_masaref::where('masaref_id',  $request->owner);
+                if(isset($request->owner))
+                {
+                    $q = Sanad_masaref::where('masaref_id',  $request->owner);
+                    $qNet = Sanad_masaref::where('masaref_id',  $request->owner);
+                }
+                else    
+                {
+                    $q = Sanad_masaref::where('id','>' ,0);
+                    $qNet = Sanad_masaref::where('id','>' ,0);
+                }
+                // $q = Sanad_masaref::where('masaref_id',  $request->owner);
 
                 $sanadat= $q->whereBetween('created_at', [ $date_from,  $date_to])->orderBy('created_at');
-
-                $safi7sab =$this->hesabNet(Sanad_masaref::where('masaref_id',  $request->owner),$date_from , request()->is_solfa);
+                $safi7sab =$this->hesabNet($qNet,$date_from , request()->is_solfa);
                 $owner = Masaref::where('code_',$request->owner)->first()->name_;
             }
             if(request()->type =='اخرى'){
-                $user = auth()->user();
-                 $far3= BranchInfo::where('name_',$user->branch)->first();
-                // $far3_from =$far3->code_;
-                $q = Sanad_o5ra::where('o5ra_id',  $request->owner);
-
+                if(isset($request->owner))
+                {
+                    $q = Sanad_o5ra::where('o5ra_id',  $request->owner);
+                    $qNet = Sanad_o5ra::where('o5ra_id',  $request->owner);
+                }
+                else    
+                {
+                    $q = Sanad_o5ra::where('id','>' ,0);
+                    $qNet = Sanad_o5ra::where('id','>' ,0);
+                }
+                
                 $sanadat= $q->whereBetween('created_at', [ $date_from,  $date_to])->orderBy('created_at');
-
-                $safi7sab =$this->hesabNet(Sanad_o5ra::where('o5ra_id',  $request->owner),$date_from, request()->is_solfa);
-                $owner = O5ra_7sabat::where('code_',$request->owner)->first()->name_;
+                $safi7sab =$this->hesabNet($qNet,$date_from, request()->is_solfa);
+                if(isset($request->owner))
+                    $owner = O5ra_7sabat::where('code_',$request->owner)->first()->name_;
             }
             if( isset(request()->is_solfa) ){
                 $sanadat=$sanadat->where('is_solfa', request()->is_solfa);
             }
-            $sanadat=$sanadat->get();
             $type7sab= request()->type;
-            $page_title='كشف حساب';
+
+        }else{
+            $sanadat = Sanad::whereBetween('created_at', [ $date_from,  $date_to])->orderBy('created_at');
+            if( isset(request()->is_solfa) ){
+                $sanadat=$sanadat->where('is_solfa', request()->is_solfa);
+            }
+             $safi7sab =$this->hesabNet( Sanad::where('id','!=',0),$date_from, request()->is_solfa);
+        }
+        $sanadat=$sanadat->get();
+        $page_title='كشف حساب';
             if(isset(request()->pdf)){
                 //$safiKhazna =$this->khaznaNet($khazna,Carbon::now()->addDays(1)->format('y-m-d'));
                 $printPage='accounting.company.print';
@@ -186,9 +236,7 @@ class financeCntroller extends Controller
                 $mpdf->showImageErrors = true;
                 return $mpdf->stream('document.pdf');
             }
-
-        }
-        $page_title='كشف حساب';
+        
         
         return view('accounting.company.kashf-7sab',compact('clients','branches','mandoubs','khaznat','owner','page_title',
         'sanadat','safi7sab','type7sab'));
