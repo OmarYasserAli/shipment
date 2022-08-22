@@ -189,6 +189,7 @@ class financeCntroller extends Controller
 
                 $sanadat= $q->whereBetween('created_at', [ $date_from,  $date_to])->orderBy('created_at');
                 $safi7sab =$this->hesabNet($qNet,$date_from , request()->is_solfa);
+                 if(isset($request->owner))
                 $owner = Masaref::where('code_',$request->owner)->first()->name_;
             }
             if(request()->type =='اخرى'){

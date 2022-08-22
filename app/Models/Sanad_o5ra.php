@@ -16,6 +16,6 @@ class Sanad_o5ra extends Model
     }
     public function sanadable()
     {
-        return $this->belongsTo(O5ra_7sabat::class,'mandoub_id');
+        return $this->belongsTo(O5ra_7sabat::class,'o5ra_id');
     }
 }

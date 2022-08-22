@@ -16,6 +16,6 @@ class Sanad_far3 extends Model
     }
     public function sanadable()
     {
-        return $this->belongsTo(BranchInfo::class,'mandoub_id');
+        return $this->belongsTo(BranchInfo::class,'far3_id');
     }
 }

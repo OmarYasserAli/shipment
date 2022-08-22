@@ -16,6 +16,6 @@ class Sanad_3amil extends Model
     }
     public function sanadable()
     {
-        return $this->belongsTo(AllUser::class,'mandoub_id');
+        return $this->belongsTo(AllUser::class,'client_id');
     }
 }

@@ -15,7 +15,7 @@ class Sanad_masaref extends Model
     }
     public function sanadable()
     {
-        return $this->belongsTo(Masaref::class,'mandoub_id');
+        return $this->belongsTo(Masaref::class,'masaref_id');
     }
    
 }

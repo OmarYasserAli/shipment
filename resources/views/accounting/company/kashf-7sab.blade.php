@@ -151,14 +151,14 @@
                              $TrasedDa2en = $da2en;
                             $TrasedMaden = $madeen;
                         @endphp
-                        <tr   >
+                        <tr   > 
 
                             <td  class="whitespace-nowrap " ><?php echo $i;?></td>
                             <td  class="whitespace-nowrap " >{{$sanad->created_at }}</td>
                             <td  class="whitespace-nowrap " >{{$sanad->code }}</td>
                             <td class="whitespace-nowrap " >{{$sanad->type}} @if($sanad->is_solfa) سلفة @endif</td>
-                            <td class="whitespace-nowrap " >{{$type7sab}}</td>
-                            <td class="whitespace-nowrap " >{{$owner}}</td>
+                            <td class="whitespace-nowrap " >{{$sanad->mostafed_type()}}</td>
+                            <td class="whitespace-nowrap " >{{$sanad->sanadable()->first()->name_}}</td>
                             
                             <td class="whitespace-nowrap " >{{$sanad->note}}</td>
                             
