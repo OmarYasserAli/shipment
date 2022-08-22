@@ -114,6 +114,10 @@
         .invoice-box.rtl .totalammount{
             text-align: center !important;
         }
+        .invoice-box.rtl .totalammount h5{
+          color: black;
+        }
+
         .invoice-box.rtl .totalammount img{
             width: 50px;
             height: 50px;
@@ -138,15 +142,12 @@
                 <td colspan="2">
                     <table>
                         <tr>
-                            <td class="title" style="padding-right: 20px;padding-bottom: 20px">
-                                <span style="font-size:13px;padding-top: 10px;padding-right: 20px;padding-bottom: 20px; font-weight: bold;">{{$company->name_}}</span>
+                            <td class="title" style="padding-right: 20px;">
+                                <span style="font-size:13px;padding-right: 20px; font-weight: bold;">{{$company->name_}}</span>
 
                             </td>
                             <td class="title">
-                                {{--  <img src="{{asset('assets/'.$company->image_data)}}"  alt=""  style="width:30px; height: 30px!important; margin-bottom: 5px ;margin-right:1%; margin-left:-5px;">--}}
-
-                                {{-- <img src="https://www.sparksuite.com/images/logo.png" style="width: 100%; max-width: 300px" /> --}}
-                            </td>
+                                <img src="assets/{{$company->image_data}}"  alt=""  style="width:10mm; height: 7mm!important;"> </td>
 
 
                         </tr>
@@ -160,36 +161,42 @@
         </table>
 
         <table class="fatoora" style="width:90% ;font-size:7px; margin:auto;">
+            @if(isset($all[$i]->reciver_name_)&& $all[$i]->reciver_name_ != '')
+                <tr>
+                    <th style="width: 60px;">اسم الزبون:</th>
+                    <td style="text-align: center;">{{$all[$i]->reciver_name_}}</td>
+                </tr>
+            @endif
             @if(isset($all[$i]->reciver_phone_)&& $all[$i]->reciver_phone_ != '')
-            <tr>
-                <th style="width: 60px;">هاتف الزبون:</th>
-                <td style="text-align: center;">{{$all[$i]->reciver_phone_}}</td>
-            </tr>
+                <tr>
+                    <th style="width: 60px;">هاتف الزبون:</th>
+                    <td style="text-align: center;">{{$all[$i]->reciver_phone_}}</td>
+                </tr>
             @endif
             @if(isset($all[$i]->mo7afza_)&& $all[$i]->mo7afza_!= '')
-            <tr>
-                <th>المحافظه:</th>
-                <td style="text-align: center;">{{$all[$i]->mo7afza_}}</td>
-            </tr>
+                <tr>
+                    <th>المحافظه:</th>
+                    <td style="text-align: center;">{{$all[$i]->mo7afza_}}</td>
+                </tr>
             @endif
             @if(isset($all[$i]->el3nwan)&& $all[$i]->el3nwan != '')
-            <tr>
-                <th>العنوان:</th>
-                <td style="text-align: center;">{{$all[$i]->el3nwan}}</td>
-            </tr>
+                <tr>
+                    <th>العنوان:</th>
+                    <td style="text-align: center;">{{$all[$i]->el3nwan}}</td>
+                </tr>
             @endif
             @if(isset($all[$i]->commercial_name_)&& $all[$i]->commercial_name_ != '')
-            <tr>
-                <th>اسم المتجر:</th>
-                <td style="text-align: center;">{{$all[$i]->commercial_name_}}</td>
-            </tr>
+                <tr>
+                    <th>اسم المتجر:</th>
+                    <td style="text-align: center;">{{$all[$i]->commercial_name_}}</td>
+                </tr>
 
             @endif
             @if(isset($all[$i]->code_)&& $all[$i]->code_ != '')
-            <tr>
-                <th>رقم الشحنه:</th>
-                <td style="text-align: center;">{{$all[$i]->code_}}</td>
-            </tr>
+                <tr>
+                    <th>رقم الشحنه:</th>
+                    <td style="text-align: center;">{{$all[$i]->code_}}</td>
+                </tr>
             @endif
             @if(isset($all[$i]->ship_type)&& $all[$i]->ship_type != '')
                 <tr>
@@ -206,14 +213,14 @@
 
         </table>
 
-        <div class="totalammount" style="font-size: 8px;">
-            <h5  style="font-size: 12px">مبلغ الشحنه : {{number_format($all[$i]->shipment_coast_)}}</h5>
+        <div class="totalammount" style="font-size: 10px;">
+            <h5  style="font-size: 14px">مبلغ الشحنه : {{number_format($all[$i]->shipment_coast_)}}</h5>
 
             <table class="" cellpadding="0" cellspacing="0" style="width:90% ;font-size:7px; margin:auto; padding-top: 20px">
                 <tr>
                     <span id='mark'></span>
                     <th style="width: 60px;padding-right: 20px">{!! $qrcode[$i]!!}</th>
-                    <td style="text-align: center; padding-top: 30px"> <h3>{{Carbon\Carbon::now()->format('Y-m-d  g:i:s A')}}</h3>
+                    <td style="text-align: center; padding-top: 30px;font-size: 9px"> <h3>{{Carbon\Carbon::now()->format('Y-m-d  g:i:s A')}}</h3>
                         <p style="font-size: 10px">ust.center</p></td>
                 </tr>
             </table>
@@ -221,7 +228,7 @@
 
     </div>
     @if($i != count($all)-1)
-    <pagebreak></pagebreak>
+        <pagebreak></pagebreak>
     @endif
 
 
