@@ -285,13 +285,28 @@
                             codes.push($(this).data('code'));
                         }
                     });
-                $('#operation_print').on('click',function(){
+                $.ajax({
+                            url:"{{route('accounting.3amil.mosadad')}}",
+                            type: "post",
+                            data: {
+                                'codes':'codes',
+                                'pdf' :1,
+                                '_token' :'{{@csrf_token()}}'
+                            },
+                           // dataType : 'json',
+                            success: function(result){
+                            
+                            //$('#city_id').html('<option value="">Select city</option>');
+                            }
+                        });
+                
+                //window.open(window.location.href.split('?')[0]+'?pdf=1&codes='+codes);
+                // window.location.replace ();
+                });
+            $('#operation_print').on('click',function(){
                     window.open("{{route('opretation-print')}}"+'?codes='+opreation_codes+'&type=3amel&title='+'شحنات غير مسددة للعميل');
 
                 })
-                window.open(window.location.href.split('?')[0]+'?pdf=1&codes='+codes);
-                // window.location.replace ();
-                });
             let  shipments=[];
             let cnt=1;
 

@@ -167,7 +167,7 @@ Route::get('/accounting/coppany/getmostafedname', 'sanadatController@getMostafed
 
 
     //3amil
-Route::get('/accounting/3amil/mosadad', 'accountingController@amilMosadad')->name('accounting.3amil.mosadad');
+Route::any('/accounting/3amil/mosadad', 'accountingController@amilMosadad')->name('accounting.3amil.mosadad');
 Route::post('/accounting/3amil/canselTasdid', 'accountingController@amilcanselTasdid')->name('accounting.3amil.canceltasdid');
 
 Route::get('/accounting/3amil/notmosadad', 'accountingController@amilNotMosadad')->name('accounting.3amil.notmosadad');
