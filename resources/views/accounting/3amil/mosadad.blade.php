@@ -285,22 +285,22 @@
                             codes.push($(this).data('code'));
                         }
                     });
-                $.ajax({
-                            url:"{{route('accounting.3amil.mosadad')}}",
-                            type: "post",
-                            data: {
-                                'codes':codes,
-                                'pdf' :1,
-                                '_token' :'{{csrf_token()}}'
-                            },
-                           // dataType : 'json',
-                            success: function(result){
+                // $.ajax({
+                //             url:"{{route('accounting.3amil.mosadad')}}",
+                //             type: "post",
+                //             data: {
+                //                 'codes':codes,
+                //                 'pdf' :1,
+                //                 '_token' :'{{csrf_token()}}'
+                //             },
+                //            // dataType : 'json',
+                //             success: function(result){
                             
-                            //$('#city_id').html('<option value="">Select city</option>');
-                            }
-                        });
+                //             //$('#city_id').html('<option value="">Select city</option>');
+                //             }
+                //         });
                 
-                //window.open(window.location.href.split('?')[0]+'?pdf=1&codes='+codes);
+                window.open(window.location.href.split('?')[0]+'?pdf=1&codes='+codes);
                 // window.location.replace ();
                 });
             $('#operation_print').on('click',function(){
