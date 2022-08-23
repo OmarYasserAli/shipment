@@ -312,8 +312,9 @@ class accountingController extends Controller
         if(isset(request()->pdf)){
             if(isset(request()->codes))
             {
-                $codes= explode(',',request()->codes);
-
+                //dd(request()->codes);
+                //$codes= explode(',',request()->codes);
+                $codes= request()->codes;
                 // dd(request()->pdf);
                 $all=Shipment::whereIn('code_',$codes);
                 // dd($all);

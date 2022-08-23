@@ -289,7 +289,7 @@
                             url:"{{route('accounting.3amil.mosadad')}}",
                             type: "post",
                             data: {
-                                'codes':'codes',
+                                'codes':codes,
                                 'pdf' :1,
                                 '_token' :'{{@csrf_token()}}'
                             },
