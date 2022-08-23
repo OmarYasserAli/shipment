@@ -291,7 +291,7 @@
                             data: {
                                 'codes':codes,
                                 'pdf' :1,
-                                '_token' :'{{@csrf_token()}}'
+                                '_token' :'{{csrf_token()}}'
                             },
                            // dataType : 'json',
                             success: function(result){
