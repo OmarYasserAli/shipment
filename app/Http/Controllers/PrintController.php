@@ -11,7 +11,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use PDF;
-
+use App\Models\Print_report;
 class PrintController extends Controller
 {
     public function operationPrint(Request $request)
@@ -151,6 +151,14 @@ class PrintController extends Controller
 
 
 
+    }
+
+
+    public function reportPrint(){
+
+        $report = request()->report;
+        $report = Print_report::where('id',$report)->first();
+        dd($report);
     }
 
 }

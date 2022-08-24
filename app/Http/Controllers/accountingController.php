@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
-
+use App\Models\Print_report;
 class accountingController extends Controller
 {
 
@@ -312,15 +312,32 @@ class accountingController extends Controller
         if(isset(request()->pdf)){
             if(isset(request()->codes))
             {
-                //dd(request()->codes);
-                $codes= explode(',',request()->codes);
-                //$codes= request()->codes;
-                // dd(request()->pdf);
-                $all=Shipment::whereIn('code_',$codes);
-                // dd($all);
-
-
+                    
+                    
+                $codes= implode(',',request()->codes);
+                if(request()->save ==1){ 
+                    $report = new Print_report();
+                    $report->codes = $codes;
+                    $report->user_id = $user->code_;
+                    $report->save();
+                    return response()->json([
+                        'status' => 200,
+                        'id' => $report->id,
+                        'message' => 'تم الحفظ',
+                    ], 200);
+                }
             }
+            if(!isset(request()->report)) return false;
+
+            
+            $report = request()->report;
+            $report = Print_report::where('id',$report)->first();
+            $codes= explode(',',$report->codes);
+            $all=Shipment::whereIn('code_',$codes);
+              
+
+
+            
             $all=$all->get();
             $totalCost = $all->sum('shipment_coast_');
             $tawsilCost = $all->sum('tawsil_coast_');
