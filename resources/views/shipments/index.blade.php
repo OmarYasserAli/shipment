@@ -286,27 +286,62 @@
         <script type="text/javascript">
              let opreation_codes=[];
              let global_ta7weel_to='';
-            $('#print').on('click', function(){
+             $('#print').on('click', function(){
                 var codes=[];
                 $('.check_count').each(function() {
                         if($(this).is(':checked')){
                             codes.push($(this).data('code'));
                         }
                     });
-                window.open(window.location.href.split('?')[0]+'?pdf=1&codes='+codes+'&status={{$type}}');
-               // window.location.replace ();
-            });
+                $.ajax({
+                            url:"{{route('save_print_report')}}",
+                            type: "post",
+                            data: {
+                                'codes':codes,
+                                'pdf' :1,
+                                'save' :1,
+                                '_token' :'{{csrf_token()}}'
+                            },
+                            success: function(result){
+                                window.open(window.location.href.split('?')[0]+'?pdf=1&report='+result.id+'&status={{$type}}');
+                            }
+                        });
+                });
+            // $('#print').on('click', function(){
+            //     var codes=[];
+            //     $('.check_count').each(function() {
+            //             if($(this).is(':checked')){
+            //                 codes.push($(this).data('code'));
+            //             }
+            //         });
+            //     window.open(window.location.href.split('?')[0]+'?pdf=1&codes='+codes+'&status={{$type}}');
+            //    // window.location.replace ();
+            // });
 
 
             $('#operation_print').on('click',function(){
 
                 
-                if($('#t7weel_to').val()=='الشحنات لدى مندوب التسليم'){
-                    window.open(window.location.href.split('?')[0]+'?pdf=1&codes='+opreation_codes+'&status=4');
-                    //window.open("{{route('opretation-print')}}"+'?codes='+opreation_codes+'&type=mandoub_taslim&title='+global_ta7weel_to);
-                }else{
-                    window.open("{{route('opretation-print')}}"+'?codes='+opreation_codes+'&type=shipment&title='+global_ta7weel_to);
-                }
+                $.ajax({
+                            url:"{{route('save_print_report')}}",
+                            type: "post",
+                            data: {
+                                'codes':opreation_codes,
+                                'pdf' :1,
+                                'save' :1,
+                                '_token' :'{{csrf_token()}}'
+                            },
+                            success: function(result){
+                                if($('#t7weel_to').val()=='الشحنات لدى مندوب التسليم'){
+                                    window.open(window.location.href.split('?')[0]+'?pdf=1&report='+result.id+'&status=4&title='+global_ta7weel_to);
+                                }else{
+                                    window.open(window.location.href.split('?')[0]+'?pdf=1&report='+result.id+'&status={{$type}}&title='+global_ta7weel_to);
+                                    //window.open("{{route('opretation-print')}}"+'?codes='+opreation_codes+'&type=shipment&title='+global_ta7weel_to);
+                                }
+                                
+                            }
+                        });
+                
 
             })
             

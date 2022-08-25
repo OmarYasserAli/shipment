@@ -25,9 +25,15 @@ class PrintController extends Controller
         if (is_numeric($brach_filter)){
             $brach_filter = BranchInfo::where('serial_',request()->brach_filter)->first()->name_;
         }
-        if(isset(request()->codes))
+        if(isset(request()->codes) || isset(request()->report))
         {
-            $codes= explode(',',request()->codes);
+            if(isset(request()->report)){
+                $report = request()->report;
+                $report = Print_report::where('id',$report)->first();
+                $codes= explode(',',$report->codes);
+            }
+            else
+                $codes= explode(',',request()->codes);
             if (request()->type != 'fro3'){
             $all=Shipment::whereIn('code_',$codes);
             }
@@ -159,6 +165,25 @@ class PrintController extends Controller
         $report = request()->report;
         $report = Print_report::where('id',$report)->first();
         dd($report);
+    }
+
+    public function save_report(Request $request){
+        if(isset(request()->codes))
+        {
+            $user=auth()->user();
+            $codes= implode(',',request()->codes);
+            if(request()->save ==1){ 
+                $report = new Print_report();
+                $report->codes = $codes;
+                $report->user_id = $user->code_;
+                $report->save();
+                return response()->json([
+                    'status' => 200,
+                    'id' => $report->id,
+                    'message' => 'تم الحفظ',
+                ], 200);
+            }
+        }
     }
 
 }

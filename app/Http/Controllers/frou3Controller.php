@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
-
+use App\Models\Print_report;
 class frou3Controller extends Controller
 {
     public function __construct()
@@ -176,9 +176,10 @@ class frou3Controller extends Controller
         $page_title='الشحنات الصادرة الي الفرع';
         if(isset(request()->pdf)){
 
-            if(isset(request()->codes))
-            {
-                $codes= explode(',',request()->codes);
+            if(!isset(request()->report)) return false;
+            $report = request()->report;
+            $report = Print_report::where('id',$report)->first();
+            $codes= explode(',',$report->codes);
                 if( $brach_filter != '')
                 {
                     $all=Shipment::whereIn('code_',$codes)->select('*',DB::raw("(CASE
@@ -194,7 +195,7 @@ class frou3Controller extends Controller
 
                 }
 
-            }
+            
 
             $all=$all->get();
             $ta7weel=0;
@@ -373,9 +374,11 @@ class frou3Controller extends Controller
         $page_title='الشحنات الواردة من الفرع';
         if(isset(request()->pdf)){
 
-            if(isset(request()->codes))
-            {
-                $codes= explode(',',request()->codes);
+            if(!isset(request()->report)) return false;
+            $report = request()->report;
+            $report = Print_report::where('id',$report)->first();
+            $codes= explode(',',$report->codes);
+            
                 if( $brach_filter != '')
                 {
                     $all=Shipment::whereIn('code_',$codes)->select('*',DB::raw("(CASE
@@ -391,8 +394,7 @@ class frou3Controller extends Controller
 
                 }
 
-            }
-
+           
             $all=$all->get();
             $ta7weel=0;
             foreach($all as $ship){
@@ -1458,32 +1460,26 @@ class frou3Controller extends Controller
         $page_title='الشحنات الغير مسددة للفرع';
         if(isset(request()->pdf)){
             //return view('shipments.print' , compact('all'));
-            if(isset(request()->codes))
+            if(!isset(request()->report)) return false;
+            $report = request()->report;
+            $report = Print_report::where('id',$report)->first();
+            $codes= explode(',',$report->codes);
+            if( $brach_filter != '')
             {
-                $codes= explode(',',request()->codes);
-
-                if( $brach_filter != '')
-                {
-                    $all=Shipment::whereIn('code_',$codes)->select('*',DB::raw("(CASE
-                                    WHEN ( branch_ = '{$user->branch}' and  transfere_1 = '{$brach_filter}' and elfar3_elmosadad_mno = '') THEN  transfer_coast_1
-                                    WHEN ( transfere_1 = '{$user->branch}' and  transfere_2 = '{$brach_filter}' and elfar3_elmosadad_mno_2 = '') THEN transfer_coast_2
-                                    END) AS t7weel_cost"));
-
-                }
-                else
-                {$all=Shipment::whereIn('code_',$codes)->select('*',DB::raw("(CASE
-                                    WHEN ( branch_ = '{$user->branch}' and  transfere_1 !=  '' and elfar3_elmosadad_mno = '') THEN  transfer_coast_1
-                                    WHEN ( transfere_1 = '{$user->branch}' and  transfere_2 != '' and elfar3_elmosadad_mno_2 = '') THEN transfer_coast_2
-                                    END) AS t7weel_cost"));
-
-                }
-
-                // dd(request()->pdf);
-
-                // dd($all);
-
+                $all=Shipment::whereIn('code_',$codes)->select('*',DB::raw("(CASE
+                                WHEN ( branch_ = '{$user->branch}' and  transfere_1 = '{$brach_filter}' and elfar3_elmosadad_mno = '') THEN  transfer_coast_1
+                                WHEN ( transfere_1 = '{$user->branch}' and  transfere_2 = '{$brach_filter}' and elfar3_elmosadad_mno_2 = '') THEN transfer_coast_2
+                                END) AS t7weel_cost"));
 
             }
+            else
+            {$all=Shipment::whereIn('code_',$codes)->select('*',DB::raw("(CASE
+                                WHEN ( branch_ = '{$user->branch}' and  transfere_1 !=  '' and elfar3_elmosadad_mno = '') THEN  transfer_coast_1
+                                WHEN ( transfere_1 = '{$user->branch}' and  transfere_2 != '' and elfar3_elmosadad_mno_2 = '') THEN transfer_coast_2
+                                END) AS t7weel_cost"));
+
+            }
+
 
             $all=$all->get();
                     $ta7weel=0;
@@ -1687,10 +1683,12 @@ class frou3Controller extends Controller
         // dd($counter);
         $page_title='الشحنات  المسددة للفرع';
         if(isset(request()->pdf)){
-            //return view('shipments.print' , compact('all'));
-            if(isset(request()->codes))
-            {
-                $codes= explode(',',request()->codes);
+           
+            
+            if(!isset(request()->report)) return false;
+            $report = request()->report;
+            $report = Print_report::where('id',$report)->first();
+            $codes= explode(',',$report->codes);
 
                 if($brach_filter != '')
                 {
@@ -1707,10 +1705,6 @@ class frou3Controller extends Controller
                                     END) AS t7weel_cost"));
                 }
 
-                // dd($all);
-
-
-            }
 
             $all=$all->get();
                  $ta7weel=0;

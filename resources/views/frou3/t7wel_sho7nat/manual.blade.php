@@ -253,16 +253,25 @@
         <script type="text/javascript">
             let opreation_codes=[];
             var branch_data = '';
+            $('#operation_print').on('click', function(){
+                
+                $.ajax({
+                            url:"{{route('save_print_report')}}",
+                            type: "post",
+                            data: {
+                                'codes':opreation_codes,
+                                'pdf' :1,
+                                'save' :1,
+                                '_token' :'{{csrf_token()}}'
+                            },
+                            success: function(result){
+                                
+                                window.open("{{route('opretation-print')}}"+'?report='+result.id+'&brach_filter='+branch_data+'&type=fro3&title='+'تحويل شحنات الى فرع');
 
-            $('#operation_print').on('click',function(){
-
-                // console.log(opreation_codes);
-
-                window.open("{{route('opretation-print')}}"+'?codes='+opreation_codes+'&brach_filter='+branch_data+'&type=fro3&title='+'تحويل شحنات الى فرع');
-
-
-
-            });
+                            }
+                        });
+                });
+            
             let  shipments=[];
             let cnt=1;
 

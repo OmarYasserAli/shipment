@@ -272,9 +272,23 @@
                             codes.push($(this).data('code'));
                         }
                     });
-                    window.open(window.location.href.split('?')[0]+'?pdf=1&code='+codes);
+                    $.ajax({
+                            url:"{{route('save_print_report')}}",
+                            type: "post",
+                            data: {
+                                'codes':codes,
+                                'pdf' :1,
+                                'save' :1,
+                                '_token' :'{{csrf_token()}}'
+                            },
+                            success: function(result){
+                                window.open(window.location.href.split('?')[0]+'?pdf=1&report='+result.id);
+                            }
+                        });
+                   
                codes=[];
             });
+
 
             let  shipments=[];
             let cnt=1;

@@ -279,17 +279,42 @@
             let opreation_codes=[];
 
             $('#print').on('click', function(){
-                    var codes=[];
+                var codes=[];
                 $('.check_count').each(function() {
                         if($(this).is(':checked')){
                             codes.push($(this).data('code'));
                         }
                     });
-                    window.open(window.location.href.split('?')[0]+'?pdf=1&codes='+codes);
-                // window.location.replace ();
+                $.ajax({
+                            url:"{{route('save_print_report')}}",
+                            type: "post",
+                            data: {
+                                'codes':codes,
+                                'pdf' :1,
+                                'save' :1,
+                                '_token' :'{{csrf_token()}}'
+                            },
+                            success: function(result){
+                                window.open(window.location.href.split('?')[0]+'?pdf=1&report='+result.id);
+                            }
+                        });
                 });
             $('#operation_print').on('click',function(){
-                window.open("{{route('opretation-print')}}"+'?codes='+opreation_codes+'&type=3amel&title='+'شحنات مسددة للعميل');
+                $.ajax({
+                            url:"{{route('save_print_report')}}",
+                            type: "post",
+                            data: {
+                                'codes':opreation_codes,
+                                'pdf' :1,
+                                'save' :1,
+                                '_token' :'{{csrf_token()}}'
+                            },
+                            success: function(result){
+                                //window.open(window.location.href.split('?')[0]+'?pdf=1&report='+result.id);
+                                window.open("{{route('opretation-print')}}"+'?report='+result.id+'&type=3amel&title='+'شحنات مسددة للعميل');
+                            }
+                        });
+                
 
             })
             let  shipments=[];

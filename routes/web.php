@@ -63,6 +63,7 @@ Route::get('/getManateqAndTas3ir5asByMa7afza', 'tas3irController@getManateqAndTa
 //operation print
 Route::get('opretation-print', 'PrintController@operationPrint')->name('opretation-print');
 Route::get('print', 'PrintController@reportPrint')->name('reportPrint');
+Route::post('printSave', 'PrintController@save_report')->name('save_print_report');
 
 //shipments
 

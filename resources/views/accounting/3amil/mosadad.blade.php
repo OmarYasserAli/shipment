@@ -286,7 +286,7 @@
                         }
                     });
                 $.ajax({
-                            url:"{{route('accounting.3amil.mosadad')}}",
+                            url:"{{route('save_print_report')}}",
                             type: "post",
                             data: {
                                 'codes':codes,
@@ -294,19 +294,27 @@
                                 'save' :1,
                                 '_token' :'{{csrf_token()}}'
                             },
-                           // dataType : 'json',
                             success: function(result){
                                 window.open(window.location.href.split('?')[0]+'?pdf=1&report='+result.id);
-                               // window.open("{{route('reportPrint')}}"+'?report='+result.id);
-                                
                             }
                         });
-                
-                //window.open(window.location.href.split('?')[0]+'?pdf=1&codes='+codes);
-                // window.location.replace ();
                 });
             $('#operation_print').on('click',function(){
-                    window.open("{{route('opretation-print')}}"+'?codes='+opreation_codes+'&type=3amel&title='+'شحنات غير مسددة للعميل');
+                $.ajax({
+                            url:"{{route('save_print_report')}}",
+                            type: "post",
+                            data: {
+                                'codes':opreation_codes,
+                                'pdf' :1,
+                                'save' :1,
+                                '_token' :'{{csrf_token()}}'
+                            },
+                            success: function(result){
+                                //window.open(window.location.href.split('?')[0]+'?pdf=1&report='+result.id);
+                                window.open("{{route('opretation-print')}}"+'?report='+result.id+'&type=3amel&title='+'شحنات غير مسددة للعميل');
+                            }
+                        });
+                   
 
                 })
             let  shipments=[];

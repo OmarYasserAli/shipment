@@ -17,7 +17,7 @@ use App\Models\Sanad_taslim;
 use App\User;
 use App\Models\Branch_user;
 use QrCode;
-
+use App\Models\Print_report;
 use Carbon\Carbon;
 use App\Setting;
 use Illuminate\Http\Request;
@@ -187,6 +187,10 @@ class shipmentsController extends Controller
          }
 
         if(isset($request->mo7afza)){
+            /*
+            $mo7afaza = Mohfza::where('code',$request->mo7afza)->first();
+            $shipments = $shipments->where('Ship_area_', '=', $mo7afaza->name);
+            */
             $shipments = $shipments->where('mo7afaza_id', '=', $request->mo7afza);
          }
        if(isset($request->branch_) && $request->branch_!='الكل'){
@@ -250,16 +254,18 @@ class shipmentsController extends Controller
         ,'status_4_color','status_7_color','status_8_color','status_9_color'])->get()->keyBy('name')->pluck('val','name');
         $css_prop = Setting::get('status_css_prop');
         //  dd($status_color);
-        $page_title=Shipment_status::where('code_',$type)->first()->name_;
+        if(isset($request->title))
+            $page_title=$request->title;
+        else
+            $page_title=Shipment_status::where('code_',$type)->first()->name_;
         $title=Shipment_status::where('code_',$type)->first()->name_;
         if(isset(request()->pdf)){
 
-            if(isset(request()->codes))
-            {
-                $codes= explode(',',request()->codes);
-                $all=Shipment::whereIn('code_',$codes);
-            }
-
+            if(!isset(request()->report)) return false;
+            $report = request()->report;
+            $report = Print_report::where('id',$report)->first();
+            $codes= explode(',',$report->codes);
+            $all=Shipment::whereIn('code_',$codes);
             $all=$all->get();
             $totalCost = $all->sum('shipment_coast_');
             $tawsilCost = $all->sum('tawsil_coast_');
@@ -1570,10 +1576,16 @@ class shipmentsController extends Controller
 
     }
       public function print(Request $request){
-
-        $path = explode(",", $request->code);
-        $exp = array();
-        $exp = array_merge($exp, $path);
+        if(isset(request()->report)){
+            $report = request()->report;
+            $report = Print_report::where('id',$report)->first();
+            $path= explode(',',$report->codes);
+            $exp = array();
+            $exp = array_merge($exp, $path);
+        }
+        
+        
+        
 
         $user=auth()->user();
 
@@ -1703,7 +1715,7 @@ class shipmentsController extends Controller
             // $qrcode=str_replace("\"","",$qrcode);
 
             // dd($qrcode);
-            if(!isset(request()->code)) return ;
+            if(!isset(request()->report)) return ;
             $all = Shipment::where('code_',$code)->get()[0];
                 array_push($allData,$all);
                 array_push($qrNo,$qrcode);
