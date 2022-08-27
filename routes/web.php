@@ -239,6 +239,7 @@ Route::post('/settings/masaref-tree', 'SettingController@masaref_tree_store')->n
 Route::get('/settings/ads', 'adsController@index')->name('ads.index');
 Route::get('/settings/ads/create', 'adsController@create')->name('ads.create');
 Route::post('/settings/ads/store', 'adsController@store')->name('ads.store');
+Route::get('/settings/history/print', 'PrintHistoryController@index')->name('print.history');
 
 Route::get('/permissions', 'permissionController@index')->name('permissions');
 Route::post('/permissions/store', 'permissionController@store')->name('permissions.store');

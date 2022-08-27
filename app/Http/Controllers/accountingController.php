@@ -41,9 +41,9 @@ class accountingController extends Controller
     }
     public function amilNotMosadad(Request $request)
     {
-        
+
         $user=auth()->user();
-        
+
         if(!$user->isAbleTo('notMosadad3amel-accounting')){
             return abort(403);
         }
@@ -68,7 +68,7 @@ class accountingController extends Controller
             $shipments = $shipments->where('status_' ,'=',7) ;
         else
             $shipments = $shipments->where('status_' ,'!=',8) ;
-        
+
         if(isset($request->code)){
            $shipments = $shipments->where('code_', '=', $request->code);
         }
@@ -79,7 +79,7 @@ class accountingController extends Controller
         if(isset($request->mo7afza)){
             $shipments = $shipments->where('mo7afaza_id', '=', $request->mo7afza);
          }
-       
+
        if(isset($request->client_id) && $request->client_id!='الكل'){
            $shipments = $shipments->where('client_name_', '=', $request->client_id);
         //    dd($shipments->get());
@@ -116,11 +116,11 @@ class accountingController extends Controller
         $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];
         if(isset(request()->arba7)){
             if(isset(request()->printArba7)){
-               /* print  $all_shipments     $sums*/ 
+               /* print  $all_shipments     $sums*/
             }
             return response()->json([
                 'status' => 200,
-              
+
                 'message' => 'sucecss',
                 'sums'=>$sums,
                 'codes' => $codes
@@ -152,10 +152,13 @@ class accountingController extends Controller
         //  dd($status_color);
         $page_title='الشحنات الغير مسددة للعميل';
         if(isset(request()->pdf)){
-            
+
             if(!isset(request()->report)) return false;
             $report = request()->report;
             $report = Print_report::where('id',$report)->first();
+            $report->update([
+                "url" => URL::full(),
+            ]);
             $codes= explode(',',$report->codes);
             $all=Shipment::whereIn('code_',$codes);
             $all=$all->get();
@@ -276,11 +279,11 @@ class accountingController extends Controller
         $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];
         if(isset(request()->arba7)){
             if(isset(request()->printArba7)){
-               /* print  $all_shipments     $sums*/ 
+               /* print  $all_shipments     $sums*/
             }
             return response()->json([
                 'status' => 200,
-              
+
                 'message' => 'sucecss',
                 'sums'=>$sums
             ], 200);
@@ -305,16 +308,19 @@ class accountingController extends Controller
         $css_prop = Setting::get('status_css_prop');
         $page_title='الشحنات  المسددة للعميل';
         if(isset(request()->pdf)){
-            
+
             if(!isset(request()->report)) return false;
             $report = request()->report;
             $report = Print_report::where('id',$report)->first();
+            $report->update([
+                "url" => URL::full(),
+            ]);
             $codes= explode(',',$report->codes);
             $all=Shipment::whereIn('code_',$codes);
-              
 
 
-            
+
+
             $all=$all->get();
             $totalCost = $all->sum('shipment_coast_');
             $tawsilCost = $all->sum('tawsil_coast_');
@@ -434,11 +440,11 @@ class accountingController extends Controller
         $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];
         if(isset(request()->arba7)){
             if(isset(request()->printArba7)){
-               /* print  $all_shipments     $sums*/ 
+               /* print  $all_shipments     $sums*/
             }
             return response()->json([
                 'status' => 200,
-              
+
                 'message' => 'sucecss',
                 'sums'=>$sums,
                 'codes' => $codes
@@ -468,6 +474,9 @@ class accountingController extends Controller
             if(!isset(request()->report)) return false;
             $report = request()->report;
             $report = Print_report::where('id',$report)->first();
+            $report->update([
+                "url" => URL::full(),
+            ]);
             $codes= explode(',',$report->codes);
             $all=Shipment::whereIn('code_',$codes);
             $all=$all->get();
@@ -608,7 +617,7 @@ class accountingController extends Controller
             if(isset(request()->codes))
             {
                 $codes= implode(',',request()->codes);
-                if(request()->save ==1){ 
+                if(request()->save ==1){
                     $report = new Print_report();
                     $report->codes = $codes;
                     $report->user_id = $user->code_;
@@ -619,16 +628,19 @@ class accountingController extends Controller
                         'message' => 'تم الحفظ',
                     ], 200);
                 }
-                
+
 
             }
             if(!isset(request()->report)) return false;
                 $report = request()->report;
                 $report = Print_report::where('id',$report)->first();
+            $report->update([
+                "url" => URL::full(),
+            ]);
                 $codes= explode(',',$report->codes);
                 $all=Shipment::whereIn('code_',$codes);
-               
-            
+
+
             $all=$all->get();
          $totalCost = $all->sum('shipment_coast_');
         $tawsilCost = $all->sum('tas3ir_mandoub_taslim');
@@ -769,6 +781,9 @@ class accountingController extends Controller
             if(!isset(request()->report)) return false;
             $report = request()->report;
             $report = Print_report::where('id',$report)->first();
+            $report->update([
+                "url" => URL::full(),
+            ]);
             $codes= explode(',',$report->codes);
             $all=Shipment::whereIn('code_',$codes);
             $all=$all->get();
@@ -914,6 +929,9 @@ class accountingController extends Controller
             if(!isset(request()->report)) return false;
             $report = request()->report;
             $report = Print_report::where('id',$report)->first();
+            $report->update([
+                "url" => URL::full(),
+            ]);
             $codes= explode(',',$report->codes);
             $all=Shipment::whereIn('code_',$codes);
             $all=$all->get();
@@ -1024,6 +1042,6 @@ class accountingController extends Controller
             'message' => 'sucecss',
         ], 200);
 
-        
+
     }
 }

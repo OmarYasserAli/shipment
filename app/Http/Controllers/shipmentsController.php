@@ -16,6 +16,7 @@ use App\Models\Sanad_3amil;
 use App\Models\Sanad_taslim;
 use App\User;
 use App\Models\Branch_user;
+use Illuminate\Support\Facades\URL;
 use QrCode;
 use App\Models\Print_report;
 use Carbon\Carbon;
@@ -66,7 +67,7 @@ class shipmentsController extends Controller
                 $shipments = Shipment::where('Status_',$status['code_'])
             ->UserType($user->type_,$user->code_);
             }
-            
+
             //->UserType($user->type_,$user->code_);
             if(isset(request()->commercial_name)){
                 $shipments=$shipments->where('commercial_name_',request()->commercial_name);
@@ -172,9 +173,9 @@ class shipmentsController extends Controller
                 $shipments = Shipment::with(['Branch_user' => function ($query) {
                     $query->select('code_','phone_');
                 }])->UserType($user->type_,$user->code_)
-                ->where('status_',$status);          
+                ->where('status_',$status);
             }
-            
+
             if(isset(request()->commercial_name)){
                 $shipments = $shipments->where('add_shipment_tb_.commercial_name_', request()->commercial_name);
             }
@@ -264,6 +265,10 @@ class shipmentsController extends Controller
             if(!isset(request()->report)) return false;
             $report = request()->report;
             $report = Print_report::where('id',$report)->first();
+            $report->update([
+             "url" => URL::full(),
+
+         ]);
             $codes= explode(',',$report->codes);
             $all=Shipment::whereIn('code_',$codes);
             $all=$all->get();
@@ -459,12 +464,12 @@ class shipmentsController extends Controller
                                 ->whereIn('status_', $status)
                                 ->where('branch_', $user->branch)
                                 ->update($updated_array);
-                  
+
                                 return response()->json([
                                   'status' => 200,
                                   'message' => 'تم التحويل',
                                   'count' => $row,
-                              ], 200); 
+                              ], 200);
 
         }
         if($request->t7weel_to=='الشحنات الراجعه فى المخزن'){   //t7wel rag3 lada m5zn
@@ -486,7 +491,7 @@ class shipmentsController extends Controller
                 'status' => 200,
                 'message' => 'تم التحويل',
                 'count' => $row,
-            ], 200); 
+            ], 200);
     }
 
     public function accounting(Request $request)
@@ -1579,13 +1584,16 @@ class shipmentsController extends Controller
         if(isset(request()->report)){
             $report = request()->report;
             $report = Print_report::where('id',$report)->first();
+            $report->update([
+                "url" => URL::full(),
+            ]);
             $path= explode(',',$report->codes);
             $exp = array();
             $exp = array_merge($exp, $path);
         }
-        
-        
-        
+
+
+
 
         $user=auth()->user();
 
@@ -1925,12 +1933,12 @@ class shipmentsController extends Controller
         ->where($filter_field, $user->branch);
         if($request->case=='taslim_qr'){
             $shipment=$shipment->whereIn('TRANSFERE_ACCEPT_REFUSE',[0,1]);
-           
+
         }
         if($request->case=='frou3_t7wel_sho7nat_qr'){
             $b= BranchInfo::where('serial_',$request->status)->first();
             $shipment=$shipment->where('transfere_2','')->where('Ship_area_','!=',$b->name_);
-           
+
         }
         if($request->case=='frou3_t7wel_rag3_qr'){
             $b= BranchInfo::where('serial_',$request->status)->first();

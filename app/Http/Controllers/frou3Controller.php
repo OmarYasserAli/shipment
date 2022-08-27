@@ -86,7 +86,7 @@ class frou3Controller extends Controller
                                 WHEN ( branch_ = '{$user->branch}' and  transfere_1 !=  '' and elfar3_elmosadad_mno = '') THEN  tarikh_tasdid_far3
                                 WHEN ( transfere_1 = '{$user->branch}' and  transfere_2 != '' and elfar3_elmosadad_mno_2 = '') THEN tarikh_tasdid_far3_2
                                 END) AS tasdid_far3"));
-                              
+
             $shipments = $shipments->where(function ($query) use($request,$user,$brach_filter){
                 $query->where(function ($query) use($request,$user,$brach_filter){
                     $query->where('branch_', '=', $user->branch)
@@ -132,7 +132,7 @@ class frou3Controller extends Controller
             $shipments= $shipments->where('date_' ,'<=' ,DATE($request->date_to) );
 
         if(isset( request()->hala_date_from)){
-          
+
             $shipments= $shipments->where('tarikh_el7ala' ,'>=',DATE($request->hala_date_from) );
         }
         if(isset( request()->hala_date_to))
@@ -179,6 +179,9 @@ class frou3Controller extends Controller
             if(!isset(request()->report)) return false;
             $report = request()->report;
             $report = Print_report::where('id',$report)->first();
+            $report->update([
+                "url" => URL::full(),
+            ]);
             $codes= explode(',',$report->codes);
                 if( $brach_filter != '')
                 {
@@ -195,7 +198,7 @@ class frou3Controller extends Controller
 
                 }
 
-            
+
 
             $all=$all->get();
             $ta7weel=0;
@@ -232,7 +235,7 @@ class frou3Controller extends Controller
         $page =0;
         if(isset(request()->page)) $page= request()->page;
         $brach_filter = '';
-        
+
         if(isset($request->branch_)  && $request->branch_!='الكل')
             $brach_filter= $request->branch_;
         $waselOnly=0;
@@ -241,7 +244,7 @@ class frou3Controller extends Controller
 
         //if(isset(request()->limit ))   $limit =request()->limit;
 
-        
+
         if( $brach_filter != '')
         {
             $shipments = Shipment::select('*',DB::raw("(CASE
@@ -319,7 +322,7 @@ class frou3Controller extends Controller
         if(isset( request()->hala_date_from)) {
             $shipments= $shipments->where('tarikh_el7ala' ,'>=',DATE($request->hala_date_from) );
 
-        } 
+        }
         if(isset( request()->hala_date_to))
             $shipments= $shipments->where('tarikh_el7ala' ,'<=' ,DATE($request->hala_date_to) );
         $all_shipments = $shipments;
@@ -343,11 +346,11 @@ class frou3Controller extends Controller
         $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];
         if(isset(request()->arba7)){
             if(isset(request()->printArba7)){
-               /* print  $all_shipments     $sums*/ 
+               /* print  $all_shipments     $sums*/
             }
             return response()->json([
                 'status' => 200,
-              
+
                 'message' => 'sucecss',
                 'sums'=>$sums,
                 'codes' => $codes
@@ -377,8 +380,11 @@ class frou3Controller extends Controller
             if(!isset(request()->report)) return false;
             $report = request()->report;
             $report = Print_report::where('id',$report)->first();
+            $report->update([
+                "url" => URL::full(),
+            ]);
             $codes= explode(',',$report->codes);
-            
+
                 if( $brach_filter != '')
                 {
                     $all=Shipment::whereIn('code_',$codes)->select('*',DB::raw("(CASE
@@ -394,7 +400,7 @@ class frou3Controller extends Controller
 
                 }
 
-           
+
             $all=$all->get();
             $ta7weel=0;
             foreach($all as $ship){
@@ -739,7 +745,7 @@ class frou3Controller extends Controller
 
 
         if($request->type=='accept'){
-           
+
             $shipment=$shipment->first();
             if(!isset($shipment)) return ;
             $shipment->TRANSFERE_ACCEPT_REFUSE =1;
@@ -761,14 +767,14 @@ class frou3Controller extends Controller
             // if($shipment->transfere_2 == ''){
             //     $sanad->far3_from  =  BranchInfo::where('name_',$shipment->branch_)->first()->code_ ;
             //     $sanad->far3_id = BranchInfo::where('name_',$user->branch)->first()->code_;
-                
+
             //     $sanad2->far3_from = BranchInfo::where('name_',$user->branch)->first()->code_;
             //     $sanad2->far3_id =  BranchInfo::where('name_',$shipment->branch_)->first()->code_ ;
 
             // }else{
             //     $sanad->far3_from  =  BranchInfo::where('name_',$shipment->transfere_1)->first()->code_ ;
             //     $sanad->far3_id = BranchInfo::where('name_',$user->branch)->first()->code_;
-                
+
             //     $sanad2->far3_from = BranchInfo::where('name_',$user->branch)->first()->code_;
             //     $sanad2->far3_id =  BranchInfo::where('name_',$shipment->transfere_1)->first()->code_ ;
             // }
@@ -784,7 +790,7 @@ class frou3Controller extends Controller
                     'status' => 404,
                 ], 404);
             }
-            
+
         }
         if(isset($t2))
          $t2->delete();
@@ -822,14 +828,14 @@ class frou3Controller extends Controller
         //     if($shipment->transfere_2 == ''){
         //         $sanad->far3_from  =  BranchInfo::where('name_',$shipment->branch_)->first()->code_ ;
         //         $sanad->far3_id = BranchInfo::where('name_',$user->branch)->first()->code_;
-                
+
         //         $sanad2->far3_from = BranchInfo::where('name_',$user->branch)->first()->code_;
         //         $sanad2->far3_id =  BranchInfo::where('name_',$shipment->branch_)->first()->code_ ;
 
         //     }else{
         //         $sanad->far3_from  =  BranchInfo::where('name_',$shipment->transfere_1)->first()->code_ ;
         //         $sanad->far3_id = BranchInfo::where('name_',$user->branch)->first()->code_;
-                
+
         //         $sanad2->far3_from = BranchInfo::where('name_',$user->branch)->first()->code_;
         //         $sanad2->far3_id =  BranchInfo::where('name_',$shipment->transfere_1)->first()->code_ ;
         //     }
@@ -985,7 +991,7 @@ class frou3Controller extends Controller
             ->whereIn('add_shipment_tb_.code_', $codes)
             ->whereIN('add_shipment_tb_.status_',$status)
             ->get();
-           
+
             $totalCost = $all->sum('shipment_coast_');
 
 
@@ -999,7 +1005,7 @@ class frou3Controller extends Controller
                 'title'=>'تحويل الراجع بين الفروع باستخدام qr',
                 'sum'=>$sums
             ];
-           
+
             $mpdf = PDF::loadView('shipments.print',$data);
             return $mpdf->stream('document.pdf');
         }
@@ -1053,7 +1059,7 @@ class frou3Controller extends Controller
                 $mpdf = PDF::loadView('shipments.print',$data);
                 return $mpdf->stream('document.pdf');
             }
-            
+
             Tempo::insertOrIgnore(json_decode(json_encode($t2), true));
             Tempo::insertOrIgnore(json_decode(json_encode($t1), true));
 
@@ -1189,7 +1195,7 @@ class frou3Controller extends Controller
 
         //     $sanad =new Sanad_far3();
         //     $shipment = Tempo::where('code_',$request->code)->first();
-            
+
         //     $sanad->amount = $shipment->shipment_coast_  ;
         //     $sanad->code = $request->code   ;
         //     $sanad->type='قبض';
@@ -1199,25 +1205,25 @@ class frou3Controller extends Controller
         //     $sanad2->amount = $shipment->shipment_coast_  ;
         //     $sanad2->code = $request->code   ;
         //     $sanad2->type='صرف';
-            
+
 
         //     if($shipment->transfere_2 == ''){
         //         $sanad->far3_from  =  BranchInfo::where('name_',$shipment->branch_)->first()->code_ ;
         //         $sanad->far3_id = BranchInfo::where('name_', $shipment->transfere_1)->first()->code_;
-                
+
         //         $sanad2->far3_from = BranchInfo::where('name_',$shipment->transfere_1)->first()->code_;
         //         $sanad2->far3_id =  BranchInfo::where('name_', $shipment->branch_)->first()->code_ ;
         //         $sanad2->note='1تحويل راجع بين الفروع';
         //     }else{
         //         $sanad->far3_from  =  BranchInfo::where('name_',$shipment->transfere_1)->first()->code_ ;
         //         $sanad->far3_id = BranchInfo::where('name_',$shipment->transfere_2)->first()->code_;
-                
+
         //         $sanad2->far3_from = BranchInfo::where('name_',$shipment->transfere_2)->first()->code_;
         //         $sanad2->far3_id =  BranchInfo::where('name_',$shipment->transfere_1)->first()->code_ ;
 
         //         $sanad2->note='2تحويل راجع بين الفروع';
         //     }
-            
+
         //     $sanad->save() ;
         //     $sanad2->save() ;
         }
@@ -1231,7 +1237,7 @@ class frou3Controller extends Controller
                     'status' => 404,
                 ], 404);
             }
-            
+
         }
         if(isset($t2))
             $t2->delete();
@@ -1254,7 +1260,7 @@ class frou3Controller extends Controller
         //  foreach($request->code as $code){
         //     $sanad =new Sanad_far3();
         //     $shipment = Tempo::where('code_',$code)->first();
-            
+
         //     $sanad->amount = $shipment->shipment_coast_  ;
         //     $sanad->code = $code   ;
         //     $sanad->type='قبض';
@@ -1269,14 +1275,14 @@ class frou3Controller extends Controller
         //     if($shipment->transfere_2 == ''){
         //         $sanad->far3_from  =  BranchInfo::where('name_',$shipment->branch)->first()->code_ ;
         //         $sanad->far3_id = BranchInfo::where('name_', $shipment->transfere_1)->first()->code_;
-                
+
         //         $sanad2->far3_from = BranchInfo::where('name_',$shipment->transfere_1)->first()->code_;
         //         $sanad2->far3_id =  BranchInfo::where('name_', $shipment->branch)->first()->code_ ;
-                
+
         //     }else{
         //         $sanad->far3_from  =  BranchInfo::where('name_',$shipment->transfere_1)->first()->code_ ;
         //         $sanad->far3_id = BranchInfo::where('name_',$shipment->transfere_2)->first()->code_;
-                
+
         //         $sanad2->far3_from = BranchInfo::where('name_',$shipment->transfere_2)->first()->code_;
         //         $sanad2->far3_id =  BranchInfo::where('name_',$shipment->transfere_1)->first()->code_ ;
         //     }
@@ -1399,7 +1405,7 @@ class frou3Controller extends Controller
             $shipments = $shipments->where('commercial_name_', '=', $request->Commercial_name);
             }
 
-           
+
         if(isset( request()->date_from))
             $shipments= $shipments->where('date_' ,'>=',DATE($request->date_from) );
         if(isset( request()->date_to))
@@ -1429,11 +1435,11 @@ class frou3Controller extends Controller
         $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];
         if(isset(request()->arba7)){
             if(isset(request()->printArba7)){
-               /* print  $all_shipments     $sums*/ 
+               /* print  $all_shipments     $sums*/
             }
             return response()->json([
                 'status' => 200,
-              
+
                 'message' => 'sucecss',
                 'sums'=>$sums,
                 'codes' => $codes
@@ -1463,6 +1469,9 @@ class frou3Controller extends Controller
             if(!isset(request()->report)) return false;
             $report = request()->report;
             $report = Print_report::where('id',$report)->first();
+            $report->update([
+                "url" => URL::full(),
+            ]);
             $codes= explode(',',$report->codes);
             if( $brach_filter != '')
             {
@@ -1683,11 +1692,14 @@ class frou3Controller extends Controller
         // dd($counter);
         $page_title='الشحنات  المسددة للفرع';
         if(isset(request()->pdf)){
-           
-            
+
+
             if(!isset(request()->report)) return false;
             $report = request()->report;
             $report = Print_report::where('id',$report)->first();
+            $report->update([
+                "url" => URL::full(),
+            ]);
             $codes= explode(',',$report->codes);
 
                 if($brach_filter != '')
