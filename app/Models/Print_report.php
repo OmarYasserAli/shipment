@@ -8,7 +8,7 @@ class Print_report extends Model
 {
     protected $table = 'print_reports';
     protected $guarded = [];
-    protected $filable = ['codes','user_id','url'];
+    protected $filable = ['codes','user_id','url','print_title'];
     public $timestamps = true;
 
 

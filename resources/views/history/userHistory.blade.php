@@ -66,12 +66,12 @@
                         <tr>
 
                             <th class="whitespace-nowrap">#</th>
-                            <th class="whitespace-nowrap">رقم الوصل</th>
                             <th class="whitespace-nowrap">الاسم</th>
                             <th class="whitespace-nowrap">الفرع</th>
-                            <th class="whitespace-nowrap">عنوان الطباعة</th>
+                            <th class="whitespace-nowrap">اسم العملية</th>
+                            <th class="whitespace-nowrap">شرح العملية</th>
                             <th class="whitespace-nowrap">التاريخ</th>
-                            <th class="whitespace-nowrap">طباعة</th>
+
 
 
                         </tr>
@@ -81,7 +81,7 @@
                         @php
                             $i=0;
                         @endphp
-                        @foreach($prints as $print)
+                        @foreach($users as $user)
                         @php
                             $i++;
 
@@ -89,15 +89,13 @@
                         <tr>
 
                             <td  class="whitespace-nowrap " ><?php echo $i;?></td>
-                            <td  class="whitespace-nowrap " >{{$print->id}}</td>
+                            <td  class="whitespace-nowrap " >{{$user->users->name_}}</td>
+                            <td  class="whitespace-nowrap " >{{$user->users->branch}}</td>
+                            <td  class="whitespace-nowrap " >{{$user->action_name}}</td>
+                            <td  class="whitespace-nowrap " >{{$user->action_desc}}</td>
 
-                            <td  class="whitespace-nowrap " >{{$print->users->name_}}</td>
-                            <td  class="whitespace-nowrap " >{{$print->users->branch}}</td>
-                            <td  class="whitespace-nowrap " >{{$print->print_title ? $print->print_title : "لا يوجد"}}</td>
-                            <td  class="whitespace-nowrap " >{{$print->created_at ? $print->created_at : "لا يوجد"}}</td>
-                            <td  class="whitespace-nowrap " >
-                                <a href="{{$print->url}}" class="btn btn-success w-24 mt-5">طباعه</a>
-                            </td>
+                            <td  class="whitespace-nowrap " >{{$user->created_at ? $user->created_at : "لا يوجد"}}</td>
+
 
 
                         </tr>

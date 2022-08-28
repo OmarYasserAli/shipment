@@ -13,6 +13,7 @@ use App\Models\AllUser;
 use App\Models\Shipment_status;
 use App\Models\Commercial_name;
 use App\Models\Archive;
+use App\Models\UserHistory;
 use App\Setting;
 use App\User;
 use Carbon\Carbon;
@@ -181,6 +182,7 @@ class frou3Controller extends Controller
             $report = Print_report::where('id',$report)->first();
             $report->update([
                 "url" => URL::full(),
+                "print_title"=> $page_title
             ]);
             $codes= explode(',',$report->codes);
                 if( $brach_filter != '')
@@ -215,7 +217,8 @@ class frou3Controller extends Controller
             $data = [
                 'all'=>$all,
                 'title'=>$page_title,
-                'sum'=>$sums
+                'sum'=>$sums,
+                'report_num' => $report->id
             ];
             //return view('shipments.print' ,compact('all','title'));
             $mpdf = PDF::loadView($printPage,$data);
@@ -382,6 +385,7 @@ class frou3Controller extends Controller
             $report = Print_report::where('id',$report)->first();
             $report->update([
                 "url" => URL::full(),
+                "print_title"=> $page_title
             ]);
             $codes= explode(',',$report->codes);
 
@@ -416,7 +420,8 @@ class frou3Controller extends Controller
             $data = [
                 'all'=>$all,
                 'title'=>$page_title,
-                'sum'=>$sums
+                'sum'=>$sums,
+                'report_num' => $report->id
             ];
             //return view('shipments.print' ,compact('all','title'));
             $mpdf = PDF::loadView($printPage,$data);
@@ -632,6 +637,11 @@ class frou3Controller extends Controller
             'Ship_area_'=>$branch->name_]);
 
 
+        UserHistory::create([
+            "user_id" => auth()->user()->code_,
+            "action_name" => "تحويل الشحنات بين الفروع باستخدام qr ",
+            "action_desc" =>  "تحويل الشحنات بين الفروع باستخدام qr"
+        ]);
               return response()->json([
                 'status' => 200,
                 'message' => 'تم التحويل',
@@ -708,6 +718,8 @@ class frou3Controller extends Controller
         }
 
         $page_title='اﻟﻣواﻓﻘﺔ ﻋﻠﻰ اﻟﺷﺣﻧﺎت اﻟواردة ﻣن اﻟﻔرع';
+
+
        $branches =BranchInfo::all();
        $mo7afazat =Mohfza::where('branch',$user->branch)->get();
        if(isset(request()->pdf)){
@@ -842,6 +854,11 @@ class frou3Controller extends Controller
         //     $sanad->save() ;
         //     $sanad2->save() ;
         // }
+        UserHistory::create([
+            "user_id" => auth()->user()->code_,
+            "action_name" => "اﻟﻣواﻓﻘﺔ ﻋﻠﻰ اﻟﺷﺣﻧﺎت اﻟواردة ﻣن اﻟﻔرع",
+            "action_desc" =>  "  تم اﻟﻣواﻓﻘﺔ ﻋﻠﻰ اﻟﺷﺣﻧﺎت اﻟواردة ﻣن اﻟﻔرع"
+        ]);
         return response()->json([
             'status' => 200,
             'message' => 'تم الموافقة',
@@ -969,6 +986,11 @@ class frou3Controller extends Controller
     }
     public function frou3_t7wel_rag3_manual_save(Request $request){
         // dd($request->all());
+        UserHistory::create([
+            "user_id" => auth()->user()->code_,
+            "action_name" => "تحويل الشخنات رواجع",
+            "action_desc" =>  "تحويل الشخنات رواجع"
+        ]);
         return ($this->frou3_t7wel_rag3_qr_save( $request));
     }
     public function frou3_t7wel_rag3_qr(Request $request){
@@ -1079,7 +1101,11 @@ class frou3Controller extends Controller
                   'tarikh_el7ala'=>Carbon::now()->format('Y-m-d  g:i:s A'),
                   'Ship_area_'=>$branch->name_ ]);
 
-
+        UserHistory::create([
+            "user_id" => auth()->user()->code_,
+            "action_name" => "تحويل الشحنات بين الفروع باستخدام qr",
+            "action_desc" =>  "تحويل الشحنات بين الفروع باستخدام qr"
+        ]);
 
 
               return response()->json([
@@ -1226,7 +1252,13 @@ class frou3Controller extends Controller
 
         //     $sanad->save() ;
         //     $sanad2->save() ;
+            UserHistory::create([
+                "user_id" => auth()->user()->code_,
+                "action_name" => "الموافقة على تحويل رواجع الفروع",
+                "action_desc" =>  "الموافقة على تحويل رواجع الفروع",
+            ]);
         }
+
 
         elseif($request->type=='cancel'){
             $shipment->first()->delete();
@@ -1289,6 +1321,11 @@ class frou3Controller extends Controller
         //     $sanad->save() ;
         //     $sanad2->save() ;
         //  }
+        UserHistory::create([
+            "user_id" => auth()->user()->code_,
+            "action_name" => "اﻟﻣواﻓﻘﺔ ﻋﻠﻰ تحويل راجع بين الفروع",
+            "action_desc" =>  "  تم اﻟﻣواﻓﻘﺔ ﻋﻠﻰ تحويل راجع بين الفروع"
+        ]);
          return response()->json([
              'status' => 200,
              'message' => 'تم الموافقة',
@@ -1471,6 +1508,7 @@ class frou3Controller extends Controller
             $report = Print_report::where('id',$report)->first();
             $report->update([
                 "url" => URL::full(),
+                "print_title"=> $page_title
             ]);
             $codes= explode(',',$report->codes);
             if( $brach_filter != '')
@@ -1506,7 +1544,8 @@ class frou3Controller extends Controller
             $data = [
                 'all'=>$all,
                 'title'=>$page_title,
-                'sum'=>$sums
+                'sum'=>$sums,
+                'report_num' => $report->id
             ];
 
             $mpdf = PDF::loadView('frou3.accounting.print',$data);
@@ -1546,7 +1585,11 @@ class frou3Controller extends Controller
                 ->update(['add_shipment_tb_.tarikh_tasdid_far3_2'=>Carbon::now(),
                 'add_shipment_tb_.elfar3_elmosadad_mno_2' =>'مسدد',
             ]);
-
+        UserHistory::create([
+            "user_id" => auth()->user()->code_,
+            "action_name" => "تسديد الشحنات",
+            "action_desc" =>  "  تم اﻟﻣواﻓﻘﺔ ﻋﻠﻰ تسديد الشحنات"
+        ]);
             return response()->json([
                 'status' => 200,
                 'message' => 'تم التسديد',
@@ -1699,6 +1742,7 @@ class frou3Controller extends Controller
             $report = Print_report::where('id',$report)->first();
             $report->update([
                 "url" => URL::full(),
+                "print_title"=> $page_title
             ]);
             $codes= explode(',',$report->codes);
 
@@ -1735,7 +1779,8 @@ class frou3Controller extends Controller
             $data = [
                 'all'=>$all,
                 'title'=>$page_title,
-                'sum'=>$sums
+                'sum'=>$sums,
+                'report_num' => $report->id
             ];            $mpdf = PDF::loadView('frou3.accounting.print',$data);
             return $mpdf->stream('document.pdf');
         }
@@ -1774,7 +1819,11 @@ class frou3Controller extends Controller
                 ->update(['add_shipment_tb_.tarikh_tasdid_far3_2'=>'',
                 'add_shipment_tb_.elfar3_elmosadad_mno_2' =>'',
             ]);
-
+        UserHistory::create([
+            "user_id" => auth()->user()->code_,
+            "action_name" => "الغاء تسديد الشحنات  ",
+            "action_desc" =>  "  تم الغاء ﻋﻠﻰ تسديد الشحنات"
+        ]);
             return response()->json([
                 'status' => 200,
                 'message' => 'تم التسديد',

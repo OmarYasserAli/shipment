@@ -99,10 +99,10 @@
                 </li>
                     @endif
 
-                    
+
             </ul>
         </li>
-       
+
         @if(\Illuminate\Support\Facades\Auth::user()->type_ == 'موظف'  )
 
         <li>
@@ -308,7 +308,7 @@
                     </ul>
                 </li>
                 @endif
-               
+
                 <li>
                     <a href="javascript:;" class="side-menu">
                         <div class="side-menu__icon"> <i data-lucide="activity"></i> </div>
@@ -585,6 +585,24 @@
                             </a>
                         </li>
                         @endif
+                            @if(\Illuminate\Support\Facades\Auth::user()->isAbleTo('setting-setting'))
+                                <li>
+                                    <a href="{{route('print.history')}}" class="side-menu">
+                                        <div class="side-menu__icon"> <i data-lucide="activity"></i> </div>
+                                        <div class="side-menu__title"> حركات االطباعة</div>
+                                    </a>
+                                </li>
+
+                            @endif
+                            @if(\Illuminate\Support\Facades\Auth::user()->isAbleTo('setting-setting'))
+                                <li>
+                                    <a href="{{route('user.history')}}" class="side-menu">
+                                        <div class="side-menu__icon"> <i data-lucide="activity"></i> </div>
+                                        <div class="side-menu__title"> حركات الموقع</div>
+                                    </a>
+                                </li>
+
+                            @endif
                         @if(\Illuminate\Support\Facades\Auth::user()->isAbleTo('rabat_mosta5dam_ma3_khazena'))
                         <li>
                             <a href="{{route('setting.o5ra_tree')}}" class="side-menu">
@@ -605,6 +623,7 @@
                 </li>
 
                 @endif
+
             </ul>
         </li>
 

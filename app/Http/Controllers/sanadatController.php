@@ -12,6 +12,7 @@ use App\Models\AllUser;
 use App\Models\Shipment_status;
 use App\Models\Commercial_name;
 use App\Models\Archive;
+use App\Models\UserHistory;
 use App\User;
 use App\Models\Khazna;
 use App\Models\Branch_user;
@@ -44,9 +45,9 @@ class sanadatController extends Controller
         $page_title='سند قبض';
         $user=auth()->user();
         $khaznat=$user->Khazna;
-        
+
         return view('accounting.company.sanadQabad',compact('page_title','khaznat'));
-    } 
+    }
     public function createSarf(){
         $page_title='سند صرف';
         $user=auth()->user();
@@ -60,38 +61,69 @@ class sanadatController extends Controller
             $model= user::where('code_',$request->mostafed_name)->first();
            $sanad2 = new Sanad_3amil();
            $sanad2->client_id = $request->mostafed_name ;
+
+            UserHistory::create([
+                "user_id" => auth()->user()->code_,
+                "action_name" => "انشاء سند عميل",
+                "action_desc" =>  "  تم انشاء سند عميل الى".$model->name_
+            ]);
         }
         if($request->mostafed_type =='مندوب'){
             $model= user::where('code_',$request->mostafed_name)->first();
             $sanad2 = new Sanad_taslim();
             $sanad2->mandoub_id = $request->mostafed_name ;
+
+            UserHistory::create([
+                "user_id" => auth()->user()->code_,
+                "action_name" => "انشاء سند مندوب",
+                "action_desc" =>  "  تم انشاء سند مندوب الى".$model->name_
+            ]);
         }
-        
+
         if($request->mostafed_type =='فرع'){
           $model =BranchInfo::where('code_',$request->mostafed_name)->first();
           $sanad2 = new Sanad_far3();
           $sanad2->far3_id = $request->mostafed_name ;
           $sanad2->far3_from = BranchInfo::where('name_',$user->branch)->first()->code_;
+
+
+            UserHistory::create([
+                "user_id" => auth()->user()->code_,
+                "action_name" => "انشاء سند فرع",
+                "action_desc" =>  "  تم انشاء سند فرع الى".$model->name_
+            ]);
         }
         if($request->mostafed_type =='اخرى'){
             $model =O5ra_7sabat::where('code_',$request->mostafed_name)->first();
             $sanad2 = new Sanad_o5ra();
             $sanad2->o5ra_id = $request->mostafed_name ;
+
+            UserHistory::create([
+                "user_id" => auth()->user()->code_,
+                "action_name" => "انشاء سند اخرى",
+                "action_desc" =>  "  تم انشاء سند اخرى الى".$model->name_
+            ]);
           }
           if($request->mostafed_type =='مصاريف'){
             $model =Masaref::where('code_',$request->mostafed_name)->first();
             $sanad2 = new Sanad_masaref();
             $sanad2->masaref_id = $request->mostafed_name ;
+
+              UserHistory::create([
+                  "user_id" => auth()->user()->code_,
+                  "action_name" => "انشاء سند عميل",
+                  "action_desc" =>  "  تم انشاء سند مصاريف الى".$model->name_
+              ]);
           }
         $sanad->code = (Sanad::orderBy('id' ,'desc')->first()->code)+1;
         $sanad->date = Carbon::now()->format('Y-m-d  g:i:s A');
-        $sanad->type = $request->page_type;	
+        $sanad->type = $request->page_type;
         $sanad->khazna_id = $request->khazna_id;
         $sanad->amount = $request->amount;
         $sanad->is_solfa = $request->is_solfa;
         $sanad->notes = $request->notes;
         $khazna = Khazna::findOrFail($request->khazna_id);
-       
+
         if($request->page_type =='صرف'   && $khazna->net() < $request->amount){
 
             return back()->with('error','لا يوجد رصيد كافي في الخزينة');
@@ -121,11 +153,11 @@ class sanadatController extends Controller
             $data =  User::where('type_','عميل')->where('branch',$user->branch)->get();
         }
         if(request()->mostafed_type =='مندوب'){
-           
+
             $data =  User::where('branch',$user->branch)->where(function ($query) {
                 $query ->where('type_','مندوب استلام')->orWhere('type_','مندوب تسليم');
             })->get();
-            
+
         }
         if(request()->mostafed_type =='فرع'){
             $data = BranchInfo::all();
@@ -137,7 +169,7 @@ class sanadatController extends Controller
             $data = Masaref::where('branch_id',$b->code_)->get();
         }
 
-        
+
         return response()->json([
             'status' => 200,
             'data' => $data,

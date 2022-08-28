@@ -210,6 +210,7 @@
 
         <table class="tabel_data" align="center">
             <tr>
+                <th >رقم الكشف</th>
 
                 <th >عدد الشحنات</th>
                 <th >اجمالي مبلغ الشحنة</th>
@@ -220,6 +221,8 @@
 
 
                 <tr >
+                    <td>{{$report_num}}</td>
+
                     <td>{{count($all)}}</td>
                     <td>{{number_format($sum['totalCost'], 0)}}</td>
 

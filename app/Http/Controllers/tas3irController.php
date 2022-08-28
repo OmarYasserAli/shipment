@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\MandoubEstlam;
 use App\Models\MandoubTaslim;
+use App\Models\UserHistory;
 use App\User;
 use App\Models\Mohfza;
 use App\Models\Mantikqa;
@@ -22,11 +23,17 @@ class tas3irController extends Controller
 
         public function save_3amel(Request $request)
         {
-            
+
         	$tas3ir = Tas3ir_3amil::where('serial_',$request->code)->first();
-            
+
                 $tas3ir->price_= $request->value;
                 $tas3ir->save();
+
+            UserHistory::create([
+                "user_id" => auth()->user()->code_,
+                "action_name" => "حفظ عميل",
+                "action_desc" =>  " تم حفظ تسعير عميل".$request->code
+            ]);
         }
         public function save_ta7wel(Request $request)
         {
@@ -34,6 +41,12 @@ class tas3irController extends Controller
         	$tas3ir = Tas3ir_ta7wel::find($request->code);
                 $tas3ir->price_= $request->value;
                 $tas3ir->save();
+            UserHistory::create([
+                "user_id" => auth()->user()->code_,
+                "action_name" => "حفظ تحويل",
+                "action_desc" =>  " تم حفظ تحويل".$request->code
+            ]);
+
 
         }
         public function tas3ir_3amil_5as()
@@ -97,6 +110,11 @@ class tas3irController extends Controller
                     'mandoub_ID'=>$request->mandobe,
 
                 ]);
+                UserHistory::create([
+                    "user_id" => auth()->user()->code_,
+                    "action_name" => "حفظ تسعير مندوب استلام",
+                    "action_desc" =>  " تم حفظ تسعير مندوب استلام".$mandobe_name[0]['name_']
+                ]);
                 return response()->json([
                     'status' => 200,
                     'message' => 'success',
@@ -133,6 +151,11 @@ class tas3irController extends Controller
 
                     'mantika_id'=>$matika_id
                 ]);
+                UserHistory::create([
+                    "user_id" => auth()->user()->code_,
+                    "action_name" => "حفظ تسعير مندوب تسليم",
+                    "action_desc" =>  " تم حفظ تسعير مندوب تسليم".$mandobe_name[0]['name_']
+                ]);
                 return response()->json([
                     'status' => 200,
                     'message' => 'success',
@@ -154,7 +177,7 @@ class tas3irController extends Controller
     public function save_3amel_5as(Request $request){
 
         if ($request->serial == 0){
-            
+
             $specialClient = User::where('code_',$request->specialClient)->first();
             $branch = Auth::user()->branch;
             Tas3ir_3amil_5as::create([
@@ -166,6 +189,11 @@ class tas3irController extends Controller
                 'mandoub_ID'=>$request->specialClient,
                 'type'=>'عملاء'
 
+            ]);
+            UserHistory::create([
+                "user_id" => auth()->user()->code_,
+                "action_name" => "حفظ تسعير العميل الخاص",
+                "action_desc" =>  " تم حفظ تسعير العميل الخاص ".$specialClient->name_
             ]);
             return response()->json([
                 'status' => 200,

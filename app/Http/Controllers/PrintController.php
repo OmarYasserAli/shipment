@@ -10,6 +10,7 @@ use App\Setting;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 use PDF;
 use App\Models\Print_report;
 class PrintController extends Controller
@@ -30,9 +31,7 @@ class PrintController extends Controller
             if(isset(request()->report)){
                 $report = request()->report;
                 $report = Print_report::where('id',$report)->first();
-                $report->update([
-                    "url" => URL::full(),
-                ]);
+
                 $codes= explode(',',$report->codes);
             }
             else
@@ -151,9 +150,14 @@ class PrintController extends Controller
         $data = [
             'all'=>$all,
             'title'=>$page_title,
-            'sum'=>$sums
+            'sum'=>$sums,
+            'report_num' => $report->id
         ];
+        $report->update([
+            "url" => URL::full(),
+            "print_title"=> $page_title
 
+        ]);
         $mpdf = PDF::loadView($printPage,$data);
         $mpdf->showImageErrors = true;
         return $mpdf->stream('document.pdf');

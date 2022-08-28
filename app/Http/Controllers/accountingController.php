@@ -10,6 +10,7 @@ use App\Models\Mohfza;
 use App\Models\Shipment;
 use App\Models\Tempo;
 use App\Models\AllUser;
+use App\Models\UserHistory;
 use App\User;
 use App\Setting;
 use App\Models\Shipment_status;
@@ -158,6 +159,7 @@ class accountingController extends Controller
             $report = Print_report::where('id',$report)->first();
             $report->update([
                 "url" => URL::full(),
+                "print_title"=> $page_title
             ]);
             $codes= explode(',',$report->codes);
             $all=Shipment::whereIn('code_',$codes);
@@ -170,7 +172,8 @@ class accountingController extends Controller
          $data = [
                 'all'=>$all,
                 'title'=>$page_title,
-                'sum'=>$sums
+                'sum'=>$sums,
+             'report_num' => $report->id
             ];
             $mpdf = PDF::loadView('accounting.3amil.print',$data);
             return $mpdf->stream('document.pdf');
@@ -198,7 +201,11 @@ class accountingController extends Controller
             'add_shipment_tb_.el3amil_elmosadad' =>'مسدد'
             ]);
 
-
+        UserHistory::create([
+            "user_id" => auth()->user()->code_,
+            "action_name" => "تسديد عميل",
+            "action_desc" =>  "تم تسديد شحنات العميل ",
+        ]);
             return response()->json([
                 'status' => 200,
                 'count' => $row,
@@ -314,6 +321,7 @@ class accountingController extends Controller
             $report = Print_report::where('id',$report)->first();
             $report->update([
                 "url" => URL::full(),
+                "print_title"=> $page_title
             ]);
             $codes= explode(',',$report->codes);
             $all=Shipment::whereIn('code_',$codes);
@@ -330,7 +338,8 @@ class accountingController extends Controller
             $data = [
                 'all'=>$all,
                 'title'=>$page_title,
-                'sum'=>$sums
+                'sum'=>$sums,
+                'report_num' => $report->id
             ];
             $mpdf = PDF::loadView('accounting.3amil.print',$data);
             return $mpdf->stream('document.pdf');
@@ -358,7 +367,11 @@ class accountingController extends Controller
          ->update(['tarikh_tasdid_el3amil'=>'',
             'add_shipment_tb_.el3amil_elmosadad' =>''
             ]);
-
+        UserHistory::create([
+            "user_id" => auth()->user()->code_,
+            "action_name" => "الغاء تسديد الشحنات",
+            "action_desc" =>  "الغاء تسديد شحنات العميل",
+        ]);
             return response()->json([
                 'status' => 200,
                 'count' => $row,
@@ -476,6 +489,7 @@ class accountingController extends Controller
             $report = Print_report::where('id',$report)->first();
             $report->update([
                 "url" => URL::full(),
+                "print_title"=> $page_title
             ]);
             $codes= explode(',',$report->codes);
             $all=Shipment::whereIn('code_',$codes);
@@ -489,7 +503,8 @@ class accountingController extends Controller
             $data = [
                 'all'=>$all,
                 'title'=>$page_title,
-                'sum'=>$sums
+                'sum'=>$sums,
+                'report_num' => $report->id
             ];
             $mpdf = PDF::loadView('accounting.mandoubtaslim.print',$data);
             return $mpdf->stream('document.pdf');
@@ -517,6 +532,12 @@ class accountingController extends Controller
             'add_shipment_tb_.elmandoub_elmosadad_taslim' =>'مسدد'
             ]);
 
+
+        UserHistory::create([
+            "user_id" => auth()->user()->code_,
+            "action_name" => "تسديد مندوب تسليم",
+            "action_desc" =>  "تم تسديد شحنات مندوب تسليم ",
+        ]);
             return response()->json([
                 'status' => 200,
                 'count' => $row,
@@ -636,6 +657,7 @@ class accountingController extends Controller
                 $report = Print_report::where('id',$report)->first();
             $report->update([
                 "url" => URL::full(),
+                "print_title"=> $page_title
             ]);
                 $codes= explode(',',$report->codes);
                 $all=Shipment::whereIn('code_',$codes);
@@ -650,7 +672,8 @@ class accountingController extends Controller
          $data = [
                 'all'=>$all,
                 'title'=>$page_title,
-                'sum'=>$sums
+                'sum'=>$sums,
+             'report_num' => $report->id
             ];
             $mpdf = PDF::loadView('accounting.mandoubtaslim.print',$data);
             return $mpdf->stream('document.pdf');
@@ -678,7 +701,11 @@ class accountingController extends Controller
          ->update(['tarikh_tasdid_mandoub_eltaslim'=>'',
             'add_shipment_tb_.elmandoub_elmosadad_taslim' =>''
             ]);
-
+        UserHistory::create([
+            "user_id" => auth()->user()->code_,
+            "action_name" => "الغاء تسديد الشحنات",
+            "action_desc" =>  "الغاء تسديد شحنات مندوب التسديد",
+        ]);
             return response()->json([
                 'status' => 200,
                 'count' => $row,
@@ -783,6 +810,7 @@ class accountingController extends Controller
             $report = Print_report::where('id',$report)->first();
             $report->update([
                 "url" => URL::full(),
+                "print_title"=> $page_title
             ]);
             $codes= explode(',',$report->codes);
             $all=Shipment::whereIn('code_',$codes);
@@ -795,7 +823,8 @@ class accountingController extends Controller
          $data = [
                 'all'=>$all,
                 'title'=>$page_title,
-                'sum'=>$sums
+                'sum'=>$sums,
+             'report_num' => $report->id
             ];
             $mpdf = PDF::loadView('accounting.mandoubestlam.print',$data);
             return $mpdf->stream('document.pdf');
@@ -823,6 +852,11 @@ class accountingController extends Controller
             'add_shipment_tb_.elmandoub_elmosadad_estlam' =>'مسدد'
             ]);
 
+        UserHistory::create([
+            "user_id" => auth()->user()->code_,
+            "action_name" => "تسديد مندوب استلام",
+            "action_desc" =>  "تم تسديد شحنات مندوب استلام ",
+        ]);
             return response()->json([
                 'status' => 200,
                 'count' => $row,
@@ -931,6 +965,7 @@ class accountingController extends Controller
             $report = Print_report::where('id',$report)->first();
             $report->update([
                 "url" => URL::full(),
+                "print_title"=> $page_title
             ]);
             $codes= explode(',',$report->codes);
             $all=Shipment::whereIn('code_',$codes);
@@ -943,7 +978,8 @@ class accountingController extends Controller
          $data = [
                 'all'=>$all,
                 'title'=>$page_title,
-                'sum'=>$sums
+                'sum'=>$sums,
+             'report_num' => $report->id
             ];
             $mpdf = PDF::loadView('accounting.mandoubestlam.print',$data);
             return $mpdf->stream('document.pdf');
@@ -971,7 +1007,11 @@ class accountingController extends Controller
          ->update(['tarikh_tasdid_mandoub_elestlam'=>'',
             'add_shipment_tb_.elmandoub_elmosadad_estlam' =>''
             ]);
-
+        UserHistory::create([
+            "user_id" => auth()->user()->code_,
+            "action_name" => "الغاء تسديد الشحنات",
+            "action_desc" =>  "الغاء تسديد شحنات مندوب استلام",
+        ]);
             return response()->json([
                 'status' => 200,
                 'count' => $row,
