@@ -182,7 +182,9 @@ class frou3Controller extends Controller
             $report = Print_report::where('id',$report)->first();
             $report->update([
                 "url" => URL::full(),
-                "print_title"=> $page_title
+                "print_title"=> $page_title,
+                "branch" => auth()->user()->branch_
+
             ]);
             $codes= explode(',',$report->codes);
                 if( $brach_filter != '')
@@ -385,7 +387,9 @@ class frou3Controller extends Controller
             $report = Print_report::where('id',$report)->first();
             $report->update([
                 "url" => URL::full(),
-                "print_title"=> $page_title
+                "print_title"=> $page_title,
+                "branch" => auth()->user()->branch_
+
             ]);
             $codes= explode(',',$report->codes);
 
@@ -641,7 +645,8 @@ class frou3Controller extends Controller
         UserHistory::create([
             "user_id" => auth()->user()->code_,
             "action_name" => "تحويل الشحنات بين الفروع باستخدام qr ",
-            "action_desc" =>  "تحويل الشحنات بين الفروع باستخدام qr"
+            "action_desc" =>  "تحويل الشحنات بين الفروع باستخدام qr",
+            "branch" => auth()->user()->branch_
         ]);
               return response()->json([
                 'status' => 200,
@@ -858,7 +863,8 @@ class frou3Controller extends Controller
         UserHistory::create([
             "user_id" => auth()->user()->code_,
             "action_name" => "اﻟﻣواﻓﻘﺔ ﻋﻠﻰ اﻟﺷﺣﻧﺎت اﻟواردة ﻣن اﻟﻔرع",
-            "action_desc" =>  "  تم اﻟﻣواﻓﻘﺔ ﻋﻠﻰ اﻟﺷﺣﻧﺎت اﻟواردة ﻣن اﻟﻔرع"
+            "action_desc" =>  "  تم اﻟﻣواﻓﻘﺔ ﻋﻠﻰ اﻟﺷﺣﻧﺎت اﻟواردة ﻣن اﻟﻔرع",
+            "branch" => auth()->user()->branch_
         ]);
         return response()->json([
             'status' => 200,
@@ -991,7 +997,8 @@ class frou3Controller extends Controller
         UserHistory::create([
             "user_id" => auth()->user()->code_,
             "action_name" => "تحويل الشخنات رواجع",
-            "action_desc" =>  "تحويل الشخنات رواجع"
+            "action_desc" =>  "تحويل الشخنات رواجع",
+            "branch" => auth()->user()->branch_
         ]);
         return ($this->frou3_t7wel_rag3_qr_save( $request));
     }
@@ -1106,7 +1113,8 @@ class frou3Controller extends Controller
         UserHistory::create([
             "user_id" => auth()->user()->code_,
             "action_name" => "تحويل الشحنات بين الفروع باستخدام qr",
-            "action_desc" =>  "تحويل الشحنات بين الفروع باستخدام qr"
+            "action_desc" =>  "تحويل الشحنات بين الفروع باستخدام qr",
+            "branch" => auth()->user()->branch_
         ]);
 
 
@@ -1258,6 +1266,7 @@ class frou3Controller extends Controller
                 "user_id" => auth()->user()->code_,
                 "action_name" => "الموافقة على تحويل رواجع الفروع",
                 "action_desc" =>  "الموافقة على تحويل رواجع الفروع",
+                "branch" => auth()->user()->branch_
             ]);
         }
 
@@ -1326,7 +1335,8 @@ class frou3Controller extends Controller
         UserHistory::create([
             "user_id" => auth()->user()->code_,
             "action_name" => "اﻟﻣواﻓﻘﺔ ﻋﻠﻰ تحويل راجع بين الفروع",
-            "action_desc" =>  "  تم اﻟﻣواﻓﻘﺔ ﻋﻠﻰ تحويل راجع بين الفروع"
+            "action_desc" =>  "  تم اﻟﻣواﻓﻘﺔ ﻋﻠﻰ تحويل راجع بين الفروع",
+            "branch" => auth()->user()->branch_
         ]);
          return response()->json([
              'status' => 200,
@@ -1510,7 +1520,9 @@ class frou3Controller extends Controller
             $report = Print_report::where('id',$report)->first();
             $report->update([
                 "url" => URL::full(),
-                "print_title"=> $page_title
+                "print_title"=> $page_title,
+                "branch" => auth()->user()->branch_
+
             ]);
             $codes= explode(',',$report->codes);
             if( $brach_filter != '')
@@ -1590,7 +1602,8 @@ class frou3Controller extends Controller
         UserHistory::create([
             "user_id" => auth()->user()->code_,
             "action_name" => "تسديد الشحنات",
-            "action_desc" =>  "  تم اﻟﻣواﻓﻘﺔ ﻋﻠﻰ تسديد الشحنات"
+            "action_desc" =>  "  تم اﻟﻣواﻓﻘﺔ ﻋﻠﻰ تسديد الشحنات",
+            "branch" => auth()->user()->branch_
         ]);
             return response()->json([
                 'status' => 200,
@@ -1744,7 +1757,8 @@ class frou3Controller extends Controller
             $report = Print_report::where('id',$report)->first();
             $report->update([
                 "url" => URL::full(),
-                "print_title"=> $page_title
+                "print_title"=> $page_title,
+                "branch" => auth()->user()->branch_
             ]);
             $codes= explode(',',$report->codes);
 
@@ -1824,7 +1838,8 @@ class frou3Controller extends Controller
         UserHistory::create([
             "user_id" => auth()->user()->code_,
             "action_name" => "الغاء تسديد الشحنات  ",
-            "action_desc" =>  "  تم الغاء ﻋﻠﻰ تسديد الشحنات"
+            "action_desc" =>  "  تم الغاء ﻋﻠﻰ تسديد الشحنات",
+            "branch" => auth()->user()->branch_
         ]);
             return response()->json([
                 'status' => 200,

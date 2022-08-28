@@ -159,7 +159,9 @@ class accountingController extends Controller
             $report = Print_report::where('id',$report)->first();
             $report->update([
                 "url" => URL::full(),
-                "print_title"=> $page_title
+                "print_title"=> $page_title,
+                "branch" => auth()->user()->branch_
+
             ]);
             $codes= explode(',',$report->codes);
             $all=Shipment::whereIn('code_',$codes);
@@ -205,6 +207,8 @@ class accountingController extends Controller
             "user_id" => auth()->user()->code_,
             "action_name" => "تسديد عميل",
             "action_desc" =>  "تم تسديد شحنات العميل ",
+            "branch" => auth()->user()->branch_
+
         ]);
             return response()->json([
                 'status' => 200,
@@ -321,7 +325,9 @@ class accountingController extends Controller
             $report = Print_report::where('id',$report)->first();
             $report->update([
                 "url" => URL::full(),
-                "print_title"=> $page_title
+                "print_title"=> $page_title,
+                "branch" => auth()->user()->branch_
+
             ]);
             $codes= explode(',',$report->codes);
             $all=Shipment::whereIn('code_',$codes);
@@ -371,6 +377,8 @@ class accountingController extends Controller
             "user_id" => auth()->user()->code_,
             "action_name" => "الغاء تسديد الشحنات",
             "action_desc" =>  "الغاء تسديد شحنات العميل",
+            "branch" => auth()->user()->branch_
+
         ]);
             return response()->json([
                 'status' => 200,
@@ -489,7 +497,9 @@ class accountingController extends Controller
             $report = Print_report::where('id',$report)->first();
             $report->update([
                 "url" => URL::full(),
-                "print_title"=> $page_title
+                "print_title"=> $page_title,
+                "branch" => auth()->user()->branch_
+
             ]);
             $codes= explode(',',$report->codes);
             $all=Shipment::whereIn('code_',$codes);
@@ -537,6 +547,8 @@ class accountingController extends Controller
             "user_id" => auth()->user()->code_,
             "action_name" => "تسديد مندوب تسليم",
             "action_desc" =>  "تم تسديد شحنات مندوب تسليم ",
+            "branch" => auth()->user()->branch_
+
         ]);
             return response()->json([
                 'status' => 200,
@@ -657,7 +669,9 @@ class accountingController extends Controller
                 $report = Print_report::where('id',$report)->first();
             $report->update([
                 "url" => URL::full(),
-                "print_title"=> $page_title
+                "print_title"=> $page_title,
+                "branch" => auth()->user()->branch_
+
             ]);
                 $codes= explode(',',$report->codes);
                 $all=Shipment::whereIn('code_',$codes);
@@ -705,6 +719,8 @@ class accountingController extends Controller
             "user_id" => auth()->user()->code_,
             "action_name" => "الغاء تسديد الشحنات",
             "action_desc" =>  "الغاء تسديد شحنات مندوب التسديد",
+            "branch" => auth()->user()->branch_
+
         ]);
             return response()->json([
                 'status' => 200,
@@ -810,7 +826,9 @@ class accountingController extends Controller
             $report = Print_report::where('id',$report)->first();
             $report->update([
                 "url" => URL::full(),
-                "print_title"=> $page_title
+                "print_title"=> $page_title,
+                "branch" => auth()->user()->branch_
+
             ]);
             $codes= explode(',',$report->codes);
             $all=Shipment::whereIn('code_',$codes);
@@ -856,6 +874,8 @@ class accountingController extends Controller
             "user_id" => auth()->user()->code_,
             "action_name" => "تسديد مندوب استلام",
             "action_desc" =>  "تم تسديد شحنات مندوب استلام ",
+            "branch" => auth()->user()->branch_
+
         ]);
             return response()->json([
                 'status' => 200,
@@ -965,7 +985,9 @@ class accountingController extends Controller
             $report = Print_report::where('id',$report)->first();
             $report->update([
                 "url" => URL::full(),
-                "print_title"=> $page_title
+                "print_title"=> $page_title,
+                "branch" => auth()->user()->branch_
+
             ]);
             $codes= explode(',',$report->codes);
             $all=Shipment::whereIn('code_',$codes);
@@ -1011,6 +1033,8 @@ class accountingController extends Controller
             "user_id" => auth()->user()->code_,
             "action_name" => "الغاء تسديد الشحنات",
             "action_desc" =>  "الغاء تسديد شحنات مندوب استلام",
+            "branch" => auth()->user()->branch_
+
         ]);
             return response()->json([
                 'status' => 200,
