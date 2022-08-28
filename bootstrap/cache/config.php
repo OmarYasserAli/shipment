@@ -7,7 +7,7 @@
     'debug' => true,
     'url' => 'http://localhost/Cargo/public',
     'asset_url' => NULL,
-    'locale' => 'en',
+    'locale' => 'ar',
     'fallback_locale' => 'en',
     'faker_locale' => 'en_US',
     'key' => 'base64:KSj1+FqQKbLeXrFp469K8qvQzO5jd57st+ZoHRuiv8g=',
@@ -197,7 +197,7 @@
       'file' => 
       array (
         'driver' => 'file',
-        'path' => 'C:\\xampp\\htdocs\\shipment\\storage\\framework/cache/data',
+        'path' => 'G:\\xampp\\htdocs\\shipment\\storage\\framework/cache/data',
       ),
       'memcached' => 
       array (
@@ -485,7 +485,7 @@
     array (
       'enabled' => false,
       'driver' => 'file',
-      'path' => 'C:\\xampp\\htdocs\\shipment\\storage\\debugbar',
+      'path' => 'G:\\xampp\\htdocs\\shipment\\storage\\debugbar',
       'connection' => NULL,
       'provider' => '',
       'hostname' => '127.0.0.1',
@@ -586,10 +586,10 @@
     'convert_entities' => true,
     'defines' => 
     array (
-      'font_dir' => 'C:\\xampp\\htdocs\\shipment\\storage\\fonts',
-      'font_cache' => 'C:\\xampp\\htdocs\\shipment\\storage\\fonts',
-      'temp_dir' => 'C:\\Users\\Unknown\\AppData\\Local\\Temp',
-      'chroot' => 'C:\\xampp\\htdocs\\shipment',
+      'font_dir' => 'G:\\xampp\\htdocs\\shipment\\storage\\fonts',
+      'font_cache' => 'G:\\xampp\\htdocs\\shipment\\storage\\fonts',
+      'temp_dir' => 'C:\\Users\\EL-HAN~1\\AppData\\Local\\Temp',
+      'chroot' => 'G:\\xampp\\htdocs\\shipment',
       'enable_font_subsetting' => false,
       'pdf_backend' => 'CPDF',
       'default_media_type' => 'screen',
@@ -708,7 +708,7 @@
     ),
     'temporary_files' => 
     array (
-      'local_path' => 'C:\\xampp\\htdocs\\shipment\\storage\\framework/cache/laravel-excel',
+      'local_path' => 'G:\\xampp\\htdocs\\shipment\\storage\\framework/cache/laravel-excel',
       'remote_disk' => NULL,
       'remote_prefix' => NULL,
       'force_resync_remote' => NULL,
@@ -723,19 +723,19 @@
       'local' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\xampp\\htdocs\\shipment\\storage\\app',
+        'root' => 'G:\\xampp\\htdocs\\shipment\\storage\\app',
       ),
       'public' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\xampp\\htdocs\\shipment\\storage\\app/public',
+        'root' => 'G:\\xampp\\htdocs\\shipment\\storage\\app/public',
         'url' => 'http://localhost/Cargo/public/storage',
         'visibility' => 'public',
       ),
       'public_uploads' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\xampp\\htdocs\\shipment\\public\\uploads',
+        'root' => 'G:\\xampp\\htdocs\\shipment\\public\\uploads',
       ),
       's3' => 
       array (
@@ -750,13 +750,13 @@
       'assets' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\xampp\\htdocs\\shipment\\public\\assets',
+        'root' => 'G:\\xampp\\htdocs\\shipment\\public\\assets',
         'visibility' => 'public',
       ),
     ),
     'links' => 
     array (
-      'C:\\xampp\\htdocs\\shipment\\public\\storage' => 'C:\\xampp\\htdocs\\shipment\\storage\\app/public',
+      'G:\\xampp\\htdocs\\shipment\\public\\storage' => 'G:\\xampp\\htdocs\\shipment\\storage\\app/public',
     ),
   ),
   'flare' => 
@@ -1031,13 +1031,13 @@
       'single' => 
       array (
         'driver' => 'single',
-        'path' => 'C:\\xampp\\htdocs\\shipment\\storage\\logs/laravel.log',
+        'path' => 'G:\\xampp\\htdocs\\shipment\\storage\\logs/laravel.log',
         'level' => 'debug',
       ),
       'daily' => 
       array (
         'driver' => 'daily',
-        'path' => 'C:\\xampp\\htdocs\\shipment\\storage\\logs/laravel.log',
+        'path' => 'G:\\xampp\\htdocs\\shipment\\storage\\logs/laravel.log',
         'level' => 'debug',
         'days' => 14,
       ),
@@ -1087,7 +1087,7 @@
       ),
       'emergency' => 
       array (
-        'path' => 'C:\\xampp\\htdocs\\shipment\\storage\\logs/laravel.log',
+        'path' => 'G:\\xampp\\htdocs\\shipment\\storage\\logs/laravel.log',
       ),
     ),
   ),
@@ -1144,7 +1144,7 @@
       'theme' => 'default',
       'paths' => 
       array (
-        0 => 'C:\\xampp\\htdocs\\shipment\\resources\\views/vendor/mail',
+        0 => 'G:\\xampp\\htdocs\\shipment\\resources\\views/vendor/mail',
       ),
     ),
   ),
@@ -1189,7 +1189,7 @@
     'keywords' => '',
     'creator' => 'Laravel Pdf',
     'display_mode' => 'fullpage',
-    'tempDir' => 'C:\\xampp\\htdocs\\shipment\\../temp/',
+    'tempDir' => 'G:\\xampp\\htdocs\\shipment\\../temp/',
     'pdf_a' => false,
     'pdf_a_auto' => false,
     'icc_profile_path' => '',
@@ -1217,7 +1217,7 @@
     array (
     ),
     'auto_language_detection' => false,
-    'temp_dir' => 'C:\\Users\\Unknown\\AppData\\Local\\Temp',
+    'temp_dir' => 'C:\\Users\\EL-HAN~1\\AppData\\Local\\Temp',
     'pdfa' => false,
     'pdfaauto' => false,
     'use_active_forms' => false,
@@ -1297,7 +1297,7 @@
     'lifetime' => '120',
     'expire_on_close' => true,
     'encrypt' => false,
-    'files' => 'C:\\xampp\\htdocs\\shipment\\storage\\framework/sessions',
+    'files' => 'G:\\xampp\\htdocs\\shipment\\storage\\framework/sessions',
     'connection' => NULL,
     'table' => 'sessions',
     'store' => NULL,
@@ -1477,8 +1477,8 @@
   array (
     'paths' => 
     array (
-      0 => 'C:\\xampp\\htdocs\\shipment\\resources\\views',
+      0 => 'G:\\xampp\\htdocs\\shipment\\resources\\views',
     ),
-    'compiled' => 'C:\\xampp\\htdocs\\shipment\\storage\\framework\\views',
+    'compiled' => 'G:\\xampp\\htdocs\\shipment\\storage\\framework\\views',
   ),
 );

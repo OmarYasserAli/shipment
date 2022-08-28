@@ -26,6 +26,7 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 use App\Models\Print_report;
+use Illuminate\Support\Facades\URL;
 class frou3Controller extends Controller
 {
     public function __construct()
