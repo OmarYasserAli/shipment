@@ -109,7 +109,7 @@ class shipmentsController extends Controller
                "user_id" => auth()->user()->code_,
                "action_name" => "حذف شحنه",
                 "action_desc" =>  "  تم حذف شحنة رقم $code",
-                "branch_id" => auth()->user()->branch_
+                "branch" => auth()->user()->branch_
             ]);
             return response()->json([
                 'success' => true,
@@ -275,7 +275,7 @@ class shipmentsController extends Controller
             $report->update([
              "url" => URL::full(),
                 "print_title"=> $page_title,
-                "branch_id" => auth()->user()->branch_
+                "branch" => auth()->user()->branch_
 
          ]);
             $codes= explode(',',$report->codes);
@@ -429,7 +429,7 @@ class shipmentsController extends Controller
                 "user_id" => auth()->user()->code_,
                 "action_name" => "تحويل شحنات",
                 "action_desc" =>  "تحويل الشحنات فى المخزن ",
-                "branch_id" => auth()->user()->branch_
+                "branch" => auth()->user()->branch_
             ]);
         }
         if($request->t7weel_to == 'شحنات واصل جزئى'){  //ta7wel sh7nat fel m5zn
@@ -439,7 +439,7 @@ class shipmentsController extends Controller
                 "user_id" => auth()->user()->code_,
                 "action_name" => "تحويل شحنات",
                 "action_desc" =>  "تحويل شحنات واصل جزئى ",
-                "branch_id" => auth()->user()->branch_
+                "branch" => auth()->user()->branch_
             ]);
         }
         if($request->t7weel_to == 'شحنات الواصل'){
@@ -449,7 +449,7 @@ class shipmentsController extends Controller
                 "user_id" => auth()->user()->code_,
                 "action_name" => "تحويل شحنات",
                 "action_desc" =>  "تحويل شحنات الواصل ",
-                "branch_id" => auth()->user()->branch_
+                "branch" => auth()->user()->branch_
             ]);
         }
         if($request->t7weel_to == 'الشحنات لدى مندوب التسليم'){
@@ -480,7 +480,7 @@ class shipmentsController extends Controller
                 "user_id" => auth()->user()->code_,
                 "action_name" => "تحويل شحنات",
                 "action_desc" =>  "تحويل الشحنات لدى مندوب التسليم ",
-                "branch_id" => auth()->user()->branch_
+                "branch" => auth()->user()->branch_
             ]);
               return response()->json([
                 'status' => 200,
@@ -501,7 +501,7 @@ class shipmentsController extends Controller
                 "user_id" => auth()->user()->code_,
                 "action_name" => "تحويل شحنات",
                 "action_desc" =>  "شحنات الراجع لدى العميل ",
-                "branch_id" => auth()->user()->branch_
+                "branch" => auth()->user()->branch_
             ]);
                                 return response()->json([
                                   'status' => 200,
