@@ -62,7 +62,7 @@
 
                             </div >
                         </div>
-                        
+
 
                         <div class="col-span-1">
 
@@ -71,16 +71,16 @@
                     <div class="mt-1 grid  grid-cols-3">
                         <div class="col-span-2">
                             <div class="grid grid-cols-3 ">
-                                
+
 
                                 <div class="form-inline">
                                     <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:10px; margin-top:8px; margin-right:3px ; width:50px"> </label>
                                     <input type="submit"  class="btn btn-primary  "  value="فلتر">
-                                    
+
                                 </div>
                             </div >
                         </div>
-                        
+
                     </div>
 
                 </div>
@@ -115,7 +115,7 @@
 
                             <td  class="whitespace-nowrap " ><?php echo $i;?></td>
                             <td  class="whitespace-nowrap " >{{$user->users->name_}}</td>
-                            <td  class="whitespace-nowrap " >{{$user->users->branch}}</td>
+                            <td  class="whitespace-nowrap " >{{$user->branch}}</td>
                             <td  class="whitespace-nowrap " >{{$user->action_name}}</td>
                             <td  class="whitespace-nowrap " >{{$user->action_desc}}</td>
 
