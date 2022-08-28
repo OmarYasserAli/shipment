@@ -12,6 +12,7 @@ use App\Models\AllUser;
 use App\Models\Shipment_status;
 use App\Models\Commercial_name;
 use App\Models\Archive;
+use App\Models\UserHistory;
 use App\User;
 use App\Models\Khazna;
 use App\Models\Branch_user;
@@ -43,6 +44,12 @@ class khaznaController extends Controller
 
         ]);
         Khazna::create($request->all());
+
+        UserHistory::create([
+            "user_id" => auth()->user()->code_,
+            "action_name" =>'اضافة خزنة',
+            "action_desc" => 'اضافة خزنة',
+        ]);
         return back()->with(['status' => 'تم اضافة الخزنة بنجاح']);
     }
     public function addUserTo5azma(Request $request){
@@ -60,5 +67,11 @@ class khaznaController extends Controller
 
         $user = User::where('code_' ,$request->user_id)->first();
         $user->Khazna()->sync($request->khazna_ids);
+
+        UserHistory::create([
+            "user_id" => auth()->user()->code_,
+            "action_name" =>'ربط مستخدم مع خزينة',
+            "action_desc" =>  "  تم ربط مستخدم مع خزينة".$user->name_
+        ]);
     }
 }

@@ -14,8 +14,10 @@ use App\Models\Commercial_name;
 use App\Models\Archive;
 use App\Models\Sanad_3amil;
 use App\Models\Sanad_taslim;
+use App\Models\UserHistory;
 use App\User;
 use App\Models\Branch_user;
+use Illuminate\Support\Facades\URL;
 use QrCode;
 use App\Models\Print_report;
 use Carbon\Carbon;
@@ -66,7 +68,7 @@ class shipmentsController extends Controller
                 $shipments = Shipment::where('Status_',$status['code_'])
             ->UserType($user->type_,$user->code_);
             }
-            
+
             //->UserType($user->type_,$user->code_);
             if(isset(request()->commercial_name)){
                 $shipments=$shipments->where('commercial_name_',request()->commercial_name);
@@ -103,6 +105,11 @@ class shipmentsController extends Controller
             ]);
         }else{
             $shipment->delete();
+            UserHistory::create([
+               "user_id" => auth()->user()->code_,
+               "action_name" => "حذف شحنه",
+                "action_desc" =>  "  تم حذف شحنة رقم $code"
+            ]);
             return response()->json([
                 'success' => true,
                 'message' => 'تم الحذف بنجاح',
@@ -172,9 +179,9 @@ class shipmentsController extends Controller
                 $shipments = Shipment::with(['Branch_user' => function ($query) {
                     $query->select('code_','phone_');
                 }])->UserType($user->type_,$user->code_)
-                ->where('status_',$status);          
+                ->where('status_',$status);
             }
-            
+
             if(isset(request()->commercial_name)){
                 $shipments = $shipments->where('add_shipment_tb_.commercial_name_', request()->commercial_name);
             }
@@ -264,6 +271,11 @@ class shipmentsController extends Controller
             if(!isset(request()->report)) return false;
             $report = request()->report;
             $report = Print_report::where('id',$report)->first();
+            $report->update([
+             "url" => URL::full(),
+                "print_title"=> $page_title
+
+         ]);
             $codes= explode(',',$report->codes);
             $all=Shipment::whereIn('code_',$codes);
             $all=$all->get();
@@ -283,7 +295,8 @@ class shipmentsController extends Controller
             $data = [
                 'all'=>$all,
                 'title'=>$page_title,
-                'sum'=>$sums
+                'sum'=>$sums,
+                'report_num' => $report->id
             ];
             //return view('shipments.print' ,compact('all','title'));
 
@@ -410,14 +423,29 @@ class shipmentsController extends Controller
         if($request->t7weel_to=='الشحنات فى المخزن'){  //ta7wel sh7nat fel m5zn
             $status=[3,2,9];
             $updated_array = ['status_'=>1,'tarikh_el7ala'=>Carbon::now()->format('Y-m-d  g:i:s A')];
+            UserHistory::create([
+                "user_id" => auth()->user()->code_,
+                "action_name" => "تحويل شحنات",
+                "action_desc" =>  "تحويل الشحنات فى المخزن "
+            ]);
         }
         if($request->t7weel_to == 'شحنات واصل جزئى'){  //ta7wel sh7nat fel m5zn
             $status=[1,4];
             $updated_array = ['status_'=>6,'tarikh_el7ala'=>Carbon::now()->format('Y-m-d  g:i:s A')];
+            UserHistory::create([
+                "user_id" => auth()->user()->code_,
+                "action_name" => "تحويل شحنات",
+                "action_desc" =>  "تحويل شحنات واصل جزئى "
+            ]);
         }
         if($request->t7weel_to == 'شحنات الواصل'){
             $status=[1,4,6,10];
             $updated_array = ['status_'=>7,'tarikh_el7ala'=>Carbon::now()->format('Y-m-d  g:i:s A')];
+            UserHistory::create([
+                "user_id" => auth()->user()->code_,
+                "action_name" => "تحويل شحنات",
+                "action_desc" =>  "تحويل شحنات الواصل "
+            ]);
         }
         if($request->t7weel_to == 'الشحنات لدى مندوب التسليم'){
 
@@ -443,7 +471,11 @@ class shipmentsController extends Controller
               'mandoub_taslim' =>$mandob->name_,
               'add_shipment_tb_.status_' => 4
             ]);
-
+            UserHistory::create([
+                "user_id" => auth()->user()->code_,
+                "action_name" => "تحويل شحنات",
+                "action_desc" =>  "تحويل الشحنات لدى مندوب التسليم "
+            ]);
               return response()->json([
                 'status' => 200,
                 'message' => 'تم التحويل',
@@ -459,23 +491,36 @@ class shipmentsController extends Controller
                                 ->whereIn('status_', $status)
                                 ->where('branch_', $user->branch)
                                 ->update($updated_array);
-                  
+            UserHistory::create([
+                "user_id" => auth()->user()->code_,
+                "action_name" => "تحويل شحنات",
+                "action_desc" =>  "شحنات الراجع لدى العميل "
+            ]);
                                 return response()->json([
                                   'status' => 200,
                                   'message' => 'تم التحويل',
                                   'count' => $row,
-                              ], 200); 
+                              ], 200);
 
         }
         if($request->t7weel_to=='الشحنات الراجعه فى المخزن'){   //t7wel rag3 lada m5zn
             $status=array(1,3,4,10);
             $updated_array = ['status_'=>9, 'tarikh_el7ala'=>Carbon::now()->format('Y-m-d  g:i:s A'),
                                 'Delivery_Delivered_Shipment_ID'=>"" , 'mandoub_taslim'=>"" , 'tas3ir_mandoub_taslim'=>0 ];
-
+            UserHistory::create([
+                "user_id" => auth()->user()->code_,
+                "action_name" => "تحويل شحنات",
+                "action_desc" =>  "الشحنات الراجعه فى المخزن "
+            ]);
         }
         if($request->t7weel_to=='المؤجل'){  //ta7wel  mo2gl
             $status=[4];
             $updated_array = ['status_'=>10,'tarikh_el7ala'=>Carbon::now()->format('Y-m-d  g:i:s A')];
+            UserHistory::create([
+                "user_id" => auth()->user()->code_,
+                "action_name" => "تحويل شحنات",
+                "action_desc" =>  "تحويل الشحنات المؤجل "
+            ]);
        }
         $row = DB::table('add_shipment_tb_')
               ->whereIn('code_', $request->code)
@@ -486,7 +531,7 @@ class shipmentsController extends Controller
                 'status' => 200,
                 'message' => 'تم التحويل',
                 'count' => $row,
-            ], 200); 
+            ], 200);
     }
 
     public function accounting(Request $request)
@@ -886,6 +931,11 @@ class shipmentsController extends Controller
                     $shipment->tarikh_el7ala   = Carbon::now()->format('Y-m-d  g:i:s A');
                     $shipment->save();
                 }
+                UserHistory::create([
+                    "user_id" => auth()->user()->code_,
+                    "action_name" => "تنفيذ استلام راجع",
+                    "action_desc" =>  "تنفيذ استلام راجع"
+                ]);
 
                     DB::commit();
                     // all good
@@ -1355,7 +1405,11 @@ class shipmentsController extends Controller
             $shipment->total_=$request->total_;
             $shipment->notes_  =    $request->notes_;
             $shipment->save();
-
+            UserHistory::create([
+                "user_id" => auth()->user()->code_,
+                "action_name" => "اضافة شحنة",
+                "action_desc" =>  " اضافة شحنة جديدة رقم".$shipment->code_
+            ]);
 
         } catch (\Exception $e) {
             return response()->json([
@@ -1563,6 +1617,11 @@ class shipmentsController extends Controller
 
 
         $shipment->save();
+        UserHistory::create([
+            "user_id" => auth()->user()->code_,
+            "action_name" => "تعديل على شحنة",
+            "action_desc" =>  " تم التعديل على شحنة رقم".$request->current_code
+        ]);
 
         // $sanad_3amil = Sanad_3amil::where('code',$shipment->code_)->first();
         // if(isset($sanad_3amil)){
@@ -1579,13 +1638,18 @@ class shipmentsController extends Controller
         if(isset(request()->report)){
             $report = request()->report;
             $report = Print_report::where('id',$report)->first();
+            $report->update([
+                "url" => URL::full(),
+                'report_num' => $report->id
+
+            ]);
             $path= explode(',',$report->codes);
             $exp = array();
             $exp = array_merge($exp, $path);
         }
-        
-        
-        
+
+
+
 
         $user=auth()->user();
 
@@ -1763,20 +1827,40 @@ class shipmentsController extends Controller
         if($request->status==1){  //ta7wel sh7nat fel m5zn
             $status=[3,2,9];
             $updated_array = ['status_'=>1,'tarikh_el7ala'=>Carbon::now()->format('Y-m-d  g:i:s A')];
+            UserHistory::create([
+                "user_id" => auth()->user()->code_,
+                "action_name" =>"تحويل حالة الشحنات باستخدام qr",
+                "action_desc" =>  "تحويل الشحنات فى المخزن "
+            ]);
         }
         if($request->status==8){   //t7wel rag3 lada 3amel
             $status=array(9);
             $updated_array = ['status_'=>8, 'tarikh_el7ala'=>Carbon::now()->format('Y-m-d  g:i:s A'),
                                 'shipment_coast_'=>0 , 'tawsil_coast_'=>0 , 'total_'=>0  ];
+            UserHistory::create([
+                "user_id" => auth()->user()->code_,
+                "action_name" => "تحويل حالة الشحنات باستخدام qr",
+                "action_desc" =>  "تحويل الشحنات الراجع لدى العميل "
+            ]);
         }
         if($request->status==9){   //t7wel rag3 lada m5zn
             $status=array(1,4,10);
             $updated_array = ['status_'=>9, 'tarikh_el7ala'=>Carbon::now()->format('Y-m-d  g:i:s A'),
                                 'Delivery_Delivered_Shipment_ID'=>"" , 'mandoub_taslim'=>"" , 'tas3ir_mandoub_taslim'=>0 ];
+            UserHistory::create([
+                "user_id" => auth()->user()->code_,
+                "action_name" => "تحويل حالة الشحنات باستخدام qr",
+                "action_desc" =>  "تحويل الشحنات راجع لدى المخزن "
+            ]);
         }
         if($request->status==10){  //ta7wel sh7nat fel m5zn
             $status=[4];
             $updated_array = ['status_'=>10,'tarikh_el7ala'=>Carbon::now()->format('Y-m-d  g:i:s A')];
+            UserHistory::create([
+                "user_id" => auth()->user()->code_,
+                "action_name" => "تحويل حالة الشحنات باستخدام qr",
+                "action_desc" =>  "تحويل الشحنات فى المخزن "
+            ]);
         }
 
 
@@ -1925,12 +2009,12 @@ class shipmentsController extends Controller
         ->where($filter_field, $user->branch);
         if($request->case=='taslim_qr'){
             $shipment=$shipment->whereIn('TRANSFERE_ACCEPT_REFUSE',[0,1]);
-           
+
         }
         if($request->case=='frou3_t7wel_sho7nat_qr'){
             $b= BranchInfo::where('serial_',$request->status)->first();
             $shipment=$shipment->where('transfere_2','')->where('Ship_area_','!=',$b->name_);
-           
+
         }
         if($request->case=='frou3_t7wel_rag3_qr'){
             $b= BranchInfo::where('serial_',$request->status)->first();

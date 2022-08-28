@@ -8,12 +8,12 @@ class Print_report extends Model
 {
     protected $table = 'print_reports';
     protected $guarded = [];
-    protected $filable = ['codes','user_id'];
-    public $timestamps = false;
+    protected $filable = ['codes','user_id','url','print_title'];
+    public $timestamps = true;
 
-    
-    // public function sanadable()
-    // {
-    //     return $this->belongsTo(AllUser::class,'client_id');
-    // }
+
+     public function users()
+     {
+         return $this->belongsTo(AllUser::class,'user_id');
+     }
 }

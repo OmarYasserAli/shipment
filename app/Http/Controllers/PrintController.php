@@ -10,6 +10,7 @@ use App\Setting;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 use PDF;
 use App\Models\Print_report;
 class PrintController extends Controller
@@ -30,6 +31,7 @@ class PrintController extends Controller
             if(isset(request()->report)){
                 $report = request()->report;
                 $report = Print_report::where('id',$report)->first();
+
                 $codes= explode(',',$report->codes);
             }
             else
@@ -45,7 +47,7 @@ class PrintController extends Controller
                     WHEN ( branch_ = '{$user->branch}' and  transfere_1 = '{$brach_filter}' ) THEN  transfer_coast_1
                     WHEN ( transfere_1 = '{$user->branch}' and  transfere_2 = '{$brach_filter}' ) THEN transfer_coast_2
                     END) AS t7weel_cost"));
-                                    
+
 
 
                 }
@@ -78,7 +80,7 @@ class PrintController extends Controller
                     WHEN ( branch_ != '' and  transfere_1 =  '{$user->branch}' and elfar3_elmosadad_mno = '') THEN  transfer_coast_1
                     WHEN ( transfere_1 != '' and  transfere_2 = '{$user->branch}' and elfar3_elmosadad_mno_2 = '') THEN transfer_coast_2
                     END) AS t7weel_cost"));
-                                    
+
 
 
 
@@ -92,7 +94,7 @@ class PrintController extends Controller
         $alSafiCost = $all->sum('total_');
         $printPage='shipments.print';
         $page_title = request()->title;
-        
+
         //$brach_filter = request()->brach_filter;
         // fro3   shipment   3amel  mandoub
         if(request()->type == 'fro3' ){
@@ -102,13 +104,13 @@ class PrintController extends Controller
             $ta7weel=0;
             foreach($all as $ship){
                 $ta7weel += $ship->t7weel_cost ;
-                
+
             }
             // dd($alSafiCost);
             $tawsilCost = $ta7weel;
             $alSafiCost = $totalCost - $tawsilCost;
             //dd($alSafiCost);
-         
+
         }
         elseif(request()->type == 'import' ){
             $printPage='frou3.accounting.print';
@@ -117,13 +119,13 @@ class PrintController extends Controller
             $ta7weel=0;
             foreach($all as $ship){
                 $ta7weel += $ship->t7weel_cost ;
-                
+
             }
             // dd($alSafiCost);
             $tawsilCost = $ta7weel;
             $alSafiCost = $totalCost - $tawsilCost;
             //dd($alSafiCost);
-         
+
         }elseif (request()->type == 'shipment'){
             $printPage='shipments.print';
 
@@ -137,7 +139,7 @@ class PrintController extends Controller
             $tawsilCost = $all->sum('tas3ir_mandoub_taslim');
             $printPage='accounting.mandoubtaslim.print';
             $alSafiCost = $totalCost - $tawsilCost;
-          
+
         }
 
 
@@ -148,9 +150,14 @@ class PrintController extends Controller
         $data = [
             'all'=>$all,
             'title'=>$page_title,
-            'sum'=>$sums
+            'sum'=>$sums,
+            'report_num' => $report->id
         ];
-      
+        $report->update([
+            "url" => URL::full(),
+            "print_title"=> $page_title
+
+        ]);
         $mpdf = PDF::loadView($printPage,$data);
         $mpdf->showImageErrors = true;
         return $mpdf->stream('document.pdf');
@@ -172,7 +179,7 @@ class PrintController extends Controller
         {
             $user=auth()->user();
             $codes= implode(',',request()->codes);
-            if(request()->save ==1){ 
+            if(request()->save ==1){
                 $report = new Print_report();
                 $report->codes = $codes;
                 $report->user_id = $user->code_;

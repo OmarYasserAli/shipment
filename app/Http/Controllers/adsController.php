@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\UserHistory;
 use Illuminate\Http\Request;
 use App\Models\Shipment;
 use App\Models\Shipment_status;
@@ -56,6 +57,11 @@ class adsController extends Controller
         Ad::create([
             'name'=>$request->name,
             'link' =>  asset('assets/'.$img_path)
+        ]);
+        UserHistory::create([
+            "user_id" => auth()->user()->code_,
+            "action_name" => " انشاء اعلان",
+            "action_desc" =>  "تم انشاء اعلان",
         ]);
         return redirect()->back()->with('status', 'تم تسجيل الاعلان');
 
