@@ -40,7 +40,7 @@ class khaznaController extends Controller
         $validated = $request->validate([
             //'reciver_name_' => 'required',
             'name' => 'required|unique:5azna',
-            'branch_id' => 'required',
+            'branch' => 'required',
 
         ]);
         Khazna::create($request->all());
@@ -49,6 +49,7 @@ class khaznaController extends Controller
             "user_id" => auth()->user()->code_,
             "action_name" =>'اضافة خزنة',
             "action_desc" => 'اضافة خزنة',
+            "branch" => auth()->user()->branch_
         ]);
         return back()->with(['status' => 'تم اضافة الخزنة بنجاح']);
     }
@@ -71,7 +72,8 @@ class khaznaController extends Controller
         UserHistory::create([
             "user_id" => auth()->user()->code_,
             "action_name" =>'ربط مستخدم مع خزينة',
-            "action_desc" =>  "  تم ربط مستخدم مع خزينة".$user->name_
+            "action_desc" =>  "  تم ربط مستخدم مع خزينة".$user->name_,
+            "branch" => auth()->user()->branch_
         ]);
     }
 }

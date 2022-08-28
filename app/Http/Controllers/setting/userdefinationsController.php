@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\setting;
 
 use App\Http\Controllers\Controller;
+use App\Models\UserHistory;
 use App\User;
 use App\Models\Mohfza;
 use App\Models\Commercial_name;
@@ -113,6 +114,13 @@ class userdefinationsController extends Controller
                 } catch (\Exception $e) {
                         DB::rollback();
                 }
+            UserHistory::create([
+                "user_id" => auth()->user()->code_,
+                "action_name" => " تسجيل العميل",
+                "action_desc" =>  "  تم تسجيل العميل رقم".$created_user->code_ ,
+                "branch" => auth()->user()->branch_
+
+            ]);
                 return redirect()->back()->with('status', 'تم تسجيل العميل');
 
 
@@ -224,6 +232,13 @@ class userdefinationsController extends Controller
                 } catch (\Exception $e) {
                         DB::rollback();
                 }
+            UserHistory::create([
+                "user_id" => auth()->user()->code_,
+                "action_name" => " تعديل العميل",
+                "action_desc" =>  "  تم تعديل العميل رقم".$request->code ,
+                "branch" => auth()->user()->branch_
+
+            ]);
                 return redirect()->back()->with('status', 'تم تسجيل العميل');
         }
         public function addMandoub()
@@ -310,6 +325,13 @@ class userdefinationsController extends Controller
                 } catch (\Exception $e) {
                         DB::rollback();
                 }
+            UserHistory::create([
+                "user_id" => auth()->user()->code_,
+                "action_name" => " تسجيل المندوب",
+                "action_desc" =>  "  تم تسجيل المندوب رقم".$created_client->code_ ,
+                "branch" => auth()->user()->branch_
+
+            ]);
                 return redirect()->back()->with('status', 'تم تسجيل المندوب');
         }
         public function editMandoub(int $code)
@@ -387,6 +409,13 @@ class userdefinationsController extends Controller
                 } catch (\Exception $e) {
                         DB::rollback();
                 }
+            UserHistory::create([
+                "user_id" => auth()->user()->code_,
+                "action_name" => " تعديل مندوب",
+                "action_desc" =>  "  تم تعديل مندوب رقم".$request->mandoub_name ,
+                "branch" => auth()->user()->branch_
+
+            ]);
                 return redirect()->back()->with('status', 'تم تسجيل التعديلات');
         }
         public function adduser()
@@ -469,6 +498,13 @@ class userdefinationsController extends Controller
                 } catch (\Exception $e) {
                         DB::rollback();
                 }
+            UserHistory::create([
+                "user_id" => auth()->user()->code_,
+                "action_name" => " تسجيل مستخدم",
+                "action_desc" =>  "  تم تسجيل مستخدم رقم".$created_user->code_ ,
+                "branch" => auth()->user()->branch_
+
+            ]);
                 return redirect()->back()->with('status', 'تم تسجيل المندوب');
         }
         public function editUser(int $code)
@@ -558,6 +594,13 @@ class userdefinationsController extends Controller
                 } catch (\Exception $e) {
                         DB::rollback();
                 }
+            UserHistory::create([
+                "user_id" => auth()->user()->code_,
+                "action_name" => " تعديل مستخدم",
+                "action_desc" =>  "  تم تعديل مستخدم رقم".$request->mandoub_name_ ,
+                "branch" => auth()->user()->branch_
+
+            ]);
                 return redirect()->back()->with('status', 'تم تسجيل التعديلات');
 
         }

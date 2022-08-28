@@ -156,7 +156,8 @@ class generalController extends Controller
             UserHistory::create([
                 "user_id" => auth()->user()->code_,
                 "action_name" => "تغير فرع الادمن",
-                "action_desc" =>  "تم تغير فرع الادمن"
+                "action_desc" =>  "تم تغير فرع الادمن",
+                "branch" => auth()->user()->branch_
             ]);
             return response()->json([
                 'status' => 200,

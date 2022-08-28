@@ -62,6 +62,8 @@ class adsController extends Controller
             "user_id" => auth()->user()->code_,
             "action_name" => " انشاء اعلان",
             "action_desc" =>  "تم انشاء اعلان",
+            "branch" => auth()->user()->branch_
+
         ]);
         return redirect()->back()->with('status', 'تم تسجيل الاعلان');
 

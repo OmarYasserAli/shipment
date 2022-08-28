@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\setting;
 
 use App\Http\Controllers\Controller;
+use App\Models\UserHistory;
 use App\User;
 use App\Models\Mohfza;
 use App\Models\BranchInfo;
@@ -23,31 +24,31 @@ class definationsController extends Controller
                     }
                     $page_title='تعريف الشركة';
                 $company =CompanyInfo::where('branch_',Auth::user()->branch)->first() ;
-               
+
             return view('deffinations.company',compact('page_title','company'));
             }
             public function storeCompany(Request $request){
 
                 $img_path = null;
-    
-    
+
+
                     $company =CompanyInfo::where('branch_',Auth::user()->branch)->first() ;
                     $validated = $request->validate([
                         'name_' => 'required',
                         'name_E' => 'required',
-    
+
                         'address_' => 'required',
                         'Tel_' => 'required',
-    
+
                     ],[
                         'name_.required'=> 'اسم الفرع بالعربية مطلوب',
                         'name_E.required'=> 'اسم الفرع بالانجليزية مطلوب',
                         'address_.required'=> 'العنوان مطلوب',
                         'Tel_.required'=> 'الهاتف  مطلوب',
                         'logo.required'=> 'الصورة  مطلوب',
-    
+
                     ]);
-                    
+
                     if($company){
                         // if ($request->hasFile('logo') && $request->file('logo')->isValid()) {
                         //     $imag = $request->file('logo');
@@ -64,7 +65,7 @@ class definationsController extends Controller
                         if($img_path == null && $company->image_data ){
                             $img_path = $company->image_data;
                         }
-                        
+
                         $company->update([
                             'name_'=>$request->name_,
                             'name_E'=>$request->name_E,
@@ -72,11 +73,18 @@ class definationsController extends Controller
                             'Tel_'=>$request->Tel_,
                             'notes_'=>$request->notes_,
                             'image_data' => strip_tags($img_path,'<img>')
-    
-    
+
+
+                        ]);
+                        UserHistory::create([
+                            "user_id" => auth()->user()->code_,
+                            "action_name" => "تعديل بيانات الشركة",
+                            "action_desc" => "تعديل بيانات الشركة",
+                            "branch" => auth()->user()->branch_
+
                         ]);
                         return redirect()->back()->with('status', 'تم تعديل الشركة');
-    
+
                     }else{
                         if ($request->hasFile('logo') && $request->file('logo')->isValid()) {
                             $img = $request->file('logo');
@@ -91,6 +99,13 @@ class definationsController extends Controller
                             'branch_' => Auth::user()->branch,
                             'image_data' => $img_path
                         ]);
+                        UserHistory::create([
+                            "user_id" => auth()->user()->code_,
+                            "action_name" => " انشاء شركة",
+                            "action_desc" =>  "تم تسجيل الشركة",
+                            "branch" => auth()->user()->branch_
+
+                        ]);
                         return redirect()->back()->with('status', 'تم تسجيل الشركة');
                     }
                 }
@@ -98,7 +113,7 @@ class definationsController extends Controller
         {
                 $user=auth()->user();
                 if(!$user->isAbleTo('addManatek-definations')){
-                return abort(403); 
+                return abort(403);
                 }
             $cities=Mohfza::where('branch',auth()->user()->branch)->get();
                 $page_title='المناطق و المحافظات';
@@ -109,7 +124,7 @@ class definationsController extends Controller
                 $validated = $request->validate([
                         'name_' => 'required',
                         'name_E' => 'required',
-                        
+
                         'address_' => 'required',
                         'Tel_' => 'required',
                     ],[
@@ -117,11 +132,18 @@ class definationsController extends Controller
                         'name_E.required'=> 'اسم الفرع بالانجليزية مطلوب',
                         'address_.required'=> 'العنوان مطلوب',
                         'Tel_.required'=> 'الهاتف  مطلوب',
-                        
+
                     ]);
                     $br = BranchInfo::create($request->all());
                     $br->serial_ = $br->code_;
                     $br->save();
+            UserHistory::create([
+                "user_id" => auth()->user()->code_,
+                "action_name" => " انشاء الفرع",
+                "action_desc" =>  " تم انشاء فرع جديد" . $br->code_ ,
+                "branch" => auth()->user()->branch_
+
+            ]);
                     return redirect()->back()->with('status', 'تم تسجيل الفرع');
         }
 
@@ -129,7 +151,7 @@ class definationsController extends Controller
         {
                 $user=auth()->user();
                 if(!$user->isAbleTo('addBranches-definations')){
-                return abort(403); 
+                return abort(403);
                 }
                 $page_title='اضافة الفروع';
             return view('deffinations.branch',compact('page_title'));

@@ -70,16 +70,16 @@
                     <div class="mt-1 grid  grid-cols-3">
                         <div class="col-span-2">
                             <div class="grid grid-cols-3 ">
-                                
+
 
                                 <div class="form-inline">
                                     <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:10px; margin-top:8px; margin-right:3px ; width:50px"> </label>
                                     <input type="submit"  class="btn btn-primary  "  value="فلتر">
-                                    
+
                                 </div>
                             </div >
                         </div>
-                        
+
                     </div>
 
                 </div>
@@ -116,7 +116,7 @@
                             <td  class="whitespace-nowrap " >{{$print->id}}</td>
 
                             <td  class="whitespace-nowrap " >{{$print->users->name_}}</td>
-                            <td  class="whitespace-nowrap " >{{$print->users->branch}}</td>
+                            <td  class="whitespace-nowrap " >{{$print->branch}}</td>
                             <td  class="whitespace-nowrap " >{{$print->print_title ? $print->print_title : "لا يوجد"}}</td>
                             <td  class="whitespace-nowrap " >{{$print->created_at ? $print->created_at : "لا يوجد"}}</td>
                             <td  class="whitespace-nowrap " >
