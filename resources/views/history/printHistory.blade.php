@@ -49,6 +49,16 @@
                                     <input name="date_to" type="date"  class="form-control form-select-sm "  aria-label="default input inline 1" style="">
                                 </div>
 
+                                <div class="form-inline">
+                                    <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:10px; margin-top:8px;  width:60px; ">الموظف</label>
+                                    <select name="user_id" class="form-select form-select-sm mr-1" aria-label=".form-select-sm example" style=" width:250px">
+                                        <option value="">...</option>
+                                        @foreach($moazafeen as $moazaf)
+                                        <option value="{{$moazaf->code_}}"  @if(request()->get('user_id') ==$moazaf->code_) selected @endif>{{$moazaf->name_}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
 
                             </div >
                         </div>
@@ -56,6 +66,20 @@
                         <div class="col-span-1">
 
                         </div>
+                    </div>
+                    <div class="mt-1 grid  grid-cols-3">
+                        <div class="col-span-2">
+                            <div class="grid grid-cols-3 ">
+                                
+
+                                <div class="form-inline">
+                                    <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:10px; margin-top:8px; margin-right:3px ; width:50px"> </label>
+                                    <input type="submit"  class="btn btn-primary  "  value="فلتر">
+                                    
+                                </div>
+                            </div >
+                        </div>
+                        
                     </div>
 
                 </div>

@@ -451,8 +451,9 @@ class frou3Controller extends Controller
 
             $shipments = Shipment::select('*');
             $shipments = $shipments->where('Ship_area_', '=', $user->branch)
-                    ->where('transfere_2','')
-                    ->where('status_',1);
+            ->whereIn('TRANSFERE_ACCEPT_REFUSE', [0,1])
+            ->where('transfere_2','')
+            ->where('status_',1);
 
 
 
@@ -912,6 +913,7 @@ class frou3Controller extends Controller
 
             $shipments = Shipment::select('*');
             $shipments = $shipments->where('Ship_area_', '=', $user->branch)
+            ->whereIn('TRANSFERE_ACCEPT_REFUSE', [0,1])
                     ->where('transfere_1','!=','')
                     ->where('status_',9);
 

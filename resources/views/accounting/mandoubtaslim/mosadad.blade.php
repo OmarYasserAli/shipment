@@ -293,8 +293,6 @@
                                 
                             }
                         });
-               
-
             });
             let  shipments=[];
             let cnt=1;
