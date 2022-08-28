@@ -8,7 +8,7 @@ class UserHistory extends Model
 {
     protected $table = 'user_history';
     protected $guarded = [];
-    protected $filable = ['action_desc','user_id','action_name'];
+    protected $filable = ['action_desc','user_id','action_name','branch'];
     public $timestamps = true;
 
 
