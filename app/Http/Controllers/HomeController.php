@@ -29,7 +29,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-       
+
         $dailyShipments = Shipment::where('date_'  ,'>=',DATE( Carbon::now()->format('Y-m-d')))
         ->where('branch_',auth()->user()->branch)->get();
         $dailyStatus    = Shipment::where('tarikh_el7ala'  ,'>=',DATE( Carbon::now()->format('Y-m-d')))
@@ -65,7 +65,45 @@ class HomeController extends Controller
     }
     public function index2()
     {
-        $page_title='لوحة المواقبة';
+        $page_title='لوحة المراقبة';
         return view('home' ,compact('page_title'));
     }
+    public function passwordChange()
+    {
+        $page_title='تغير كلمة لمرور';
+        return view('profile.changePassword' ,compact('page_title'));
+    }
+    public function storePasswordChange(Request $request)
+    {
+        $user = auth()->user()->code_;
+
+        $validated = $request->validate([
+            'password' => 'required',
+            'old_password' => 'required',
+            'confirm_password' => 'required',
+
+        ],[
+            'password.required'=> 'كلمة السر الجديدة مطلوبة',
+            'old_password.required'=> 'كلمة السر الحالية مطلوبة',
+            'confirm_password.required'=> 'تاكيد كلمة المرور مطلوبة',
+
+        ]);
+        if (auth()->user()->password == $request->old_password){
+            if ($request->password == $request->confirm_password){
+                User::find($user)->update([
+                    'password' =>$request->password,
+                ]);
+                return redirect()->back()->with('status', 'تم تغير كلمة المرور');
+            }else{
+                return redirect()->back()->with('status', 'كلمة المرور غير متطابقة');
+
+            }
+
+        }else{
+            return redirect()->back()->with('status', 'كلمة المرور الحالية غير صحيحة');
+
+        }
+
+        }
+
 }
