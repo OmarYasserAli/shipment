@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 
 <html lang="en" class="light">
-    
+
     <!-- BEGIN: Head -->
     <head>
-      
+
         @php
             $companyMainData = \App\Models\CompanyInfo::where('branch_','الفرع الرئيسى')->first();
         @endphp
@@ -14,12 +14,12 @@
         <meta name="description" content="Midone admin is super flexible, powerful, clean & modern responsive tailwind admin template with unlimited possibilities.">
         <meta name="keywords" content="admin template, Midone Admin Template, dashboard template, flat admin template, responsive admin template, web app">
         <meta name="author" content="LEFT4CODE">
-        <title> 
-           
+        <title>
+
         @if(isset($page_title))
             {{$page_title}}
         @endif
-        -  {{$companyMainData->name_}} 
+        -  {{$companyMainData->name_}}
         </title>
         <!-- BEGIN: CSS Assets-->
         <link rel="stylesheet" href="{{asset('css/_app.css')}}" />
@@ -27,19 +27,23 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600&display=swap" rel="stylesheet">
         <style>
+            body{
+                font-family: 'Cairo', sans-serif !important;
+
+            }
             .switch {
                 position: relative;
                 display: inline-block;
                 width: 47px;
                 height: 27px;
             }
-            
-            .switch input { 
+
+            .switch input {
               opacity: 0;
               width: 0;
               height: 0;
             }
-            
+
             .slider {
               position: absolute;
               cursor: pointer;
@@ -51,7 +55,7 @@
               -webkit-transition: .4s;
               transition: .4s;
             }
-            
+
             .slider:before {
                 position: absolute;
                 content: "";
@@ -63,26 +67,26 @@
                 -webkit-transition: .4s;
                 transition: .4s;
             }
-            
+
             input:checked + .slider {
               background-color: #2196F3;
             }
-            
+
             input:focus + .slider {
               box-shadow: 0 0 1px #2196F3;
             }
-            
+
             input:checked + .slider:before {
               -webkit-transform: translateX(26px);
               -ms-transform: translateX(26px);
               transform: translateX(26px);
             }
-            
+
             /* Rounded sliders */
             .slider.round {
               border-radius: 34px;
             }
-            
+
             .slider.round:before {
               border-radius: 50%;
             }
@@ -129,11 +133,11 @@
         <!-- END: JS Assets-->
         <script>
             getMode()
-           
-       
+
+
             function toggleDarkMode(){
                 if(sessionStorage.getItem("darkMode") == 1){
-                  
+
                     sessionStorage.setItem("darkMode", 0);
                     $('html').removeClass('dark').addClass( 'light' );
                 }else{
@@ -147,7 +151,7 @@
                     $('html').removeClass('light').addClass( 'dark' );
                     $('#darkBTN').prop('checked', true);
                 }
-                
+
             }
         </script>
     </body>

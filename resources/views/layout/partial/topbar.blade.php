@@ -1,9 +1,9 @@
 <div class="top-bar">
     <!-- BEGIN: Breadcrumb -->
     <nav aria-label="breadcrumb" class="-intro-x  hidden sm:flex" style="width: 100%; align-items:center;">
-        
+
         <div class="search  sm:block " style="float: right;">
-         
+
         </div>
         @if(isset($page_title))
             <div class="" style="">
@@ -35,32 +35,32 @@
                 $.ajax({
                             url:"{{url('changeAdminBranch')}}?branch="+$('#current_branch').val(),
                             type: "get",
-                            
+
                             dataType : 'json',
                             success: function(result){
                                 window.location = window.location.href.split("?")[0];
 
-                                
-                          
+
+
                         }
                         });
-              
+
             })
          </script>
     <div class="flex mr-auto">
-        
+
         <div class="intro-x relative mr-3 sm:mr-6">
 
-        
+
             <div class="search hidden sm:block">
                 <input type="text" class="search__input form-control" placeholder="Search..." id="shipment_search">
-                <i data-lucide="search" class="search__icon dark:text-slate-500"></i> 
+                <i data-lucide="search" class="search__icon dark:text-slate-500"></i>
             </div>
             <script>
                 $('#shipment_search').keyup(function(e){
                     if(e.keyCode == 13)
                     {
-                        
+
                         if(($(this).val() !='') && $(this).val() !=null){
                             window.location.replace('{{route('shipment_bar_search')}}?q='+$(this).val())
                         }
@@ -68,7 +68,7 @@
                 });
             </script>
             <a class="notification sm:hidden" href=""> <i data-lucide="search" class="notification__icon dark:text-slate-500"></i> </a>
-            
+
         </div>
         <!-- END: Search -->
         <!-- BEGIN: Notifications -->
@@ -84,16 +84,16 @@
                         </div>
                         <div class="ml-2 overflow-hidden">
                             <div class="flex items-center">
-                                <a href="javascript:;" class="font-medium truncate mr-5">Russell Crowe</a> 
+                                <a href="javascript:;" class="font-medium truncate mr-5">Russell Crowe</a>
                                 <div class="text-xs text-slate-400 ml-auto whitespace-nowrap">01:10 PM</div>
                             </div>
                             <div class="w-full truncate text-slate-500 mt-0.5">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomi</div>
                         </div>
                     </div>
-                  
-                    
-                    
-                   
+
+
+
+
                 </div>
             </div> --}}
         </div>
@@ -113,19 +113,19 @@
                         <hr class="dropdown-divider border-white/[0.08]">
                     </li>
                     <li>
-                        <a href="" class="dropdown-item hover:bg-white/5"> <i data-lucide="user" class="w-4 h-4 mr-2"></i> Profile </a>
+                        <a href="" class="dropdown-item hover:bg-white/5"> <i data-lucide="user" class="w-4 h-4 mr-2"></i> البروفايل </a>
                     </li>
-                    
+
                     <li>
-                        <a href="" class="dropdown-item hover:bg-white/5"> <i data-lucide="lock" class="w-4 h-4 mr-2"></i> Reset Password </a>
+                        <a href="" class="dropdown-item hover:bg-white/5"> <i data-lucide="lock" class="w-4 h-4 mr-2"></i> تعديل كلمة المرور </a>
                     </li>
-                 
+
                     <li>
                         <hr class="dropdown-divider border-white/[0.08]">
                     </li>
                     <li>
-                        <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"  class="dropdown-item hover:bg-white/5"> <i data-lucide="toggle-right" class="w-4 h-4 mr-2"></i> Logout </a>
-                       
+                        <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"  class="dropdown-item hover:bg-white/5"> <i data-lucide="toggle-right" class="w-4 h-4 mr-2"></i> تسجيل خروج </a>
+
                     </li>
                 </ul>
             </div>

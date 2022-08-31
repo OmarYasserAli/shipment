@@ -21,6 +21,8 @@ Route::get('/clear-cache',function(){
     // Artisan::call('jwt:secret');
     return "cache clear";
 });
+Route::get('/change/password', 'HomeController@passwordChange')->name('passwordChange');
+Route::post('/change/password/store', 'HomeController@storePasswordChange')->name('passwordChange.store');
 
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/getclientChartData', 'HomeController@getclientChartData')->name('getclientChartData');
