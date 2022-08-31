@@ -26,6 +26,7 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 use App\Models\Print_report;
+use Illuminate\Support\Facades\URL;
 class accountingController extends Controller
 {
 
@@ -323,12 +324,12 @@ class accountingController extends Controller
             if(!isset(request()->report)) return false;
             $report = request()->report;
             $report = Print_report::where('id',$report)->first();
-            $report->update([
-                "url" => URL::full(),
-                "print_title"=> $page_title,
-                "branch" => auth()->user()->branch
+            // $report->update([
+            //     "url" => URL::full(),
+            //     "print_title"=> $page_title,
+            //     "branch" => auth()->user()->branch
 
-            ]);
+            // ]);
             $codes= explode(',',$report->codes);
             $all=Shipment::whereIn('code_',$codes);
 

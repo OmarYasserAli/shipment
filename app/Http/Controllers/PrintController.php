@@ -176,6 +176,7 @@ class PrintController extends Controller
     }
 
     public function save_report(Request $request){
+        //dd($request->all());
         if(isset(request()->codes))
         {
             $user=auth()->user();
@@ -184,6 +185,15 @@ class PrintController extends Controller
                 $report = new Print_report();
                 $report->codes = $codes;
                 $report->user_id = $user->code_;
+                $report->branch = $user->branch;
+                if(isset($request->route) )
+                    $report->route = $request->route;
+                if(isset($request->parameters) )
+                    $report->parameters = $request->parameters;
+                if(isset($request->print_title) )
+                    $report->print_title = $request->print_title;
+
+                    
                 $report->save();
                 return response()->json([
                     'status' => 200,

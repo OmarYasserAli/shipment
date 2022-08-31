@@ -292,7 +292,9 @@
                                 'codes':codes,
                                 'pdf' :1,
                                 'save' :1,
-                                '_token' :'{{csrf_token()}}'
+                                'route':'{{Route::currentRouteName()}}',
+                                '_token' :'{{csrf_token()}}',
+                                'print_title' :'{{$page_title}}'
                             },
                             success: function(result){
                                 window.open(window.location.href.split('?')[0]+'?pdf=1&report='+result.id);
