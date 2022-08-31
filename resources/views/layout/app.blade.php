@@ -61,7 +61,7 @@
                 content: "";
                 height: 18px;
                 width: 18px;
-                left: 4px;
+                left: -1px;
                 bottom: 4px;
                 background-color: white;
                 -webkit-transition: .4s;
