@@ -15,6 +15,9 @@ class PrintHistoryController extends Controller
         if(isset(request()->user_id)){
             $prints =  $prints->where('user_id',request()->user_id);
         }
+        if(isset(request()->rakam)){
+            $prints =  $prints->where('id',request()->rakam);
+        }
         if(isset(request()->date_from)){
             $prints =  $prints->where('created_at', '>='  ,request()->date_from);
         }

@@ -33,7 +33,7 @@ class tas3irController extends Controller
                 "user_id" => auth()->user()->code_,
                 "action_name" => "حفظ عميل",
                 "action_desc" =>  " تم حفظ تسعير عميل".$request->code,
-                "branch" => auth()->user()->branch_
+                "branch" => auth()->user()->branch
             ]);
         }
         public function save_ta7wel(Request $request)
@@ -46,7 +46,7 @@ class tas3irController extends Controller
                 "user_id" => auth()->user()->code_,
                 "action_name" => "حفظ تحويل",
                 "action_desc" =>  " تم حفظ تحويل".$request->code,
-                "branch" => auth()->user()->branch_
+                "branch" => auth()->user()->branch
             ]);
 
 
@@ -116,7 +116,7 @@ class tas3irController extends Controller
                     "user_id" => auth()->user()->code_,
                     "action_name" => "حفظ تسعير مندوب استلام",
                     "action_desc" =>  " تم حفظ تسعير مندوب استلام".$mandobe_name[0]['name_'],
-                    "branch" => auth()->user()->branch_
+                    "branch" => auth()->user()->branch
                 ]);
                 return response()->json([
                     'status' => 200,
@@ -158,7 +158,7 @@ class tas3irController extends Controller
                     "user_id" => auth()->user()->code_,
                     "action_name" => "حفظ تسعير مندوب تسليم",
                     "action_desc" =>  " تم حفظ تسعير مندوب تسليم".$mandobe_name[0]['name_'],
-                    "branch" => auth()->user()->branch_
+                    "branch" => auth()->user()->branch
                 ]);
                 return response()->json([
                     'status' => 200,
@@ -198,7 +198,7 @@ class tas3irController extends Controller
                 "user_id" => auth()->user()->code_,
                 "action_name" => "حفظ تسعير العميل الخاص",
                 "action_desc" =>  " تم حفظ تسعير العميل الخاص ".$specialClient->name_,
-                "branch" => auth()->user()->branch_
+                "branch" => auth()->user()->branch
             ]);
             return response()->json([
                 'status' => 200,

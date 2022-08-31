@@ -118,7 +118,7 @@ class userdefinationsController extends Controller
                 "user_id" => auth()->user()->code_,
                 "action_name" => " تسجيل العميل",
                 "action_desc" =>  "  تم تسجيل العميل رقم".$created_user->code_ ,
-                "branch" => auth()->user()->branch_
+                "branch" => auth()->user()->branch
 
             ]);
                 return redirect()->back()->with('status', 'تم تسجيل العميل');
@@ -236,7 +236,7 @@ class userdefinationsController extends Controller
                 "user_id" => auth()->user()->code_,
                 "action_name" => " تعديل العميل",
                 "action_desc" =>  "  تم تعديل العميل رقم".$request->code ,
-                "branch" => auth()->user()->branch_
+                "branch" => auth()->user()->branch
 
             ]);
                 return redirect()->back()->with('status', 'تم تسجيل العميل');
@@ -329,7 +329,7 @@ class userdefinationsController extends Controller
                 "user_id" => auth()->user()->code_,
                 "action_name" => " تسجيل المندوب",
                 "action_desc" =>  "  تم تسجيل المندوب رقم".$created_client->code_ ,
-                "branch" => auth()->user()->branch_
+                "branch" => auth()->user()->branch
 
             ]);
                 return redirect()->back()->with('status', 'تم تسجيل المندوب');
@@ -413,7 +413,7 @@ class userdefinationsController extends Controller
                 "user_id" => auth()->user()->code_,
                 "action_name" => " تعديل مندوب",
                 "action_desc" =>  "  تم تعديل مندوب رقم".$request->mandoub_name ,
-                "branch" => auth()->user()->branch_
+                "branch" => auth()->user()->branch
 
             ]);
                 return redirect()->back()->with('status', 'تم تسجيل التعديلات');
@@ -502,7 +502,7 @@ class userdefinationsController extends Controller
                 "user_id" => auth()->user()->code_,
                 "action_name" => " تسجيل مستخدم",
                 "action_desc" =>  "  تم تسجيل مستخدم رقم".$created_user->code_ ,
-                "branch" => auth()->user()->branch_
+                "branch" => auth()->user()->branch
 
             ]);
                 return redirect()->back()->with('status', 'تم تسجيل المندوب');
@@ -598,7 +598,7 @@ class userdefinationsController extends Controller
                 "user_id" => auth()->user()->code_,
                 "action_name" => " تعديل مستخدم",
                 "action_desc" =>  "  تم تعديل مستخدم رقم".$request->mandoub_name_ ,
-                "branch" => auth()->user()->branch_
+                "branch" => auth()->user()->branch
 
             ]);
                 return redirect()->back()->with('status', 'تم تسجيل التعديلات');

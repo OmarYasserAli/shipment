@@ -34,16 +34,17 @@
         <div class="intro-y col-span-12 lg:col-span-12">
             <form action="">
                 <div>
-                    <div class="mt-1 grid  grid-cols-3">
-
-
-                </div>
-                    <div class="mt-1 grid  grid-cols-3">
+                    
+                    <div class="mt-1 grid  grid-cols-4">
                         <div class="col-span-2">
                             <div class="grid grid-cols-3 ">
-
                                 <div class="form-inline">
-                                    <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:2px; margin-top:1px; width:30px; ">تاريخ الشحنه </label>
+                                    <label for="horizontal-form-1" class="form-label" style=" text-align:right; margin-left:4px; margin-top:1px; width:60px; ">رقم الكشف </label>
+                                    <input name="rakam" type="text"  class="form-control "   style="width:50px;">
+                                    
+                                </div>
+                                <div class="form-inline">
+                                    <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:2px; margin-top:1px; width:50px; ">تاريخ الكشف </label>
                                     <input name="date_from" type="date"  class="form-control form-select-sm "  aria-label="default input inline 1" style="">
                                     <label for="horizontal-form-1" class="form-label" style=" text-align:right!important; margin-right:3px; margin-left:5px; margin-top:1px;  ">الي</label>
                                     <input name="date_to" type="date"  class="form-control form-select-sm "  aria-label="default input inline 1" style="">
@@ -90,7 +91,7 @@
                         <tr>
 
                             <th class="whitespace-nowrap">#</th>
-                            <th class="whitespace-nowrap">رقم الوصل</th>
+                            <th class="whitespace-nowrap">رقم الكشف</th>
                             <th class="whitespace-nowrap">الاسم</th>
                             <th class="whitespace-nowrap">الفرع</th>
                             <th class="whitespace-nowrap">عنوان الطباعة</th>
@@ -120,7 +121,7 @@
                             <td  class="whitespace-nowrap " >{{$print->print_title ? $print->print_title : "لا يوجد"}}</td>
                             <td  class="whitespace-nowrap " >{{$print->created_at ? $print->created_at : "لا يوجد"}}</td>
                             <td  class="whitespace-nowrap " >
-                                <a href="{{$print->url}}" class="btn btn-success w-24 mt-5">طباعه</a>
+                                <a href="{{$print->url}}" target="_blank" class="btn btn-success w-24 mt-5">طباعه</a>
                             </td>
 
 

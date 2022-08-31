@@ -160,7 +160,7 @@ class accountingController extends Controller
             $report->update([
                 "url" => URL::full(),
                 "print_title"=> $page_title,
-                "branch" => auth()->user()->branch_
+                "branch" => auth()->user()->branch
 
             ]);
             $codes= explode(',',$report->codes);
@@ -207,7 +207,7 @@ class accountingController extends Controller
             "user_id" => auth()->user()->code_,
             "action_name" => "تسديد عميل",
             "action_desc" =>  "تم تسديد شحنات العميل ",
-            "branch" => auth()->user()->branch_
+            "branch" => auth()->user()->branch
 
         ]);
             return response()->json([
@@ -326,7 +326,7 @@ class accountingController extends Controller
             $report->update([
                 "url" => URL::full(),
                 "print_title"=> $page_title,
-                "branch" => auth()->user()->branch_
+                "branch" => auth()->user()->branch
 
             ]);
             $codes= explode(',',$report->codes);
@@ -377,7 +377,7 @@ class accountingController extends Controller
             "user_id" => auth()->user()->code_,
             "action_name" => "الغاء تسديد الشحنات",
             "action_desc" =>  "الغاء تسديد شحنات العميل",
-            "branch" => auth()->user()->branch_
+            "branch" => auth()->user()->branch
 
         ]);
             return response()->json([
@@ -498,7 +498,7 @@ class accountingController extends Controller
             $report->update([
                 "url" => URL::full(),
                 "print_title"=> $page_title,
-                "branch" => auth()->user()->branch_
+                "branch" => auth()->user()->branch
 
             ]);
             $codes= explode(',',$report->codes);
@@ -547,7 +547,7 @@ class accountingController extends Controller
             "user_id" => auth()->user()->code_,
             "action_name" => "تسديد مندوب تسليم",
             "action_desc" =>  "تم تسديد شحنات مندوب تسليم ",
-            "branch" => auth()->user()->branch_
+            "branch" => auth()->user()->branch
 
         ]);
             return response()->json([
@@ -670,7 +670,7 @@ class accountingController extends Controller
             $report->update([
                 "url" => URL::full(),
                 "print_title"=> $page_title,
-                "branch" => auth()->user()->branch_
+                "branch" => auth()->user()->branch
 
             ]);
                 $codes= explode(',',$report->codes);
@@ -719,7 +719,7 @@ class accountingController extends Controller
             "user_id" => auth()->user()->code_,
             "action_name" => "الغاء تسديد الشحنات",
             "action_desc" =>  "الغاء تسديد شحنات مندوب التسديد",
-            "branch" => auth()->user()->branch_
+            "branch" => auth()->user()->branch
 
         ]);
             return response()->json([
@@ -827,7 +827,7 @@ class accountingController extends Controller
             $report->update([
                 "url" => URL::full(),
                 "print_title"=> $page_title,
-                "branch" => auth()->user()->branch_
+                "branch" => auth()->user()->branch
 
             ]);
             $codes= explode(',',$report->codes);
@@ -874,7 +874,7 @@ class accountingController extends Controller
             "user_id" => auth()->user()->code_,
             "action_name" => "تسديد مندوب استلام",
             "action_desc" =>  "تم تسديد شحنات مندوب استلام ",
-            "branch" => auth()->user()->branch_
+            "branch" => auth()->user()->branch
 
         ]);
             return response()->json([
@@ -986,7 +986,7 @@ class accountingController extends Controller
             $report->update([
                 "url" => URL::full(),
                 "print_title"=> $page_title,
-                "branch" => auth()->user()->branch_
+                "branch" => auth()->user()->branch
 
             ]);
             $codes= explode(',',$report->codes);
@@ -1033,7 +1033,7 @@ class accountingController extends Controller
             "user_id" => auth()->user()->code_,
             "action_name" => "الغاء تسديد الشحنات",
             "action_desc" =>  "الغاء تسديد شحنات مندوب استلام",
-            "branch" => auth()->user()->branch_
+            "branch" => auth()->user()->branch
 
         ]);
             return response()->json([

@@ -156,7 +156,7 @@ class PrintController extends Controller
         $report->update([
             "url" => URL::full(),
             "print_title"=> $page_title,
-            "branch" => auth()->user()->branch_
+            "branch" => auth()->user()->branch
 
         ]);
         $mpdf = PDF::loadView($printPage,$data);

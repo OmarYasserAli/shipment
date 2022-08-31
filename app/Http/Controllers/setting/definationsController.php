@@ -80,7 +80,7 @@ class definationsController extends Controller
                             "user_id" => auth()->user()->code_,
                             "action_name" => "تعديل بيانات الشركة",
                             "action_desc" => "تعديل بيانات الشركة",
-                            "branch" => auth()->user()->branch_
+                            "branch" => auth()->user()->branch
 
                         ]);
                         return redirect()->back()->with('status', 'تم تعديل الشركة');
@@ -103,7 +103,7 @@ class definationsController extends Controller
                             "user_id" => auth()->user()->code_,
                             "action_name" => " انشاء شركة",
                             "action_desc" =>  "تم تسجيل الشركة",
-                            "branch" => auth()->user()->branch_
+                            "branch" => auth()->user()->branch
 
                         ]);
                         return redirect()->back()->with('status', 'تم تسجيل الشركة');
@@ -141,7 +141,7 @@ class definationsController extends Controller
                 "user_id" => auth()->user()->code_,
                 "action_name" => " انشاء الفرع",
                 "action_desc" =>  " تم انشاء فرع جديد" . $br->code_ ,
-                "branch" => auth()->user()->branch_
+                "branch" => auth()->user()->branch
 
             ]);
                     return redirect()->back()->with('status', 'تم تسجيل الفرع');

@@ -39,6 +39,7 @@ Route::prefix('client')->group(function () {
 });
 
 Route::get('home-page','general\HomeController@HomePage');
+Route::get('daily-shipments','general\HomeController@dailyShipments');
 Route::get('shipments','general\HomeController@shipments');
 Route::post('shipments/update','general\HomeController@updateShipment');
 Route::post('shipments/store','general\HomeController@store');

@@ -30,7 +30,8 @@ class HomeController extends Controller
     public function index()
     {
        
-        $dailyShipments = Shipment::where('date_'  ,'>=',DATE( Carbon::now()->format('Y-m-d')))->where('branch_',auth()->user()->branch)->get();
+        $dailyShipments = Shipment::where('date_'  ,'>=',DATE( Carbon::now()->format('Y-m-d')))
+        ->where('branch_',auth()->user()->branch)->get();
         $dailyStatus    = Shipment::where('tarikh_el7ala'  ,'>=',DATE( Carbon::now()->format('Y-m-d')))
         ->where('tarikh_el7ala'  ,'<=',DATE( Carbon::now()->addDay(1)->format('Y-m-d')))
         ->where('Ship_area_',auth()->user()->branch)->select('Status_', DB::raw('count(*) as total'))->groupBy('Status_')->get()->pluck('total','Status_')->toArray();

@@ -109,7 +109,7 @@ class shipmentsController extends Controller
                "user_id" => auth()->user()->code_,
                "action_name" => "حذف شحنه",
                 "action_desc" =>  "  تم حذف شحنة رقم $code",
-                "branch" => auth()->user()->branch_
+                "branch" => auth()->user()->branch
             ]);
             return response()->json([
                 'success' => true,
@@ -275,7 +275,7 @@ class shipmentsController extends Controller
             $report->update([
              "url" => URL::full(),
                 "print_title"=> $page_title,
-                "branch" => auth()->user()->branch_
+                "branch" => auth()->user()->branch
 
          ]);
             $codes= explode(',',$report->codes);
@@ -429,7 +429,7 @@ class shipmentsController extends Controller
                 "user_id" => auth()->user()->code_,
                 "action_name" => "تحويل شحنات",
                 "action_desc" =>  "تحويل الشحنات فى المخزن ",
-                "branch" => auth()->user()->branch_
+                "branch" => auth()->user()->branch
             ]);
         }
         if($request->t7weel_to == 'شحنات واصل جزئى'){  //ta7wel sh7nat fel m5zn
@@ -439,17 +439,18 @@ class shipmentsController extends Controller
                 "user_id" => auth()->user()->code_,
                 "action_name" => "تحويل شحنات",
                 "action_desc" =>  "تحويل شحنات واصل جزئى ",
-                "branch" => auth()->user()->branch_
+                "branch" => auth()->user()->branch
             ]);
         }
         if($request->t7weel_to == 'شحنات الواصل'){
             $status=[1,4,6,10];
             $updated_array = ['status_'=>7,'tarikh_el7ala'=>Carbon::now()->format('Y-m-d  g:i:s A')];
+          
             UserHistory::create([
                 "user_id" => auth()->user()->code_,
                 "action_name" => "تحويل شحنات",
                 "action_desc" =>  "تحويل شحنات الواصل ",
-                "branch" => auth()->user()->branch_
+                "branch" => auth()->user()->branch
             ]);
         }
         if($request->t7weel_to == 'الشحنات لدى مندوب التسليم'){
@@ -480,7 +481,7 @@ class shipmentsController extends Controller
                 "user_id" => auth()->user()->code_,
                 "action_name" => "تحويل شحنات",
                 "action_desc" =>  "تحويل الشحنات لدى مندوب التسليم ",
-                "branch" => auth()->user()->branch_
+                "branch" => auth()->user()->branch
             ]);
               return response()->json([
                 'status' => 200,
@@ -497,11 +498,12 @@ class shipmentsController extends Controller
                                 ->whereIn('status_', $status)
                                 ->where('branch_', $user->branch)
                                 ->update($updated_array);
-            UserHistory::create([
+            
+                                UserHistory::create([
                 "user_id" => auth()->user()->code_,
                 "action_name" => "تحويل شحنات",
                 "action_desc" =>  "شحنات الراجع لدى العميل ",
-                "branch" => auth()->user()->branch_
+                "branch" => auth()->user()->branch
             ]);
                                 return response()->json([
                                   'status' => 200,
@@ -518,7 +520,7 @@ class shipmentsController extends Controller
                 "user_id" => auth()->user()->code_,
                 "action_name" => "تحويل شحنات",
                 "action_desc" =>  "الشحنات الراجعه فى المخزن ",
-                "branch" => auth()->user()->branch_
+                "branch" => auth()->user()->branch
             ]);
         }
         if($request->t7weel_to=='المؤجل'){  //ta7wel  mo2gl
@@ -528,7 +530,7 @@ class shipmentsController extends Controller
                 "user_id" => auth()->user()->code_,
                 "action_name" => "تحويل شحنات",
                 "action_desc" =>  "تحويل الشحنات المؤجل ",
-                "branch" => auth()->user()->branch_
+                "branch" => auth()->user()->branch
             ]);
        }
         $row = DB::table('add_shipment_tb_')
@@ -944,7 +946,7 @@ class shipmentsController extends Controller
                     "user_id" => auth()->user()->code_,
                     "action_name" => "تنفيذ استلام راجع",
                     "action_desc" =>  "تنفيذ استلام راجع",
-                    "branch" => auth()->user()->branch_
+                    "branch" => auth()->user()->branch
                 ]);
 
                     DB::commit();
@@ -1419,7 +1421,7 @@ class shipmentsController extends Controller
                 "user_id" => auth()->user()->code_,
                 "action_name" => "اضافة شحنة",
                 "action_desc" =>  " اضافة شحنة جديدة رقم".$shipment->code_,
-                "branch" => auth()->user()->branch_
+                "branch" => auth()->user()->branch
             ]);
 
         } catch (\Exception $e) {
@@ -1632,7 +1634,7 @@ class shipmentsController extends Controller
             "user_id" => auth()->user()->code_,
             "action_name" => "تعديل على شحنة",
             "action_desc" =>  " تم التعديل على شحنة رقم".$request->current_code,
-            "branch" => auth()->user()->branch_
+            "branch" => auth()->user()->branch
 
         ]);
 
@@ -1653,15 +1655,14 @@ class shipmentsController extends Controller
             $report = Print_report::where('id',$report)->first();
             $report->update([
                 "url" => URL::full(),
-                "branch" => auth()->user()->branch_
+                "branch" => auth()->user()->branch,
+                "print_title" => 'طباعه الايصالات'
 
             ]);
             $path= explode(',',$report->codes);
             $exp = array();
             $exp = array_merge($exp, $path);
         }
-
-
 
 
         $user=auth()->user();
@@ -1805,10 +1806,7 @@ class shipmentsController extends Controller
                 'title'=>$page_title,
                 'qrcode'  =>$qrNo
             ];
-//                  return view('shipments.print2',compact('allData','qrNo'));
-            //return view('shipments.print2' ,compact('all','title'));
-            // $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => [80, 236]]);
-            // $customPaper = array(0,0,567.00,283.80);
+
             $mpdf = PDF::loadView('shipments.print2',$data);//->setPaper($customPaper, 'landscape');;
             // $mpdf->AddPage('p','','','','',10,10,37,20,10,10);
             return $mpdf->stream('document.pdf');
@@ -1844,7 +1842,7 @@ class shipmentsController extends Controller
                 "user_id" => auth()->user()->code_,
                 "action_name" =>"تحويل حالة الشحنات باستخدام qr",
                 "action_desc" =>  "تحويل الشحنات فى المخزن ",
-                "branch" => auth()->user()->branch_
+                "branch" => auth()->user()->branch
             ]);
         }
         if($request->status==8){   //t7wel rag3 lada 3amel
@@ -1855,7 +1853,7 @@ class shipmentsController extends Controller
                 "user_id" => auth()->user()->code_,
                 "action_name" => "تحويل حالة الشحنات باستخدام qr",
                 "action_desc" =>  "تحويل الشحنات الراجع لدى العميل ",
-                "branch" => auth()->user()->branch_
+                "branch" => auth()->user()->branch
             ]);
         }
         if($request->status==9){   //t7wel rag3 lada m5zn
@@ -1866,7 +1864,7 @@ class shipmentsController extends Controller
                 "user_id" => auth()->user()->code_,
                 "action_name" => "تحويل حالة الشحنات باستخدام qr",
                 "action_desc" =>  "تحويل الشحنات راجع لدى المخزن ",
-                "branch" => auth()->user()->branch_
+                "branch" => auth()->user()->branch
             ]);
         }
         if($request->status==10){  //ta7wel sh7nat fel m5zn
@@ -1876,7 +1874,7 @@ class shipmentsController extends Controller
                 "user_id" => auth()->user()->code_,
                 "action_name" => "تحويل حالة الشحنات باستخدام qr",
                 "action_desc" =>  "تحويل الشحنات فى المخزن ",
-                "branch" => auth()->user()->branch_
+                "branch" => auth()->user()->branch
             ]);
         }
 

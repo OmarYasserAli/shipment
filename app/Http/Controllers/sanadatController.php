@@ -66,7 +66,7 @@ class sanadatController extends Controller
                 "user_id" => auth()->user()->code_,
                 "action_name" => "انشاء سند عميل",
                 "action_desc" =>  "  تم انشاء سند عميل الى".$model->name_,
-                "branch" => auth()->user()->branch_
+                "branch" => auth()->user()->branch
             ]);
         }
         if($request->mostafed_type =='مندوب'){
@@ -78,7 +78,7 @@ class sanadatController extends Controller
                 "user_id" => auth()->user()->code_,
                 "action_name" => "انشاء سند مندوب",
                 "action_desc" =>  "  تم انشاء سند مندوب الى".$model->name_,
-                "branch" => auth()->user()->branch_
+                "branch" => auth()->user()->branch
             ]);
         }
 
@@ -93,7 +93,7 @@ class sanadatController extends Controller
                 "user_id" => auth()->user()->code_,
                 "action_name" => "انشاء سند فرع",
                 "action_desc" =>  "  تم انشاء سند فرع الى".$model->name_,
-                "branch" => auth()->user()->branch_
+                "branch" => auth()->user()->branch
             ]);
         }
         if($request->mostafed_type =='اخرى'){
@@ -105,7 +105,7 @@ class sanadatController extends Controller
                 "user_id" => auth()->user()->code_,
                 "action_name" => "انشاء سند اخرى",
                 "action_desc" =>  "  تم انشاء سند اخرى الى".$model->name_,
-                "branch" => auth()->user()->branch_
+                "branch" => auth()->user()->branch
             ]);
           }
           if($request->mostafed_type =='مصاريف'){
@@ -117,7 +117,7 @@ class sanadatController extends Controller
                   "user_id" => auth()->user()->code_,
                   "action_name" => "انشاء سند عميل",
                   "action_desc" =>  "  تم انشاء سند مصاريف الى".$model->name_,
-                  "branch" => auth()->user()->branch_
+                  "branch" => auth()->user()->branch
               ]);
           }
         $sanad->code = (Sanad::orderBy('id' ,'desc')->first()->code)+1;

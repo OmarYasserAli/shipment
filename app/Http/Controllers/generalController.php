@@ -157,7 +157,7 @@ class generalController extends Controller
                 "user_id" => auth()->user()->code_,
                 "action_name" => "تغير فرع الادمن",
                 "action_desc" =>  "تم تغير فرع الادمن",
-                "branch" => auth()->user()->branch_
+                "branch" => auth()->user()->branch
             ]);
             return response()->json([
                 'status' => 200,

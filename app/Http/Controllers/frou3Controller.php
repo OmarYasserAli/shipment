@@ -184,7 +184,7 @@ class frou3Controller extends Controller
             $report->update([
                 "url" => URL::full(),
                 "print_title"=> $page_title,
-                "branch" => auth()->user()->branch_
+                "branch" => auth()->user()->branch
 
             ]);
             $codes= explode(',',$report->codes);
@@ -389,7 +389,7 @@ class frou3Controller extends Controller
             $report->update([
                 "url" => URL::full(),
                 "print_title"=> $page_title,
-                "branch" => auth()->user()->branch_
+                "branch" => auth()->user()->branch
 
             ]);
             $codes= explode(',',$report->codes);
@@ -645,9 +645,9 @@ class frou3Controller extends Controller
 
         UserHistory::create([
             "user_id" => auth()->user()->code_,
-            "action_name" => "تحويل الشحنات بين الفروع باستخدام qr ",
-            "action_desc" =>  "تحويل الشحنات بين الفروع باستخدام qr",
-            "branch" => auth()->user()->branch_
+            "action_name" => "تحويل الشحنات بين الفروع   ",
+            "action_desc" =>  "تحويل الشحنات بين الفروع  ",
+            "branch" => auth()->user()->branch
         ]);
               return response()->json([
                 'status' => 200,
@@ -770,35 +770,7 @@ class frou3Controller extends Controller
             $shipment->TRANSFERE_ACCEPT_REFUSE =1;
             $shipment->save();
 
-            // $sanad =new Sanad_far3();
-            // $shipment = Shipment::where('code_',$request->code)->first();
-            // $sanad->amount = $shipment->shipment_coast_  ;
-            // $sanad->code = $request->code   ;
-            // $sanad->type='صرف';
-            // $sanad->note='تحويل شحنة';
-
-            // $sanad2 =new Sanad_far3();
-            // $sanad2->amount = $shipment->shipment_coast_  ;
-            // $sanad2->code = $request->code   ;
-            // $sanad2->type='قبض';
-            // $sanad2->note='تحويل شحنة';
-
-            // if($shipment->transfere_2 == ''){
-            //     $sanad->far3_from  =  BranchInfo::where('name_',$shipment->branch_)->first()->code_ ;
-            //     $sanad->far3_id = BranchInfo::where('name_',$user->branch)->first()->code_;
-
-            //     $sanad2->far3_from = BranchInfo::where('name_',$user->branch)->first()->code_;
-            //     $sanad2->far3_id =  BranchInfo::where('name_',$shipment->branch_)->first()->code_ ;
-
-            // }else{
-            //     $sanad->far3_from  =  BranchInfo::where('name_',$shipment->transfere_1)->first()->code_ ;
-            //     $sanad->far3_id = BranchInfo::where('name_',$user->branch)->first()->code_;
-
-            //     $sanad2->far3_from = BranchInfo::where('name_',$user->branch)->first()->code_;
-            //     $sanad2->far3_id =  BranchInfo::where('name_',$shipment->transfere_1)->first()->code_ ;
-            // }
-            // $sanad->save() ;
-            // $sanad2->save() ;
+           
         }
         elseif($request->type=='cancel'){
             $shipment->first()->delete();
@@ -812,7 +784,13 @@ class frou3Controller extends Controller
 
         }
         if(isset($t2))
-         $t2->delete();
+        $t2->delete();
+        UserHistory::create([
+            "user_id" => auth()->user()->code_,
+            "action_name" => "اﻟﻣواﻓﻘﺔ ﻋﻠﻰ اﻟﺷﺣﻧﺎت اﻟواردة ﻣن اﻟﻔرع",
+            "action_desc" =>  "  تم اﻟﻣواﻓﻘﺔ ﻋﻠﻰ اﻟﺷﺣﻧﺎت اﻟواردة ﻣن اﻟﻔرع",
+            "branch" => auth()->user()->branch
+        ]);
     }
     public function accept_frou3_t7wel_qr_save(Request $request){
         //dd($request->all());
@@ -830,42 +808,12 @@ class frou3Controller extends Controller
         ->whereIN('code_',$request->code)
         ->delete();
 
-        // foreach($request->code as $code){
-        //     $sanad =new Sanad_far3();
-        //     $shipment = Shipment::where('code_',$code)->first();
-        //     $sanad->amount = $shipment->shipment_coast_  ;
-        //     $sanad->code = $code   ;
-        //     $sanad->type='صرف';
-        //     $sanad->note='تحويل شحنة';
-
-        //     $sanad2 =new Sanad_far3();
-        //     $sanad2->amount = $shipment->shipment_coast_  ;
-        //     $sanad2->code = $code;
-        //     $sanad2->type='قبض';
-        //     $sanad2->note='تحويل شحنة';
-
-        //     if($shipment->transfere_2 == ''){
-        //         $sanad->far3_from  =  BranchInfo::where('name_',$shipment->branch_)->first()->code_ ;
-        //         $sanad->far3_id = BranchInfo::where('name_',$user->branch)->first()->code_;
-
-        //         $sanad2->far3_from = BranchInfo::where('name_',$user->branch)->first()->code_;
-        //         $sanad2->far3_id =  BranchInfo::where('name_',$shipment->branch_)->first()->code_ ;
-
-        //     }else{
-        //         $sanad->far3_from  =  BranchInfo::where('name_',$shipment->transfere_1)->first()->code_ ;
-        //         $sanad->far3_id = BranchInfo::where('name_',$user->branch)->first()->code_;
-
-        //         $sanad2->far3_from = BranchInfo::where('name_',$user->branch)->first()->code_;
-        //         $sanad2->far3_id =  BranchInfo::where('name_',$shipment->transfere_1)->first()->code_ ;
-        //     }
-        //     $sanad->save() ;
-        //     $sanad2->save() ;
-        // }
+       
         UserHistory::create([
             "user_id" => auth()->user()->code_,
             "action_name" => "اﻟﻣواﻓﻘﺔ ﻋﻠﻰ اﻟﺷﺣﻧﺎت اﻟواردة ﻣن اﻟﻔرع",
             "action_desc" =>  "  تم اﻟﻣواﻓﻘﺔ ﻋﻠﻰ اﻟﺷﺣﻧﺎت اﻟواردة ﻣن اﻟﻔرع",
-            "branch" => auth()->user()->branch_
+            "branch" => auth()->user()->branch
         ]);
         return response()->json([
             'status' => 200,
@@ -999,7 +947,7 @@ class frou3Controller extends Controller
             "user_id" => auth()->user()->code_,
             "action_name" => "تحويل الشخنات رواجع",
             "action_desc" =>  "تحويل الشخنات رواجع",
-            "branch" => auth()->user()->branch_
+            "branch" => auth()->user()->branch
         ]);
         return ($this->frou3_t7wel_rag3_qr_save( $request));
     }
@@ -1115,7 +1063,7 @@ class frou3Controller extends Controller
             "user_id" => auth()->user()->code_,
             "action_name" => "تحويل الشحنات بين الفروع باستخدام qr",
             "action_desc" =>  "تحويل الشحنات بين الفروع باستخدام qr",
-            "branch" => auth()->user()->branch_
+            "branch" => auth()->user()->branch
         ]);
 
 
@@ -1230,44 +1178,12 @@ class frou3Controller extends Controller
             $shipment->TRANSFERE_ACCEPT_REFUSE =1;
             $shipment->save();
 
-        //     $sanad =new Sanad_far3();
-        //     $shipment = Tempo::where('code_',$request->code)->first();
 
-        //     $sanad->amount = $shipment->shipment_coast_  ;
-        //     $sanad->code = $request->code   ;
-        //     $sanad->type='قبض';
-        //     $sanad->note='تحويل راجع بين الفروع';
-
-        //     $sanad2 =new Sanad_far3();
-        //     $sanad2->amount = $shipment->shipment_coast_  ;
-        //     $sanad2->code = $request->code   ;
-        //     $sanad2->type='صرف';
-
-
-        //     if($shipment->transfere_2 == ''){
-        //         $sanad->far3_from  =  BranchInfo::where('name_',$shipment->branch_)->first()->code_ ;
-        //         $sanad->far3_id = BranchInfo::where('name_', $shipment->transfere_1)->first()->code_;
-
-        //         $sanad2->far3_from = BranchInfo::where('name_',$shipment->transfere_1)->first()->code_;
-        //         $sanad2->far3_id =  BranchInfo::where('name_', $shipment->branch_)->first()->code_ ;
-        //         $sanad2->note='1تحويل راجع بين الفروع';
-        //     }else{
-        //         $sanad->far3_from  =  BranchInfo::where('name_',$shipment->transfere_1)->first()->code_ ;
-        //         $sanad->far3_id = BranchInfo::where('name_',$shipment->transfere_2)->first()->code_;
-
-        //         $sanad2->far3_from = BranchInfo::where('name_',$shipment->transfere_2)->first()->code_;
-        //         $sanad2->far3_id =  BranchInfo::where('name_',$shipment->transfere_1)->first()->code_ ;
-
-        //         $sanad2->note='2تحويل راجع بين الفروع';
-        //     }
-
-        //     $sanad->save() ;
-        //     $sanad2->save() ;
             UserHistory::create([
                 "user_id" => auth()->user()->code_,
                 "action_name" => "الموافقة على تحويل رواجع الفروع",
                 "action_desc" =>  "الموافقة على تحويل رواجع الفروع",
-                "branch" => auth()->user()->branch_
+                "branch" => auth()->user()->branch
             ]);
         }
 
@@ -1337,7 +1253,7 @@ class frou3Controller extends Controller
             "user_id" => auth()->user()->code_,
             "action_name" => "اﻟﻣواﻓﻘﺔ ﻋﻠﻰ تحويل راجع بين الفروع",
             "action_desc" =>  "  تم اﻟﻣواﻓﻘﺔ ﻋﻠﻰ تحويل راجع بين الفروع",
-            "branch" => auth()->user()->branch_
+            "branch" => auth()->user()->branch
         ]);
          return response()->json([
              'status' => 200,
@@ -1522,7 +1438,7 @@ class frou3Controller extends Controller
             $report->update([
                 "url" => URL::full(),
                 "print_title"=> $page_title,
-                "branch" => auth()->user()->branch_
+                "branch" => auth()->user()->branch
 
             ]);
             $codes= explode(',',$report->codes);
@@ -1604,7 +1520,7 @@ class frou3Controller extends Controller
             "user_id" => auth()->user()->code_,
             "action_name" => "تسديد الشحنات",
             "action_desc" =>  "  تم اﻟﻣواﻓﻘﺔ ﻋﻠﻰ تسديد الشحنات",
-            "branch" => auth()->user()->branch_
+            "branch" => auth()->user()->branch
         ]);
             return response()->json([
                 'status' => 200,
@@ -1759,7 +1675,7 @@ class frou3Controller extends Controller
             $report->update([
                 "url" => URL::full(),
                 "print_title"=> $page_title,
-                "branch" => auth()->user()->branch_
+                "branch" => auth()->user()->branch
             ]);
             $codes= explode(',',$report->codes);
 
@@ -1840,7 +1756,7 @@ class frou3Controller extends Controller
             "user_id" => auth()->user()->code_,
             "action_name" => "الغاء تسديد الشحنات  ",
             "action_desc" =>  "  تم الغاء ﻋﻠﻰ تسديد الشحنات",
-            "branch" => auth()->user()->branch_
+            "branch" => auth()->user()->branch
         ]);
             return response()->json([
                 'status' => 200,

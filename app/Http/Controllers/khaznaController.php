@@ -49,7 +49,7 @@ class khaznaController extends Controller
             "user_id" => auth()->user()->code_,
             "action_name" =>'اضافة خزنة',
             "action_desc" => 'اضافة خزنة',
-            "branch" => auth()->user()->branch_
+            "branch" => auth()->user()->branch
         ]);
         return back()->with(['status' => 'تم اضافة الخزنة بنجاح']);
     }
@@ -73,7 +73,7 @@ class khaznaController extends Controller
             "user_id" => auth()->user()->code_,
             "action_name" =>'ربط مستخدم مع خزينة',
             "action_desc" =>  "  تم ربط مستخدم مع خزينة".$user->name_,
-            "branch" => auth()->user()->branch_
+            "branch" => auth()->user()->branch
         ]);
     }
 }
