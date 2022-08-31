@@ -121,11 +121,13 @@
                             <td  class="whitespace-nowrap " >{{$print->print_title ? $print->print_title : "لا يوجد"}}</td>
                             <td  class="whitespace-nowrap " >{{$print->created_at ? $print->created_at : "لا يوجد"}}</td>
                             <td  class="whitespace-nowrap " >
-                                @if(isset($print->url))
+                                @if(isset($print->url) &&  $print->url !='')
                                 <a href="{{$print->url}}" target="_blank" class="btn btn-success w-24 mt-5">طباعه</a>
                                 @else
-                                <a href="{{$print->route}}" target="_blank" class="btn btn-success w-24 mt-5">طباعه</a>
+                                <a href="{{route($print->route, ['pdf'=>1, 'report'=>$print->id])}}" target="_blank" class="btn btn-success w-24 mt-5">طباعه</a>
                                 @endif
+
+                                
                             </td>
 
 

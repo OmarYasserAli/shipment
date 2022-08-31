@@ -73,7 +73,7 @@
         <!-- END: Search -->
         <!-- BEGIN: Notifications -->
         <div class="intro-x dropdown mr-auto sm:mr-6">
-            <div class="dropdown-toggle notification notification--bullet cursor-pointer" role="button" aria-expanded="false" data-tw-toggle="dropdown"> <i data-lucide="bell" class="notification__icon dark:text-slate-500"></i> </div>
+            {{-- <div class="dropdown-toggle notification notification--bullet cursor-pointer" role="button" aria-expanded="false" data-tw-toggle="dropdown"> <i data-lucide="bell" class="notification__icon dark:text-slate-500"></i> </div>
             <div class="notification-content pt-2 dropdown-menu">
                 <div class="notification-content__box dropdown-content">
                     <div class="notification-content__title">Notifications</div>
@@ -95,7 +95,7 @@
                     
                    
                 </div>
-            </div>
+            </div> --}}
         </div>
         <!-- END: Notifications -->
         <!-- BEGIN: Account Menu -->
@@ -106,8 +106,8 @@
             <div class="dropdown-menu w-56">
                 <ul class="dropdown-content bg-primary text-white">
                     <li class="p-2">
-                        <div class="font-medium">Russell Crowe</div>
-                        <div class="text-xs text-white/70 mt-0.5 dark:text-slate-500">Backend Engineer</div>
+                        <div class="font-medium">{{auth()->user()->name_}}</div>
+                        <div class="text-xs text-white/70 mt-0.5 dark:text-slate-500">{{auth()->user()->branch}}</div>
                     </li>
                     <li>
                         <hr class="dropdown-divider border-white/[0.08]">
@@ -115,15 +115,11 @@
                     <li>
                         <a href="" class="dropdown-item hover:bg-white/5"> <i data-lucide="user" class="w-4 h-4 mr-2"></i> Profile </a>
                     </li>
-                    <li>
-                        <a href="" class="dropdown-item hover:bg-white/5"> <i data-lucide="edit" class="w-4 h-4 mr-2"></i> Add Account </a>
-                    </li>
+                    
                     <li>
                         <a href="" class="dropdown-item hover:bg-white/5"> <i data-lucide="lock" class="w-4 h-4 mr-2"></i> Reset Password </a>
                     </li>
-                    <li>
-                        <a href="" class="dropdown-item hover:bg-white/5"> <i data-lucide="help-circle" class="w-4 h-4 mr-2"></i> Help </a>
-                    </li>
+                 
                     <li>
                         <hr class="dropdown-divider border-white/[0.08]">
                     </li>
