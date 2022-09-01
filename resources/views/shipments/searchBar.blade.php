@@ -59,7 +59,7 @@
 
                         </div>
                         <div class="ml-6 items-end print-dev ">
-                            <a href="{{route("shiments.print")}}?pdf=1&code={{$shipment->code_}}" class="print">طباعة</a>
+                            <button type="button"  data-code ="{{$shipment->code_}}" id="print"  class="print">طباعة</button>
 
                         </div>
 
@@ -110,42 +110,68 @@
 
 
 </div>
-
 <script>
-    var  manteka =new TomSelect("#manteka",{
-	valueField: 'id',
-	labelField: 'title',
-	searchField: 'title',
-	create: false
-});
-$('#mo7afza').on('change', function() {
-        $('#data-error-mo7afza').hide();
-                  var mo7afza_id = this.value;
-                      $("#manteka").html('');
-                      if(mo7afza_id == '') return;
-                      $.ajax({
-                          url:"{{url('getManateqByMa7afza')}}?mo7afza="+mo7afza_id+"&bycode=1",
-                          type: "get",
-                          data: {
-                          },
-                          dataType : 'json',
-                          success: function(result){
-                              console.log(result.all)
-                          $('#manteka').prop('disabled', false);
-                          //$('#manteka').html('<option value="">...</option>');
-                          manteka.clearOptions();
-                          var temp = ''; var f=0;
-                          $.each(result.all,function(key,value){
-                                if(f==0   ){ f=1;  temp = value.code;  }
-                                manteka.addOption({
-                                    id: value.name,
-                                    title: value.name,
+    $(".print").click(function(){
 
-                                });
-                                manteka.setValue(temp);
-                            });
-                          }
-                      });
+        var codes=[];
+        codes.push($(this).data('code'));
+
+        $.ajax({
+            url:"{{route('save_print_report')}}",
+            type: "post",
+            data: {
+                'codes':codes,
+                'pdf' :1,
+                'save' :1,
+                '_token' :'{{csrf_token()}}'
+            },
+            success: function(result){
+                window.open("{{route("shiments.print")}}"+'?pdf=1&report='+result.id);
+            }
+        });
+
+        codes=[];
     });
+</script>
+<script>
+//     var  manteka =new TomSelect("#manteka",{
+// 	valueField: 'id',
+// 	labelField: 'title',
+// 	searchField: 'title',
+// 	create: false
+// });
+{{--$('#mo7afza').on('change', function() {--}}
+{{--        $('#data-error-mo7afza').hide();--}}
+{{--                  var mo7afza_id = this.value;--}}
+{{--                      $("#manteka").html('');--}}
+{{--                      if(mo7afza_id == '') return;--}}
+{{--                      $.ajax({--}}
+{{--                          url:"{{url('getManateqByMa7afza')}}?mo7afza="+mo7afza_id+"&bycode=1",--}}
+{{--                          type: "get",--}}
+{{--                          data: {--}}
+{{--                          },--}}
+{{--                          dataType : 'json',--}}
+{{--                          success: function(result){--}}
+{{--/*--}}
+{{--                              console.log(result.all)--}}
+{{--*/--}}
+{{--                          $('#manteka').prop('disabled', false);--}}
+{{--                          //$('#manteka').html('<option value="">...</option>');--}}
+{{--                          manteka.clearOptions();--}}
+{{--                          var temp = ''; var f=0;--}}
+{{--                          $.each(result.all,function(key,value){--}}
+{{--                                if(f==0   ){ f=1;  temp = value.code;  }--}}
+{{--                                manteka.addOption({--}}
+{{--                                    id: value.name,--}}
+{{--                                    title: value.name,--}}
+
+{{--                                });--}}
+{{--                                manteka.setValue(temp);--}}
+{{--                            });--}}
+{{--                          }--}}
+{{--                      });--}}
+{{--    });--}}
+
+
 </script>
 @endsection
