@@ -1572,7 +1572,7 @@ class shipmentsController extends Controller
     public function update(Request $request){
         $rules=[
             
-           'client_id' => 'required',
+           //'client_id' => 'required',
            'mo7afza' => 'required',
            //'manteka' => 'required',
            'date' => 'required',
@@ -1590,20 +1590,20 @@ class shipmentsController extends Controller
 //        $shipment->tarikh_el7ala   = $request->date;
         // $shipment->date_   = $request->date;
 
-        $shipment->client_ID_   = $request->client_id;
+       // $shipment->client_ID_   = $request->client_id;
         if(!Setting::get('shipment_code_ai'))
             $shipment->code_   = $request->code;
 
             // $shipment->serial_ 	 = $request->code;
-        $client = USer::where('code_',$request->client_id)->first();
-        $shipment->client_ID_   = $client->code_;
-        $shipment->client_name_   = $client->name_;
-        $shipment->clinet_phone_   = $client->phone_;
+        // $client = USer::where('code_',$request->client_id)->first();
+        // $shipment->client_ID_   = $client->code_;
+        // $shipment->client_name_   = $client->name_;
+        // $shipment->clinet_phone_   = $client->phone_;
         $shipment->reciver_name_   = $request->reciver_name_;
         $shipment->reciver_phone_   = $request->reciver_phone_;
-        if(isset($request->Commercial_name)){
-           $shipment->Commercial_name_ = $request->Commercial_name;
-        }
+        // if(isset($request->Commercial_name)){
+        //    $shipment->Commercial_name_ = $request->Commercial_name;
+        // }
 
         $shipment->mo7afza_=$request->mo7afza;
         $mo7afzaCode=Mohfza::where('name',$request->mo7afza)->first()->code;

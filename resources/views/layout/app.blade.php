@@ -181,6 +181,8 @@
                     $('html').removeClass('light').addClass( 'dark' );
                     $('#darkBTN').prop('checked', true);
                     $('.flex.h-12.pt-3.rounded ').addClass('dark-bar')
+                   
+                    $('input:checkbox').css('background-color','#232d45a1')
                 }
 
             }
