@@ -55,7 +55,7 @@
                                     @endif
                                     <div class="form-inline mt-3">
                                         <label for="3amil-name" class="form-label sm:w-20">اسم العميل</label>
-                                        <select class="form-control client_id " id='client_id' name="client_id">
+                                        <select class="form-control client_id " id='client_id' name="client_id" disabled>
                                             @foreach ($clients as $client)
                                              <option value="{{$client->code_}}" @if($client->code_ == $shipment->client_ID_) selected @endif>{{$client->name_}}</option>
                                              @endforeach
@@ -66,7 +66,7 @@
                                     </div>
                                     <div class="form-inline mt-3">
                                         <label for="commercial-name" class="form-label sm:w-20 ">الاسم التجارى</label>
-                                        <select class="Commercial_name form-control" id='Commercial_name' name="Commercial_name" >
+                                        <select class="Commercial_name form-control" id='Commercial_name' name="Commercial_name" disabled>
                                         </select>
                                         <input type="hidden" id="Commercial_name_tmp" value="{{$shipment->commercial_name_}}">
                                     </div>

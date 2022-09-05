@@ -33,17 +33,17 @@
                         @csrf
                     <div>
                         <label for="change-password-form-1" class="form-label">كلمة المرور الحالية</label>
-                        <input id="change-password-form-1" type="password" name="old_password" class="form-control" placeholder="Input text">
+                        <input id="change-password-form-1" type="password" name="old_password" class="form-control" placeholder="">
                     </div>
                     <div class="mt-3">
                         <label for="change-password-form-2" class="form-label">كلمة المرور الجديد</label>
-                        <input id="change-password-form-2" name="password" type="password" class="form-control" placeholder="Input text">
+                        <input id="change-password-form-2" name="password" type="password" class="form-control" placeholder="">
                     </div>
                     <div class="mt-3">
                         <label for="change-password-form-3"  class="form-label">تاكيد كلمة المرور</label>
-                        <input id="change-password-form-3" name="confirm_password" type="password" class="form-control" placeholder="Input text">
+                        <input id="change-password-form-3" name="confirm_password" type="password" class="form-control" placeholder="">
                     </div>
-                    <button type="submit" class="btn btn-primary mt-4">Change Password</button>
+                    <button type="submit" class="btn btn-primary mt-4">حفظ</button>
                     </form>
                 </div>
             </div>

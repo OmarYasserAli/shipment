@@ -179,8 +179,8 @@
                 </div>
             </form>
             <div class="overflow-x-auto mt-5">
-                <table class="table table-striped" id="dataTable">
-                    <thead class="table-light">
+                <table class="table table" id="dataTable">
+                    <thead class="table-dark">
                         <tr>
 
                             <th class="whitespace-nowrap">#</th>

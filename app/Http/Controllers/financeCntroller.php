@@ -118,9 +118,10 @@ class financeCntroller extends Controller
             $date_to = new Carbon(request()->date_to);
             $date_to =  $date_to ->addDays(1)->format('y-m-d');
         }
-
-        if(isset(request()->type)){
-            if(request()->type =='عميل'){
+        $sanadat_code ='';
+        $total_safi =0;
+        if(1){
+            if(request()->type =='عميل' || !isset(request()->type)){
                 if(isset($request->owner))
                 {
                     $sanadat = Sanad_3amil::where('client_id',  $request->owner);
@@ -134,10 +135,13 @@ class financeCntroller extends Controller
 
                 $sanadat =$sanadat->whereBetween('created_at', [ $date_from,  $date_to])->orderBy('created_at');
                 $safi7sab =$this->hesabNet( $sanadatNet,$date_from, request()->is_solfa);
+                $t=$sanadat;
+                $sanadat_code.=implode(",",$t->get()->pluck('code')->toArray()).',';
+                $total_safi+= $safi7sab;
                 if(isset($request->owner))
                 $owner = User::where('code_',$request->owner)->first()->name_;
             }
-            if(request()->type =='مندوب'){
+            if(request()->type =='مندوب' || !isset(request()->type)){
                 if(isset($request->owner))
                 {
                     $sanadat = Sanad_taslim::where('mandoub_id',  $request->owner);
@@ -150,10 +154,13 @@ class financeCntroller extends Controller
                 }
                 $sanadat = $sanadat->whereBetween('created_at', [ $date_from,  $date_to])->orderBy('created_at');
                 $safi7sab =$this->hesabNet($sanadatNet,$date_from, request()->is_solfa);
+                $t=$sanadat;
+                $sanadat_code.=implode(",",$t->get()->pluck('code')->toArray()).',';
+                $total_safi+= $safi7sab;
                 if(isset($request->owner))
                     $owner = User::where('code_',$request->owner)->first()->name_;
             }
-            if(request()->type =='فرع'){
+            if(request()->type =='فرع' || !isset(request()->type)){
                 $user = auth()->user();
                 $far3= BranchInfo::where('name_',$user->branch)->first();
                 $far3_from =$far3->code_;
@@ -169,12 +176,14 @@ class financeCntroller extends Controller
                 }
                 //$q = Sanad_far3::where('far3_id',  $request->owner)->where('far3_from',   $far3_from);
                 $sanadat= $sanadat->whereBetween('created_at', [ $date_from,  $date_to])->orderBy('created_at');
-
+                $t=$sanadat;
+                $sanadat_code.=implode(",",$t->get()->pluck('code')->toArray()).',';
                 $safi7sab =$this->hesabNet($sanadatNet,$date_from , request()->is_solfa);
+                $total_safi+= $safi7sab;
                 if(isset($request->owner))
                     $owner = BranchInfo::where('code_',$request->owner)->first()->name_;
             }
-            if(request()->type =='مصاريف'){
+            if(request()->type =='مصاريف' || !isset(request()->type)){
                 if(isset($request->owner))
                 {
                     $q = Sanad_masaref::where('masaref_id',  $request->owner);
@@ -189,10 +198,13 @@ class financeCntroller extends Controller
 
                 $sanadat= $q->whereBetween('created_at', [ $date_from,  $date_to])->orderBy('created_at');
                 $safi7sab =$this->hesabNet($qNet,$date_from , request()->is_solfa);
+                $t=$sanadat;
+                $sanadat_code.=implode(",",$t->get()->pluck('code')->toArray()).',';
+                $total_safi+= $safi7sab;
                  if(isset($request->owner))
                 $owner = Masaref::where('code_',$request->owner)->first()->name_;
             }
-            if(request()->type =='اخرى'){
+            if(request()->type =='اخرى' || !isset(request()->type)){
                 if(isset($request->owner))
                 {
                     $q = Sanad_o5ra::where('o5ra_id',  $request->owner);
@@ -206,6 +218,9 @@ class financeCntroller extends Controller
                 
                 $sanadat= $q->whereBetween('created_at', [ $date_from,  $date_to])->orderBy('created_at');
                 $safi7sab =$this->hesabNet($qNet,$date_from, request()->is_solfa);
+                $t=$sanadat;
+                $sanadat_code.=implode(",",$t->get()->pluck('code')->toArray()).',';
+                $total_safi+= $safi7sab;
                 if(isset($request->owner))
                     $owner = O5ra_7sabat::where('code_',$request->owner)->first()->name_;
             }
@@ -214,12 +229,17 @@ class financeCntroller extends Controller
             }
             $type7sab= request()->type;
 
-        }else{
-            $sanadat = Sanad::whereBetween('created_at', [ $date_from,  $date_to])->orderBy('created_at');
+        }
+        if(!isset(request()->type)){
+            $sanadat_code = (explode(',',$sanadat_code));
+            $sanadat = Sanad::whereIN('code', $sanadat_code)->orderBy('created_at');
             if( isset(request()->is_solfa) ){
                 $sanadat=$sanadat->where('is_solfa', request()->is_solfa);
             }
-             $safi7sab =$this->hesabNet( Sanad::where('id','!=',0),$date_from, request()->is_solfa);
+           // dd(Sanad::where('id','!=',0)->whereIN('code', $sanadat_code)->get());
+            //  $safi7sab =$this->hesabNet( Sanad::where('id','!=',0)->whereIN('code', $sanadat_code),$date_from, request()->is_solfa,1);
+             $safi7sab=  $total_safi;
+             
         }
         $sanadat=$sanadat->get();
         $page_title='كشف حساب';
@@ -365,6 +385,7 @@ class financeCntroller extends Controller
                 $net-=$sanad->amount ;
 
         }
+       
         return $net;
     }
 

@@ -1,6 +1,6 @@
 <div class="top-bar">
     <!-- BEGIN: Breadcrumb -->
-    <nav aria-label="breadcrumb" class="-intro-x  hidden sm:flex" style="width: 100%; align-items:center;">
+    <nav aria-label="breadcrumb" class="-intro-x  hidden sm:flex" style="width: 60%; align-items:center;">
 
         <div class="search  sm:block " style="float: right;">
 
@@ -21,7 +21,7 @@
              $superUserBranch = App\Models\BranchInfo::all();
          @endphp
         <div class="flex">
-            <label style="width: 100px; margin-top:8px;">الفرع الحالي</label>
+            <label style="width: 120px; margin-top:8px; margin-right:10px;">الفرع الحالي</label>
             <select name="" id="current_branch" class="rounded form-control">
                @foreach ($superUserBranch as $item)
                    <option value="{{$item->name_}}" @if(auth()->user()->branch == $item->name_) selected @endif>{{$item->name_}}</option>
@@ -73,7 +73,7 @@
         <!-- END: Search -->
         <!-- BEGIN: Notifications -->
         <div class="intro-x dropdown mr-auto sm:mr-6">
-            {{-- <div class="dropdown-toggle notification notification--bullet cursor-pointer" role="button" aria-expanded="false" data-tw-toggle="dropdown"> <i data-lucide="bell" class="notification__icon dark:text-slate-500"></i> </div>
+            <div class="dropdown-toggle notification notification--bullet cursor-pointer" role="button" aria-expanded="false" data-tw-toggle="dropdown"> <i data-lucide="bell" class="notification__icon dark:text-slate-500"></i> </div>
             <div class="notification-content pt-2 dropdown-menu">
                 <div class="notification-content__box dropdown-content">
                     <div class="notification-content__title">Notifications</div>
@@ -95,7 +95,7 @@
 
 
                 </div>
-            </div> --}}
+            </div>
         </div>
         <!-- END: Notifications -->
         <!-- BEGIN: Account Menu -->

@@ -31,6 +31,22 @@
                 font-family: 'Cairo', sans-serif !important;
 
             }
+            .new-dark{
+               
+              background: white !important;
+              color: black !important;
+            }
+            .dark-bar{
+              background-color: #1b253b !important; 
+              opacity: 1;
+              position: fixed;
+              bottom: 0px;
+              z-index: 999;
+              width: 79%;
+            }
+            .dark-bar input{
+              background: #1b253b;
+            }
             .switch {
                 position: relative;
                 display: inline-block;
@@ -140,16 +156,31 @@
 
                     sessionStorage.setItem("darkMode", 0);
                     $('html').removeClass('dark').addClass( 'light' );
+                    $('.flex.h-12.pt-3.rounded ').removeClass('dark-bar')
                 }else{
                     sessionStorage.setItem("darkMode", 1)
                     $('html').removeClass('light').addClass( 'dark' );
+
+
+
+
+                    $('.flex.h-12.pt-3.rounded ').addClass('dark-bar')
+
                 }
             }
 
             function getMode(){
+              $('#dataTable').removeClass('table-striped').addClass( 'table-dark' );
+
+              
+              $('thead').removeClass  ('table-light');
+              $('tbody').addClass('new-dark');
+
+              
                 if(sessionStorage.getItem("darkMode") == 1){
                     $('html').removeClass('light').addClass( 'dark' );
                     $('#darkBTN').prop('checked', true);
+                    $('.flex.h-12.pt-3.rounded ').addClass('dark-bar')
                 }
 
             }

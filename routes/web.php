@@ -249,6 +249,7 @@ Route::post('/permissions/store', 'permissionController@store')->name('permissio
 
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/chat', 'chatController@index')->name('chat');
 
 
 Route::group(['middleware' => ['guest']], function () {

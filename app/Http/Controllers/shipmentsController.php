@@ -1570,14 +1570,19 @@ class shipmentsController extends Controller
         // استقطاع تانى  => transfere_cost_2
     }
     public function update(Request $request){
+        $rules=[
+            
+           'client_id' => 'required',
+           'mo7afza' => 'required',
+           //'manteka' => 'required',
+           'date' => 'required',
+        ];
 
-        $validated = $request->validate([
-             'code' => 'required',
-            'client_id' => 'required',
-            'mo7afza' => 'required',
-            //'manteka' => 'required',
-            'date' => 'required',
-        ]);
+        if(!Setting::get('shipment_code_ai')){
+            $rules['code'] = 'required';
+          
+        }
+        $validated = $request->validate($rules);
         //  dd($request->all());
         $user= auth()->user();
         $shipment = Shipment::where('code_',$request->current_code)->first();
