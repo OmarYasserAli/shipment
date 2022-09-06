@@ -193,16 +193,16 @@
               $('tbody').addClass('new-dark');
 
               
-                if(sessionStorage.getItem("darkMode") == 1){
+                @if(session('darkmode') == 1 )
                     //$('html').removeClass('light').addClass( 'dark' );
                    // $('#darkBTN').prop('checked', true);
                     $('.flex.h-12.pt-3.rounded ').addClass('dark-bar')
                     $('input:checkbox').addClass('chk-box');
                     //$('input:checkbox').css('background-color','#232d45a1').css('border','1px solid blue')
-                }
-                else{
+                
+                @else
                   $('input:checkbox').removeClass('chk-box');
-                }
+                @endif
 
                
 
