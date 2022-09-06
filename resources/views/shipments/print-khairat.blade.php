@@ -23,7 +23,7 @@
         }
          .fatoora th{
             width: 30%;
-            font-size: 15px;
+            font-size: 13px;
             font-weight: bold;
 
          }
@@ -37,7 +37,7 @@
         }
         .fatoora td {
             text-align: right !important;
-            font-size: 15px;
+            font-size: 13px;
     font-weight: bold;
         }
         .invoice-box {
@@ -179,7 +179,7 @@
         <td style="text-align: left;">{{$all[$i]->date_}}</td>
     </tr>
         @endif
-        @if(isset($all[$i]->commercial_name)&& $all[$i]->commercial_name_ != '')
+        @if(isset($all[$i]->commercial_name_)&& $all[$i]->commercial_name_ != '')
     <tr>
         <th>اسم التجاري:</th>
         <td style="text-align: left;">{{$all[$i]->commercial_name_}}</td>

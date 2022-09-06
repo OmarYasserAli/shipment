@@ -168,5 +168,25 @@ class generalController extends Controller
     }
 
 
+    public function toggleDarkMode(){
+       
+        if(session('darkmode') == 1 ){
+            session(['darkmode' => 0]);
+            return response()->json([
+                'darkmode' => 0,
+
+            ], 200);
+        }else{
+           
+            session(['darkmode' => 1]);
+           // dd(session('darkmode'));
+            return response()->json([
+                'darkmode' => 1,
+
+            ], 200);
+        }
+    }
+
+
 
 }

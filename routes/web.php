@@ -41,8 +41,10 @@ Route::get('/getCommertialnameBy3amil', 'generalController@getCommertialnameBy3a
     ->name('getCommertialnameBy3amil');
 Route::get('/getTawsilByManteka', 'generalController@getTawsilByManteka')
     ->name('getTawsilByManteka');
-    Route::get('/changeAdminBranch', 'generalController@changeAdminBranch')
+Route::get('/changeAdminBranch', 'generalController@changeAdminBranch')
     ->name('changeAdminBranch');
+    Route::get('/toggole-dark-mode', 'generalController@toggleDarkMode')
+    ->name('toggleDarkMode');
 
     Route::get('/tas3ir/3amil-5as', 'tas3irController@tas3ir_3amil_5as')->name('tas3ir.3amil_5as');
 Route::post('/tas3ir/save-3amel', 'tas3irController@save_3amel')->name('save_tas3ir_3amel');

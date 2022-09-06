@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html lang="en" class="light">
+<html lang="en" class="@if(session('darkmode')) dark @else light @endif ">
 
     <!-- BEGIN: Head -->
     <head>
@@ -145,7 +145,7 @@
         <div data-url="side-menu-dark-dashboard-overview-1.html" class="cursor-pointer shadow-md fixed bottom-0 left-0 box border rounded-full w-40 h-12 flex items-center justify-center z-50 mb-10 mr-10">
             <div class="mr-4 text-slate-600 dark:text-slate-200">Dark Mode</div>
             <label class="switch">
-                <input type="checkbox" onclick="toggleDarkMode()" id='darkBTN' >
+                <input type="checkbox" onclick="toggleDarkMode()" id='darkBTN' @if(session('darkmode')) checked  @endif >
                 <span class="slider round"></span>
               </label>
         </div>
@@ -163,36 +163,39 @@
         <script>
             getMode()
 
-
+            var dMode=0;
             function toggleDarkMode(){
-                if(sessionStorage.getItem("darkMode") == 1){
+              $.ajax({
 
+                url:"{{route('toggleDarkMode')}}",
+                type: "get",
+                success: function(result){
+                  dMode = result.darkmode ;
+                if(dMode == 0){
                     sessionStorage.setItem("darkMode", 0);
                     $('html').removeClass('dark').addClass( 'light' );
                     $('.flex.h-12.pt-3.rounded ').removeClass('dark-bar')
                 }else{
                     sessionStorage.setItem("darkMode", 1)
                     $('html').removeClass('light').addClass( 'dark' );
-
-
-
-
                     $('.flex.h-12.pt-3.rounded ').addClass('dark-bar')
-
                 }
+              }
+                });
+              
+                
             }
 
             function getMode(){
               $('#dataTable').removeClass('table-striped').addClass( 'table-dark' );
 
-              
               $('thead').removeClass  ('table-light');
               $('tbody').addClass('new-dark');
 
               
                 if(sessionStorage.getItem("darkMode") == 1){
-                    $('html').removeClass('light').addClass( 'dark' );
-                    $('#darkBTN').prop('checked', true);
+                    //$('html').removeClass('light').addClass( 'dark' );
+                   // $('#darkBTN').prop('checked', true);
                     $('.flex.h-12.pt-3.rounded ').addClass('dark-bar')
                     $('input:checkbox').addClass('chk-box');
                     //$('input:checkbox').css('background-color','#232d45a1').css('border','1px solid blue')
