@@ -1811,8 +1811,9 @@ class shipmentsController extends Controller
                 'title'=>$page_title,
                 'qrcode'  =>$qrNo
             ];
+                $printView = Setting::get('wasl-name');
 
-            $mpdf = PDF::loadView('shipments.print2',$data);//->setPaper($customPaper, 'landscape');;
+            $mpdf = PDF::loadView("shipments.{$printView}",$data);//->setPaper($customPaper, 'landscape');;
             // $mpdf->AddPage('p','','','','',10,10,37,20,10,10);
             return $mpdf->stream('document.pdf');
         }

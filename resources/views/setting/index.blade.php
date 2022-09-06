@@ -67,6 +67,7 @@
                                     <form method="post" action="{{ route('settings.store') }}" role="form">
                                {!! csrf_field() !!}
                                 @foreach($settings as $setting)
+                                    @if(!$setting->visable) @continue @endif
                                     @if($setting->name=='status_css_prop' ||  $setting->type=='checkbox') @continue @endif
                                         <div class=" mt-3">
                                             <label for="regular-form-1" class="form-label" style="width: 150px;">{{$setting->read_name}}</label>
@@ -82,6 +83,7 @@
                                     </select>
                                 </div>
                                 @foreach($settings as $setting)
+                                @if(!$setting->visable) @continue @endif
                                 @if($setting->name=='status_css_prop' ||  $setting->type !='checkbox') @continue @endif
                                 <div class=" mt-3">
                                     <label for="regular-form-1" class="form-label" style="width: 150px;">{{$setting->read_name}}</label>
