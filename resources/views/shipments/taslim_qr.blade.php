@@ -166,18 +166,24 @@
             </div>
 
         <script type="text/javascript">
-        $('#print').on('click', function(){
-            window.open("{{route('shipment.taslim_qr_save')}}"+'?pdf=1&codes='+shipments);
-                    // $.ajax({
-                    //     url: "{{route('shipment.taslim_qr_save')}}?pdf=1" ,
-                    //     type: 'post',
-                    //     data:{ code:shipments, status:current_status, _token: "{{ csrf_token() }}"},
-                    //     error: function(e){
-                    //     },
-                    //     success: function(res) {
-                    //     }
-                    // });
-            });
+           $('#print').on('click', function(){
+                
+                $.ajax({
+                            url:"{{route('save_print_report')}}",
+                            type: "post",
+                            data: {
+                                'codes':shipments,
+                                'pdf' :1,
+                                'save' :1,
+                                '_token' :'{{csrf_token()}}'
+                            },
+                            success: function(result){
+                                window.open("{{route('shipment.taslim_qr_save')}}"+'?pdf=1&report='+result.id+'');
+                               // window.open(window.location.href.split('?')[0]+'?pdf=1&report='+result.id+'');
+                            }
+                        });
+                });
+ 
             let  shipments=[];
             let  selected=[];
             let cnt=1;

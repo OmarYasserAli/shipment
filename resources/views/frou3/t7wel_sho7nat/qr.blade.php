@@ -165,9 +165,23 @@
 
         <script type="text/javascript">
            $('#print').on('click', function(){
-            window.open("{{route('frou3_t7wel_sho7nat_qr_save')}}"+'?pdf=1&codes='+shipments);
-            
-            });
+                
+                $.ajax({
+                            url:"{{route('save_print_report')}}",
+                            type: "post",
+                            data: {
+                                'codes':shipments,
+                                'pdf' :1,
+                                'save' :1,
+                                '_token' :'{{csrf_token()}}'
+                            },
+                            success: function(result){
+                                window.open("{{route('frou3_t7wel_sho7nat_qr_save')}}"+'?pdf=1&report='+result.id+'');
+                               // window.open(window.location.href.split('?')[0]+'?pdf=1&report='+result.id+'');
+                            }
+                        });
+                });
+           
             let  shipments=[];
             let  selected=[];
             let cnt=1;

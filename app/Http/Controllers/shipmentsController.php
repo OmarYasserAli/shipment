@@ -1809,7 +1809,8 @@ class shipmentsController extends Controller
             $data = [
                 'all'=>$allData,
                 'title'=>$page_title,
-                'qrcode'  =>$qrNo
+                'qrcode'  =>$qrNo,
+                
             ];
                 $printView = Setting::get('wasl-name');
 
@@ -1883,10 +1884,22 @@ class shipmentsController extends Controller
                 "branch" => auth()->user()->branch
             ]);
         }
-
-
+        
+        $page_title = "تحويل حالة الشحنات باستخدام qr";
         if(isset(request()->pdf)){
-            $codes= explode(',',$request->codes);
+            
+            if(!isset(request()->report)) return false;
+            $report = request()->report;
+            $report = Print_report::where('id',$report)->first();
+            $report->update([
+             "url" => URL::full(),
+                "print_title"=> $page_title,
+                "branch" => auth()->user()->branch
+
+         ]);
+            $codes= explode(',',$report->codes);
+           
+
             $all = DB::table('add_shipment_tb_')
               ->whereIn('code_', $codes)->get();
             $totalCost = $all->sum('shipment_coast_');
@@ -1900,7 +1913,8 @@ class shipmentsController extends Controller
             $data = [
                 'all'=>$all,
                 'title'=>'تحويل حالة الشحنات باستخدام qr',
-                'sum'=>$sums
+                'sum'=>$sums,
+                'report_num' => $report->id
             ];
 
             $mpdf = PDF::loadView('shipments.print',$data);
@@ -1928,12 +1942,22 @@ class shipmentsController extends Controller
     {
         $status=array(1);
         $user = $user = auth()->user();
-        $codes= explode(',',$request->codes);
-
+       
+        $page_title='تسليم الشحنة الى مندوب تسليم qr';
         if(isset(request()->pdf)){
+            if(!isset(request()->report)) return false;
+            $report = request()->report;
+            $report = Print_report::where('id',$report)->first();
+            $report->update([
+             "url" => URL::full(),
+                "print_title"=> $page_title,
+                "branch" => auth()->user()->branch
+
+         ]);
+         $codes= explode(',',$report->codes);
             $all =  DB::table('add_shipment_tb_')
             ->whereIn('add_shipment_tb_.code_', $codes)
-            ->whereIN('add_shipment_tb_.status_',[ 1,4])
+            ->whereIN('add_shipment_tb_.status_',[ 1,4,10])
             ->get();
             $totalCost = $all->sum('shipment_coast_');
 
@@ -1946,7 +1970,8 @@ class shipmentsController extends Controller
             $data = [
                 'all'=>$all,
                 'title'=>'تسليم الشحنة الى مندوب التسليم باستخدام qr',
-                'sum'=>$sums
+                'sum'=>$sums,
+                'report_num' => $report->id
             ];
 
             $mpdf = PDF::loadView('shipments.print_mandoub_taslim',$data);

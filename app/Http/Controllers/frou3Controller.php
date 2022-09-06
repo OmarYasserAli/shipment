@@ -546,10 +546,21 @@ class frou3Controller extends Controller
     }
     public function frou3_t7wel_sho7nat_qr_save(Request $request){
         $user = $user = auth()->user();
-
+        $page_title = 'تحويل الشحنات بين الفروع باستخدام qr';
         $status=array(1);
         if(isset(request()->pdf)){
-            $codes= explode(',',$request->codes);
+           
+                if(!isset(request()->report)) return false;
+                $report = request()->report;
+                $report = Print_report::where('id',$report)->first();
+                $report->update([
+                 "url" => URL::full(),
+                    "print_title"=> $page_title,
+                    "branch" => auth()->user()->branch
+    
+             ]);
+             $codes= explode(',',$report->codes);
+            
             $all =  DB::table('add_shipment_tb_')
             ->whereIn('add_shipment_tb_.code_', $codes)
             ->whereIN('add_shipment_tb_.status_',$status)
@@ -565,7 +576,8 @@ class frou3Controller extends Controller
             $data = [
                 'all'=>$all,
                 'title'=>'تحويل الشحنات بين الفروع باستخدام qr',
-                'sum'=>$sums
+                'sum'=>$sums,
+                'report_num' => $report->id
             ];
 
             $mpdf = PDF::loadView('shipments.print',$data);
@@ -964,9 +976,19 @@ class frou3Controller extends Controller
     }
     public function frou3_t7wel_rag3_qr_save(Request $request){
         $status=array(9);
-
+        $page_title= 'تحويل الراجع بين الفروع باستخدام qr';
         if(isset(request()->pdf)){
-            $codes= explode(',',$request->codes);
+            if(!isset(request()->report)) return false;
+            $report = request()->report;
+            $report = Print_report::where('id',$report)->first();
+            $report->update([
+             "url" => URL::full(),
+                "print_title"=> $page_title,
+                "branch" => auth()->user()->branch
+
+         ]);
+         $codes= explode(',',$report->codes);
+           
             $all =  DB::table('add_shipment_tb_')
             ->whereIn('add_shipment_tb_.code_', $codes)
             ->whereIN('add_shipment_tb_.status_',$status)
@@ -983,7 +1005,8 @@ class frou3Controller extends Controller
             $data = [
                 'all'=>$all,
                 'title'=>'تحويل الراجع بين الفروع باستخدام qr',
-                'sum'=>$sums
+                'sum'=>$sums,
+                'report_num' => $report->id
             ];
 
             $mpdf = PDF::loadView('shipments.print',$data);
