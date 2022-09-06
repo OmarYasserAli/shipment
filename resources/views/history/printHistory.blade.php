@@ -123,8 +123,10 @@
                             <td  class="whitespace-nowrap " >
                                 @if(isset($print->url) &&  $print->url !='')
                                 <a href="{{$print->url}}" target="_blank" class="btn btn-success w-24 mt-5">طباعه</a>
-                                @else
+                                @elseif(isset($print->route) &&  $print->route !='')
                                 <a href="{{route($print->route, ['pdf'=>1, 'report'=>$print->id])}}" target="_blank" class="btn btn-success w-24 mt-5">طباعه</a>
+                                @else
+                                    الرابط غير متوفر
                                 @endif
 
                                 

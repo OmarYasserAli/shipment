@@ -31,6 +31,19 @@
                 font-family: 'Cairo', sans-serif !important;
 
             }
+            .chk-box{
+                  
+                  background-color :#232d45a1;
+                 
+                }
+
+            .chk-box:checked {
+              
+                padding: 6px;
+              
+               outline: 2px solid rgb(0, 0, 135);
+                outline-offset:1px;
+            }
             .new-dark{
                
               background: white !important;
@@ -181,9 +194,14 @@
                     $('html').removeClass('light').addClass( 'dark' );
                     $('#darkBTN').prop('checked', true);
                     $('.flex.h-12.pt-3.rounded ').addClass('dark-bar')
-                   
-                    $('input:checkbox').css('background-color','#232d45a1')
+                    $('input:checkbox').addClass('chk-box');
+                    //$('input:checkbox').css('background-color','#232d45a1').css('border','1px solid blue')
                 }
+                else{
+                  $('input:checkbox').removeClass('chk-box');
+                }
+
+               
 
             }
         </script>
