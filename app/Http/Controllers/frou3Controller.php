@@ -742,21 +742,46 @@ class frou3Controller extends Controller
        $branches =BranchInfo::all();
        $mo7afazat =Mohfza::where('branch',$user->branch)->get();
        if(isset(request()->pdf)){
-        //return view('shipments.print' , compact('all'));
-        $totalCost = $all->sum('shipment_coast_');
+        if(isset(request()->qr)){
+            if(!isset(request()->report)) return false;
+            $report = request()->report;
+            $report = Print_report::where('id',$report)->first();
+            $report->update([
+                "url" => URL::full(),
+                "print_title"=> $page_title,
+                "branch" => auth()->user()->branch
+
+            ]);
+            $codes= explode(',',$report->codes);
+        
+            $all =  DB::table('add_shipment_tb_')
+            ->whereIn('add_shipment_tb_.code_', $codes)
+            ->get();
+
+            $totalCost = $all->sum('shipment_coast_');
+
+
+            $tawsilCost = $tawsilCost = $all->sum('tawsil_coast_');
+            $alSafiCost = $totalCost - $tawsilCost ;
+            $report_num =  $report->id;
+        }else{
+            $totalCost = $all->sum('shipment_coast_');
             $tawsilCost = $all->sum('tawsil_coast_');
             $printPage='shipments.print';
-
             $alSafiCost = $all->sum('total_');
+            $report_num = 0;
+        }
+        
 
                 $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'alSafiCost'=>$alSafiCost,'company'=>1];
 
 
             $data = [
-                'report_num'=> 0,
+                'report_num'=> $report_num,
                 'all'=>$all,
                 'title'=>$page_title,
-                'sum'=>$sums
+                'sum'=>$sums,
+                'cancel_ogra_sherka'=>1
             ];
         $mpdf = PDF::loadView('shipments.print',$data);
         return $mpdf->stream('document.pdf');
@@ -939,7 +964,8 @@ class frou3Controller extends Controller
                 'status' => 200,
                 'data' => $all,
                 'message' => 'sucecss',
-                'sums'=>$sums
+                'sums'=>$sums,
+                
             ], 200);
         }
         $mo7afazat =$this->getAllMo7afazat();
@@ -1004,7 +1030,7 @@ class frou3Controller extends Controller
             $printPage='accounting.mandoubtaslim.print';
                 $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'alSafiCost'=>$alSafiCost,'company'=>1];
             $data = [
-                'report_num'=> 0,
+               
                 'all'=>$all,
                 'title'=>'تحويل الراجع بين الفروع باستخدام qr',
                 'sum'=>$sums,
@@ -1164,19 +1190,45 @@ class frou3Controller extends Controller
         $branches =BranchInfo::all();
         $mo7afazat =Mohfza::where('branch',$user->branch)->get();
         if(isset(request()->pdf)){
-            $totalCost = $all->sum('shipment_coast_');
-            $tawsilCost = $all->sum('tawsil_coast_');
-            $printPage='shipments.print';
+                if(isset(request()->qr)){
+                    if(!isset(request()->report)) return false;
+                    $report = request()->report;
+                    $report = Print_report::where('id',$report)->first();
+                    $report->update([
+                        "url" => URL::full(),
+                        "print_title"=> $page_title,
+                        "branch" => auth()->user()->branch
 
-            $alSafiCost = $all->sum('total_');
+                    ]);
+                    $codes= explode(',',$report->codes);
+                
+                    $all =  DB::table('add_shipment_tb_')
+                    ->whereIn('add_shipment_tb_.code_', $codes)
+                    ->get();
 
-                $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'alSafiCost'=>$alSafiCost,'company'=>1];
+                    $totalCost = $all->sum('shipment_coast_');
+
+
+                    $tawsilCost = $tawsilCost = $all->sum('tawsil_coast_');
+                    $alSafiCost = $totalCost - $tawsilCost ;
+                    $report_num =  $report->id;
+                }else{
+                    $totalCost = $all->sum('shipment_coast_');
+                    $tawsilCost = $all->sum('tawsil_coast_');
+                    $printPage='shipments.print';
+                    $alSafiCost = $all->sum('total_');
+                    $report_num = 0;
+                }
+            
+            $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'alSafiCost'=>$alSafiCost,'company'=>1];
 
 
             $data = [
+                'report_num'=>$report_num,
                 'all'=>$all,
                 'title'=>$page_title,
-                'sum'=>$sums
+                'sum'=>$sums,
+                'cancel_ogra_sherka'=>1
             ];
             $mpdf = PDF::loadView('shipments.print',$data);
             return $mpdf->stream('document.pdf');

@@ -216,9 +216,11 @@
                 <th >رقم الكشف</th>
                 <th >عدد الشحنات</th>
                 <th >اجمالي مبلغ الشحنة</th>
-
+                @if (!isset($cancel_ogra_sherka))
                 <th>اجمالي اجرة الشركة</th>
 
+                @endif
+                
 
                 <th >اجمالي الصافي</th>
                 <th >التاريخ</th>
@@ -230,7 +232,9 @@
                     <td>{{$report_num}}</td>
                     <td>{{count($all)}}</td>
                     <td>{{number_format($sum['totalCost'], 0)}}</td>
+                    @if (!isset($cancel_ogra_sherka))
                     <td>{{number_format($sum['tawsilCost'], 0)}}</td>
+                    @endif
                     <td>{{number_format($sum['alSafiCost'], 0)}}</td>
                     <td>{{Carbon\Carbon::now()->format('Y-m-d  g:i:s A')}}</td>
                 </tr>
@@ -252,9 +256,9 @@
             <th >تاريخ الشحنه</th>
             <th >الفرع</th>
             <th >الصافى</th>
-
+            @if (!isset($cancel_ogra_sherka))
                 <th> اجرة الشركة</th>
-
+            @endif
 
             <th >مبلغ الشحنه</th>
             <th>الكود</th>
@@ -272,9 +276,9 @@
                 <td  >{{$shipment->date_}}</td>
                 <td  >{{$shipment->branch_}}</td>
                 <td >{{number_format($shipment->total_, 0)}}</td>
-
-                <td  >{{number_format($shipment->tawsil_coast_, 0)}}</td>
-
+                @if (!isset($cancel_ogra_sherka))
+                 <td  >{{number_format($shipment->tawsil_coast_, 0)}}</td>
+                @endif
 
                 <td  >{{number_format($shipment->shipment_coast_, 0)}}</td>
                 <td  >{{$shipment->code_}}</td>

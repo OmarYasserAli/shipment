@@ -36,11 +36,11 @@ class khaznaController extends Controller
         return view( 'setting.khazna',compact('branches','page_title'));
     }
     public function store(Request $request){
-
+       
         $validated = $request->validate([
             //'reciver_name_' => 'required',
             'name' => 'required|unique:5azna',
-            'branch' => 'required',
+            'branch_id' => 'required',
 
         ]);
         Khazna::create($request->all());

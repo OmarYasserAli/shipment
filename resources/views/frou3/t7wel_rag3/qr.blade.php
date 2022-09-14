@@ -167,7 +167,7 @@
 
         <script type="text/javascript">
         $('#print').on('click', function(){
-                
+                 
                 $.ajax({
                             url:"{{route('save_print_report')}}",
                             type: "post",

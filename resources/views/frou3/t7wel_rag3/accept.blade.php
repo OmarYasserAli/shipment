@@ -233,6 +233,7 @@
                                         <button class="btn btn-primary " id='tanfez'>تنفيذ</button>
                                     
                                         <button class="btn btn-warning " id='cancel' >حذف</button>
+                                        <input type="button"  class="btn btn-success  align-left mr-1" style="direction: ltr"  value="طباعه" id='print_qr' >
                                       </div>
                                 </div>
                             </div>
@@ -251,7 +252,25 @@
         $('#print').on('click', function(){
                 window.open(window.location.href+'?pdf=1');
                // window.location.replace (); 
-            });
+        });
+
+        $('#print_qr').on('click', function(){
+            $.ajax({
+                            url:"{{route('save_print_report')}}",
+                            type: "post",
+                            data: {
+                                'codes':shipments,
+                                'pdf' :1,
+                                'save' :1,
+                                '_token' :'{{csrf_token()}}'
+                            },
+                            success: function(result){
+                                window.open(window.location.href+'?pdf=1&qr=1&report='+result.id+'');
+                               // window.open(window.location.href.split('?')[0]+'?pdf=1&report='+result.id+'');
+                            }
+                        });
+        });
+            
             let  shipments=[];
             let cnt=1;
            
