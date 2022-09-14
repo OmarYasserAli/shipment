@@ -27,7 +27,7 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 use PDF;
-class khaznaController extends Controller
+class KhaznaController extends Controller
 {
     /*/** */
     public function create(){
