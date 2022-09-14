@@ -2,6 +2,12 @@
 
 @section('content')
 
+<link href="https://cdn.jsdelivr.net/npm/tom-select@2.0.3/dist/css/tom-select.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.0.3/dist/js/tom-select.complete.min.js"></script>
 <div class="content">
     <!-- BEGIN: Top Bar -->
     @include('layout.partial.topbar')
@@ -75,12 +81,15 @@
                                     </select>
                                 </div>
                                 <div class="form-inline">
-                                    <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:10px; margin-top:8px;  width:60px; ">الحساب</label>
-                                    <select name="owner" class="form-select form-select-sm mr-1" aria-label=".form-select-sm example" style=" width:250px" id='7san_owner' >
+                                    <label for="horizontal-form-1" class="form-label "  style=" text-align:left; margin-left:10px; margin-top:8px;  width:60px; ">الحساب</label>
+                                    <select name="owner" class="acc_owner" aria-label=".form-select-sm example" style=" width:250px" id='7san_owner' >
                                         <option value="">...</option>
                                         
                                     </select>
                                 </div>
+                                <script>
+                                  
+                                </script>
                                 <div class="form-inline">
                                     <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:10px; margin-top:8px;  width:60px; ">نوع السند</label>
                                     <select name="is_solfa" class="form-select form-select-sm mr-1 is_solfa" aria-label=".form-select-sm example" style=" width:250px">
@@ -226,6 +235,12 @@
 </div>
 
         <script type="text/javascript">
+          var  owner =new TomSelect(".acc_owner",{
+                                    	valueField: 'id',
+                                    	labelField: 'title',
+                                    	searchField: 'title',
+                                    	create: false
+                                    });
             let opreation_codes=[];
 
             $('#print').on('click', function(){
@@ -237,57 +252,57 @@
             let current_status=0;
             $( document ).ready(function() {
                 $("body").fadeIn(50);
-                const myModal = tailwind.Modal.getOrCreateInstance(document.querySelector("#type_modal"));
+               // const myModal = tailwind.Modal.getOrCreateInstance(document.querySelector("#type_modal"));
 
                 @if(!isset(request()->client_id ))
-                     myModal.show();
+                    // myModal.show();
                 @endif
             });
 
-            $( "#modal_close" ).click(function() {
+            // $( "#modal_close" ).click(function() {
 
 
-                current_status=$( "#select_type" ).val();
-                const myModal = tailwind.Modal.getOrCreateInstance(document.querySelector("#type_modal"));
-                var noClientFilter = $('#noClientFilter').is(':checked');
-                let client_id = current_status;
-                if(noClientFilter ){
-                    myModal.hide();
+            //     current_status=$( "#select_type" ).val();
+            //     const myModal = tailwind.Modal.getOrCreateInstance(document.querySelector("#type_modal"));
+            //     var noClientFilter = $('#noClientFilter').is(':checked');
+            //     let client_id = current_status;
+            //     if(noClientFilter ){
+            //         myModal.hide();
 
 
-                        $("#Commercial_name").html('');
-                        $.ajax({
-                            url:"{{url('getCommertialnameBy3amil')}}?client_id="+client_id,
-                            type: "get",
-                            data: {
-                                'from':'modal'
-                            },
-                            dataType : 'json',
-                            success: function(result){
-                            $('#Commercial_name').prop('disabled', false);
-                            $('#Commercial_name').html('<option value="">...</option>');
+            //             $("#Commercial_name").html('');
+            //             $.ajax({
+            //                 url:"{{url('getCommertialnameBy3amil')}}?client_id="+client_id,
+            //                 type: "get",
+            //                 data: {
+            //                     'from':'modal'
+            //                 },
+            //                 dataType : 'json',
+            //                 success: function(result){
+            //                 $('#Commercial_name').prop('disabled', false);
+            //                 $('#Commercial_name').html('<option value="">...</option>');
 
-                            $.each(result.all,function(key,value){
-                                $("#Commercial_name").append('<option value="'+value.name_+'">'+value.name_+'</option>');
-                            });
-                            //$('#city_id').html('<option value="">Select city</option>');
-                            }
-                        });
-                    }else{
-                        window.location.href = "{{route('accounting.3amil.mosadad')}}?client_id="+client_id;
-                    }
-            });
-            $( "#msg_modal_close" ).click(function() {
-                const msg_Modal = tailwind.Modal.getOrCreateInstance(document.querySelector("#msg_modal"));
-                msg_Modal.hide();
-            });
+            //                 $.each(result.all,function(key,value){
+            //                     $("#Commercial_name").append('<option value="'+value.name_+'">'+value.name_+'</option>');
+            //                 });
+            //                 //$('#city_id').html('<option value="">Select city</option>');
+            //                 }
+            //             });
+            //         }else{
+            //             window.location.href = "{{route('accounting.3amil.mosadad')}}?client_id="+client_id;
+            //         }
+            // });
+            // $( "#msg_modal_close" ).click(function() {
+            //     const msg_Modal = tailwind.Modal.getOrCreateInstance(document.querySelector("#msg_modal"));
+            //     msg_Modal.hide();
+            // });
             $( "#qr_new" ).click(function() {
                 $('#manteka-table tr').not(function(){ return !!$(this).has('th').length; }).remove();
                     cnt=1;
                     shipments=[];
                 $('#shipment_form').find("input[type=text], textarea").val("");
-                const myModal = tailwind.Modal.getOrCreateInstance(document.querySelector("#type_modal"));
-                myModal.show();
+                // const myModal = tailwind.Modal.getOrCreateInstance(document.querySelector("#type_modal"));
+                // myModal.show();
             });
 
 
@@ -515,11 +530,28 @@
                         dataType : 'json',
                         success: function(result){
                         $('#7san_owner').prop('disabled', false);
-                        $('#7san_owner').html('<option value="">...</option>');
+                        // $('#7san_owner').html('<option value="">...</option>');
 
-                        $.each(result.data,function(key,value){
-                            $("#7san_owner").append('<option value="'+value.code_+'">'+value.name_+'</option>');
-                        });
+                        // $.each(result.data,function(key,value){
+                        //     $("#7san_owner").append('<option value="'+value.code_+'">'+value.name_+'</option>');
+                        // });
+
+                            console.log();
+                      
+                         var temp = ''; var f=0;
+                         owner.clearOptions();
+                          $.each(result.data,function(key,value){
+                            if(f==0){
+                                f=1;
+                              // temp = value.code_;
+                            }
+                            owner.addOption({
+                                id: value.code_,
+                                title: value.name_,
+
+                            });
+                            owner.setValue(temp);
+                          });
                         //$('#city_id').html('<option value="">Select city</option>');
                         }
                     });
