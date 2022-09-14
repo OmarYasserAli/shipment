@@ -753,6 +753,7 @@ class frou3Controller extends Controller
 
 
             $data = [
+                'report_num'=> 0,
                 'all'=>$all,
                 'title'=>$page_title,
                 'sum'=>$sums
@@ -1003,6 +1004,7 @@ class frou3Controller extends Controller
             $printPage='accounting.mandoubtaslim.print';
                 $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'alSafiCost'=>$alSafiCost,'company'=>1];
             $data = [
+                'report_num'=> 0,
                 'all'=>$all,
                 'title'=>'تحويل الراجع بين الفروع باستخدام qr',
                 'sum'=>$sums,

@@ -36,6 +36,7 @@
                 <div>
                     <div class="mt-1 grid  grid-cols-3">
                     
+                        <input name="web" type="hidden"  value="1">
                     
                 </div>
                     <div class="mt-1 grid  grid-cols-3">
@@ -83,6 +84,7 @@
                                 <div class="form-inline">
                                     <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:10px; margin-top:8px;  width:60px; ">نوع السند</label>
                                     <select name="is_solfa" class="form-select form-select-sm mr-1 is_solfa" aria-label=".form-select-sm example" style=" width:250px">
+                                        <option value="2">...</option>
                                         <option value="">الكل</option>
                                         
                                         <option value="0"  @if(request()->get('is_solfa') =='0') selected @endif>سند</option>
@@ -97,7 +99,7 @@
 
                                     <input type="submit"  class="btn btn-primary  "  value="فلتر">
                                     <input type="button"  class="btn btn-success  align-left mr-1" style="direction: ltr"  value="طباعه" id='print' >
-
+                                    
 
                                 </div>
                             </div >
@@ -122,7 +124,7 @@
                             <th class="whitespace-nowrap">بيان</th>
                             <th class="whitespace-nowrap">حركة دائنة</th>
                             <th class="whitespace-nowrap">حركة مدينة</th>
-                            <th class="whitespace-nowrap">رصيد دائة</th>
+                            <th class="whitespace-nowrap">رصيد دائن</th>
                             <th class="whitespace-nowrap">رصيد مدين</th>
                            
                         </tr>
