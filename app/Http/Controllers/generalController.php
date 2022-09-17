@@ -9,6 +9,8 @@ use App\Models\Mantikqa;
 use App\User;
 use App\Models\Commercial_name;
 use App\Models\Tas3ir_3amil;
+use App\Models\Tas3ir_ta7wel;
+
 
 
 use App\Models\AddClientsMainComp;
@@ -71,7 +73,7 @@ class generalController extends Controller
                 
                 $t->mo7afaza_id =0 ;
                 $t->mantika_id =0 ;
-                
+
                 $t->save();
 
             }
