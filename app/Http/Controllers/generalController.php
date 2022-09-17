@@ -59,6 +59,22 @@ class generalController extends Controller
                 $t->save();
 
             }
+
+            if(!isset($m->Tas3ir_ta7wel )){
+                $t = new Tas3ir_ta7wel();
+                $t->area_name_ =  $m->name;
+                $t->city_name_ = $mo7afza ;
+                $t->branch =$user->branch ;
+                $t->price_ =0 ;
+                $nCode = Tas3ir_ta7wel::max('code_');
+                $t->code_ =$nCode+1;
+                
+                $t->mo7afaza_id =0 ;
+                $t->mantika_id =0 ;
+                
+                $t->save();
+
+            }
             if(request()->bycode=="1"){
                 $chosen_Mohfza=Mohfza::where('code',$mo7afza)->where('branch',$user->branch)->first();
 
