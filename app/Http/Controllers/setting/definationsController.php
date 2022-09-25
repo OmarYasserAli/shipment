@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\UserHistory;
 use App\User;
 use App\Models\Mohfza;
+use App\Models\Mantikqa;
+
 use App\Models\BranchInfo;
 use App\Models\CompanyInfo;
 use Illuminate\Support\Facades\Storage;
@@ -131,11 +133,50 @@ class definationsController extends Controller
 
            
            $m->save();
+           UserHistory::create([
+            "user_id" => auth()->user()->code_,
+            "action_name" => " انشاء محافظة",
+            "action_desc" =>  " تم انشاء محافظة جديدة" . $request->name ,
+            "branch" => auth()->user()->branch
+
+        ]);
            return response()->json([
             'success' => true,
             'message' => '',
         ]);           
         }
+
+        public function storeMntka(Request $request)
+        {
+            $validated = $request->validate([
+                'name' => 'required',
+            ]);
+           $m = new Mantikqa();   
+           $m->name = $request->name;
+           $m->USER = auth()->user()->name_;
+           $m->branch =auth()->user()->branch;
+           $m->mo7afza =$request->mo7afza;
+           $m->code = Mantikqa::max('code')+1;
+           
+          
+           $m->el3omola =0.00;
+
+           
+           $m->save();
+           UserHistory::create([
+            "user_id" => auth()->user()->code_,
+            "action_name" => " انشاء منطقة",
+            "action_desc" =>  " تم انشاء منطقة جديدة" . $request->name ,
+            "branch" => auth()->user()->branch
+
+        ]);
+           return response()->json([
+            'success' => true,
+            'message' => '',
+        ]);           
+        }
+
+        
         public function storeBranch(Request $request){
                 // dd($request->all());
                 $validated = $request->validate([
