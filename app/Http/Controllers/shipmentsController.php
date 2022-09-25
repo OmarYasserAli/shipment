@@ -59,6 +59,7 @@ class shipmentsController extends Controller
         ->UserTypeFilter($user->type_,$user->code_)
         ->select('code_','name_')->get()->toArray();
         $total=0;
+      
         foreach($statuses as $key=> $status){
 
             if($user->type_  !='عميل'){
@@ -133,7 +134,7 @@ class shipmentsController extends Controller
                 $arr[$stat['code_']]  = ['الشحنات فى المخزن'];
             }
             elseif($stat['name_'] == 'الشحنات لدى مندوب التسليم'){
-                $arr[$stat['code_']]  = ['شحنات الواصل','شحنات واصل جزئى','الشحنات الراجعه فى المخزن','المؤجل'];
+                $arr[$stat['code_']]  = ['شحنات الواصل','شحنات واصل جزئى','الشحنات الراجعه فى المخزن','المؤجل','المؤجلة لدى المندوب'];
             }
             elseif($stat['name_'] == 'شحنات الواصل'){
                 $arr[$stat['code_']]  = ['الشحنات لدى مندوب التسليم'];
@@ -149,6 +150,9 @@ class shipmentsController extends Controller
             }
             elseif($stat['name_'] == 'المؤجل'){
                 $arr[$stat['code_']]  = ['شحنات الواصل','الشحنات الراجعه فى المخزن','الشحنات لدى مندوب التسليم'];
+            }
+            elseif($stat['name_'] == 'المؤجلة لدى المندوب'){
+                $arr[$stat['code_']]  = ['الشحنات الراجعه فى المخزن','شحنات الواصل','الشحنات لدى مندوب التسليم'];
             }
 
 
@@ -443,7 +447,7 @@ class shipmentsController extends Controller
             ]);
         }
         if($request->t7weel_to == 'شحنات الواصل'){
-            $status=[1,4,6,10];
+            $status=[1,4,6,10,11];
             $updated_array = ['status_'=>7,'tarikh_el7ala'=>Carbon::now()->format('Y-m-d  g:i:s A')];
           
             UserHistory::create([
@@ -455,9 +459,8 @@ class shipmentsController extends Controller
         }
         if($request->t7weel_to == 'الشحنات لدى مندوب التسليم'){
 
-
             //to do
-            $status=array(1,7,10);
+            $status=array(1,7,10,11);
             $mandob = User::findorfail($request->status);
             $row = DB::table('add_shipment_tb_')
             ->whereIn('add_shipment_tb_.code_', $request->code)
@@ -513,7 +516,7 @@ class shipmentsController extends Controller
 
         }
         if($request->t7weel_to=='الشحنات الراجعه فى المخزن'){   //t7wel rag3 lada m5zn
-            $status=array(1,3,4,10);
+            $status=array(1,3,4,10,11);
             $updated_array = ['status_'=>9, 'tarikh_el7ala'=>Carbon::now()->format('Y-m-d  g:i:s A'),
                                 'Delivery_Delivered_Shipment_ID'=>"" , 'mandoub_taslim'=>"" , 'tas3ir_mandoub_taslim'=>0 ];
             UserHistory::create([
@@ -533,6 +536,16 @@ class shipmentsController extends Controller
                 "branch" => auth()->user()->branch
             ]);
        }
+       if($request->t7weel_to=='المؤجلة لدى المندوب'){  //ta7wel  mo2gl
+        $status=[4];
+        $updated_array = ['status_'=>11,'tarikh_el7ala'=>Carbon::now()->format('Y-m-d  g:i:s A')];
+        UserHistory::create([
+            "user_id" => auth()->user()->code_,
+            "action_name" => "تحويل شحنات",
+            "action_desc" =>  "تحويل الشحنات المؤجلة لدى المندوب ",
+            "branch" => auth()->user()->branch
+        ]);
+   }
         $row = DB::table('add_shipment_tb_')
               ->whereIn('code_', $request->code)
               ->whereIn('status_', $status)
@@ -1864,7 +1877,7 @@ class shipmentsController extends Controller
             ]);
         }
         if($request->status==9){   //t7wel rag3 lada m5zn
-            $status=array(1,4,10);
+            $status=array(1,4,10,11);
             $updated_array = ['status_'=>9, 'tarikh_el7ala'=>Carbon::now()->format('Y-m-d  g:i:s A'),
                                 'Delivery_Delivered_Shipment_ID'=>"" , 'mandoub_taslim'=>"" , 'tas3ir_mandoub_taslim'=>0 ];
             UserHistory::create([
@@ -1874,13 +1887,23 @@ class shipmentsController extends Controller
                 "branch" => auth()->user()->branch
             ]);
         }
-        if($request->status==10){  //ta7wel sh7nat fel m5zn
+        if($request->status==10){  //ta7wel mo2gl
             $status=[4];
             $updated_array = ['status_'=>10,'tarikh_el7ala'=>Carbon::now()->format('Y-m-d  g:i:s A')];
             UserHistory::create([
                 "user_id" => auth()->user()->code_,
                 "action_name" => "تحويل حالة الشحنات باستخدام qr",
-                "action_desc" =>  "تحويل الشحنات فى المخزن ",
+                "action_desc" =>  "تحويل الشحنات  المءجل ",
+                "branch" => auth()->user()->branch
+            ]);
+        }
+        if($request->status==11){  //ta7wel mo2gl lada mandoub taslim
+            $status=[4];
+            $updated_array = ['status_'=>11,'tarikh_el7ala'=>Carbon::now()->format('Y-m-d  g:i:s A')];
+            UserHistory::create([
+                "user_id" => auth()->user()->code_,
+                "action_name" => "تحويل حالة الشحنات باستخدام qr",
+                "action_desc" =>  "تحويل الشحنات المؤجل لدي مندوب التسليم ",
                 "branch" => auth()->user()->branch
             ]);
         }
@@ -1957,7 +1980,7 @@ class shipmentsController extends Controller
          $codes= explode(',',$report->codes);
             $all =  DB::table('add_shipment_tb_')
             ->whereIn('add_shipment_tb_.code_', $codes)
-            ->whereIN('add_shipment_tb_.status_',[ 1,4,10])
+            ->whereIN('add_shipment_tb_.status_',[ 1,4,10,11])
             ->get();
             $totalCost = $all->sum('shipment_coast_');
 
@@ -1982,7 +2005,7 @@ class shipmentsController extends Controller
         $u =  DB::table('add_shipment_tb_')
          ->whereIn('add_shipment_tb_.code_', $request->code)
 
-          ->whereIn('add_shipment_tb_.status_', [1,4,10])
+          ->whereIn('add_shipment_tb_.status_', [1,4,10,11])
         ->leftjoin('mandoub_taslim_tas3irtb', function($join){
             $join->on('mandoub_taslim_tas3irtb.mantika_id', '=', 'add_shipment_tb_.mantika_id');
             $join->on('mandoub_taslim_tas3irtb.mo7afaza_id','=','add_shipment_tb_.mo7afaza_id');
@@ -2029,15 +2052,20 @@ class shipmentsController extends Controller
                 $filter_field = 'branch_';
             }
             if($request->status==9){   //t7wel rag3 lada m5zn
-                $status=array(1,4,10);
+                $status=array(1,4,10,11);
                 $filter_field = 'Ship_area_';
             }
             if($request->status==10){   //t7wel mo2gl
                 $status=array(4);
                 $filter_field = 'Ship_area_';
             }
+            if($request->status==11){   //t7wel mo2gl lada mandoub taslim
+                $status=array(4);
+                $filter_field = 'Ship_area_';
+              
+            }
         }elseif($request->case=='taslim_qr'){
-            $status=array(1,4,10);
+            $status=array(1,4,10,11);
             $filter_field = 'Ship_area_';
         }elseif($request->case=='frou3_t7wel_sho7nat_qr'){
             $status=array(1);

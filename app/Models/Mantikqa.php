@@ -10,7 +10,7 @@ class Mantikqa extends Model
     protected $primaryKey = 'serial';
     protected $table = 'edaft_manateq_iraq_tb';
     protected $guarded = [];
-    
+    public $timestamps = false;
     public function Tas3ir_3amil()
     {
         return $this->hasOne(Tas3ir_3amil::class,  ['area_name_' ,'city_name_','branch'],['name', 'mo7afza','branch']);

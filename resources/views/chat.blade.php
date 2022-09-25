@@ -19,7 +19,26 @@
     <script type="text/javascript">
 
 
-       
-               
+       $( document ).ready(function() {
+            $.ajax({
+                          url:"https://albahar.live:3000/web",
+                          type: "post",
+                          data: {role: 'admin',
+                                    'email': 'Superuser@gmail.com',
+                                    'fcmToken':'',
+                                    'password': '123@super',
+                                    'branch': 'الفرع الرئيسى',
+                                    //imageThumb: String, *allowed
+                                    // platform: String, *allowed
+                                    //  appLanguage: String *allowed
+                                    },
+                          dataType : 'json',
+                          success: function(result){
+
+                          
+                          }
+                      });
+       });
+
             </script>
 @endsection

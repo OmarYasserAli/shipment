@@ -21,6 +21,7 @@
                             <option value="8">شحنات الراجع لدي العميل</option>
                             <option value="9">شحنات الراجع فى المخزن</option>
                             <option value="10">المؤجل</option>
+                            <option value="11">المؤجلة لدى المندوب</option>
                         </select>
                       </div>
                      <button type="button" data-tw-dismiss="" id='modal_close' class="btn btn-primary w-24">استمرار</button>

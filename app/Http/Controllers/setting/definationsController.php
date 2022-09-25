@@ -119,6 +119,23 @@ class definationsController extends Controller
                 $page_title='المناطق و المحافظات';
             return view('deffinations.city',compact('cities','page_title'));
         }
+        public function storeCity(Request $request)
+        {
+            $validated = $request->validate([
+                'name' => 'required',
+            ]);
+           $m = new Mohfza();   
+           $m->name = $request->name;
+           $m->USER = auth()->user()->name_;
+           $m->branch =auth()->user()->branch;
+
+           
+           $m->save();
+           return response()->json([
+            'success' => true,
+            'message' => '',
+        ]);           
+        }
         public function storeBranch(Request $request){
                 // dd($request->all());
                 $validated = $request->validate([

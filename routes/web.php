@@ -33,6 +33,9 @@ Route::post('/definations/storeCompany', 'setting\definationsController@storeCom
 
 
 Route::get('/definations/city', 'setting\definationsController@addCity')->name('addCity');
+Route::post('/definations/storeCity', 'setting\definationsController@storeCity')->name('storeCity');
+
+
 Route::get('/definations/branch', 'setting\definationsController@addBranch')->name('addBranch');
 Route::post('/definations/branch', 'setting\definationsController@storeBranch')->name('storeBranch');
 Route::get('/getManateqByMa7afza', 'generalController@getManateqByMa7afza')

@@ -9,6 +9,6 @@ class Mohfza extends Model
     protected $primaryKey = 'serial';
     protected $table = 'edaft_mo7afzat_iraq_tb';
     protected $guarded = [];
-
+    public $timestamps = false;
     
 }
