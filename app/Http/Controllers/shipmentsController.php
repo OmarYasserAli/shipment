@@ -59,7 +59,7 @@ class shipmentsController extends Controller
         ->UserTypeFilter($user->type_,$user->code_)
         ->select('code_','name_')->get()->toArray();
         $total=0;
-      
+
         foreach($statuses as $key=> $status){
 
             if($user->type_  !='عميل'){
@@ -308,8 +308,8 @@ class shipmentsController extends Controller
 
             $mpdf = PDF::loadView($printPage,$data);
             $mpdf->showImageErrors = true;
-            return $mpdf->stream('document.pdf');
-        }
+        return response($mpdf->Output('test.pdf',"I"),200)->header('Content-Type','application/pdf');
+}
         $mandoub_taslims = user::where('branch',$user->branch)->where('type_','مندوب تسليم')->get();
         return view('shipments.index',compact('all','type','mo7afazat','page_title','Commercial_names',
         'clients','status_color','css_prop','sums' ,'t7weelTo','mandoub_taslims','manadeb_taslim'));
@@ -449,7 +449,7 @@ class shipmentsController extends Controller
         if($request->t7weel_to == 'شحنات الواصل'){
             $status=[1,4,6,10,11];
             $updated_array = ['status_'=>7,'tarikh_el7ala'=>Carbon::now()->format('Y-m-d  g:i:s A')];
-          
+
             UserHistory::create([
                 "user_id" => auth()->user()->code_,
                 "action_name" => "تحويل شحنات",
@@ -501,7 +501,7 @@ class shipmentsController extends Controller
                                 ->whereIn('status_', $status)
                                 ->where('branch_', $user->branch)
                                 ->update($updated_array);
-            
+
                                 UserHistory::create([
                 "user_id" => auth()->user()->code_,
                 "action_name" => "تحويل شحنات",
@@ -1584,7 +1584,7 @@ class shipmentsController extends Controller
     }
     public function update(Request $request){
         $rules=[
-            
+
            //'client_id' => 'required',
            'mo7afza' => 'required',
            //'manteka' => 'required',
@@ -1593,7 +1593,7 @@ class shipmentsController extends Controller
 
         if(!Setting::get('shipment_code_ai')){
             $rules['code'] = 'required';
-          
+
         }
         $validated = $request->validate($rules);
         //  dd($request->all());
@@ -1685,7 +1685,7 @@ class shipmentsController extends Controller
 
         $user=auth()->user();
 
-          if(!$user->isAbleTo('print-shipment')){
+          if(!$user->isAbleTo('print-shipmentr')){
               return abort(403);
           }
 
@@ -1823,14 +1823,14 @@ class shipmentsController extends Controller
                 'all'=>$allData,
                 'title'=>$page_title,
                 'qrcode'  =>$qrNo,
-                
+
             ];
                 $printView = Setting::get('wasl-name');
 
             $mpdf = PDF::loadView("shipments.{$printView}",$data);//->setPaper($customPaper, 'landscape');;
             // $mpdf->AddPage('p','','','','',10,10,37,20,10,10);
-            return $mpdf->stream('document.pdf');
-        }
+        return response($mpdf->Output('test.pdf',"I"),200)->header('Content-Type','application/pdf');
+}
         $type = 2;
         $statuses = Shipment_status::all();
         return view('shipments.wals_print',compact('all','type','mo7afazat','page_title','Commercial_names',
@@ -1907,10 +1907,10 @@ class shipmentsController extends Controller
                 "branch" => auth()->user()->branch
             ]);
         }
-        
+
         $page_title = "تحويل حالة الشحنات باستخدام qr";
         if(isset(request()->pdf)){
-            
+
             if(!isset(request()->report)) return false;
             $report = request()->report;
             $report = Print_report::where('id',$report)->first();
@@ -1921,7 +1921,7 @@ class shipmentsController extends Controller
 
          ]);
             $codes= explode(',',$report->codes);
-           
+
 
             $all = DB::table('add_shipment_tb_')
               ->whereIn('code_', $codes)->get();
@@ -1941,8 +1941,8 @@ class shipmentsController extends Controller
             ];
 
             $mpdf = PDF::loadView('shipments.print',$data);
-            return $mpdf->stream('document.pdf');
-        }
+        return response($mpdf->Output('test.pdf',"I"),200)->header('Content-Type','application/pdf');
+}
         DB::table('add_shipment_tb_')
               ->whereIn('code_', $request->code)
               ->whereIn('status_', $status)
@@ -1965,7 +1965,7 @@ class shipmentsController extends Controller
     {
         $status=array(1);
         $user = $user = auth()->user();
-       
+
         $page_title='تسليم الشحنة الى مندوب تسليم qr';
         if(isset(request()->pdf)){
             if(!isset(request()->report)) return false;
@@ -1998,8 +1998,8 @@ class shipmentsController extends Controller
             ];
 
             $mpdf = PDF::loadView('shipments.print_mandoub_taslim',$data);
-            return $mpdf->stream('document.pdf');
-        }
+        return response($mpdf->Output('test.pdf',"I"),200)->header('Content-Type','application/pdf');
+}
         $mandob = User::findorfail($request->status);
 
         $u =  DB::table('add_shipment_tb_')
@@ -2062,7 +2062,7 @@ class shipmentsController extends Controller
             if($request->status==11){   //t7wel mo2gl lada mandoub taslim
                 $status=array(4);
                 $filter_field = 'Ship_area_';
-              
+
             }
         }elseif($request->case=='taslim_qr'){
             $status=array(1,4,10,11);

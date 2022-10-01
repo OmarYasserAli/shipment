@@ -225,7 +225,8 @@ class frou3Controller extends Controller
             ];
             //return view('shipments.print' ,compact('all','title'));
             $mpdf = PDF::loadView($printPage,$data);
-            return $mpdf->stream('document.pdf');
+                    return response($mpdf->Output('test.pdf',"I"),200)->header('Content-Type','application/pdf');
+
         }
         return view('frou3.export',compact('all','branches','mo7afazat','brach_filter','waselOnly','page_title',
      'css_prop','status_color' ,'sums'));
@@ -430,7 +431,8 @@ class frou3Controller extends Controller
             ];
             //return view('shipments.print' ,compact('all','title'));
             $mpdf = PDF::loadView($printPage,$data);
-            return $mpdf->stream('document.pdf');
+                    return response($mpdf->Output('test.pdf',"I"),200)->header('Content-Type','application/pdf');
+
         }
         return view('frou3.import',compact('all','branches','mo7afazat','brach_filter','waselOnly','page_title',
      'css_prop','status_color' ,'sums'));
@@ -549,7 +551,7 @@ class frou3Controller extends Controller
         $page_title = 'تحويل الشحنات بين الفروع باستخدام qr';
         $status=array(1);
         if(isset(request()->pdf)){
-           
+
                 if(!isset(request()->report)) return false;
                 $report = request()->report;
                 $report = Print_report::where('id',$report)->first();
@@ -557,10 +559,10 @@ class frou3Controller extends Controller
                  "url" => URL::full(),
                     "print_title"=> $page_title,
                     "branch" => auth()->user()->branch
-    
+
              ]);
              $codes= explode(',',$report->codes);
-            
+
             $all =  DB::table('add_shipment_tb_')
             ->whereIn('add_shipment_tb_.code_', $codes)
             ->whereIN('add_shipment_tb_.status_',$status)
@@ -581,7 +583,8 @@ class frou3Controller extends Controller
             ];
 
             $mpdf = PDF::loadView('shipments.print',$data);
-            return $mpdf->stream('document.pdf');
+                    return response($mpdf->Output('test.pdf',"I"),200)->header('Content-Type','application/pdf');
+
         }
         $branch=DB::table('branch_info_tb')
         ->where('serial_',$request->status)
@@ -635,7 +638,8 @@ class frou3Controller extends Controller
                 ];
 
                 $mpdf = PDF::loadView('shipments.print',$data);
-                return $mpdf->stream('document.pdf');
+                        return response($mpdf->Output('test.pdf',"I"),200)->header('Content-Type','application/pdf');
+
             }
         Tempo::insertOrIgnore(json_decode(json_encode($t2), true));
         Tempo::insertOrIgnore(json_decode(json_encode($t1), true));
@@ -753,7 +757,7 @@ class frou3Controller extends Controller
 
             ]);
             $codes= explode(',',$report->codes);
-        
+
             $all =  DB::table('add_shipment_tb_')
             ->whereIn('add_shipment_tb_.code_', $codes)
             ->get();
@@ -771,7 +775,7 @@ class frou3Controller extends Controller
             $alSafiCost = $all->sum('total_');
             $report_num = 0;
         }
-        
+
 
                 $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'alSafiCost'=>$alSafiCost,'company'=>1];
 
@@ -784,7 +788,8 @@ class frou3Controller extends Controller
                 'cancel_ogra_sherka'=>1
             ];
         $mpdf = PDF::loadView('shipments.print',$data);
-        return $mpdf->stream('document.pdf');
+                return response($mpdf->Output('test.pdf',"I"),200)->header('Content-Type','application/pdf');
+
     }
         //$page_title='الموافقة على تحويل رواجع الفروع';
         $page_title='اﻟﻣواﻓﻘﺔ ﻋﻠﻰ اﻟﺷﺣﻧﺎت اﻟواردة ﻣن اﻟﻔرع';
@@ -808,7 +813,7 @@ class frou3Controller extends Controller
             $shipment->TRANSFERE_ACCEPT_REFUSE =1;
             $shipment->save();
 
-           
+
         }
         elseif($request->type=='cancel'){
             $shipment->first()->delete();
@@ -846,7 +851,7 @@ class frou3Controller extends Controller
         ->whereIN('code_',$request->code)
         ->delete();
 
-       
+
         UserHistory::create([
             "user_id" => auth()->user()->code_,
             "action_name" => "اﻟﻣواﻓﻘﺔ ﻋﻠﻰ اﻟﺷﺣﻧﺎت اﻟواردة ﻣن اﻟﻔرع",
@@ -965,7 +970,7 @@ class frou3Controller extends Controller
                 'data' => $all,
                 'message' => 'sucecss',
                 'sums'=>$sums,
-                
+
             ], 200);
         }
         $mo7afazat =$this->getAllMo7afazat();
@@ -1015,7 +1020,7 @@ class frou3Controller extends Controller
 
          ]);
          $codes= explode(',',$report->codes);
-           
+
             $all =  DB::table('add_shipment_tb_')
             ->whereIn('add_shipment_tb_.code_', $codes)
             ->whereIN('add_shipment_tb_.status_',$status)
@@ -1030,7 +1035,7 @@ class frou3Controller extends Controller
             $printPage='accounting.mandoubtaslim.print';
                 $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'alSafiCost'=>$alSafiCost,'company'=>1];
             $data = [
-               
+
                 'all'=>$all,
                 'title'=>'تحويل الراجع بين الفروع باستخدام qr',
                 'sum'=>$sums,
@@ -1038,7 +1043,8 @@ class frou3Controller extends Controller
             ];
 
             $mpdf = PDF::loadView('shipments.print',$data);
-            return $mpdf->stream('document.pdf');
+                    return response($mpdf->Output('test.pdf',"I"),200)->header('Content-Type','application/pdf');
+
         }
         $branch=DB::table('branch_info_tb')
         ->where('serial_',$request->status)
@@ -1088,7 +1094,8 @@ class frou3Controller extends Controller
                 ];
 
                 $mpdf = PDF::loadView('shipments.print',$data);
-                return $mpdf->stream('document.pdf');
+                        return response($mpdf->Output('test.pdf',"I"),200)->header('Content-Type','application/pdf');
+
             }
 
             Tempo::insertOrIgnore(json_decode(json_encode($t2), true));
@@ -1201,7 +1208,7 @@ class frou3Controller extends Controller
 
                     ]);
                     $codes= explode(',',$report->codes);
-                
+
                     $all =  DB::table('add_shipment_tb_')
                     ->whereIn('add_shipment_tb_.code_', $codes)
                     ->get();
@@ -1219,7 +1226,7 @@ class frou3Controller extends Controller
                     $alSafiCost = $all->sum('total_');
                     $report_num = 0;
                 }
-            
+
             $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'alSafiCost'=>$alSafiCost,'company'=>1];
 
 
@@ -1231,7 +1238,8 @@ class frou3Controller extends Controller
                 'cancel_ogra_sherka'=>1
             ];
             $mpdf = PDF::loadView('shipments.print',$data);
-            return $mpdf->stream('document.pdf');
+                    return response($mpdf->Output('test.pdf',"I"),200)->header('Content-Type','application/pdf');
+
         }
         $page_title='الموافقة على تحويل رواجع الفروع';
         return view('frou3.t7wel_rag3.accept',compact('all','branches','mo7afazat','page_title','sums'));
@@ -1557,7 +1565,8 @@ class frou3Controller extends Controller
             ];
 
             $mpdf = PDF::loadView('frou3.accounting.print',$data);
-            return $mpdf->stream('document.pdf');
+                    return response($mpdf->Output('test.pdf',"I"),200)->header('Content-Type','application/pdf');
+
         }
         return view('frou3.accounting.notmosadad',compact('all','branches','mo7afazat','brach_filter','waselOnly','page_title',
      'css_prop','status_color' ,'sums'));
@@ -1792,7 +1801,8 @@ class frou3Controller extends Controller
                 'sum'=>$sums,
                 'report_num' => $report->id
             ];            $mpdf = PDF::loadView('frou3.accounting.print',$data);
-            return $mpdf->stream('document.pdf');
+                    return response($mpdf->Output('test.pdf',"I"),200)->header('Content-Type','application/pdf');
+
         }
         return view('frou3.accounting.mosadad',compact('sums','all','branches','mo7afazat','brach_filter','waselOnly','page_title','status_color'
         ,'css_prop'));

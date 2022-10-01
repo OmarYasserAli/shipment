@@ -14,7 +14,7 @@ use App\Models\Commercial_name;
 use App\Models\Archive;
 use App\User;
 use App\Models\Khazna;
-use App\Models\Sanad; 
+use App\Models\Sanad;
 use App\Models\Sanad_3amil;
 use App\Models\Sanad_taslim;
 use App\Models\Sanad_far3;
@@ -79,14 +79,15 @@ class financeCntroller extends Controller
                     'title'=>$page_title,
                     'safiKhazna'=>$safiKhazna
                 ];
-               
+
                 $mpdf = PDF::loadView($printPage,$data);
                 $mpdf->showImageErrors = true;
-                return $mpdf->stream('document.pdf');
+                        return response($mpdf->Output('test.pdf',"I"),200)->header('Content-Type','application/pdf');
+
             }
 
             //dd($sanadat);
-           
+
 
         }
 
@@ -108,17 +109,17 @@ class financeCntroller extends Controller
         $type7sab=''; $owner = '';
         $clients=User::where('type_','عميل')->get();
         $mandoubs=User::where('type_','مندوب تسليم')->get();
-       
+
 
         $empty = 0;
-        if(request()->is_solfa ==2 ) 
+        if(request()->is_solfa ==2 )
         {
             $empty = 1;
             unset(request()->is_solfa);
             request()->is_solfa = null;
         }
-        
-     
+
+
         $branches=BranchInfo::all();
         if(isset(request()->date_from)){
             $date_from = new Carbon(request()->date_from);
@@ -137,16 +138,16 @@ class financeCntroller extends Controller
                     $sanadat = Sanad_3amil::where('client_id',  $request->owner);
                     $sanadatNet = Sanad_3amil::where('client_id',  $request->owner);
                 }
-                else    
+                else
                 {
                     $sanadat = Sanad_3amil::where('id','>' ,0)->whereHas('sanadable', function($q) use($user){
                         $q->where('branch', $user->branch);
                      });
-                    $sanadatNet = Sanad_3amil::where('id','>' ,0)->whereHas('sanadable', function($q) use($user){ 
+                    $sanadatNet = Sanad_3amil::where('id','>' ,0)->whereHas('sanadable', function($q) use($user){
                         $q->where('branch', $user->branch);
                      });
                 }
-                
+
                 $sanadat =$sanadat->whereBetween('created_at', [ $date_from,  $date_to])->orderBy('created_at');
                 $safi7sab =$this->hesabNet( $sanadatNet,$date_from, request()->is_solfa);
                 $t=$sanadat;
@@ -161,7 +162,7 @@ class financeCntroller extends Controller
                     $sanadat = Sanad_taslim::where('mandoub_id',  $request->owner);
                     $sanadatNet = Sanad_taslim::where('mandoub_id',  $request->owner);
                 }
-                else    
+                else
                 {
                     $sanadat = Sanad_taslim::where('id','>' ,0)->whereHas('sanadable', function($q) use($user){
                         $q->where('branch', $user->branch);
@@ -179,7 +180,7 @@ class financeCntroller extends Controller
                     $owner = User::where('code_',$request->owner)->first()->name_;
             }
             if(request()->type =='فرع' || !isset(request()->type)){
-               
+
                 $far3= BranchInfo::where('name_',$user->branch)->first();
                 $far3_from =$far3->code_;
                 if(isset($request->owner))
@@ -187,7 +188,7 @@ class financeCntroller extends Controller
                     $sanadat = Sanad_far3::where('far3_id',  $request->owner)->where('far3_from',   $far3_from);
                     $sanadatNet = Sanad_far3::where('far3_id',  $request->owner)->where('far3_from',   $far3_from);
                 }
-                else    
+                else
                 {
                     $sanadat = Sanad_far3::where('id','>' ,0)->where('far3_from',   $far3_from);
                     $sanadatNet = Sanad_far3::where('id','>' ,0)->where('far3_from',   $far3_from);
@@ -207,7 +208,7 @@ class financeCntroller extends Controller
                     $q = Sanad_masaref::where('masaref_id',  $request->owner);
                     $qNet = Sanad_masaref::where('masaref_id',  $request->owner);
                 }
-                else    
+                else
                 {
                     $q = Sanad_masaref::where('id','>' ,0)->whereHas('sanadable', function($q) use($userBranch){
                         $q->where('branch_id', $userBranch->code_);
@@ -232,7 +233,7 @@ class financeCntroller extends Controller
                     $q = Sanad_o5ra::where('o5ra_id',  $request->owner);
                     $qNet = Sanad_o5ra::where('o5ra_id',  $request->owner);
                 }
-                else    
+                else
                 {
                     $q = Sanad_o5ra::where('id','>' ,0)->whereHas('sanadable', function($q) use($userBranch){
                         $q->where('branch_id', $userBranch->code_);
@@ -241,7 +242,7 @@ class financeCntroller extends Controller
                         $q->where('branch_id', $userBranch->code_);
                      });;
                 }
-                
+
                 $sanadat= $q->whereBetween('created_at', [ $date_from,  $date_to])->orderBy('created_at');
                 $safi7sab =$this->hesabNet($qNet,$date_from, request()->is_solfa);
                 $t=$sanadat;
@@ -265,7 +266,7 @@ class financeCntroller extends Controller
            // dd(Sanad::where('id','!=',0)->whereIN('code', $sanadat_code)->get());
             //  $safi7sab =$this->hesabNet( Sanad::where('id','!=',0)->whereIN('code', $sanadat_code),$date_from, request()->is_solfa,1);
              $safi7sab=  $total_safi;
-             
+
         }
         $sanadat=$sanadat->get();
         if(!isset( request()->web) ||    $empty ){
@@ -282,13 +283,14 @@ class financeCntroller extends Controller
                     'title'=>$page_title,
                     'safiKhazna'=>$safi7sab
                 ];
-               
+
                 $mpdf = PDF::loadView($printPage,$data);
                 $mpdf->showImageErrors = true;
-                return $mpdf->stream('document.pdf');
+                        return response($mpdf->Output('test.pdf',"I"),200)->header('Content-Type','application/pdf');
+
             }
-        
-        
+
+
         return view('accounting.company.kashf-7sab',compact('clients','branches','mandoubs','khaznat','owner','page_title',
         'sanadat','safi7sab','type7sab'));
     }
@@ -415,7 +417,7 @@ class financeCntroller extends Controller
                 $net-=$sanad->amount ;
 
         }
-       
+
         return $net;
     }
 
