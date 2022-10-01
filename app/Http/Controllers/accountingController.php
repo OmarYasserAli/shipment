@@ -179,7 +179,8 @@ class accountingController extends Controller
              'report_num' => $report->id
             ];
             $mpdf = PDF::loadView('accounting.3amil.print',$data);
-            return $mpdf->stream('document.pdf');
+        return response($mpdf->Output('test.pdf',"I"),200)->header('Content-Type','application/pdf');
+
         }
         return view('accounting.3amil.notmosadad',compact('all','mo7afazat','waselOnly','page_title','Commercial_names',
         'clients','status_color','css_prop','sums'));
@@ -349,7 +350,8 @@ class accountingController extends Controller
                 'report_num' => $report->id
             ];
             $mpdf = PDF::loadView('accounting.3amil.print',$data);
-            return $mpdf->stream('document.pdf');
+        return response($mpdf->Output('test.pdf',"I"),200)->header('Content-Type','application/pdf');
+
         }
         return view('accounting.3amil.mosadad',compact('sums','all','mo7afazat','brach_filter','waselOnly',
         'page_title','clients' ,'user','css_prop','status_color','Commercial_names'));
@@ -518,7 +520,8 @@ class accountingController extends Controller
                 'report_num' => $report->id
             ];
             $mpdf = PDF::loadView('accounting.mandoubtaslim.print',$data);
-            return $mpdf->stream('document.pdf');
+        return response($mpdf->Output('test.pdf',"I"),200)->header('Content-Type','application/pdf');
+
         }
         return view('accounting.mandoubtaslim.notmosadad',compact('sums','all','mo7afazat','waselOnly','page_title',
         'clients','status_color','css_prop','Commercial_names'));
@@ -691,7 +694,8 @@ class accountingController extends Controller
              'report_num' => $report->id
             ];
             $mpdf = PDF::loadView('accounting.mandoubtaslim.print',$data);
-            return $mpdf->stream('document.pdf');
+        return response($mpdf->Output('test.pdf',"I"),200)->header('Content-Type','application/pdf');
+
         }
         return view('accounting.mandoubtaslim.mosadad',compact('sums','all','mo7afazat','waselOnly','page_title',
         'clients','status_color', 'css_prop','Commercial_names'));
@@ -846,7 +850,8 @@ class accountingController extends Controller
              'report_num' => $report->id
             ];
             $mpdf = PDF::loadView('accounting.mandoubestlam.print',$data);
-            return $mpdf->stream('document.pdf');
+        return response($mpdf->Output('test.pdf',"I"),200)->header('Content-Type','application/pdf');
+
         }
         return view('accounting.mandoubestlam.notmosadad',compact('sums','all','mo7afazat','waselOnly','page_title',
         'clients','status_color' ,'css_prop','Commercial_names'));
@@ -1005,7 +1010,8 @@ class accountingController extends Controller
              'report_num' => $report->id
             ];
             $mpdf = PDF::loadView('accounting.mandoubestlam.print',$data);
-            return $mpdf->stream('document.pdf');
+        return response($mpdf->Output('test.pdf',"I"),200)->header('Content-Type','application/pdf');
+
         }
         return view('accounting.mandoubestlam.mosadad',compact('sums','all','mo7afazat','waselOnly','page_title',
         'clients','css_prop' ,'status_color' ,'Commercial_names'));
