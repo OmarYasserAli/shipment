@@ -161,7 +161,8 @@ class PrintController extends Controller
         ]);
         $mpdf = PDF::loadView($printPage,$data);
         $mpdf->showImageErrors = true;
-        return $mpdf->stream('document.pdf');
+               return response($mpdf->Output('test.pdf',"I"),200)->header('Content-Type','application/pdf');
+
 
 
 
@@ -193,7 +194,7 @@ class PrintController extends Controller
                 if(isset($request->print_title) )
                     $report->print_title = $request->print_title;
 
-                    
+
                 $report->save();
                 return response()->json([
                     'status' => 200,
