@@ -195,6 +195,10 @@ class definationsController extends Controller
                     $br = BranchInfo::create($request->all());
                     $br->serial_ = $br->code_;
                     $br->save();
+                     $br = CompanyInfo::create($request->all());
+                    $br->code_ = $br->serial_;
+                    $br->save();
+                    
             UserHistory::create([
                 "user_id" => auth()->user()->code_,
                 "action_name" => " انشاء الفرع",

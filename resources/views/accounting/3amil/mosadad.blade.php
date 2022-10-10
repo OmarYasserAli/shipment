@@ -204,6 +204,7 @@
                             <th class="whitespace-nowrap">الصافى</th>
                             <th class="whitespace-nowrap">اجره الشركه</th>
                             <th class="whitespace-nowrap">مبلغ الشحنه</th>
+                            <th class="whitespace-nowrap">ملاحظات</th>
                                     <th class="whitespace-nowrap">الكود</th>
                                     <th class="whitespace-nowrap"><input type="checkbox" id="checkAll"></th>
                         </tr>
@@ -224,6 +225,7 @@
                             <td class="whitespace-nowrap " >{{number_format($shipment->total_ , 0)}}</td>
                             <td class="whitespace-nowrap " >{{number_format($shipment->tawsil_coast_ , 0)}}</td>
                             <td class="whitespace-nowrap " >{{number_format($shipment->shipment_coast_ , 0)}}</td>
+                            <td class="whitespace-nowrap " >{{$shipment->notes_}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->code_}}</td>
                                     <td class="whitespace-nowrap " ><input type="checkbox" class="check_count" data-cost='{{$shipment->shipment_coast_}}'
                                         data-t7wel='{{$shipment->tawsil_coast_}}' data-net='{{$shipment->shipment_coast_}}' data-code='{{$shipment->code_}}' data-status='{{$shipment->Status_}}'></td>
@@ -641,6 +643,7 @@
 
                         cont++;
                         var client = '';
+                        var notes = value.notes_ == null ? '':value.notes_;
                         if (typeof value.client != 'undefined' &&  value.client != null){client = (value.client)['name_'];}else{client =value.client_name_}
                         $('#dataTable   tr:last').after(`<tr  class='status_`+value.Status_+`_color'>
                             <td  class="whitespace-nowrap " >`+cont+`</td>
@@ -654,6 +657,7 @@
                             <td  class="whitespace-nowrap " >`+value.total_.toLocaleString('en-US')+`</td>
                             <td  class="whitespace-nowrap " >`+value.tawsil_coast_.toLocaleString('en-US')+`</td>
                             <td  class="whitespace-nowrap " >`+value.shipment_coast_.toLocaleString('en-US')+`</td>
+                            <td  class="whitespace-nowrap " >`+notes+`</td>
                             <td  class="whitespace-nowrap " >`+value.code_+`</td>
                             <td class="whitespace-nowrap " ><input type="checkbox" class="check_count" data-cost='`+value.shipment_coast_+`'
                                         data-t7wel='`+value.tawsil_coast_+`' data-net='`+value.shipment_coast_+`' data-code='`+value.code_+`' data-status='`+value.Status_+`'></td>

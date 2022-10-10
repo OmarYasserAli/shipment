@@ -164,7 +164,15 @@
                     </div>
                 </div>
             </div>
-
+            <div style="background-color:#fff;  opacity: 1;position: fixed; bottom:0px; z-index:999; width:79%;" class="flex h-12 pt-3 rounded ">
+                <div class="mr-6" style="margin-left: 10px;">اجمالى مبالغ الشحنات</div>
+                <div class="total_cost" style="margin-left: 40px;"><input type="text" disabled class="h-6 w-40" id="total_cost" value="0"></div>
+                
+              
+                <div class=" " style="margin-left: 10px;">مجموع عدد الشحنات</div>
+                <div class=""> <input type="text" disabled class="h-6 w-16" id="total_cnt" value="0"></div>
+        
+            </div>
         <script type="text/javascript">
            $('#print').on('click', function(){
                 
@@ -187,7 +195,7 @@
             let  shipments=[];
             let  selected=[];
             let cnt=1;
-           
+            let total_cost=0
             let current_status=0;
             $( document ).ready(function() {
                 const myModal = tailwind.Modal.getOrCreateInstance(document.querySelector("#type_modal"));
@@ -203,6 +211,10 @@
             });
             $( "#qr_new" ).click(function() {
                 $('#manteka-table tr').not(function(){ return !!$(this).has('th').length; }).remove();
+                total_cost=0;
+                                           // console.log(total_cost ,res.shipment_coast_ );
+                                            $('#total_cnt').val(0);
+                                            $('#total_cost').val(0);
                     cnt=1;
                     shipments=[];
                 $('#shipment_form').find("input[type=text], textarea").val("");
@@ -235,13 +247,20 @@
                             //selected.push($(this).data('code'));
                             $( this ).remove();
                             var code=$(this).data('code')
+                            var cost=$(this).data('cost')
                             shipments.splice(shipments.indexOf(code)-1, 1)
-                            console.log(shipments);
+                            total_cost-=cost;
+                            //console.log(shipments);
                          }else{
                             $( this ).find("td:first").text(cnt);
+                            
+                                            
+                                            
                             cnt++;
                          }
                     });
+                                            $('#total_cnt').val(cnt-1);
+                                            $('#total_cost').val(total_cost);
                 });
                 
                 $( "#QR" ).keyup(function(e){
@@ -278,7 +297,7 @@
                                   
                                    
                                   
-                                        $('#manteka-table   tr:last').after(`<tr class='sho7nat-row' data-code=`+res.code_+`>
+                                        $('#manteka-table   tr:last').after(`<tr class='sho7nat-row' data-code=`+res.code_+ ` data-cost=`+res.shipment_coast_+`>
                                             <td>`+cnt+`</td>
                                             <td>`+res.code_+`</td>
                                             <td >`+(res.client_name_)+`   </td> 
@@ -291,6 +310,10 @@
                                             </td>
                                             </tr>`
                                             );
+                                            total_cost+=res.shipment_coast_;
+                                           // console.log(total_cost ,res.shipment_coast_ );
+                                            $('#total_cnt').val(cnt);
+                                            $('#total_cost').val(total_cost);
                                             cnt++;
                             },
                             error: function (request, status, error) {

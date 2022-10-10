@@ -16,8 +16,12 @@ use App\Setting;
 use App\Models\Shipment_status;
 use App\Models\Commercial_name;
 use App\Models\Archive;
-
+use App\Models\Sanad;
+use App\Models\Sanad_3amil;
+use App\Models\Sanad_taslim;
+use App\Models\Sanad_far3;
 use Carbon\Carbon;
+use App\Models\Khazna;
 use PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -185,7 +189,9 @@ class accountingController extends Controller
         'clients','status_color','css_prop','sums'));
     }
     public function amilTasdid(Request $request){
-
+       // dd();
+        
+       
         $user=auth()->user();
         // if($user->branch !='الفرع الرئيسى' && $request->brach_filter!=$user->branch)
         // {
@@ -199,10 +205,38 @@ class accountingController extends Controller
         ->where('add_shipment_tb_.status_', '!=',8)
         ->where('add_shipment_tb_.status_', '=',7)
         ->where('add_shipment_tb_.el3amil_elmosadad','')
-        ->where('branch_', '=', $user->branch)
-         ->update(['tarikh_tasdid_el3amil'=>Carbon::now(),
-            'add_shipment_tb_.el3amil_elmosadad' =>'مسدد'
-            ]);
+        ->where('branch_', '=', $user->branch);
+        $updated =$row->update(['tarikh_tasdid_mandoub_eltaslim'=>Carbon::now(),
+        'add_shipment_tb_.elmandoub_elmosadad_taslim' =>'مسدد'
+        ]);
+            
+        
+        if(Setting::get('auto_sanad') == 1 && $row->count()>0){
+            $model= user::where('name_',$request->client)->first();      
+      
+            $amount = $row->selectRaw( 'sum(shipment_coast_ - tawsil_coast_ ) as val')->get();       
+            $khazna = Khazna::where('branch_id',BranchInfo::where('name_',$user->branch)->first()->code_)->first();
+            $sanad= new Sanad();
+            $sanad->code = (Sanad::orderBy('id' ,'desc')->first()->code)+1;
+            $sanad->date = Carbon::now()->format('Y-m-d  g:i:s A');
+            $sanad->type = 'صرف';
+            $sanad->khazna_id = $khazna->id;
+            $sanad->amount = $amount[0]->val;
+            $sanad->is_solfa = 0;
+            $sanad->notes = '';
+            $sanad->save();    
+            $model->sanadat()->save($sanad);
+
+            $sanad2 = new Sanad_3amil();
+            $sanad2->client_id = $model->code_ ;
+            $sanad2->amount = $amount[0]->val;
+            $sanad2->code =  $sanad->code;
+            $sanad2->type = 'صرف';
+            $sanad2->is_solfa = 0;
+            $sanad2->note = '';
+            $sanad2->save();
+        }
+        
 
         UserHistory::create([
             "user_id" => auth()->user()->code_,
@@ -213,7 +247,7 @@ class accountingController extends Controller
         ]);
             return response()->json([
                 'status' => 200,
-                'count' => $row,
+                'count' => $updated,
                 'message' => 'تم التسديد',
             ], 200);
     }
@@ -538,12 +572,36 @@ class accountingController extends Controller
         ->whereIn('add_shipment_tb_.code_', $request->code)
         ->where('add_shipment_tb_.elmandoub_elmosadad_taslim','')
         ->where('add_shipment_tb_.status_', '=',7)
-        ->where('Ship_area_', '=', $user->branch)
-         ->update(['tarikh_tasdid_mandoub_eltaslim'=>Carbon::now(),
+        ->where('Ship_area_', '=', $user->branch);
+        $updated =$row->update(['tarikh_tasdid_mandoub_eltaslim'=>Carbon::now(),
             'add_shipment_tb_.elmandoub_elmosadad_taslim' =>'مسدد'
             ]);
 
-
+            if(Setting::get('auto_sanad') == 1){
+                $model= user::where('name_',$request->client)->first();      
+          
+                $amount = $request->amount;       
+                $khazna = Khazna::where('branch_id',BranchInfo::where('name_',$user->branch)->first()->code_)->first();
+                $sanad= new Sanad();
+                $sanad->code = (Sanad::orderBy('id' ,'desc')->first()->code)+1;
+                $sanad->date = Carbon::now()->format('Y-m-d  g:i:s A');
+                $sanad->type = 'قبض';
+                $sanad->khazna_id = $khazna->id;
+                $sanad->amount = $amount;
+                $sanad->is_solfa = 0;
+                $sanad->notes = '';
+                $sanad->save();    
+                $model->sanadat()->save($sanad);
+    
+                $sanad2 = new Sanad_far3();
+                $sanad2->client_id = $model->code_ ;
+                $sanad2->amount = $amount;;
+                $sanad2->code =  $sanad->code;
+                $sanad2->type = 'قبض';
+                $sanad2->is_solfa = 0;
+                $sanad2->note = '';
+                $sanad2->save();
+            }
         UserHistory::create([
             "user_id" => auth()->user()->code_,
             "action_name" => "تسديد مندوب تسليم",
@@ -553,7 +611,7 @@ class accountingController extends Controller
         ]);
             return response()->json([
                 'status' => 200,
-                'count' => $row,
+                'count' => $updated,
                 'message' => 'تم التسديد',
             ], 200);
     }

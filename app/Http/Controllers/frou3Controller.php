@@ -18,7 +18,12 @@ use App\Setting;
 use App\User;
 use Carbon\Carbon;
 use PDF;
+use App\Models\Khazna;
+use App\Models\Sanad;
+use App\Models\Sanad_3amil;
+use App\Models\Sanad_taslim;
 use App\Models\Sanad_far3;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -1566,6 +1571,7 @@ class frou3Controller extends Controller
     public function tasdid(Request $request){
 
         $user = $user = auth()->user();
+        dd($user->branch);
         if($user->branch !='الفرع الرئيسى' && $request->brach_filter !='الفرع الرئيسى' )
         {
             return response()->json([
@@ -1580,19 +1586,48 @@ class frou3Controller extends Controller
         ->where('add_shipment_tb_.status_', 7)
         ->where('add_shipment_tb_.branch_' ,$user->branch)
         ->where('add_shipment_tb_.transfere_1' ,$request->brach_filter)
-        ->where('add_shipment_tb_.elfar3_elmosadad_mno', '')
-            ->update(['add_shipment_tb_.tarikh_tasdid_far3'=>Carbon::now(),
+        ->where('add_shipment_tb_.elfar3_elmosadad_mno', '');
+        $updated1 = $row1->update(['add_shipment_tb_.tarikh_tasdid_far3'=>Carbon::now(),
             'add_shipment_tb_.elfar3_elmosadad_mno' =>'مسدد',
             ]);
         $row2 = DB::table('add_shipment_tb_')
             ->whereIn('add_shipment_tb_.code_', $request->code)
             ->where('add_shipment_tb_.status_', 7)
             ->where('transfere_1', '=', $user->branch)
-            ->where('transfere_2',$request->brach_filter )
-            ->where('add_shipment_tb_.elfar3_elmosadad_mno_2', '')
+            ->where('transfere_2',$request->brach_filter );
+            $updated2 = $row2->where('add_shipment_tb_.elfar3_elmosadad_mno_2', '')
                 ->update(['add_shipment_tb_.tarikh_tasdid_far3_2'=>Carbon::now(),
                 'add_shipment_tb_.elfar3_elmosadad_mno_2' =>'مسدد',
             ]);
+            $amount = $request->amount; 
+            if(Setting::get('auto_sanad') == 1 && $amount >0){
+                $model= BranchInfo::where('name_',$request->brach_filter)->first();      
+                //$model_from= BranchInfo::where('name_',$request->brach_filter)->first();      
+                 
+                $amount_1 = $row1->selectRaw( 'sum(shipment_coast_ - tawsil_coast_ ) as val')->get();       
+                $amount_2 = $row2->selectRaw( 'sum(shipment_coast_ - tawsil_coast_ ) as val')->get();       
+                $khazna = Khazna::where('branch_id',BranchInfo::where('name_',$user->branch)->first()->code_)->first();
+                $sanad= new Sanad();
+                $sanad->code = (Sanad::orderBy('id' ,'desc')->first()->code)+1;
+                $sanad->date = Carbon::now()->format('Y-m-d  g:i:s A');
+                $sanad->type = 'صرف';
+                $sanad->khazna_id = $khazna->id;
+                $sanad->amount = $amount;
+                $sanad->is_solfa = 0;
+                $sanad->notes = '';
+                $sanad->save();    
+                $model->sanadat()->save($sanad);
+    
+                $sanad2 = new Sanad_far3();
+                $sanad2->far3_id = $model->code_ ;
+                $sanad2->far3_from = BranchInfo::where('name_',$user->branch)->first()   ;
+                $sanad2->amount = $amount;
+                $sanad2->code =  $sanad->code;
+                $sanad2->type = 'صرف';
+                $sanad2->is_solfa = 0;
+                $sanad2->note = '';
+                $sanad2->save();
+            }
         UserHistory::create([
             "user_id" => auth()->user()->code_,
             "action_name" => "تسديد الشحنات",
@@ -1602,7 +1637,7 @@ class frou3Controller extends Controller
             return response()->json([
                 'status' => 200,
                 'message' => 'تم التسديد',
-                'count' => $row1+$row2,
+                'count' => $updated1+$updated2,
             ], 200);
     }
 
