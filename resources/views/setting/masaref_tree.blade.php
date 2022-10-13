@@ -1,3 +1,4 @@
+
 @extends('layout.app')
 
 @section('content')
@@ -135,71 +136,16 @@
                       <i class="icon ion-android-star"></i>
                       شجرة المصاريف
                     </a>
-                    
-                  @foreach ($items as $key => $item)
-                        @if($item->parent_id == 0)
-                            <details class="tree-nav__item is-expandable">
-                            <summary class="tree-nav__item-title">{{$item->name_}}</summary>
-                                @foreach ($items as $key2 => $item2)
-                                    @if($item->code_ == $item2->parent_id)
-                                        <details class="tree-nav__item is-expandable">
-                                            <summary class="tree-nav__item-title">{{$item2->name_}}</summary>
-                                            @foreach ($items as $key2 => $item3)
-                                                @if($item2->code_ == $item3->parent_id)
-                                                    <details class="tree-nav__item is-expandable">
-                                                        <summary class="tree-nav__item-title">{{$item3->name_}}</summary>
-                                                        @foreach ($items as $key2 => $item4)
-                                                            @if($item3->code_ == $item4->parent_id)
-                                                                <details class="tree-nav__item is-expandable">
-                                                                    <summary class="tree-nav__item-title">{{$item4->name_}}</summary>
-                                                                        @foreach ($items as $key2 => $item5)
-                                                                            @if($item4->code_ == $item5->parent_id)
-                                                                                <details class="tree-nav__item is-expandable">
-                                                                                    <summary class="tree-nav__item-title">{{$item5->name_}}</summary>
-                                                                                    @foreach ($items as $key2 => $item6)
-                                                                                        @if($item5->code_ == $item6->parent_id)
-                                                                                            <details class="tree-nav__item is-expandable">
-                                                                                                <summary class="tree-nav__item-title">{{$item6->name_}}</summary>
-                                                                                                
-                                                                                            </details>
-                                                                                        @endif
-                                                                                    @endforeach
-                                                                                    <details class="tree-nav__item is-expandable">
-                                                                                        <summary class="tree-nav__item-title"><apan class='add' data-parent='{{$item5->code_}}'>+اضافة</span></summary>
-                                                                                    </details>
-                                                                                </details>
-                                                                            @endif
-                                                                        @endforeach
-                                                                        <details class="tree-nav__item is-expandable">
-                                                                            <summary class="tree-nav__item-title"><apan class='add' data-parent='{{$item4->code_}}'>+اضافة</span></summary>
-                                                                        </details>
-                                                                </details>
-                                                                
-                                                            @endif
-                                                        @endforeach
-                                                        <details class="tree-nav__item is-expandable">
-                                                            <summary class="tree-nav__item-title"><apan class='add' data-parent='{{$item3->code_}}'>+اضافة</span></summary>
-                                                        </details>
-                                                    </details>
-                                                    {{--  --}}
-                                                @endif
-                                            @endforeach
-                                            <details class="tree-nav__item is-expandable">
-                                                <summary class="tree-nav__item-title"><apan class='add' data-parent='{{$item2->code_}}'>+اضافة</span></summary>
-                                            </details>
-                                        </details>
-                                        {{--  --}}
-                                    @endif
-                                @endforeach
-                            <details class="tree-nav__item is-expandable">
-                                <summary class="tree-nav__item-title"><apan class='add' data-parent='{{$item->code_}}'>+اضافة</span></summary>
-                            </details>
-                            </details>
-                        @endif
+                   
+                    @foreach ($tree as $key => $item)
+                        {!! \app\helpers::put_tree_item($item) !!}
                     @endforeach
-                    <details class="tree-nav__item is-expandable">
+                     <details class="tree-nav__item is-expandable">
                         <summary class="tree-nav__item-title"><apan class='add' data-parent='0'>+اضافة</span></summary>
-                    </details>
+
+                            </details>
+
+
 
                   </nav>
             </div>

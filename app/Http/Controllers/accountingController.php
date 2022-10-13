@@ -577,7 +577,7 @@ class accountingController extends Controller
             'add_shipment_tb_.elmandoub_elmosadad_taslim' =>'مسدد'
             ]);
 
-            if(Setting::get('auto_sanad') == 1){
+            if(Setting::get('auto_sanad') == 1 && $row->count()>0){
                 $model= user::where('name_',$request->client)->first();      
           
                 $amount = $request->amount;       
@@ -593,8 +593,8 @@ class accountingController extends Controller
                 $sanad->save();    
                 $model->sanadat()->save($sanad);
     
-                $sanad2 = new Sanad_far3();
-                $sanad2->client_id = $model->code_ ;
+                $sanad2 = new Sanad_taslim();
+                $sanad2->mandoub_id = $model->code_ ;
                 $sanad2->amount = $amount;;
                 $sanad2->code =  $sanad->code;
                 $sanad2->type = 'قبض';

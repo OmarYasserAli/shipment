@@ -122,7 +122,7 @@
                 
                 <!-- END: Weekly Top Products -->
             </div>
-        </div>
+        </div> 
         
     </div>
 </div>

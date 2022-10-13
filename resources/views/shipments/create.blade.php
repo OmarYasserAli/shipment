@@ -67,7 +67,7 @@
                                     @endif
                                     <div class="form-inline mt-3">
                                         <label for="3amil-name" class="form-label sm:w-20">اسم العميل</label>
-                                        <select class="form-control client_id " id='client_id' name="client_id" data-clear='{{$clearFileds['remove_client_name']}}' @if (auth()->user()->type_=='عميل') disabled @endif>
+                                        <select class="form-control client_id " id='client_id' name="client_id" data-clear='{{$clearFileds['remove_client_name']}}' @if (auth()->user()->type_=='عميل') readonly @endif>
                                             @if (auth()->user()->type_=='عميل')
                                             <option value="{{auth()->user()->code_}}">{{auth()->user()->name_}}</option>
                                            @else
@@ -137,9 +137,9 @@
                                         <input id="shipment_cost" type="text" class="form-control   mr-1" name="shipment_coast_" aria-label="default input inline 1"  value="{{request()->shipment_coast_}}">
 
                                         <label for="tawsil_cost" class="form-label sm:w-20">مبلغ التوصيل</label>
-                                        <input id="tawsil_cost" type="text" class="form-control col-span-2" name="tawsil_coast_"  aria-label="default input inline 1" @if(Illuminate\Support\Facades\Auth::user()->type_=='عميل') disabled @endif>
+                                        <input id="tawsil_cost" type="text" class="form-control col-span-2" name="tawsil_coast_"  aria-label="default input inline 1" @if(Illuminate\Support\Facades\Auth::user()->type_=='عميل') readonly @endif>
                                         <label for="total" class="form-label sm:w-20">الصافى</label>
-                                        <input  id="total" type="text" class="form-control col-span-2"  aria-label="default input inline 1" name="total_" @if(Illuminate\Support\Facades\Auth::user()->type_=='عميل') disabled @endif> 
+                                        <input  id="total" type="text" class="form-control col-span-2"  aria-label="default input inline 1" name="total_" @if(Illuminate\Support\Facades\Auth::user()->type_=='عميل') readonly @endif> 
 
 
                                     </div>

@@ -293,8 +293,8 @@ class financeCntroller extends Controller
         'sanadat','safi7sab','type7sab'));
     }
     public function Arba7(Request $request){
-
-        $khaznat= Khazna::all();
+        $user=auth()->user();
+        $khaznat= Khazna::where('branch_id',BranchInfo::where('name_',$user->branch)->first()->code_)->get();
         $sanadat =[];
         $date_from = Carbon::now()->format('y-m-d');
         $date_to = Carbon::now()->addDays(1)->format('y-m-d');

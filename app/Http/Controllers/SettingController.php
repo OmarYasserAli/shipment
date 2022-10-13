@@ -66,10 +66,35 @@ class SettingController extends Controller
         $items =O5ra_7sabat::where('branch_id',$b->code_)->get();
         return view("setting.o5ra_tree" , compact('items'));
     }
+    
+
+    public function buildTree(array $elements, $parentId = 0) {
+        $branch = array();
+
+        foreach ($elements as  $key => $element) {
+            if ($element['parent_id'] == $parentId) {
+                $children = $this->buildTree($elements, $element['id']);
+                if ($children) {
+                    $element['children'] = $children;
+                }
+                $branch[] = $element;
+            }
+        }
+        return( $branch);
+    }
+
+
     public function masaref_tree(){
         $b = BranchInfo::where('name_',auth()->user()->branch)->first();
-        $items =Masaref::where('branch_id',$b->code_)->get();
-        return view("setting.masaref_tree" , compact('items'));
+        $items =Masaref::where('branch_id',$b->code_)->orderBy('parent_id')->select('code_ as id','parent_id as parent_id','name_ as name')->get()->toArray();
+        $tree=[];
+        // foreach ($items as $key => $item) {
+        //     # code...
+        // }
+
+       $tree = $this->buildTree($items);
+        //dd($tree);
+        return view("setting.masaref_tree" , compact('items','tree'));
     }
     public function masaref_tree_store(Request $request){
         // dd($request->all());

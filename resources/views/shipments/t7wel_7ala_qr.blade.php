@@ -161,18 +161,20 @@
                         <!-- END: Basic Table -->
                         
                     </div>
-                </div>
-            </div>
-            <div style="background-color:#fff;  opacity: 1;position: fixed; bottom:0px; z-index:999; width:79%;" class="flex h-12 pt-3 rounded ">
-                <div class="mr-6" style="margin-left: 10px;">اجمالى مبالغ الشحنات</div>
-                <div class="total_cost" style="margin-left: 40px;"><input type="text" disabled class="h-6 w-40" id="total_cost" value="0"></div>
+                    <div style="background-color:#fff;  opacity: 1;position: fixed; bottom:0px; z-index:999; width:79%;" class="flex h-12 pt-3 rounded ">
+                        <div class="mr-6" style="margin-left: 10px;">اجمالى مبالغ الشحنات</div>
+                        <div class="total_cost" style="margin-left: 40px;"><input type="text" disabled class="h-6 w-40" id="total_cost" value="0"></div>
+                        
+                      
+                        <div class=" " style="margin-left: 10px;">مجموع عدد الشحنات</div>
+                        <div class=""> <input type="text" disabled class="h-6 w-16" id="total_cnt" value="0"></div>
                 
-              
-                <div class=" " style="margin-left: 10px;">مجموع عدد الشحنات</div>
-                <div class=""> <input type="text" disabled class="h-6 w-16" id="total_cnt" value="0"></div>
-        
-              
+                      
+                    </div>
+                </div>
+                
             </div>
+            
         <script type="text/javascript">
     $('#print').on('click', function(){
                 
