@@ -89,7 +89,7 @@ class financeCntroller extends Controller
            
 
         }
-
+        //dd($sanadat);
         $page_title='كشف حساب خزية';
 
 
@@ -386,9 +386,9 @@ class financeCntroller extends Controller
 
         foreach($sanadat as $sanad){
             if($sanad->type =='قبض')
-                $net+=$sanad->amount ;
+                $net+= intval(  $sanad->amount ) ;
             else
-                $net-=$sanad->amount ;
+                $net-= intval(  $sanad->amount )  ;
 
         }
         return $net;

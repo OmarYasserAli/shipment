@@ -21,7 +21,7 @@
                 </div>
             </a>
             <ul class="@if(Request::is('shiment/*')||Request::is('shiments') ||Request::is('shipment/*'))side-menu__sub-open @endif">
-                @if(\Illuminate\Support\Facades\Auth::user()->isAbleTo('homePage-shipment'))
+                @if(Auth::user()->isAbleTo('homePage-shipment')   || Auth::user()->hasRole('client'))
 
                 <li>
                     <a href="{{route('home-page')}}" class="side-menu side-menu--active">
@@ -318,7 +318,7 @@
                         </div>
                     </a>
                     <ul class="">
-                        @if(\Illuminate\Support\Facades\Auth::user()->isAbleTo('notMosadad3amel-accounting'))
+                        @if(\Illuminate\Support\Facades\Auth::user()->isAbleTo('notMosadad3amel-accounting') || Auth::user()->hasRole('client'))
                         <li>
                             <a href="{{route('accounting.3amil.notmosadad')}}" class="side-menu">
                                 <div class="side-menu__icon"> <i data-lucide="zap"></i> </div>
@@ -327,7 +327,7 @@
                             </a>
                         </li>
                         @endif
-                            @if(\Illuminate\Support\Facades\Auth::user()->isAbleTo('mosadad3amel-accounting'))
+                            @if(\Illuminate\Support\Facades\Auth::user()->isAbleTo('mosadad3amel-accounting') || Auth::user()->hasRole('client'))
 
                         <li>
                             <a href="{{route('accounting.3amil.mosadad')}}" class="side-menu">

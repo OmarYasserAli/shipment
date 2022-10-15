@@ -51,8 +51,8 @@ class shipmentsController extends Controller
     {
 
         $user=auth()->user();
-
-        if(!$user->isAbleTo('homePage-shipment')){
+        
+        if(!$user->isAbleTo('homePage-shipment') && !$user->hasRole('client') ){
             return abort(403);
         }
         $statuses= Shipment_status::orderBy('sort_no')
@@ -167,8 +167,8 @@ class shipmentsController extends Controller
     public function shipments(int $type,Request $request)
     {
         $user=auth()->user();
-        if(!$user->isAbleTo('index-shipment')){
-            return abort(403);
+        if(!$user->isAbleTo('index-shipment') && !$user->hasRole('client')) {
+            return abort(403); 
         }
            $status=$type;
 

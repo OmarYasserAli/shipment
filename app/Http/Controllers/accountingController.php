@@ -50,7 +50,7 @@ class accountingController extends Controller
 
         $user=auth()->user();
 
-        if(!$user->isAbleTo('notMosadad3amel-accounting')){
+        if(!$user->isAbleTo('notMosadad3amel-accounting') && !$user->hasRole('client')){
             return abort(403);
         }
         if($user->type_ == 'عميل'){
@@ -255,7 +255,7 @@ class accountingController extends Controller
     {
 
         $user=auth()->user();
-        if(!$user->isAbleTo('mosadad3amel-accounting')){
+        if(!$user->isAbleTo('mosadad3amel-accounting') && !$user->hasRole('client')){
             return abort(403);
         }
         if($user->type_ == 'عميل'){

@@ -38,11 +38,12 @@
                             </div>
                             <div class="dropdown md:ml-auto mt-5 md:mt-0">
                                 
-                                <select data-placeholder="اسم العميل" class="tom-select w-full client_id client_el" id="crud-form-2" >
+                                <select data-placeholder="اسم العميل" class="tom-select w-full client_id client_el" id="crud-form-2" 
+                                @if( Auth::user()->type_ =='عميل') disabled @endif>
                                             
                                     @foreach ($clients as  $client)
                                 
-                                    <option value='{{$client->code_}}'>{{$client->name_}}</option>
+                                    <option value='{{$client->code_}}' @if($client->code_ ==Auth::user()->code_ && Auth::user()->type_ =='عميل') selected  @endif>{{$client->name_}}</option>
                                     @endforeach
                                 </select>
                                 <div class="mt-0.5 text-slate-500"> اسم العميل</div>
@@ -132,6 +133,7 @@
 
     <script type="text/javascript">
 
+
 const labelsBarChart = [
    
   ];
@@ -157,7 +159,11 @@ const labelsBarChart = [
     document.getElementById("chartBar"),
     configBarChart
   );
-  $('.client_id').on('change',function(){
+$('.client_id').on('change',function(){
+    refreshCart();
+})
+
+function refreshCart(){
     var client_id = ($('.client_id').val());
     var date_to = ($('.date_to').val());
     var date_from = ($('.date_from').val());
@@ -210,7 +216,7 @@ const labelsBarChart = [
                                                             
                             }
                         });
-})
+}
   /////
     const dataPie = {
             
@@ -276,6 +282,7 @@ const labelsBarChart = [
             let current_status=0;
             $( document ).ready(function() {
                 $("body").fadeIn(50);
+                refreshCart();
                
             });
             

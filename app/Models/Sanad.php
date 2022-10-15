@@ -10,14 +10,17 @@ class Sanad extends Model
     protected $guarded = [];
     protected $filable = ['name','type','code','model_type','model_id','date'];
     // public $timestamps = false;
-
+     protected $casts = [
+        'amount' => 'double',
+       
+    ];
 
     public function sanadable()
     {
         return $this->morphTo();
     }
 
-    public function khazna()
+    public function khazna() 
     {
         return $this->belongsTo(khazna::class,'khazna_id');
     }

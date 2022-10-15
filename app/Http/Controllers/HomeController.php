@@ -31,7 +31,11 @@ class HomeController extends Controller
     {
 
         $dailyShipments = Shipment::where('date_'  ,'>=',DATE( Carbon::now()->format('Y-m-d')))
-        ->where('branch_',auth()->user()->branch)->get();
+        ->where('branch_',auth()->user()->branch);
+        if(auth()->user()->type_=='عميل'){
+            $dailyShipments =$dailyShipments->where('client_ID_',request()->client_id);
+        }
+        $dailyShipments =$dailyShipments->get();
         $dailyStatus    = Shipment::where('tarikh_el7ala'  ,'>=',DATE( Carbon::now()->format('Y-m-d')))
         ->where('tarikh_el7ala'  ,'<=',DATE( Carbon::now()->addDay(1)->format('Y-m-d')))
         ->where('Ship_area_',auth()->user()->branch)->select('Status_', DB::raw('count(*) as total'))->groupBy('Status_')->get()->pluck('total','Status_')->toArray();
@@ -41,6 +45,8 @@ class HomeController extends Controller
         ,'status_4_color','status_7_color','status_8_color','status_9_color','status_10_color','status_11_color','status_12_color'])->get()->keyBy('name')->pluck('val');
 
         $clients = User::where('type_','عميل')->where('branch', auth()->user()->branch)->get();
+         if(auth()->user()->type_=='عميل')
+            $clients = [auth()->user()];
         //dd($status_color);
         $page_title='لوحة المراقبة';
         return view('home' ,compact('page_title','dailyStatus','dailyShipments','status','status_color','clients'));

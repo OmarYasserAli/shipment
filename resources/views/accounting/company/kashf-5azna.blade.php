@@ -122,8 +122,8 @@
                         @foreach($sanadat as $sanad)
                         @php 
                             $i++;
-                            if($sanad->type =='صرف') {$raseed -= $sanad->amount;}
-                            if($sanad->type =='قبض') {$raseed += $sanad->amount;}
+                            if($sanad->type =='صرف') {$raseed -= intval($sanad->amount);}
+                            if($sanad->type =='قبض') {$raseed += intval($sanad->amount);}
                             if($raseed < 0){$da2en= -$raseed;   $madeen = 0;}
                             else{$da2en= 0;   $madeen = $raseed;}
                             $TrasedDa2en = $da2en;
@@ -135,8 +135,17 @@
                             <td  class="whitespace-nowrap " >{{$sanad->created_at }}</td>
                             <td  class="whitespace-nowrap " >{{$sanad->code }}</td>
                             <td class="whitespace-nowrap " >{{$sanad->type}} @if($sanad->is_solfa) سلفة @endif</td>
-                            <td class="whitespace-nowrap " >{{$sanad->mostafed_type()}}</td>
-                            <td class="whitespace-nowrap " >{{$sanad->sanadable->name_}}</td>
+
+                            @if(($sanad->sanadable()->first()) != null)
+                             <td class="whitespace-nowrap " >{{$sanad->mostafed_type()}}</td>
+
+                            <td class="whitespace-nowrap " >{{$sanad->sanadable->name_}}</td> 
+                            @else
+                            <td class="whitespace-nowrap " >تم حذف المستفيد</td>
+                            <td class="whitespace-nowrap " >تم حذف المستفيد</td>
+                            @endif
+
+                            
                             <td class="whitespace-nowrap " >{{$sanad->notes}}</td>
                             
                             <td class="whitespace-nowrap " >@if($sanad->type =='صرف')  {{number_format($sanad->amount , 0)}} @php $T7rkaDa2en+= $sanad->amount; @endphp @else 0 @endif</td>
