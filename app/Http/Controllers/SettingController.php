@@ -49,9 +49,12 @@ class SettingController extends Controller
             Setting::add('remove_commercial_name', 1, Setting::getDataType('remove_commercial_name'));
         else
             Setting::add('remove_commercial_name', 0, Setting::getDataType('remove_commercial_name'));
-           
+        if($request->auto_sanad =='on')
+            Setting::add('auto_sanad', 1, Setting::getDataType('auto_sanad'));
+        else
+            Setting::add('auto_sanad', 0, Setting::getDataType('auto_sanad'));   
         // dd($request->all());
-        $data= $request->except(['_token','shipment_code_ai' ,'remove_mantka','remove_mo7fza','remove_client_name','remove_commercial_name']);
+        $data= $request->except(['_token','shipment_code_ai' ,'remove_mantka','remove_mo7fza','remove_client_name','remove_commercial_name','auto_sanad']);
         foreach ($data as $key => $val) {
             //if (in_array($key, $validSettings)) {
                 Setting::add($key, $val, Setting::getDataType($key));
@@ -88,11 +91,7 @@ class SettingController extends Controller
         $b = BranchInfo::where('name_',auth()->user()->branch)->first();
         $items =Masaref::where('branch_id',$b->code_)->orderBy('parent_id')->select('code_ as id','parent_id as parent_id','name_ as name')->get()->toArray();
         $tree=[];
-        // foreach ($items as $key => $item) {
-        //     # code...
-        // }
-
-       $tree = $this->buildTree($items);
+        $tree = $this->buildTree($items);
         //dd($tree);
         return view("setting.masaref_tree" , compact('items','tree'));
     }

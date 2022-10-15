@@ -573,11 +573,9 @@ class accountingController extends Controller
         ->where('add_shipment_tb_.elmandoub_elmosadad_taslim','')
         ->where('add_shipment_tb_.status_', '=',7)
         ->where('Ship_area_', '=', $user->branch);
-        $updated =$row->update(['tarikh_tasdid_mandoub_eltaslim'=>Carbon::now(),
-            'add_shipment_tb_.elmandoub_elmosadad_taslim' =>'مسدد'
-            ]);
-
-            if(Setting::get('auto_sanad') == 1 && $row->count()>0){
+        $trow=$row;
+        
+            if(Setting::get('auto_sanad') == 1 && $trow->count()>0){
                 $model= user::where('name_',$request->client)->first();      
           
                 $amount = $request->amount;       
@@ -602,6 +600,9 @@ class accountingController extends Controller
                 $sanad2->note = '';
                 $sanad2->save();
             }
+            $updated =$row->update(['tarikh_tasdid_mandoub_eltaslim'=>Carbon::now(),
+            'add_shipment_tb_.elmandoub_elmosadad_taslim' =>'مسدد'
+            ]);
         UserHistory::create([
             "user_id" => auth()->user()->code_,
             "action_name" => "تسديد مندوب تسليم",

@@ -1607,7 +1607,7 @@ class frou3Controller extends Controller
                 $sanad= new Sanad();
                 $sanad->code = (Sanad::orderBy('id' ,'desc')->first()->code)+1;
                 $sanad->date = Carbon::now()->format('Y-m-d  g:i:s A');
-                $sanad->type = 'صرف';
+                $sanad->type = 'قبض';
                 $sanad->khazna_id = $khazna->id;
                 $sanad->amount = $amount;
                 $sanad->is_solfa = 0;
@@ -1620,7 +1620,7 @@ class frou3Controller extends Controller
                 $sanad2->far3_from = BranchInfo::where('name_',$user->branch)->first()->code_   ; // from  -> user logged
                 $sanad2->amount = $amount;
                 $sanad2->code =  $sanad->code;
-                $sanad2->type = 'صرف';
+               $sanad2->type = 'قبض';
                 $sanad2->is_solfa = 0;
                 $sanad2->note = '';
                 $sanad2->save();
