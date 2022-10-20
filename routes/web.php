@@ -200,6 +200,7 @@ Route::post('/accounting/mandoubestlam/tasdid', 'accountingController@mandoubest
     //loadmore
 Route::get('/accounting/loadMore', 'accountingController@loadMore')->name('accounting.loadMore');
 
+Route::get('/accounting/arba7-shipment', 'accountingController@arba7_shipments')->name('accounting.arba7_shipment');
 
 //end Accounting
 

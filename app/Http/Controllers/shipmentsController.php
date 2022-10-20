@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\CustomClass\response;
-use App\Http\Controllers\Api\site\Controller;
+
 use App\Models\BranchInfo;
 use App\Models\Mantikqa;
 use App\Models\Mohfza;
@@ -29,29 +29,24 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 use PDF;
+use Auth;
 class shipmentsController extends Controller
 {
+
     public function __construct()
     {
         $this->middleware('auth');
+        $this->init_Settings();
     }
     public function getAllMo7afazat(){
 
         return Mohfza::where('branch',auth()->user()->branch)->get();
     }
 
-
-
-    /**
-     * status
-     * ship_area = user->branch
-     * trasfaere accept refuse in [1 , 0]
-     */
     public function HomePage(Request $request)
     {
 
         $user=auth()->user();
-        
         if(!$user->isAbleTo('homePage-shipment') && !$user->hasRole('client') ){
             return abort(403);
         }
@@ -81,15 +76,7 @@ class shipmentsController extends Controller
             $statuses[$key]['cnt'] = $shipments ? $shipments->cnt : 0;
             $total+=$statuses[$key]['cnt'];
         }
-
-
-
-
-        //  dd($total);
         return view('shipments.7ala',compact('statuses','total'));
-        //return view('shipments.total',compact('statuses','cummercial_names'));
-
-
     }
     public function deleteShipment(Request $request){
         $code =  $request->code;
@@ -172,9 +159,9 @@ class shipmentsController extends Controller
         }
            $status=$type;
 
-            $limit=Setting::get('items_per_page');
-             $page =0;
-             if(isset(request()->page)) $page= request()->page;
+            $limit=$this->settings['items_per_page'];
+            
+            $page = (isset(request()->page))? request()->page:0;
 
             $t7weelTo = $this->t7weelArray( $type);
             if($user->type_  !='عميل'){
@@ -182,39 +169,39 @@ class shipmentsController extends Controller
                     $query->select('code_','phone_');
                 }])->where('Ship_area_',$user->branch)
                 ->whereIn('TRANSFERE_ACCEPT_REFUSE',[1,0])
-                ->where('status_',$status);
+                ->where('status_',$status)->with('client');
             }else{
                 $shipments = Shipment::with(['Branch_user' => function ($query) {
                     $query->select('code_','phone_');
                 }])->UserType($user->type_,$user->code_)
-                ->where('status_',$status);
+                ->where('status_',$status)->with('client');
             }
 
             if(isset(request()->commercial_name)){
                 $shipments = $shipments->where('add_shipment_tb_.commercial_name_', request()->commercial_name);
             }
 
-        if(isset($request->code)){
-           $shipments = $shipments->where('code_', '=', $request->code);
-        }
-        if(isset($request->reciver_phone)){
-            $shipments = $shipments->where('reciver_phone_', '=', $request->reciver_phone);
-         }
-
-        if(isset($request->mo7afza)){
-            /*
-            $mo7afaza = Mohfza::where('code',$request->mo7afza)->first();
-            $shipments = $shipments->where('Ship_area_', '=', $mo7afaza->name);
-            */
-            $shipments = $shipments->where('mo7afaza_id', '=', $request->mo7afza);
-         }
-       if(isset($request->branch_) && $request->branch_!='الكل'){
-        $shipments = $shipments->where('branch_', '=', $request->branch_);
-        }
-        if(isset($request->Commercial_name)){
-            $shipments = $shipments->where('commercial_name_', '=', $request->Commercial_name);
+            if(isset($request->code)){
+               $shipments = $shipments->where('code_', '=', $request->code);
             }
-        $all_shipments = $shipments;
+            if(isset($request->reciver_phone)){
+                $shipments = $shipments->where('reciver_phone_', '=', $request->reciver_phone);
+            }
+
+            if(isset($request->mo7afza)){
+                /*
+                $mo7afaza = Mohfza::where('code',$request->mo7afza)->first();
+                $shipments = $shipments->where('Ship_area_', '=', $mo7afaza->name);
+                */
+                $shipments = $shipments->where('mo7afaza_id', '=', $request->mo7afza);
+             }
+            if(isset($request->branch_) && $request->branch_!='الكل'){
+            $shipments = $shipments->where('branch_', '=', $request->branch_);
+            }
+            if(isset($request->Commercial_name)){
+                $shipments = $shipments->where('commercial_name_', '=', $request->Commercial_name);
+                }
+            $all_shipments = $shipments;
 
         if(isset( request()->date_from))
             $shipments= $shipments->where('date_' ,'>=',DATE($request->date_from) );
@@ -267,7 +254,7 @@ class shipmentsController extends Controller
         $clients =User::where('type_','عميل')->where('branch',auth()->user()->branch)->get();
         $status_color=Setting::whereIN('name',['status_6_color','status_1_color','status_2_color','status_3_color'
         ,'status_4_color','status_7_color','status_8_color','status_9_color'])->get()->keyBy('name')->pluck('val','name');
-        $css_prop = Setting::get('status_css_prop');
+        //$css_prop =$this->settings['status_css_prop'] ;
         //  dd($status_color);
         if(isset($request->title))
             $page_title=$request->title;
@@ -314,8 +301,11 @@ class shipmentsController extends Controller
             return $mpdf->stream('document.pdf');
         }
         $mandoub_taslims = user::where('branch',$user->branch)->where('type_','مندوب تسليم')->get();
+        $settings = $this->settings;
+
+
         return view('shipments.index',compact('all','type','mo7afazat','page_title','Commercial_names',
-        'clients','status_color','css_prop','sums' ,'t7weelTo','mandoub_taslims','manadeb_taslim'));
+        'clients','status_color','sums' ,'t7weelTo','mandoub_taslims','manadeb_taslim','settings'));
 
 
 
@@ -1395,7 +1385,7 @@ class shipmentsController extends Controller
         return view('shipments.create',compact('clients','mo7afazat','now','code_ai','page_title','clearFileds','phoneLength','Commercial_names'));
     }
     public function store(Request $request){
-
+        $user=auth()->user();
         try {
             $validated = $request->validate([
                 //'reciver_name_' => 'required',
@@ -1436,6 +1426,9 @@ class shipmentsController extends Controller
             $shipment->Ship_area_   = $user->branch;
             $shipment->branch_   = $user->branch;
             $shipment->status_   = 1;
+            if($user->type_=='عميل')
+                $shipment->status_   = 3;
+
             $shipment->el3nwan=$request->el3nwan;
             $shipment->elmantqa_el3nwan=$request->manteka."/".$request->el3nwan;
             $shipment->shipment_coast_=$request->shipment_coast_;

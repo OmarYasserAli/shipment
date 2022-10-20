@@ -81,33 +81,7 @@
                                 <label for="horizontal-form-1" class="form-label" style=" text-align:right!important; margin-right:3px; margin-left:5px; margin-top:8px;  ">الي</label>
                                 <input name='hala_date_to' type="date"  class="form-control form-select-sm "  aria-label="default input inline 1" style="">
                             </div>
-                            <div class="form-inline 3amil">
-                                <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:15px; margin-top:1px; width:30px; ">العميل</label>
-                                @if(auth()->user()->type_ != 'عميل')
-                                <input type="hidden" value="@if(request()->get('client_id')!= null){{request()->get('client_id')}}@else الكل @endif" name='client_id'>
-                                @else
-                                <input type="hidden" value="{{auth()->user()->name_}}" name='client_id'>
-
-                                @endif
-                                <div class="mr-6 alert alert-outline-secondary alert-dismissible show flex items-center mb-2" role="alert">
-                                        @if(request()->get('client_id')!= null)
-                                            @if(auth()->user()->type_ == 'عميل')
-                                                {{auth()->user()->name_}}
-                                            @else
-                                                {{request()->get('client_id')}}
-                                            @endif
-                                       @endif
-                                       @if(request()->get('client_id') == null)
-                                                @if(auth()->user()->type_ == 'عميل')
-                                                {{auth()->user()->name_}}
-                                                @else
-                                                الكل
-                                                @endif
-                                       @endif
-                                        <button type="button" class="btn-close" data-tw-dismiss="alert" aria-label="Close" onclick="window.location.replace('{{route('accounting.3amil.notmosadad')}}')">
-                                            <i data-lucide="x" class="w-4 h-4"></i> </button>
-                                    </div>
-                            </div>
+                            
 
                         </div >
                     </div>
@@ -134,16 +108,7 @@
                                     <label for="horizontal-form-1" class="form-label" style=" text-align:right!important; margin-right:3px; margin-left:5px; margin-top:1px;  ">الي</label>
                                     <input name="date_to" type="date"  class="form-control form-select-sm "  aria-label="default input inline 1" style="">
                                 </div>
-                                <div class="form-inline">
-                                    <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:10px; margin-top:8px;  width:64px; ">الاسم التجاري</label>
-                                    <select id="Commercial_name" name="Commercial_name" class="form-select form-select-sm " aria-label=".form-select-sm example" style=" width:244px">
-                                        <option value="">...</option>
-                                        @foreach($Commercial_names as $Commercial_name)
-                                            <option value="{{$Commercial_name->name_}}" @if(request()->get('Commercial_name') ==$Commercial_name->name_) selected @endif>{{$Commercial_name->name_}}</option>
-                                        @endforeach
-
-                                    </select>
-                                </div>
+                                
 
                             </div >
                         </div>
@@ -177,13 +142,7 @@
                             </div >
                         </div>
                         <div>
-                            @if(request()->get('client_id') != null  && request()->get('client_id') !='الكل')
-                                <div class="form-inline align-left">
-                                    <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:10px; margin-top:8px;  width:400px; "> </label>
-                                    <input type="button"  class="btn btn-success  align-left" style="direction: ltr"  value="تسديد المحدد" id='tasdid' >
-
-                                </div>
-                            @endif
+                           
                         </div>
                     </div>
                 </div>
@@ -200,8 +159,13 @@
                             <th class="whitespace-nowrap">اسم العميل</th>
                             <th class="whitespace-nowrap">تاريخ الشحنه</th>
                             <th class="whitespace-nowrap">الفرع</th>
+                            <th class="whitespace-nowrap">مكان الشحنه</th>
+                            <th class="whitespace-nowrap">تحويل أول</th>
+                            <th class="whitespace-nowrap">تحويل ثاني</th>
                             <th class="whitespace-nowrap">الصافى</th>
                             <th class="whitespace-nowrap">اجره الشركه</th>
+                            <th class="whitespace-nowrap">أجرة المندوب</th>
+                            <th class="whitespace-nowrap">أجرة الفرع</th>
                             <th class="whitespace-nowrap">مبلغ الشحنه</th>
                             <th class="whitespace-nowrap">ملاحظات</th>
                                     <th class="whitespace-nowrap">الكود</th>
@@ -220,13 +184,18 @@
                             <td class="whitespace-nowrap " >@if(isset($shipment->client)){{$shipment->client->name_}} @else {{$shipment->client_name_}}@endif</td>
                             <td class="whitespace-nowrap " >{{$shipment->date_}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->branch_}}</td>
+                            <td class="whitespace-nowrap " >{{$shipment->Ship_area_}}</td>
+                            <td class="whitespace-nowrap " >{{$shipment->transfere_1}}</td>
+                            <td class="whitespace-nowrap " >{{$shipment->transfere_2 }}</td>
                             <td class="whitespace-nowrap " >{{number_format($shipment->total_ , 0)}}</td>
                             <td class="whitespace-nowrap " >{{number_format($shipment->tawsil_coast_ , 0)}}</td>
+                            <td class="whitespace-nowrap " >{{number_format($shipment->ogra_mandoub , 0)}}</td>
+                            <td class="whitespace-nowrap " >{{number_format($shipment->t7weel_cost , 0)}}</td>
                             <td class="whitespace-nowrap " >{{number_format($shipment->shipment_coast_ , 0)}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->notes_}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->code_}}</td>
                                     <td class="whitespace-nowrap " ><input type="checkbox" class="check_count" data-cost='{{$shipment->shipment_coast_}}'
-                                        data-t7wel='{{$shipment->tawsil_coast_}}' data-net='{{$shipment->shipment_coast_}}' data-code='{{$shipment->code_}}' data-status='{{$shipment->Status_}}'></td>
+                                        data-t7wel='{{$shipment->tawsil_coast_}}' data-fr3='{{$shipment->t7weel_cost??0}}' data-mndoub='{{$shipment->ogra_mandoub}}' data-net='{{$shipment->shipment_coast_}}' data-code='{{$shipment->code_}}' data-status='{{$shipment->Status_}}'></td>
                         </tr>
                         @endforeach
 
@@ -249,24 +218,38 @@
     <div class="mt-10">
         {{-- {!! $all->render() !!} --}}
     </div>
-    <div style="background-color:#fff;  opacity: 1;position: fixed; bottom:0px; z-index:999; width:79%;" class="flex h-12 pt-3 rounded ">
-        <div class="mr-6" style="margin-left: 10px;">اجمالى مباغ الشخنات</div>
-        <div class="total_cost" style="margin-left: 40px;"><input type="text" disabled class="h-6 w-40" id="total_cost" value="0"></div>
+    
+</div>
+<div style="background-color:#fff;  opacity: 1;position: fixed; bottom:0px; z-index:999; width:95%;" class="flex h-16 pt-3 rounded ">
+        <div class="mr-5" style="margin-left: 5px;">اجمالى مباغ الشخنات</div>
+
+        <div class="total_cost" style="margin-left: 10px;"><input type="text" disabled class="h-6 " id="total_cost" value="0"  style="width: 150px;"></div>
         <div class="f" style="margin-left: 10px;">اجمالى أجرة الشركة</div>
-        <div class="total_tawsil" style="margin-left: 40px;"><input type="text" disabled class="h-6 w-40" id="total_tawsil" value="0"></div>
+        <div class="total_tawsil" style="margin-left: 10px;"><input type="text" disabled class="h-6 " id="total_tawsil" value="0" style="width: 150px;"></div>
         <div class=" " style="margin-left: 10px;">اجمالى الصافى</div>
-        <div class="total_net" style="margin-left: 40px;"><input type="text" disabled class="h-6 w-40" id='total_net' value="0"></div>
-        <div class=" " style="margin-left: 10px; margin-right: auto;">مجموع عدد الشحنات</div>
-        <div class=""> <input type="text" disabled class="h-6 w-16" id="total_cnt" value="0"></div>
+        <div class="total_net" style="margin-left: 10px;"><input type="text" disabled class="h-6 " id='total_net' value="0" style="width: 150px;"></div>
+        
+        <div class=" " style="margin-left: 10px;">اجمالى  اجرة الفرع</div>
+        <div class="total_fr3" style="margin-left: 10px;"><input type="text" disabled class="h-6 " id='total_fr3' value="0" style="width: 150px;"></div>
+
+        <div class=" " style="margin-left: 10px;">اجمالى  اجرة  المندوب</div>
+        <div class="total_mndoub" style="margin-left: 10px;"><input type="text" disabled class="h-6 " id='total_mndoub' value="0" style="width: 150px;"></div>
+
+        <div class=" " style="margin-left: 10px;">اجمالى   الربح</div>
+        <div class="total_rb7" style="margin-left: 10px;"><input type="text" disabled class="h-6 " id='total_rb7' value="0" style="width: 150px;"></div>
+
+        <div class=" " style="margin-left: 10px; margin-right: auto;">مجموع عدد الشحنات</div>   
+        <div class=""> <input type="text" disabled class="h-6 " id="total_cnt" value="0" style="width: 150px;"></div>
+
 
 
             <div style="margin-right:auto; margin-left:10px; margin-bottom:5px;"  class="dropdown inline-block" data-tw-placement="top"> <button class="dropdown-toggle btn btn-primary w-26 mr-1  h-6" aria-expanded="false" data-tw-toggle="dropdown"> اجماليات</button>
                 <div class="dropdown-menu w-60">
                     <ul class="dropdown-content">
                         <li> <a  class="dropdown-item"><span>{{number_format($sums['totalCost'])}}</span> <span style="margin-left:auto;">مبلغ الشحنات </span></a> </li>
-                    <li> <a  class="dropdown-item"><span>{{number_format($sums['tawsilCost'])}}</span>   <span style="margin-left:auto;">أجرة الشركة</span> </a> </li>
-                    <li> <a  class="dropdown-item"><span>{{number_format($sums['netCost'])}}</span>   <span style="margin-left:auto;">الصافى</span>   </a> </li>
-                    <li> <a  class="dropdown-item"><span>{{number_format($sums['allCount'])}}</span>   <span style="margin-left:auto;">عدد الشحنات</span> </a> </li>
+                        <li> <a  class="dropdown-item"><span>{{number_format($sums['tawsilCost'])}}</span>   <span style="margin-left:auto;">أجرة الشركة</span> </a> </li>
+                        <li> <a  class="dropdown-item"><span>{{number_format($sums['netCost'])}}</span>   <span style="margin-left:auto;">الصافى</span>   </a> </li>
+                        <li> <a  class="dropdown-item"><span>{{number_format($sums['allCount'])}}</span>   <span style="margin-left:auto;">عدد الشحنات</span> </a> </li>
 
 
 
@@ -275,8 +258,6 @@
             </div>
 
     </div>
-</div>
-
         <script type="text/javascript">
             let opreation_codes=[];
 
@@ -325,11 +306,11 @@
             let current_status=0;
             $( document ).ready(function() {
                 $("body").fadeIn(50);
-                const myModal = tailwind.Modal.getOrCreateInstance(document.querySelector("#type_modal"));
+                // const myModal = tailwind.Modal.getOrCreateInstance(document.querySelector("#type_modal"));
 
-                @if(!isset(request()->client_id ) || isset(request()->client_id) !='الكل' )
-                     myModal.show();
-                @endif
+                // @if(!isset(request()->client_id ) || isset(request()->client_id) !='الكل' )
+                //      myModal.show();
+                // @endif
                 // rows_counter()
             });
 
@@ -480,7 +461,11 @@
                     let total_cost=parseInt($('#total_cost').val());
                     let total_cnt=parseInt($('#total_cnt').val());
                     let total_tawsil=parseInt($('#total_tawsil').val());
+                    let total_fr3=parseInt($('#total_fr3').val());
+                    let total_mndoub=parseInt($('#total_mndoub').val());
                     let total_net= parseInt($('#total_net').val($('#total_cost').val()-$('#total_tawsil').val()));
+                    let total_rb7= parseInt($('#total_rb7').val(total_net-total_fr3-total_mndoub));
+
                     var i=1;
                     $('.check_count').each(function() {
 
@@ -489,11 +474,16 @@
                             total_cnt--;
                             total_cost-= $(this).data('cost');
                             total_tawsil-= parseInt($(this).data('t7wel'));
+                            total_fr3-= parseInt($(this).data('fr3'));
+                            total_mndoub-= parseInt($(this).data('mndoub'));
                             total_net-= $(this).data('net');
                             $('#total_cost').val(total_cost);
                             $('#total_tawsil').val(total_tawsil);
+                            $('#total_fr3').val(total_fr3);
+                            $('#total_mndoub').val(total_mndoub);
                             $('#total_net').val($('#total_cost').val()-$('#total_tawsil').val());
                             $('#total_cnt').val(total_cnt);
+                            $('#total_rb7').val(total_rb7);
 
                             $(this).parent().parent().remove();
 
@@ -517,25 +507,46 @@
                     let total_cost=parseInt($('#total_cost').val());
                     let total_cnt=parseInt($('#total_cnt').val());
                     let total_tawsil=parseInt($('#total_tawsil').val());
-                    let total_net= parseInt($('#total_net').val($('#total_cost').val()-$('#total_tawsil').val()));
+                    let total_fr3=parseInt($('#total_fr3').val());
+                    let total_mndoub=parseInt($('#total_mndoub').val());
+                    let total_net= 0;
+                    let total_rb7= 0;
+                    
+                        //console.log(total_net,total_fr3,total_mndoub);
+
                     if($(this).is(':checked'))
                     {
                         total_cnt++;
                         total_cost+= $(this).data('cost');
                         total_tawsil+= parseInt($(this).data('t7wel'));
-                        total_net+= $(this).data('net');
+                        total_fr3+= parseInt($(this).data('fr3'));
+                        total_mndoub+= parseInt($(this).data('mndoub'));
+                        total_net = total_cost - total_tawsil;
+
+                        total_rb7= total_net-total_fr3-total_mndoub;
+                        console.log(total_net,total_fr3,total_mndoub);
+
                     }
                     else
                     {
                         total_cnt--;
                         total_cost-= $(this).data('cost');
                         total_tawsil-= parseInt($(this).data('t7wel'));
-                        total_net-= $(this).data('net');
+                        total_fr3-= parseInt($(this).data('fr3'));
+                        total_mndoub-= parseInt($(this).data('mndoub'));
+                        total_net = total_cost - total_tawsil;
+
+                       total_rb7= total_net-total_fr3-total_mndoub;
+
                     }
                     $('#total_cost').val(total_cost);
                     $('#total_tawsil').val(total_tawsil);
-                    $('#total_net').val($('#total_cost').val()-$('#total_tawsil').val());
+                    $('#total_fr3').val(total_fr3);
+                    $('#total_mndoub').val(total_mndoub);
+                    $('#total_net').val(total_net);
                     $('#total_cnt').val(total_cnt);
+                    $('#total_rb7').val(total_rb7);
+
             });
 
 
@@ -545,6 +556,8 @@
                     let total_cost=parseInt($('#total_cost').val());
                     let total_cnt=parseInt($('#total_cnt').val());
                     let total_tawsil=parseInt($('#total_tawsil').val());
+                    let total_fr3=parseInt($('#total_fr3').val());
+                    let total_mndoub=parseInt($('#total_mndoub').val());
                     let total_net= parseInt($('#total_net').val($('#total_cost').val()-$('#total_tawsil').val()));
 
                     if($(this).is(':checked'))
@@ -559,6 +572,8 @@
                         total_cnt++;
                         total_cost+= parseInt($(this).data('cost'));
                         total_tawsil+= parseInt($(this).data('t7wel'));
+                        total_fr3+= parseInt($(this).data('fr3'));
+                        total_mndoub+= parseInt($(this).data('mndoub'));
                         total_net+= parseInt($(this).data('net'));
                         $(this).prop('checked', 1);
                     }
@@ -567,6 +582,8 @@
                         total_cnt--;
                         total_cost-= $(this).data('cost');
                         total_tawsil-= parseInt($(this).data('t7wel'));
+                        total_fr3-= parseInt($(this).data('fr3'));
+                        total_mndoub-= parseInt($(this).data('mndoub'));
                         total_net-= $(this).data('net');
                         $(this).prop('checked', 0);
                     }
@@ -575,7 +592,10 @@
                     });
                     $('#total_cost').val(total_cost);
                     $('#total_tawsil').val(total_tawsil);
+                    $('#total_fr3').val(total_fr3);
+                    $('#total_mndoub').val(total_mndoub);
                     $('#total_net').val($('#total_cost').val()-$('#total_tawsil').val());
+                    $('#total_rb7').val($('#total_net').val()-$('#total_fr3').val()-$('#total_mndoub').val());
                     $('#total_cnt').val(total_cnt);
             });
 
@@ -624,7 +644,7 @@
             });
             function infinteLoadMore(page) {
                 $.ajax({
-                    url: "{{route('accounting.3amil.notmosadad')}}"+ "?lodaMore=1&page=" + page+'&'+window.location.search.substr(1),
+                    url: "{{route('accounting.arba7_shipment')}}"+ "?lodaMore=1&page=" + page+'&'+window.location.search.substr(1),
 
                     type: "get",
                     beforeSend: function () {
@@ -641,6 +661,7 @@
                         cont++;
                         var client = '';
                         var notes = value.notes_ == null ? '':value.notes_;
+                        if(value.t7weel_cost == null) value.t7weel_cost=0;
                         if (typeof value.client != 'undefined' &&  value.client != null){client = (value.client)['name_'];}else{client =value.client_name_}
                         $('#dataTable   tr:last').after(`<tr  class='status_`+value.Status_+`_color'>
                             <td  class="whitespace-nowrap " >`+cont+`</td>
@@ -650,13 +671,19 @@
                             <td  class="whitespace-nowrap " >`+ client+`</td>
                             <td  class="whitespace-nowrap " >`+value.date_+`</td>
                             <td  class="whitespace-nowrap " >`+value.branch_+`</td>
+                            <td  class="whitespace-nowrap " >`+value.Ship_area_+`</td>
+                            <td  class="whitespace-nowrap " >`+value.transfere_1+`</td>
+                            <td  class="whitespace-nowrap " >`+value.transfere_2+`</td>
                             <td  class="whitespace-nowrap " >`+value.total_.toLocaleString('en-US')+`</td>
                             <td  class="whitespace-nowrap " >`+value.tawsil_coast_.toLocaleString('en-US')+`</td>
+                            <td  class="whitespace-nowrap " >`+value.ogra_mandoub.toLocaleString('en-US')+`</td>
+                            <td  class="whitespace-nowrap " >`+value.t7weel_cost+`</td>
                             <td  class="whitespace-nowrap " >`+value.shipment_coast_.toLocaleString('en-US')+`</td>
                             <td  class="whitespace-nowrap " >`+notes+`</td>
                             <td  class="whitespace-nowrap " >`+value.code_+`</td>
                             <td class="whitespace-nowrap " ><input type="checkbox" class="check_count" data-cost='`+value.shipment_coast_+`'
-                                        data-t7wel='`+value.tawsil_coast_+`' data-net='`+value.shipment_coast_+`' data-code='`+value.code_+`' data-status='`+value.Status_+`'></td>
+                                        data-t7wel='`+value.tawsil_coast_+  `'data-fr3='`+value.t7weel_cost+ `'data-mndoub='`+value.ogra_mandoub+
+                                        `' data-net='`+value.shipment_coast_+`' data-code='`+value.code_+`' data-status='`+value.Status_+`'></td>
                                             </tr>`
                                             );
 

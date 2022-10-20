@@ -14,8 +14,8 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function test(){
-        Mail::To('ahmedmaher1692001@gmail.com')->send(new test);
-        return 'asd';
-    }
+    // public function test(){
+    //     Mail::To('ahmedmaher1692001@gmail.com')->send(new test);
+    //     return 'asd';
+    // }
 }

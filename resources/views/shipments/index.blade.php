@@ -4,7 +4,7 @@
 <style>
     <?php
         foreach($status_color as $key => $value){
-            echo ".{$key}>td { $css_prop : $value !important;}";
+                echo( '.'.$key." > td ". "{" . $settings['status_css_prop']. " : ". $value. '}');
         }
     ?>
     body {
@@ -163,6 +163,7 @@
 
                             </div >
                         </div>
+                        @if(auth()->user()->type_=='موظف')
                         <div class="form-inline">
                             <label for="horizontal-form-1" class="form-label" style=" text-align:left; margin-left:10px; margin-top:8px; margin-right:3px ; width:250px">تحويل الشحنات الى</label>
 
@@ -175,6 +176,7 @@
                             </select>
                             <input type="button"  class="btn btn-success  align-left" style="direction: ltr"  value="تحويل المحدد" id='tasdid' >
                         </div>
+                        @endif
                     </div>
                 </div>
             </form>
@@ -221,7 +223,8 @@
                             <td  class="whitespace-nowrap " >{{$shipment->mo7afza_}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->reciver_phone_}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->commercial_name_}}</td>
-                            <td class="whitespace-nowrap " >@if(isset($shipment->client)){{$shipment->client->name_}} @else {{$shipment->client_name_}}@endif</td>
+                            <td class="whitespace-nowrap " >@if(isset($shipment->client)){{$shipment->client->name_}}
+                                 @else {{$shipment->client_name_}}@endif</td>
                             @if($type ==4 || $type ==6 || $type ==7)
                                 <td class="whitespace-nowrap">{{$shipment->mandoub_taslim}}</td>
                             @endif

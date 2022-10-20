@@ -1104,7 +1104,150 @@ class accountingController extends Controller
             ], 200);
     }
      //end acc
+    public function arba7_shipments(Request $request)
+    {
 
+        $user=auth()->user();
+
+        if(!$user->isAbleTo('notMosadad3amel-accounting') ){
+            return abort(403);
+        }
+        if($user->type_ == 'عميل'){
+            $request->client_id = $user->name_;
+        }
+        $limit=Setting::get('items_per_page');
+        $page =0;
+        if(isset(request()->page)) $page= request()->page;
+        $waselOnly=0;
+        if(isset($request->waselOnly))
+            $waselOnly= 1;
+
+        if(isset(request()->limit ))   $limit =request()->limit;
+        $shipments = Shipment::select('*',DB::raw("(CASE
+                                WHEN ( branch_ = '{$user->branch}' and  transfere_1 !=  '' ) THEN  transfer_coast_1
+                                WHEN ( transfere_1 = '{$user->branch}' and  transfere_2 != '') THEN transfer_coast_2
+                                END) AS t7weel_cost")
+                                    ,DB::raw("(CASE
+                                WHEN ( Ship_area_ != '{$user->branch}') THEN  0
+                                WHEN ( Ship_area_ = '{$user->branch}') THEN tas3ir_mandoub_taslim
+                                END) AS ogra_mandoub"))
+                                    ->where('status_','!=',8)
+                                    ->where(function ($query) use ($user) {
+                                        $query->  where('branch_', '=', $user->branch)
+                                              ->orwhere('transfere_1', '=', $user->branch)
+                                              ->orwhere('transfere_2', '=', $user->branch);
+                                    })
+                                  ->with(['client']);
+
+                                  //dd( $shipments->first());
+
+        if($waselOnly)
+            $shipments = $shipments->where('status_' ,'=',7) ;
+        else
+            $shipments = $shipments->where('status_' ,'!=',8) ;
+
+        if(isset($request->code)){
+           $shipments = $shipments->where('code_', '=', $request->code);
+        }
+        if(isset($request->reciver_phone)){
+            $shipments = $shipments->where('reciver_phone_', '=', $request->reciver_phone);
+         }
+
+        if(isset($request->mo7afza)){
+            $shipments = $shipments->where('mo7afaza_id', '=', $request->mo7afza);
+         }
+
+       if(isset($request->client_id) && $request->client_id!='الكل'){
+           $shipments = $shipments->where('client_name_', '=', $request->client_id);
+        //    dd($shipments->get());
+
+        }
+        // dd($shipments->get());
+        if(isset($request->Commercial_name)){
+            $shipments = $shipments->where('commercial_name_', '=', $request->Commercial_name);
+            }
+        $all_shipments = $shipments;
+
+        if(isset( request()->date_from))
+            $shipments= $shipments->where('date_' ,'>=',DATE($request->date_from) );
+        if(isset( request()->date_to))
+            $shipments= $shipments->where('date_' ,'<=' ,DATE($request->date_to) );
+
+        if(isset( request()->hala_date_from))
+            $shipments= $shipments->where('tarikh_el7ala' ,'>=',DATE( request()->hala_date_from) );
+        if(isset( request()->hala_date_to))
+            $shipments= $shipments->where('tarikh_el7ala' ,'<=',DATE( request()->hala_date_to) );
+
+        if(request()->showAll == 'on'){
+            $counter= $all_shipments->get();
+            $count_all = $counter->count();
+            request()->limit=$count_all;
+        }
+        //  dd($all_shipments->skip(0)->limit(40)->get()[20]);
+        $codes = $all_shipments;
+        $codes= $codes->pluck('code_')->toArray();
+        $totalCost = $all_shipments->sum('shipment_coast_');
+        $tawsilCost = $all_shipments->sum('tawsil_coast_');
+        $allCount = $all_shipments->count();
+        $netCost =  $totalCost-$tawsilCost;
+        $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];
+        
+        $all = $all_shipments->skip($limit*$page)->limit($limit)->get();
+        if(isset(request()->lodaMore)){
+
+            return response()->json([
+                'status' => 200,
+                'data' => $all,
+                'message' => 'sucecss',
+                'sums'=>$sums
+            ], 200);
+        }
+
+        // $all->withPath("?mo7afza={$request->mo7afza}&showAll={$request->showAll}
+        // &client_id={$request->client_id}");
+
+        $mo7afazat =$this->getAllMo7afazat();
+        $filtered_clients = User::where('type_','عميل')->where('name_',$request->client_id)->pluck('code_')->toArray();
+        $Commercial_names =Commercial_name::whereIn('code_',$filtered_clients)->groupBy('name_')->get();
+
+
+        $clients =User::where('type_','عميل')->where('branch',$user->branch)->get();
+        $status_color=Setting::whereIN('name',['status_6_color','status_1_color','status_2_color','status_3_color'
+        ,'status_4_color','status_7_color','status_8_color','status_9_color'])->get()->keyBy('name')->pluck('val','name');
+        $css_prop = Setting::get('status_css_prop');
+        //  dd($status_color);
+        $page_title='ارباح الشحنات';
+        if(isset(request()->pdf)){
+
+            if(!isset(request()->report)) return false;
+            $report = request()->report;
+            $report = Print_report::where('id',$report)->first();
+            $report->update([
+                "url" => URL::full(),
+                "print_title"=> $page_title,
+                "branch" => auth()->user()->branch
+
+            ]);
+            $codes= explode(',',$report->codes);
+            $all=Shipment::whereIn('code_',$codes);
+            $all=$all->get();
+            $totalCost = $all->sum('shipment_coast_');
+            $tawsilCost = $all->sum('tawsil_coast_');
+            $alSafiCost = $all->sum('total_');
+
+            $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'alSafiCost'=>$alSafiCost,'company' => 1];
+            $data = [
+                'all'=>$all,
+                'title'=>$page_title,
+                'sum'=>$sums,
+             'report_num' => $report->id
+            ];
+            $mpdf = PDF::loadView('accounting.3amil.print',$data);
+            return $mpdf->stream('document.pdf');
+        }
+        return view('accounting.arba7_shipments',compact('all','mo7afazat','waselOnly','page_title','Commercial_names',
+        'clients','status_color','css_prop','sums'));
+    }
 
      public function loadMore(Request $request)
     {

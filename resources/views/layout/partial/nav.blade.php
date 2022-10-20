@@ -403,9 +403,18 @@
                 @endif
 
 
+                @if(\Illuminate\Support\Facades\Auth::user()->isAbleTo('export-frou3'))
 
+                <li>
+                    <a href="{{route('accounting.arba7_shipment')}}" class="side-menu">
+                        <div class="side-menu__icon"> <i data-lucide="activity"></i> </div>
+                        <div class="side-menu__title"> ارباح الشحنات </div>
+                    </a>
+                </li>
+                @endif
 
             </ul>
+
         </li>
         @if(\Illuminate\Support\Facades\Auth::user()->type_ == 'موظف' )
 
