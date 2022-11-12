@@ -184,6 +184,7 @@
                             <th class="whitespace-nowrap">الصافى</th>
                             <th class="whitespace-nowrap">اجره المندوب</th>
                             <th class="whitespace-nowrap">مبلغ الشحنه</th>
+                            <th class="whitespace-nowrap">الربح</th>
                             <th class="whitespace-nowrap">ملاحظات</th>
                                     <th class="whitespace-nowrap">الكود</th>
                                     <th class="whitespace-nowrap"><input type="checkbox" id="checkAll"></th>
@@ -205,10 +206,11 @@
                             <td class="whitespace-nowrap " >{{number_format($shipment->shipment_coast_ -$shipment->tas3ir_mandoub_taslim , 0)}}</td>
                             <td class="whitespace-nowrap " >{{number_format($shipment->tas3ir_mandoub_taslim , 0)}}</td>
                             <td class="whitespace-nowrap " >{{number_format($shipment->shipment_coast_ , 0)}}</td>
+                            <td class="whitespace-nowrap " >{{number_format($shipment->arba7 , 0)}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->notes_}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->code_}}</td>
                                     <td class="whitespace-nowrap " ><input type="checkbox" class="check_count" data-cost='{{$shipment->shipment_coast_}}'
-                                        data-t7wel='{{$shipment->tas3ir_mandoub_taslim}}' data-net='{{$shipment->shipment_coast_}}' data-code='{{$shipment->code_}}' data-status='{{$shipment->Status_}}'></td>
+                                        data-t7wel='{{$shipment->tas3ir_mandoub_taslim}}' data-net='{{$shipment->shipment_coast_}}' data-code='{{$shipment->code_}}' data-status='{{$shipment->Status_}}' data-arba7='{{$shipment->arba7}}'></td>
                         </tr>
                         @endforeach
 
@@ -247,6 +249,7 @@
                     <li> <a  class="dropdown-item"><span>{{number_format($sums['totalCost'])}}</span> <span style="margin-left:auto;">مبلغ الشحنات </span></a> </li>
                     <li> <a  class="dropdown-item"><span>{{number_format($sums['tawsilCost'])}}</span>   <span style="margin-left:auto;">أجرة المندوب</span> </a> </li>
                     <li> <a  class="dropdown-item"><span>{{number_format($sums['netCost'])}}</span>   <span style="margin-left:auto;">الصافى</span>   </a> </li>
+                    <li> <a  class="dropdown-item"><span>{{number_format($sums['totalRb7'])}}</span>   <span style="margin-left:auto;">اجمالى الربح</span>   </a> </li>
                     <li> <a  class="dropdown-item"><span>{{number_format($sums['allCount'])}}</span>   <span style="margin-left:auto;">عدد الشحنات</span> </a> </li>
 
 

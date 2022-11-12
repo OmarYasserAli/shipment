@@ -204,6 +204,8 @@
                             <th class="whitespace-nowrap">الصافى</th>
                             <th class="whitespace-nowrap">اجره الشركه</th>
                             <th class="whitespace-nowrap">مبلغ الشحنه</th>
+                            {{-- <th class="whitespace-nowrap">الربح</th> --}}
+                            
                             <th class="whitespace-nowrap">ملاحظات</th>
                                     <th class="whitespace-nowrap">الكود</th>
                                     <th class="whitespace-nowrap"><input type="checkbox" id="checkAll"></th>
@@ -225,10 +227,12 @@
                             <td class="whitespace-nowrap " >{{number_format($shipment->total_ , 0)}}</td>
                             <td class="whitespace-nowrap " >{{number_format($shipment->tawsil_coast_ , 0)}}</td>
                             <td class="whitespace-nowrap " >{{number_format($shipment->shipment_coast_ , 0)}}</td>
+                            {{-- <td class="whitespace-nowrap " >{{$shipment->arba7}}</td> --}}
                             <td class="whitespace-nowrap " >{{$shipment->notes_}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->code_}}</td>
                                     <td class="whitespace-nowrap " ><input type="checkbox" class="check_count" data-cost='{{$shipment->shipment_coast_}}'
-                                        data-t7wel='{{$shipment->tawsil_coast_}}' data-net='{{$shipment->shipment_coast_}}' data-code='{{$shipment->code_}}' data-status='{{$shipment->Status_}}'></td>
+                                        data-t7wel='{{$shipment->tawsil_coast_}}' data-net='{{$shipment->shipment_coast_}}'
+                                         data-code='{{$shipment->code_}}' data-status='{{$shipment->Status_}}'data-arba7='{{$shipment->arba7}}' ></td>
                         </tr>
                         @endforeach
 
@@ -267,6 +271,7 @@
                     <li> <a  class="dropdown-item"><span>{{number_format($sums['totalCost'])}}</span> <span style="margin-left:auto;">مبلغ الشحنات </span></a> </li>
                     <li> <a  class="dropdown-item"><span>{{number_format($sums['tawsilCost'])}}</span>   <span style="margin-left:auto;">أجرة الشركة</span> </a> </li>
                     <li> <a  class="dropdown-item"><span>{{number_format($sums['netCost'])}}</span>   <span style="margin-left:auto;">الصافى</span>   </a> </li>
+                    {{-- <li> <a  class="dropdown-item"><span>{{number_format($sums['totalRb7'])}}</span>   <span style="margin-left:auto;">اجمالى الربح</span>   </a> </li> --}}
                     <li> <a  class="dropdown-item"><span>{{number_format($sums['allCount'])}}</span>   <span style="margin-left:auto;">عدد الشحنات</span> </a> </li>
 
 
@@ -524,12 +529,16 @@
                 let total_cnt=parseInt($('#total_cnt').val());
                 let total_tawsil=parseInt($('#total_tawsil').val());
                 let total_net= parseInt($('#total_net').val($('#total_cost').val()-$('#total_tawsil').val()));
+                let total_rb7 =parseInt($('#total_rb7').val());
+
                 if($(this).is(':checked'))
                 {
                     total_cnt++;
                     total_cost+= $(this).data('cost');
                     total_tawsil+= parseInt($(this).data('t7wel'));
                     total_net+= $(this).data('net');
+                    total_rb7= total_rb7+parseInt($(this).data('arba7'));
+
                 }
                 else
                 {
@@ -537,11 +546,16 @@
                     total_cost-= $(this).data('cost');
                     total_tawsil-= parseInt($(this).data('t7wel'));
                     total_net-= $(this).data('net');
+                    total_rb7= total_rb7-parseInt($(this).data('arba7'));;
+
                 }
                 $('#total_cost').val(total_cost);
                 $('#total_tawsil').val(total_tawsil);
                 $('#total_net').val($('#total_cost').val()-$('#total_tawsil').val());
                 $('#total_cnt').val(total_cnt);
+                $('#total_rb7').val(total_rb7);
+
+                
         });
 
 
@@ -552,6 +566,7 @@
                         let total_cnt=parseInt($('#total_cnt').val());
                         let total_tawsil=parseInt($('#total_tawsil').val());
                         let total_net= parseInt($('#total_net').val($('#total_cost').val()-$('#total_tawsil').val()));
+                        let total_rb7 = parseInt($('#total_rb7').val());
 
                         if($(this).is(':checked'))
                             var items=$('table tbody input:checkbox:not(:checked)')
@@ -566,6 +581,8 @@
                             total_cost+= parseInt($(this).data('cost'));
                             total_tawsil+= parseInt($(this).data('t7wel'));
                             total_net+= parseInt($(this).data('net'));
+                            total_rb7+= parseInt($(this).data('arba7'));
+
                             $(this).prop('checked', 1);
                         }
                         else
@@ -574,6 +591,8 @@
                             total_cost-= $(this).data('cost');
                             total_tawsil-= parseInt($(this).data('t7wel'));
                             total_net-= $(this).data('net');
+                            total_rb7-= parseInt($(this).data('arba7'));
+
                             $(this).prop('checked', 0);
                         }
 
@@ -583,6 +602,8 @@
                         $('#total_tawsil').val(total_tawsil);
                         $('#total_net').val($('#total_cost').val()-$('#total_tawsil').val());
                         $('#total_cnt').val(total_cnt);
+                        $('#total_rb7').val(total_rb7);
+
                 });
 
                 $( ".filterByEnter" ).keyup(function(e){

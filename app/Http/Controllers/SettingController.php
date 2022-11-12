@@ -18,8 +18,9 @@ class SettingController extends Controller
 {
     public function index()
     {
-        $settings  =Setting::getAllSettings()->keyBy('name');
-        
+
+        $settings  =Setting::where('branch','all')->orwhere('branch',auth()->user()->branch)->get()->keyBy('name');
+        //dd($settings);
         return view('setting.index', compact('settings'));
     }
     
@@ -49,9 +50,15 @@ class SettingController extends Controller
             Setting::add('remove_commercial_name', 1, Setting::getDataType('remove_commercial_name'));
         else
             Setting::add('remove_commercial_name', 0, Setting::getDataType('remove_commercial_name'));
-        if($request->auto_sanad =='on')
-            Setting::add('auto_sanad', 1, Setting::getDataType('auto_sanad'));
-        else
+        $br = auth()->user()->branch_;
+        if($request->auto_sanad =='on'){
+            $s = Setting::where('name','auto_sanad')->where('branch',auth()->user()->branch)->first();
+            $s->val=1;  $s->save();
+        }
+        else{
+            $s = Setting::where('name','auto_sanad')->where('branch',auth()->user()->branch)->first();
+            $s->val=1;  $s->save();  
+        }
             Setting::add('auto_sanad', 0, Setting::getDataType('auto_sanad'));   
         // dd($request->all());
         $data= $request->except(['_token','shipment_code_ai' ,'remove_mantka','remove_mo7fza','remove_client_name','remove_commercial_name','auto_sanad']);

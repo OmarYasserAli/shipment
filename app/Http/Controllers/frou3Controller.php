@@ -70,7 +70,15 @@ class frou3Controller extends Controller
                                     END) AS t7weel_cost"),DB::raw("(CASE
                                     WHEN ( branch_ = '{$user->branch}' and  transfere_1 = '{$brach_filter}' and elfar3_elmosadad_mno = '') THEN  tarikh_tasdid_far3
                                     WHEN ( transfere_1 = '{$user->branch}' and  transfere_2 = '{$brach_filter}' and elfar3_elmosadad_mno_2 = '') THEN tarikh_tasdid_far3_2
-                                    END) AS tasdid_far3"));
+                                    END) AS tasdid_far3"),
+                                    DB::raw("(CASE
+                                WHEN ( branch_ = '{$user->branch}'  and transfere_1 != '') THEN  tawsil_coast_ - transfer_coast_1
+                                WHEN ( branch_ = '{$user->branch}'  and transfere_1 = '') THEN  tawsil_coast_ - tas3ir_mandoub_taslim
+                                WHEN ( transfere_1 = '{$user->branch}'  and transfere_2 != '') THEN  transfer_coast_1 - transfer_coast_2
+                                WHEN ( transfere_1 = '{$user->branch}'  and transfere_2 = '') THEN  transfer_coast_1 - tas3ir_mandoub_taslim
+                                WHEN ( transfere_2 = '{$user->branch}'  ) THEN  transfer_coast_2 - tas3ir_mandoub_taslim
+
+                                END) AS arba7"));
             $shipments = $shipments->where(function ($query) use($request,$user,$brach_filter){
                 $query->where(function ($query) use($request,$user,$brach_filter){
                     $query->where('branch_', '=', $user->branch)
@@ -92,7 +100,15 @@ class frou3Controller extends Controller
                                 END) AS t7weel_cost"),DB::raw("(CASE
                                 WHEN ( branch_ = '{$user->branch}' and  transfere_1 !=  '' and elfar3_elmosadad_mno = '') THEN  tarikh_tasdid_far3
                                 WHEN ( transfere_1 = '{$user->branch}' and  transfere_2 != '' and elfar3_elmosadad_mno_2 = '') THEN tarikh_tasdid_far3_2
-                                END) AS tasdid_far3"));
+                                END) AS tasdid_far3"),
+                            DB::raw("(CASE
+                                WHEN ( branch_ = '{$user->branch}'  and transfere_1 != '') THEN  tawsil_coast_ -transfer_coast_1
+                                WHEN ( branch_ = '{$user->branch}'  and transfere_1 = '') THEN  tawsil_coast_ - tas3ir_mandoub_taslim
+                                WHEN ( transfere_1 = '{$user->branch}'  and transfere_2 != '') THEN  transfer_coast_1 - transfer_coast_2
+                                WHEN ( transfere_1 = '{$user->branch}'  and transfere_2 = '') THEN  transfer_coast_1 - tas3ir_mandoub_taslim
+                                WHEN ( transfere_2 = '{$user->branch}'  ) THEN  transfer_coast_2 - tas3ir_mandoub_taslim
+
+                                END) AS arba7"));
 
             $shipments = $shipments->where(function ($query) use($request,$user,$brach_filter){
                 $query->where(function ($query) use($request,$user,$brach_filter){
@@ -108,6 +124,8 @@ class frou3Controller extends Controller
                     });
             });
         }
+
+        
             //saif = shipmnt_cost  - t7weel
             //dd($shipments->first());
             if($waselOnly)
@@ -146,8 +164,9 @@ class frou3Controller extends Controller
             $shipments= $shipments->where('tarikh_el7ala' ,'<=' ,DATE($request->hala_date_to) );
 
             $all_shipments = $shipments;
-            $ta7weel=0;
+            $ta7weel=0;  $totalRb7=0;
             foreach($all_shipments->get() as $ship){
+                $totalRb7 += $ship->arba7 ;
                 $ta7weel += $ship->t7weel_cost ;
             }
             // dd($ta7weel);
@@ -161,7 +180,8 @@ class frou3Controller extends Controller
         $tawsilCost = $ta7weel;
         $allCount = $all_shipments->count();
         $netCost =  $totalCost-$tawsilCost;
-        $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];
+        $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount,
+        'totalRb7'=>$totalRb7];
         $all = $all_shipments->skip($limit*$page)->limit($limit)->get();
         if(isset(request()->lodaMore)){
 
@@ -264,7 +284,15 @@ class frou3Controller extends Controller
                                     END) AS t7weel_cost"),DB::raw("(CASE
                                     WHEN ( branch_ = '{$brach_filter }' and  transfere_1 = '{$user->branch}' and elfar3_elmosadad_mno = '') THEN  tarikh_tasdid_far3
                                     WHEN ( transfere_1 = '{$brach_filter }' and  transfere_2 = '{$user->branch}' and elfar3_elmosadad_mno_2 = '') THEN tarikh_tasdid_far3_2
-                                    END) AS tasdid_far3"));
+                                    END) AS tasdid_far3"),
+                                DB::raw("(CASE
+                                WHEN ( branch_ = '{$user->branch}'  and transfere_1 != '') THEN  tawsil_coast_ -transfer_coast_1
+                                WHEN ( branch_ = '{$user->branch}'  and transfere_1 = '') THEN  tawsil_coast_ - tas3ir_mandoub_taslim
+                                WHEN ( transfere_1 = '{$user->branch}'  and transfere_2 != '') THEN  transfer_coast_1 - transfer_coast_2
+                                WHEN ( transfere_1 = '{$user->branch}'  and transfere_2 = '') THEN  transfer_coast_1 - tas3ir_mandoub_taslim
+                                WHEN ( transfere_2 = '{$user->branch}'  ) THEN  transfer_coast_2 - tas3ir_mandoub_taslim
+
+                                END) AS arba7"));
             $shipments = $shipments->where(function ($query) use($request,$user,$brach_filter){
                 $query->where(function ($query) use($request,$user,$brach_filter){
                     $query->where('branch_', '=', $brach_filter)
@@ -286,7 +314,15 @@ class frou3Controller extends Controller
                                     END) AS t7weel_cost"),DB::raw("(CASE
                                     WHEN ( branch_ != '' and  transfere_1 =  '{$user->branch}' and elfar3_elmosadad_mno = '') THEN  tarikh_tasdid_far3
                                     WHEN ( transfere_1 != '' and  transfere_2 = '{$user->branch}' and elfar3_elmosadad_mno_2 = '') THEN tarikh_tasdid_far3_2
-                                    END) AS tasdid_far3"));
+                                    END) AS tasdid_far3"),
+                                DB::raw("(CASE
+                                WHEN ( branch_ = '{$user->branch}'  and transfere_1 != '') THEN  tawsil_coast_ -transfer_coast_1
+                                WHEN ( branch_ = '{$user->branch}'  and transfere_1 = '') THEN  tawsil_coast_ - tas3ir_mandoub_taslim
+                                WHEN ( transfere_1 = '{$user->branch}'  and transfere_2 != '') THEN  transfer_coast_1 - transfer_coast_2
+                                WHEN ( transfere_1 = '{$user->branch}'  and transfere_2 = '') THEN  transfer_coast_1 - tas3ir_mandoub_taslim
+                                WHEN ( transfere_2 = '{$user->branch}'  ) THEN  transfer_coast_2 - tas3ir_mandoub_taslim
+
+                                END) AS arba7"));
                 $shipments = $shipments->where(function ($query) use($request,$user,$brach_filter){
                     $query->where(function ($query) use($request,$user,$brach_filter){
                         $query->where('branch_', '!=', '')
@@ -337,9 +373,10 @@ class frou3Controller extends Controller
         if(isset( request()->hala_date_to))
             $shipments= $shipments->where('tarikh_el7ala' ,'<=' ,DATE($request->hala_date_to) );
         $all_shipments = $shipments;
-        $ta7weel=0;
+        $ta7weel=0; $totalRb7=0;
         foreach($all_shipments->get() as $ship){
             $ta7weel += $ship->t7weel_cost ;
+            $totalRb7 += $ship->arba7 ;
         }
             //dd($shipments->count());
         if(request()->showAll == 'on'){
@@ -354,7 +391,8 @@ class frou3Controller extends Controller
         //dd($ta7weel);
         $allCount = $all_shipments->count();
         $netCost =  $totalCost-$tawsilCost;
-        $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];
+        $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount,
+        'totalRb7'=>$totalRb7];
         if(isset(request()->arba7)){
             if(isset(request()->printArba7)){
                /* print  $all_shipments     $sums*/
@@ -1395,7 +1433,15 @@ class frou3Controller extends Controller
             $shipments = Shipment::select('*',DB::raw("(CASE
                                     WHEN ( branch_ = '{$user->branch}' and  transfere_1 = '{$brach_filter}' and elfar3_elmosadad_mno = '') THEN  transfer_coast_1
                                     WHEN ( transfere_1 = '{$user->branch}' and  transfere_2 = '{$brach_filter}' and elfar3_elmosadad_mno_2 = '') THEN transfer_coast_2
-                                    END) AS t7weel_cost"));
+                                    END) AS t7weel_cost"),
+                            DB::raw("(CASE
+                                WHEN ( branch_ = '{$user->branch}'  and transfere_1 != '') THEN  tawsil_coast_ -transfer_coast_1
+                                WHEN ( branch_ = '{$user->branch}'  and transfere_1 = '') THEN  tawsil_coast_ - tas3ir_mandoub_taslim
+                                WHEN ( transfere_1 = '{$user->branch}'  and transfere_2 != '') THEN  transfer_coast_1 - transfer_coast_2
+                                WHEN ( transfere_1 = '{$user->branch}'  and transfere_2 = '') THEN  transfer_coast_1 - tas3ir_mandoub_taslim
+                                WHEN ( transfere_2 = '{$user->branch}'  ) THEN  transfer_coast_2 - tas3ir_mandoub_taslim
+
+                                END) AS arba7"));
             $shipments = $shipments->where(function ($query) use($request,$user,$brach_filter){
                 $query->where(function ($query) use($request,$user,$brach_filter){
                     $query->where('branch_', '=', $user->branch)
@@ -1414,7 +1460,15 @@ class frou3Controller extends Controller
         {$shipments = Shipment::select('*',DB::raw("(CASE
                                 WHEN ( branch_ = '{$user->branch}' and  transfere_1 !=  '' and elfar3_elmosadad_mno = '') THEN  transfer_coast_1
                                 WHEN ( transfere_1 = '{$user->branch}' and  transfere_2 != '' and elfar3_elmosadad_mno_2 = '') THEN transfer_coast_2
-                                END) AS t7weel_cost"));
+                                END) AS t7weel_cost"),
+                            DB::raw("(CASE
+                                WHEN ( branch_ = '{$user->branch}'  and transfere_1 != '') THEN  tawsil_coast_ -transfer_coast_1
+                                WHEN ( branch_ = '{$user->branch}'  and transfere_1 = '') THEN  tawsil_coast_ - tas3ir_mandoub_taslim
+                                WHEN ( transfere_1 = '{$user->branch}'  and transfere_2 != '') THEN  transfer_coast_1 - transfer_coast_2
+                                WHEN ( transfere_1 = '{$user->branch}'  and transfere_2 = '') THEN  transfer_coast_1 - tas3ir_mandoub_taslim
+                                WHEN ( transfere_2 = '{$user->branch}'  ) THEN  transfer_coast_2 - tas3ir_mandoub_taslim
+
+                                END) AS arba7"));
             $shipments = $shipments->where(function ($query) use($request,$user,$brach_filter){
                 $query->where(function ($query) use($request,$user,$brach_filter){
                     $query->where('branch_', '=', $user->branch)
@@ -1464,8 +1518,10 @@ class frou3Controller extends Controller
             $shipments= $shipments->where('tarikh_el7ala' ,'<=' ,DATE($request->tasdid_date_to) );
 
             $all_shipments = $shipments;
-            $ta7weel=0;
+            $ta7weel=0; $totalRb7=0;
             foreach($all_shipments->get() as $ship){
+                $totalRb7 += $ship->arba7 ;
+
                 $ta7weel += $ship->t7weel_cost ;
             }
             // dd($ta7weel);
@@ -1480,7 +1536,8 @@ class frou3Controller extends Controller
         $tawsilCost = $ta7weel;
         $allCount = $all_shipments->count();
         $netCost =  $totalCost-$tawsilCost;
-        $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];
+        $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount,
+        'totalRb7'=>$totalRb7];
         if(isset(request()->arba7)){
             if(isset(request()->printArba7)){
                /* print  $all_shipments     $sums*/
@@ -1542,9 +1599,10 @@ class frou3Controller extends Controller
 
 
             $all=$all->get();
-                    $ta7weel=0;
+                    $ta7weel=0; $totalRb7=0;
             foreach($all as $ship){
                 $ta7weel += $ship->t7weel_cost ;
+                $totalRb7 += $ship->arba7 ;
             }
 
 
@@ -1553,7 +1611,8 @@ class frou3Controller extends Controller
             $tawsilCost = $ta7weel;
             $alSafiCost = $totalCost - $tawsilCost;
 
-            $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'alSafiCost'=>$alSafiCost,'alfer3' => 1];
+            $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'alSafiCost'=>$alSafiCost,'alfer3' => 1,
+        'totalRb7'=>$totalRb7];
             $data = [
                 'all'=>$all,
                 'title'=>$page_title,
@@ -1596,7 +1655,7 @@ class frou3Controller extends Controller
           
             $amount = $request->amount; 
             
-            if(Setting::get('auto_sanad') == 1 && $amount >0 && ($row1->count()>0 || $row2->count()>0)){
+            if(Setting::get('auto_sanad' ,$user->branch) == 1 && $amount >0 && ($row1->count()>0 || $row2->count()>0)){
                
                 $model= BranchInfo::where('name_',$request->brach_filter)->first();      
                 //$model_from= BranchInfo::where('name_',$request->brach_filter)->first();      
@@ -1674,7 +1733,15 @@ class frou3Controller extends Controller
                                     END) AS t7weel_cost"),DB::raw("(CASE
                                     WHEN ( branch_ = '{$user->branch}' and  transfere_1 = '{$brach_filter}' and elfar3_elmosadad_mno != '') THEN  tarikh_tasdid_far3
                                     WHEN ( transfere_1 = '{$user->branch}' and  transfere_2 = '{$brach_filter}' and elfar3_elmosadad_mno_2 != '') THEN tarikh_tasdid_far3_2
-                                    END) AS tasdid_far3"));
+                                    END) AS tasdid_far3"),
+                                DB::raw("(CASE
+                                WHEN ( branch_ = '{$user->branch}'  and transfere_1 != '') THEN  tawsil_coast_ -transfer_coast_1
+                                WHEN ( branch_ = '{$user->branch}'  and transfere_1 = '') THEN  tawsil_coast_ - tas3ir_mandoub_taslim
+                                WHEN ( transfere_1 = '{$user->branch}'  and transfere_2 != '') THEN  transfer_coast_1 - transfer_coast_2
+                                WHEN ( transfere_1 = '{$user->branch}'  and transfere_2 = '') THEN  transfer_coast_1 - tas3ir_mandoub_taslim
+                                WHEN ( transfere_2 = '{$user->branch}'  ) THEN  transfer_coast_2 - tas3ir_mandoub_taslim
+
+                                END) AS arba7"));
             $shipments= $shipments->where(function ($query) use($request,$user,$brach_filter){
                 $query->where(function ($query) use($request,$user,$brach_filter){
                     $query->where('branch_', '=', $user->branch)
@@ -1695,7 +1762,15 @@ class frou3Controller extends Controller
                                     END) AS t7weel_cost"),DB::raw("(CASE
                                     WHEN ( branch_ = '{$user->branch}' and  transfere_1 != '' and elfar3_elmosadad_mno != '') THEN  tarikh_tasdid_far3
                                     WHEN ( transfere_1 = '{$user->branch}' and  transfere_2 != '' and elfar3_elmosadad_mno_2 != '') THEN tarikh_tasdid_far3_2
-                                    END) AS tasdid_far3"));
+                                    END) AS tasdid_far3"),
+                                DB::raw("(CASE
+                                WHEN ( branch_ = '{$user->branch}'  and transfere_1 != '') THEN  tawsil_coast_ -transfer_coast_1
+                                WHEN ( branch_ = '{$user->branch}'  and transfere_1 = '') THEN  tawsil_coast_ - tas3ir_mandoub_taslim
+                                WHEN ( transfere_1 = '{$user->branch}'  and transfere_2 != '') THEN  transfer_coast_1 - transfer_coast_2
+                                WHEN ( transfere_1 = '{$user->branch}'  and transfere_2 = '') THEN  transfer_coast_1 - tas3ir_mandoub_taslim
+                                WHEN ( transfere_2 = '{$user->branch}'  ) THEN  transfer_coast_2 - tas3ir_mandoub_taslim
+
+                                END) AS arba7"));
             $shipments= $shipments->where(function ($query) use($request,$user,$brach_filter){
                 $query->where(function ($query) use($request,$user,$brach_filter){
                     $query->where('branch_', '=', $user->branch)
@@ -1749,8 +1824,9 @@ class frou3Controller extends Controller
         }
 
             $all_shipments = $shipments;
-            $ta7weel=0;
+            $ta7weel=0; $totalRb7=0;
             foreach($all_shipments->get() as $ship){
+                $totalRb7 += $ship->arba7 ;
                 $ta7weel += $ship->t7weel_cost ;
             }
         if(request()->showAll == 'on'){
@@ -1763,7 +1839,8 @@ class frou3Controller extends Controller
         $tawsilCost = $ta7weel;
         $allCount = $all_shipments->count();
         $netCost =  $totalCost-$tawsilCost;
-        $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];
+        $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount,
+        'totalRb7'=>$totalRb7];
         $all = $all_shipments->skip($limit*$page)->limit($limit)->get();
         if(isset(request()->lodaMore)){
 

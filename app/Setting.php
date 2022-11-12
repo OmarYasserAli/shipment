@@ -37,10 +37,17 @@ class Setting extends Model
      * @param null $default
      * @return bool|int|mixed
      */
-    public static function get($key, $default = null)
+    public static function get($key, $branch=null,$default = null)
     {
+        //dd( $branch);
         if ( self::has($key) ) {
-            $setting = self::getAllSettings()->where('name', $key)->first();
+            $setting = self::getAllSettings()->where('name', $key);
+            if( $branch !=null)
+                $setting = $setting->where('branch',$branch) ;
+            
+            
+            $setting = $setting->first();
+            if( $setting!=null)
             return self::castValue($setting->val, $setting->type);
         }
         

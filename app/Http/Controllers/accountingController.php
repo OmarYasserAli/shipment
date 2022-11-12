@@ -47,6 +47,11 @@ class accountingController extends Controller
     }
     public function amilNotMosadad(Request $request)
     {
+        /*
+        transfer_1 =''    =>  arba7 = tawsil_cost - tas3ir_manfoub_taslim
+        transfer_1 !=''    =>  arba7 = tawsil_cost - transfer_cost_1
+
+        */
 
         $user=auth()->user();
 
@@ -64,7 +69,11 @@ class accountingController extends Controller
             $waselOnly= 1;
 
         if(isset(request()->limit ))   $limit =request()->limit;
-        $shipments = Shipment::select('*')
+        $shipments = Shipment::select('*',DB::raw("(CASE
+                                WHEN ( transfere_1 = '{$user->branch}' ) THEN  tawsil_coast_ - tas3ir_mandoub_taslim
+                                WHEN ( transfere_1 != '{$user->branch}' ) THEN  tawsil_coast_ - transfer_coast_1
+
+                                END) AS arba7"))
                                     ->where('status_','!=',8)
 
                                     ->where('el3amil_elmosadad','')    // مسدد
@@ -119,7 +128,13 @@ class accountingController extends Controller
         $tawsilCost = $all_shipments->sum('tawsil_coast_');
         $allCount = $all_shipments->count();
         $netCost =  $totalCost-$tawsilCost;
-        $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];
+        $totalRb7=0;
+        foreach($all_shipments->get() as $ship){
+            $totalRb7 += $ship->arba7 ;
+        }
+        $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount
+        ,'totalRb7'=>$totalRb7];
+        
         if(isset(request()->arba7)){
             if(isset(request()->printArba7)){
                /* print  $all_shipments     $sums*/
@@ -193,13 +208,7 @@ class accountingController extends Controller
         
        
         $user=auth()->user();
-        // if($user->branch !='الفرع الرئيسى' && $request->brach_filter!=$user->branch)
-        // {
-        //     return response()->json([
-        //         'status' => 404,
-        //         'message' => 'لم يتم التسديد',
-        //     ], 404);
-        // }
+        
         $row = DB::table('add_shipment_tb_')
         ->whereIn('add_shipment_tb_.code_', $request->code)
         ->where('add_shipment_tb_.status_', '!=',8)
@@ -207,10 +216,7 @@ class accountingController extends Controller
         ->where('add_shipment_tb_.el3amil_elmosadad','')
         ->where('branch_', '=', $user->branch);
         
-       
-            
-        
-        if(Setting::get('auto_sanad') == 1 && $row->count()>0){
+        if(Setting::get('auto_sanad',$user->branch) == 1 && $row->count()>0){
             $model= user::where('name_',$request->client)->first();      
       
             $amount = $row->selectRaw( 'sum(shipment_coast_ - tawsil_coast_ ) as val')->get();       
@@ -273,17 +279,21 @@ class accountingController extends Controller
             $waselOnly= 1;
 
         if(isset(request()->limit ))   $limit =request()->limit;
-        $shipments = Shipment::select('*')
-                                    ->where('status_','!=',8)
-                                    ->where('el3amil_elmosadad','مسدد')    // مسدد
+        $shipments = Shipment::select('*',DB::raw("(CASE
+                                WHEN ( transfere_1  = '{$user->branch}' ) THEN  tawsil_coast_ - tas3ir_mandoub_taslim
+                                WHEN ( transfere_1 != '{$user->branch}' ) THEN  tawsil_coast_ - transfer_coast_1
+
+                                END) AS arba7"))
+                                   
+                                    ->where('el3amil_elmosadad', '!=','')    // مسدد
                                     ->where('branch_', '=', $user->branch)->with(['client']);
             //saif = shipmnt_cost  - t7weel
+// dd($shipments->first());
 
         if($waselOnly)
             $shipments = $shipments->where('status_' ,'=',7) ;
         else
             $shipments = $shipments->where('status_' ,'!=',8) ;
-
         if(isset($request->code)){
             $shipments = $shipments->where('code_', '=', $request->code);
         }
@@ -292,7 +302,8 @@ class accountingController extends Controller
         }
 
         if(isset($request->mo7afza)){
-            $shipments = $shipments->where('mo7afaza_id', '=', $request->mo7afza);
+            $m=Mohfza::where('code',$request->mo7afza)->first();
+            $shipments = $shipments->where('mo7afza_', '=', $m->name);
         }
         if(isset($request->client_id) && $request->client_id!='الكل'){
             $shipments = $shipments->where('client_name_', '=', $request->client_id);
@@ -312,6 +323,7 @@ class accountingController extends Controller
         if(isset( request()->tasdid_date_to))
             $shipments= $shipments->where('tarikh_tasdid_el3amil' ,'<=',DATE( request()->tasdid_date_to) );
 
+           
 
         if(request()->showAll == 'on'){
 
@@ -323,7 +335,12 @@ class accountingController extends Controller
         $tawsilCost = $all_shipments->sum('tawsil_coast_');
         $allCount = $all_shipments->count();
         $netCost =  $totalCost-$tawsilCost;
-        $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];
+        $totalRb7=0;
+        foreach($all_shipments->get() as $ship){
+            $totalRb7 += $ship->arba7 ;
+        }
+        $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount,
+        'totalRb7'=>$totalRb7];
         if(isset(request()->arba7)){
             if(isset(request()->printArba7)){
                /* print  $all_shipments     $sums*/
@@ -494,7 +511,12 @@ class accountingController extends Controller
         $tawsilCost = $all_shipments->sum('tas3ir_mandoub_taslim');
         $allCount = $all_shipments->count();
         $netCost =  $totalCost-$tawsilCost;
-        $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];
+        $totalRb7=0;
+        foreach($all_shipments->get() as $ship){
+            $totalRb7 += $ship->arba7 ;
+        }
+        $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount,
+    'totalRb7'=>$totalRb7];
         if(isset(request()->arba7)){
             if(isset(request()->printArba7)){
                /* print  $all_shipments     $sums*/
@@ -576,7 +598,7 @@ class accountingController extends Controller
         ->where('Ship_area_', '=', $user->branch);
         $trow=$row;
         
-            if(Setting::get('auto_sanad') == 1 && $trow->count()>0){
+            if(Setting::get('auto_sanad' ,$user->branch) == 1 && $trow->count()>0){
                 $model= user::where('name_',$request->client)->first();      
           
                 $amount = $request->amount;       
@@ -620,6 +642,13 @@ class accountingController extends Controller
     public function mandoubtaslimMosadad(Request $request)
     {
 
+        /*
+            branch = user->branch    =>  arba7 = tawsil_cost - tas3ir_manfoub_taslim
+            trnsfsfer_1 = user->branch   =>  arba7 =  transfer_cost_1  - tas3ir_manfoub_taslim
+
+            trnsfsfer_2 = user->branch   =>  arba7 =  transfer_cost_2  - tas3ir_manfoub_taslim
+
+        */
         $user=auth()->user();
         if(!$user->isAbleTo('mosadadMandoubTaslem-accounting')){
             return abort(403);
@@ -635,7 +664,12 @@ class accountingController extends Controller
             $waselOnly= 1;
 
         if(isset(request()->limit ))   $limit =request()->limit;
-        $shipments = Shipment::select('*')
+        $shipments = Shipment::select('*',DB::raw("(CASE
+                                WHEN ( branch_ = '{$user->branch}') THEN  tawsil_coast_ - tas3ir_mandoub_taslim
+                                WHEN ( transfere_1 = '{$user->branch}' ) THEN  transfer_coast_1 - tas3ir_mandoub_taslim
+                                WHEN ( transfere_2 = '{$user->branch}' ) THEN  transfer_coast_2 - tas3ir_mandoub_taslim
+
+                                END) AS arba7"))
             ->where('elmandoub_elmosadad_taslim','مسدد')
             ->where('Delivery_Delivered_Shipment_ID', '!=',null)    // مسدد
             ->where('Delivery_Delivered_Shipment_ID', '!=',0)
@@ -674,7 +708,7 @@ class accountingController extends Controller
             $shipments= $shipments->where('tarikh_tasdid_mandoub_eltaslim' ,'>=',DATE( request()->tasdid_date_from) );
         if(isset( request()->tasdid_date_to))
             $shipments= $shipments->where('tarikh_tasdid_mandoub_eltaslim' ,'<=',DATE( request()->tasdid_date_to) );
-
+            
             if(request()->showAll == 'on'){
 
             $counter= $all_shipments->get();
@@ -685,7 +719,12 @@ class accountingController extends Controller
         $tawsilCost = $all_shipments->sum('tas3ir_mandoub_taslim');
         $allCount = $all_shipments->count();
         $netCost =  $totalCost-$tawsilCost;
-        $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];
+        $totalRb7=0;
+        foreach($all_shipments->get() as $ship){
+            $totalRb7 += $ship->arba7 ;
+        }
+        $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount,
+        'totalRb7'=>$totalRb7];
         $all = $all_shipments->skip($limit*$page)->limit($limit)->get();
         if(isset(request()->lodaMore)){
 
@@ -808,7 +847,12 @@ class accountingController extends Controller
             $waselOnly= 1;
 
         if(isset(request()->limit ))   $limit =request()->limit;
-        $shipments = Shipment::select('*')
+        $shipments = Shipment::select('*',DB::raw("(CASE
+                                WHEN ( branch_ = '{$user->branch}') THEN  tawsil_coast_ - tas3ir_mandoub_taslim
+                                WHEN ( transfere_1 = '{$user->branch}' ) THEN  transfer_coast_1 - tas3ir_mandoub_taslim
+                                WHEN ( transfere_2 = '{$user->branch}' ) THEN  transfer_coast_2 - tas3ir_mandoub_taslim
+
+                                END) AS arba7"))
             ->where('elmandoub_elmosadad_estlam','')
             ->where('Delivery_take_shipment_ID', '!=',null)    // مسدد
             ->where('Delivery_take_shipment_ID', '!=',0)
@@ -1109,9 +1153,9 @@ class accountingController extends Controller
 
         $user=auth()->user();
 
-        if(!$user->isAbleTo('notMosadad3amel-accounting') ){
-            return abort(403);
-        }
+        // if(!$user->isAbleTo('notMosadad3amel-accounting') ){
+        //     return abort(403);
+        // }
         if($user->type_ == 'عميل'){
             $request->client_id = $user->name_;
         }
@@ -1121,7 +1165,11 @@ class accountingController extends Controller
         $waselOnly=0;
         if(isset($request->waselOnly))
             $waselOnly= 1;
+/*
+transfere_2  ==  user->branch_
 
+then reb7 = transfere_cost_2 -tas3ir_manboub_taslim 
+*/
         if(isset(request()->limit ))   $limit =request()->limit;
         $shipments = Shipment::select('*',DB::raw("(CASE
                                 WHEN ( branch_ = '{$user->branch}' and  transfere_1 !=  '' ) THEN  transfer_coast_1
@@ -1130,22 +1178,61 @@ class accountingController extends Controller
                                     ,DB::raw("(CASE
                                 WHEN ( Ship_area_ != '{$user->branch}') THEN  0
                                 WHEN ( Ship_area_ = '{$user->branch}') THEN tas3ir_mandoub_taslim
-                                END) AS ogra_mandoub"))
-                                    ->where('status_','!=',8)
+                                END) AS ogra_mandoub"),
+                                DB::raw("(CASE
+                                WHEN ( branch_ = '{$user->branch}'  and transfere_1 != '') THEN  tawsil_coast_ -transfer_coast_1
+                                WHEN ( branch_ = '{$user->branch}'  and transfere_1 = '') THEN  tawsil_coast_ - tas3ir_mandoub_taslim
+                                WHEN ( transfere_1 = '{$user->branch}'  and transfere_2 != '') THEN  transfer_coast_1 - transfer_coast_2
+                                WHEN ( transfere_1 = '{$user->branch}'  and transfere_2 = '') THEN  transfer_coast_1 - tas3ir_mandoub_taslim
+                                WHEN ( transfere_2 = '{$user->branch}'  ) THEN  transfer_coast_2 - tas3ir_mandoub_taslim
+
+                                END) AS arba7"))
+                                 //  ->where('status_','!=',8)
                                     ->where(function ($query) use ($user) {
                                         $query->  where('branch_', '=', $user->branch)
-                                              ->orwhere('transfere_1', '=', $user->branch)
-                                              ->orwhere('transfere_2', '=', $user->branch);
-                                    })
-                                  ->with(['client']);
+                                        ->where('transfere_1', '=' ,'')
+                                        ->where('el3amil_elmosadad', '!=','')
+                                        ->where('transfere_2', '=' ,'');
+                                            //   ->orwhere('transfere_1', '=', $user->branch)
+                                            //   ->orwhere('transfere_2', '=', $user->branch);
+                                    })->with(['client']);
+                                    
+                                  
+                                   
+                                //   $shipments= $shipments->where(function ($query) use($request,$user){
+                                //     $query->where(function ($query) use($request,$user){
+                                //         $query->where('branch_', '=', $user->branch)
+                                //         ->where('transfere_1', '=' ,'')
+                                //         ->where('el3amil_elmosadad',  '!=' ,'');
 
-                                  //dd( $shipments->first());
+                                //         })
+                                //         ->orwhere(function ($query) use($request,$user){
+                                //             $query->where('branch_', '=', $user->branch)
+                                //             ->where('transfere_1', '!=' ,'')
+                                //             ->where('elfar3_elmosadad_mno',  '!=' ,'')
+                                //             ->where('el3amil_elmosadad',  '!=' ,'');
+                                //             })
+                                //         ->orWhere(function ($query) use($request,$user){
+                                //             $query->where('transfere_1', '=', $user->branch)
+                                //             ->where('transfere_2', '!=' ,'')
+                                //             ->where('elfar3_elmosadad_mno_2','!=' ,'')
+                                //             ->where('el3amil_elmosadad',  '!=' ,'');
+                                //         })
+                                //         ->orWhere(function ($query) use($request,$user){
+                                //             $query->where('transfere_1', '=', $user->branch)
+                                //             ->where('transfere_2', '=' ,'')
+                                //             ->where('elfar3_elmosadad_mno','!=' ,'')
+                                //             ->where('el3amil_elmosadad',  '!=' ,'');
+                                //         });
+                                // });
+
 
         if($waselOnly)
             $shipments = $shipments->where('status_' ,'=',7) ;
         else
             $shipments = $shipments->where('status_' ,'!=',8) ;
-
+                                    
+                                 // dd( $shipments->count());
         if(isset($request->code)){
            $shipments = $shipments->where('code_', '=', $request->code);
         }
@@ -1153,9 +1240,10 @@ class accountingController extends Controller
             $shipments = $shipments->where('reciver_phone_', '=', $request->reciver_phone);
          }
 
-        if(isset($request->mo7afza)){
-            $shipments = $shipments->where('mo7afaza_id', '=', $request->mo7afza);
-         }
+         if(isset($request->mo7afza)){
+            $m=Mohfza::where('code',$request->mo7afza)->first();
+            $shipments = $shipments->where('mo7afza_', '=', $m->name);
+        }
 
        if(isset($request->client_id) && $request->client_id!='الكل'){
            $shipments = $shipments->where('client_name_', '=', $request->client_id);
@@ -1183,6 +1271,12 @@ class accountingController extends Controller
             $count_all = $counter->count();
             request()->limit=$count_all;
         }
+        $ta7weel=0; $totalRb7=0; $totalMandoun=0;
+            foreach($all_shipments->get() as $ship){
+                $totalRb7 += $ship->arba7 ;
+                $ta7weel += $ship->t7weel_cost ;
+                $totalMandoun += $ship->ogra_mandoub ;
+            }
         //  dd($all_shipments->skip(0)->limit(40)->get()[20]);
         $codes = $all_shipments;
         $codes= $codes->pluck('code_')->toArray();
@@ -1190,7 +1284,8 @@ class accountingController extends Controller
         $tawsilCost = $all_shipments->sum('tawsil_coast_');
         $allCount = $all_shipments->count();
         $netCost =  $totalCost-$tawsilCost;
-        $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount];
+        $sums=['totalCost' =>$totalCost, 'tawsilCost' =>$tawsilCost , 'netCost'=>$netCost, 'allCount'=>$allCount,
+        'totalRb7'=>$totalRb7,'totalFr3'=> $ta7weel , 'totalMandoun'=>$totalMandoun];
         
         $all = $all_shipments->skip($limit*$page)->limit($limit)->get();
         if(isset(request()->lodaMore)){
@@ -1313,3 +1408,44 @@ class accountingController extends Controller
 
     }
 }
+/*
+
+
+branch_  ==  user->branch_
+and transfere_1 != ''
+
+then reb7 = taswil_cost -transfere_cost_1 
+
+
+
+
+branch_  ==  user->branch_
+and transfere_1 == ''
+
+then reb7 = taswil_cost -tas3ir_manboub_taslim
+
+
+
+transfere_1  ==  user->branch_
+and transfere_2 != ""
+
+then reb7 = transfere_cost_1 -transfere_cost_2 
+
+
+
+
+transfere_1  ==  user->branch_
+and transfere_2 == ""
+
+then reb7 = transfere_cost_1 -tas3ir_manboub_taslim 
+
+
+
+
+
+transfere_2  ==  user->branch_
+
+then reb7 = transfere_cost_2 -tas3ir_manboub_taslim 
+
+
+*/

@@ -154,19 +154,20 @@
 
                             <th class="whitespace-nowrap">#</th>
                             <th class="whitespace-nowrap">المحافظة</th>
-                            <th class="whitespace-nowrap">هاتف المستلم</th>
-                            <th class="whitespace-nowrap">الاسم التجارى</th>
-                            <th class="whitespace-nowrap">اسم العميل</th>
+                            
                             <th class="whitespace-nowrap">تاريخ الشحنه</th>
                             <th class="whitespace-nowrap">الفرع</th>
                             <th class="whitespace-nowrap">مكان الشحنه</th>
                             <th class="whitespace-nowrap">تحويل أول</th>
                             <th class="whitespace-nowrap">تحويل ثاني</th>
+                            <th class="whitespace-nowrap"> أجرة الفرع الاول</th>
+                            <th class="whitespace-nowrap"> أجره الفرع التانى</th>
                             <th class="whitespace-nowrap">الصافى</th>
                             <th class="whitespace-nowrap">اجره الشركه</th>
                             <th class="whitespace-nowrap">أجرة المندوب</th>
                             <th class="whitespace-nowrap">أجرة الفرع</th>
                             <th class="whitespace-nowrap">مبلغ الشحنه</th>
+                            <th class="whitespace-nowrap">الربح</th>
                             <th class="whitespace-nowrap">ملاحظات</th>
                                     <th class="whitespace-nowrap">الكود</th>
                                     <th class="whitespace-nowrap"><input type="checkbox" id="checkAll"></th>
@@ -179,23 +180,25 @@
                         <tr  class="status_{!!$shipment->Status_!!}_color"   >
                             <td  class="whitespace-nowrap " ><?php echo $i; $i++?></td>
                             <td  class="whitespace-nowrap " >{{$shipment->mo7afza_}}</td>
-                            <td class="whitespace-nowrap " >{{$shipment->reciver_phone_}}</td>
-                            <td class="whitespace-nowrap " >{{$shipment->commercial_name_}}</td>
-                            <td class="whitespace-nowrap " >@if(isset($shipment->client)){{$shipment->client->name_}} @else {{$shipment->client_name_}}@endif</td>
+                            
                             <td class="whitespace-nowrap " >{{$shipment->date_}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->branch_}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->Ship_area_}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->transfere_1}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->transfere_2 }}</td>
+                            <td class="whitespace-nowrap " >{{$shipment->transfer_coast_1}}</td>
+                            <td class="whitespace-nowrap " >{{$shipment->transfer_coast_2 }}</td>
                             <td class="whitespace-nowrap " >{{number_format($shipment->total_ , 0)}}</td>
                             <td class="whitespace-nowrap " >{{number_format($shipment->tawsil_coast_ , 0)}}</td>
                             <td class="whitespace-nowrap " >{{number_format($shipment->ogra_mandoub , 0)}}</td>
                             <td class="whitespace-nowrap " >{{number_format($shipment->t7weel_cost , 0)}}</td>
                             <td class="whitespace-nowrap " >{{number_format($shipment->shipment_coast_ , 0)}}</td>
-                            <td class="whitespace-nowrap " >{{$shipment->notes_}}</td>
+                            <td class="whitespace-nowrap " > 
+                                {{$shipment->arba7}}</td>
+                            <td class="whitespace-nowrap " >{{$shipment->notes_}}</td>  
                             <td class="whitespace-nowrap " >{{$shipment->code_}}</td>
                                     <td class="whitespace-nowrap " ><input type="checkbox" class="check_count" data-cost='{{$shipment->shipment_coast_}}'
-                                        data-t7wel='{{$shipment->tawsil_coast_}}' data-fr3='{{$shipment->t7weel_cost??0}}' data-mndoub='{{$shipment->ogra_mandoub}}' data-net='{{$shipment->shipment_coast_}}' data-code='{{$shipment->code_}}' data-status='{{$shipment->Status_}}'></td>
+                                        data-t7wel='{{$shipment->tawsil_coast_}}' data-fr3='{{$shipment->t7weel_cost??0}}' data-mndoub='{{$shipment->ogra_mandoub}}' data-net='{{$shipment->shipment_coast_}}' data-code='{{$shipment->code_}}' data-status='{{$shipment->Status_}}' data-arba7='{{$shipment->arba7}}'></td>
                         </tr>
                         @endforeach
 
@@ -249,6 +252,10 @@
                         <li> <a  class="dropdown-item"><span>{{number_format($sums['totalCost'])}}</span> <span style="margin-left:auto;">مبلغ الشحنات </span></a> </li>
                         <li> <a  class="dropdown-item"><span>{{number_format($sums['tawsilCost'])}}</span>   <span style="margin-left:auto;">أجرة الشركة</span> </a> </li>
                         <li> <a  class="dropdown-item"><span>{{number_format($sums['netCost'])}}</span>   <span style="margin-left:auto;">الصافى</span>   </a> </li>
+                        <li> <a  class="dropdown-item"><span>{{number_format($sums['totalFr3'])}}</span>   <span style="margin-left:auto;"> اجمالى اجرة الفرع</span>   </a> </li>
+                        <li> <a  class="dropdown-item"><span>{{number_format($sums['totalMandoun'])}}</span>   <span style="margin-left:auto;"> اجمالى اجرة المندوب</span>   </a> </li>
+                        <li> <a  class="dropdown-item"><span>{{number_format($sums['totalRb7'])}}</span>   <span style="margin-left:auto;">اجمالى الربح</span>   </a> </li>
+
                         <li> <a  class="dropdown-item"><span>{{number_format($sums['allCount'])}}</span>   <span style="margin-left:auto;">عدد الشحنات</span> </a> </li>
 
 
@@ -434,71 +441,71 @@
                 });
 
 
-            $( "#tasdid" ).click(function() {
+            // $( "#tasdid" ).click(function() {
 
-                var codes =[]
-                $('.check_count').each(function() {
-                if($(this).is(':checked')){
-                    codes.push($(this).data('code'));
-                }
-                });
-                opreation_codes= codes;
-                var client =  '{{request()->get('client_id')}}';
-                $.ajax({
-                    url: "{{route('accounting.3amil.tasdid')}}" ,
-                    type: 'post',
-                    data:{ code:codes, client:client ,_token: "{{ csrf_token() }}"},
-                    error: function(e){
-                        console.log(e);
-                    },
-                    success: function(res) {
+            //     var codes =[]
+            //     $('.check_count').each(function() {
+            //     if($(this).is(':checked')){
+            //         codes.push($(this).data('code'));
+            //     }
+            //     });
+            //     opreation_codes= codes;
+            //     var client =  '{{request()->get('client_id')}}';
+            //     $.ajax({
+            //         url: "{{route('accounting.3amil.tasdid')}}" ,
+            //         type: 'post',
+            //         data:{ code:codes, client:client ,_token: "{{ csrf_token() }}"},
+            //         error: function(e){
+            //             console.log(e);
+            //         },
+            //         success: function(res) {
 
-                        rowsAffected =  codes.length - res['count']
-                        msg =" تم تسديد " +res['count']+   " شحنة  "  +" تم رفض " + rowsAffected + " شحنة ";
-                        let msg_modal = tailwind.Modal.getOrCreateInstance(document.querySelector("#msg_modal"));
-                    $('#msg_modal_text').text(msg)
-                        msg_modal.show();
-                    let total_cost=parseInt($('#total_cost').val());
-                    let total_cnt=parseInt($('#total_cnt').val());
-                    let total_tawsil=parseInt($('#total_tawsil').val());
-                    let total_fr3=parseInt($('#total_fr3').val());
-                    let total_mndoub=parseInt($('#total_mndoub').val());
-                    let total_net= parseInt($('#total_net').val($('#total_cost').val()-$('#total_tawsil').val()));
-                    let total_rb7= parseInt($('#total_rb7').val(total_net-total_fr3-total_mndoub));
+            //             rowsAffected =  codes.length - res['count']
+            //             msg =" تم تسديد " +res['count']+   " شحنة  "  +" تم رفض " + rowsAffected + " شحنة ";
+            //             let msg_modal = tailwind.Modal.getOrCreateInstance(document.querySelector("#msg_modal"));
+            //         $('#msg_modal_text').text(msg)
+            //             msg_modal.show();
+            //         let total_cost=parseInt($('#total_cost').val());
+            //         let total_cnt=parseInt($('#total_cnt').val());
+            //         let total_tawsil=parseInt($('#total_tawsil').val());
+            //         let total_fr3=parseInt($('#total_fr3').val());
+            //         let total_mndoub=parseInt($('#total_mndoub').val());
+            //         let total_net= parseInt($('#total_net').val($('#total_cost').val()-$('#total_tawsil').val()));
+            //         let total_rb7= parseInt($('#total_rb7').val(total_net-total_fr3-total_mndoub));
 
-                    var i=1;
-                    $('.check_count').each(function() {
+            //         var i=1;
+            //         $('.check_count').each(function() {
 
-                        if($(this).is(':checked') && $(this).data('status')==7){
+            //             if($(this).is(':checked') && $(this).data('status')==7){
 
-                            total_cnt--;
-                            total_cost-= $(this).data('cost');
-                            total_tawsil-= parseInt($(this).data('t7wel'));
-                            total_fr3-= parseInt($(this).data('fr3'));
-                            total_mndoub-= parseInt($(this).data('mndoub'));
-                            total_net-= $(this).data('net');
-                            $('#total_cost').val(total_cost);
-                            $('#total_tawsil').val(total_tawsil);
-                            $('#total_fr3').val(total_fr3);
-                            $('#total_mndoub').val(total_mndoub);
-                            $('#total_net').val($('#total_cost').val()-$('#total_tawsil').val());
-                            $('#total_cnt').val(total_cnt);
-                            $('#total_rb7').val(total_rb7);
+            //                 total_cnt--;
+            //                 total_cost-= $(this).data('cost');
+            //                 total_tawsil-= parseInt($(this).data('t7wel'));
+            //                 total_fr3-= parseInt($(this).data('fr3'));
+            //                 total_mndoub-= parseInt($(this).data('mndoub'));
+            //                 total_net-= $(this).data('net');
+            //                 $('#total_cost').val(total_cost);
+            //                 $('#total_tawsil').val(total_tawsil);
+            //                 $('#total_fr3').val(total_fr3);
+            //                 $('#total_mndoub').val(total_mndoub);
+            //                 $('#total_net').val($('#total_cost').val()-$('#total_tawsil').val());
+            //                 $('#total_cnt').val(total_cnt);
+            //                 $('#total_rb7').val(total_rb7);
 
-                            $(this).parent().parent().remove();
+            //                 $(this).parent().parent().remove();
 
 
-                        }else{
-                            $(this).parent().parent().children('td:first').text(i)
-                            i++;
+            //             }else{
+            //                 $(this).parent().parent().children('td:first').text(i)
+            //                 i++;
 
-                        }
-                        // rows_counter()
-                    });
-                    }
-                });
+            //             }
+            //             // rows_counter()
+            //         });
+            //         }
+            //     });
 
-            });
+            // });
 
 
 
@@ -510,7 +517,7 @@
                     let total_fr3=parseInt($('#total_fr3').val());
                     let total_mndoub=parseInt($('#total_mndoub').val());
                     let total_net= 0;
-                    let total_rb7= 0;
+                    let total_rb7 =parseInt($('#total_rb7').val());
                     
                         //console.log(total_net,total_fr3,total_mndoub);
 
@@ -522,9 +529,9 @@
                         total_fr3+= parseInt($(this).data('fr3'));
                         total_mndoub+= parseInt($(this).data('mndoub'));
                         total_net = total_cost - total_tawsil;
-
-                        total_rb7= total_net-total_fr3-total_mndoub;
-                        console.log(total_net,total_fr3,total_mndoub);
+                       
+                        total_rb7= total_rb7+parseInt($(this).data('arba7'));
+                       
 
                     }
                     else
@@ -536,7 +543,7 @@
                         total_mndoub-= parseInt($(this).data('mndoub'));
                         total_net = total_cost - total_tawsil;
 
-                       total_rb7= total_net-total_fr3-total_mndoub;
+                       total_rb7= total_rb7-parseInt($(this).data('arba7'));;
 
                     }
                     $('#total_cost').val(total_cost);
@@ -559,6 +566,8 @@
                     let total_fr3=parseInt($('#total_fr3').val());
                     let total_mndoub=parseInt($('#total_mndoub').val());
                     let total_net= parseInt($('#total_net').val($('#total_cost').val()-$('#total_tawsil').val()));
+                    let total_rb7 = parseInt($('#total_rb7').val());
+                    
 
                     if($(this).is(':checked'))
                         var items=$('table tbody input:checkbox:not(:checked)')
@@ -575,6 +584,7 @@
                         total_fr3+= parseInt($(this).data('fr3'));
                         total_mndoub+= parseInt($(this).data('mndoub'));
                         total_net+= parseInt($(this).data('net'));
+                        total_rb7+= parseInt($(this).data('arba7'));
                         $(this).prop('checked', 1);
                     }
                     else
@@ -585,6 +595,7 @@
                         total_fr3-= parseInt($(this).data('fr3'));
                         total_mndoub-= parseInt($(this).data('mndoub'));
                         total_net-= $(this).data('net');
+                        total_rb7-= parseInt($(this).data('arba7'));
                         $(this).prop('checked', 0);
                     }
 
@@ -595,8 +606,9 @@
                     $('#total_fr3').val(total_fr3);
                     $('#total_mndoub').val(total_mndoub);
                     $('#total_net').val($('#total_cost').val()-$('#total_tawsil').val());
-                    $('#total_rb7').val($('#total_net').val()-$('#total_fr3').val()-$('#total_mndoub').val());
+                    //$('#total_rb7').val($('#total_net').val()-$('#total_fr3').val()-$('#total_mndoub').val());
                     $('#total_cnt').val(total_cnt);
+                    $('#total_rb7').val(total_rb7);
             });
 
             $( ".filterByEnter" ).keyup(function(e){

@@ -206,7 +206,7 @@
                             <td class="whitespace-nowrap " >{{$shipment->notes_}}</td>
                             <td class="whitespace-nowrap " >{{$shipment->code_}}</td>
                                     <td class="whitespace-nowrap " ><input type="checkbox" class="check_count" data-cost='{{$shipment->shipment_coast_}}'
-                                        data-t7wel='{{$shipment->tas3ir_mandoub_estlam}}' data-net='{{$shipment->shipment_coast_}}' data-code='{{$shipment->code_}}' data-status='{{$shipment->Status_}}'></td>
+                                        data-t7wel='{{$shipment->tas3ir_mandoub_estlam}}' data-net='{{$shipment->shipment_coast_}}' data-code='{{$shipment->code_}}' data-status='{{$shipment->Status_}}' data-arba7='{{$shipment->arba7}}'></td>
                         </tr>
                         @endforeach
 
@@ -238,7 +238,8 @@
         <div class="total_net" style="margin-left: 40px;"><input type="text" disabled class="h-6 w-40" id='total_net' value="0"></div>
         <div class=" " style="margin-left: 10px;">مجموع عدد الشحنات</div>
         <div class=""> <input type="text" disabled class="h-6 w-16" id="total_cnt" value="0"></div>
-
+         <div class=" " style="margin-left: 10px;">اجمالى   الربح</div>
+        <div class="total_rb7" style="margin-left: 10px;"><input type="text" disabled class="h-6 " id='total_rb7' value="0" style="width: 150px;"></div>
         <div style="margin-right:auto; margin-left:10px; margin-bottom:5px;"  class="dropdown inline-block" data-tw-placement="top"> <button class="dropdown-toggle btn btn-primary w-26 mr-1  h-6" aria-expanded="false" data-tw-toggle="dropdown"> اجماليات</button>
             <div class="dropdown-menu w-60">
                 <ul class="dropdown-content">
